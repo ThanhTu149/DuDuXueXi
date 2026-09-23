@@ -1,0 +1,925 @@
+{
+  "metadata": {
+    "bai": 2,
+    "title_zh": "我们那儿的冬天跟北京一样冷",
+    "title_vi": "Mùa đông chỗ chúng tôi lạnh như ở Bắc Kinh",
+    "title_source": "document",
+    "source_file": "data/_extracted/bai/bai02.txt",
+    "total_entries": 33,
+    "word_count": 30,
+    "grammar_count": 2,
+    "phrase_count": 1,
+    "example_stats": {
+      "from_document": 3,
+      "ai_inferred": 27,
+      "missing": 0
+    },
+    "generated_at": "2026-09-19T21:45:24Z",
+    "version": "2.0"
+  },
+  "entries": [
+    {
+      "id": "bai02_w001",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "国家",
+      "pinyin": "guójiā",
+      "word_type": "名",
+      "meaning_vi": "quốc gia",
+      "meaning_en": "country",
+      "example_zh": "我爱自己的国家。",
+      "example_pinyin": "Wǒ ài zì jǐ de guójiā.",
+      "example_vi": "Tôi yêu đất nước của mình.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w003",
+        "bai02_w004",
+        "bai02_w005"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 97,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w002",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "一样",
+      "pinyin": "yīyàng",
+      "word_type": "形",
+      "meaning_vi": "như nhau; giống nhau",
+      "meaning_en": "same",
+      "example_zh": "我们那儿的冬天跟北京一样冷。",
+      "example_pinyin": "Wǒmen nà ér de dōng tiān gēn běijīng yīyàng lěng.",
+      "example_vi": "Mùa đông chỗ chúng tôi lạnh như Bắc Kinh.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_g001",
+        "bai02_w009",
+        "bai02_w010"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 98,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w003",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "时差",
+      "pinyin": "shíchà",
+      "word_type": "名",
+      "meaning_vi": "chênh lệch múi giờ",
+      "meaning_en": "time difference",
+      "example_zh": "我们那儿跟北京有七个小时的时差呢。",
+      "example_pinyin": "Wǒmen nà ér gēn běijīng yǒu qī gè xiǎoshí de shíchà ne.",
+      "example_vi": "Chỗ chúng tôi lệch Bắc Kinh bảy tiếng.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w004",
+        "bai02_w001",
+        "bai02_w005"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 9,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w004",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "夜",
+      "pinyin": "yè",
+      "word_type": "名",
+      "meaning_vi": "đêm",
+      "meaning_en": "night",
+      "example_zh": "夜里非常安静。",
+      "example_pinyin": "Yè lǐ fēi cháng ān jìng.",
+      "example_vi": "Ban đêm rất yên tĩnh.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w003",
+        "bai02_w005",
+        "bai02_w006"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 100,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w005",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "季节",
+      "pinyin": "jìjié",
+      "word_type": "名",
+      "meaning_vi": "mùa; thời kỳ",
+      "meaning_en": "season",
+      "example_zh": "我最喜欢春天这个季节。",
+      "example_pinyin": "Wǒ zuì xǐhuān chūntiān zhège jìjié.",
+      "example_vi": "Tôi thích nhất mùa xuân.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w004",
+        "bai02_w006",
+        "bai02_w003"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 101,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w006",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "春天",
+      "pinyin": "chūntiān",
+      "word_type": "名",
+      "meaning_vi": "mùa xuân",
+      "meaning_en": "spring",
+      "example_zh": "春天来了，天气暖了。",
+      "example_pinyin": "Chūntiān lái le, tiān qì nuǎn le.",
+      "example_vi": "Mùa xuân đến rồi, thời tiết ấm lên rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w005",
+        "bai02_w007",
+        "bai02_w004"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 102,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai02_w007",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "夏天",
+      "pinyin": "xiàtiān",
+      "word_type": "名",
+      "meaning_vi": "mùa hè",
+      "meaning_en": "summer",
+      "example_zh": "夏天常常下雨。",
+      "example_pinyin": "Xiàtiān cháng cháng xiàyǔ.",
+      "example_vi": "Mùa hè thường hay mưa.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w006",
+        "bai02_w008",
+        "bai02_w005"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 19,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w008",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "秋天",
+      "pinyin": "qiūtiān",
+      "word_type": "名",
+      "meaning_vi": "mùa thu",
+      "meaning_en": "autumn",
+      "example_zh": "秋天的天气很凉快。",
+      "example_pinyin": "Qiūtiān de tiān qì hěn liáng kuài.",
+      "example_vi": "Thời tiết mùa thu rất mát mẻ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w007",
+        "bai02_w006",
+        "bai02_w005"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 104,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai02_w009",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "热",
+      "pinyin": "rè",
+      "word_type": "形",
+      "meaning_vi": "nóng",
+      "meaning_en": "hot",
+      "example_zh": "北京的夏天很热。",
+      "example_pinyin": "Běijīng de xiàtiān hěn rè.",
+      "example_vi": "Mùa hè ở Bắc Kinh rất nóng.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w010",
+        "bai02_w002",
+        "bai02_w027"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 105,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w010",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "冷",
+      "pinyin": "lěng",
+      "word_type": "形",
+      "meaning_vi": "lạnh",
+      "meaning_en": "cold",
+      "example_zh": "我们那儿的冬天跟北京一样冷。",
+      "example_pinyin": "Wǒmen nà ér de dōng tiān gēn běijīng yīyàng lěng.",
+      "example_vi": "Mùa đông chỗ chúng tôi lạnh như Bắc Kinh.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w009",
+        "bai02_w002",
+        "bai02_w027"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 106,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w011",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "刮风",
+      "pinyin": "guāfēng",
+      "word_type": "动",
+      "meaning_vi": "gió thổi",
+      "meaning_en": "for the wind to blow",
+      "example_zh": "今天又刮风了。",
+      "example_pinyin": "Jīntiān yòu guāfēng le.",
+      "example_vi": "Hôm nay lại có gió rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w013",
+        "bai02_w015",
+        "bai02_w017"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 107,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai02_w012",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "风",
+      "pinyin": "fēng",
+      "word_type": "名",
+      "meaning_vi": "gió",
+      "meaning_en": "wind",
+      "example_zh": "今天的风很大。",
+      "example_pinyin": "Jīntiān de fēng hěn dà.",
+      "example_vi": "Hôm nay gió rất lớn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w014",
+        "bai02_w008",
+        "bai02_w007"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 107,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w013",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "下雪",
+      "pinyin": "xiàxuě",
+      "word_type": "动",
+      "meaning_vi": "tuyết rơi",
+      "meaning_en": "to snow",
+      "example_zh": "冬天这里常常下雪。",
+      "example_pinyin": "Dōng tiān zhèlǐ cháng cháng xiàxuě.",
+      "example_vi": "Mùa đông ở đây thường có tuyết.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w011",
+        "bai02_w015",
+        "bai02_w017"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 40,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w014",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "雪",
+      "pinyin": "xuě",
+      "word_type": "名",
+      "meaning_vi": "tuyết",
+      "meaning_en": "snow",
+      "example_zh": "昨晚下了一场雪。",
+      "example_pinyin": "Zuó wǎn xià le yī chǎng xuě.",
+      "example_vi": "Tối qua có một trận tuyết.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w012",
+        "bai02_w018",
+        "bai02_w019"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 40,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w015",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "下雨",
+      "pinyin": "xiàyǔ",
+      "word_type": "动",
+      "meaning_vi": "mưa rơi",
+      "meaning_en": "to rain",
+      "example_zh": "今天下午可能下雨。",
+      "example_pinyin": "Jīntiān xià wǔ kě néng xiàyǔ.",
+      "example_vi": "Chiều nay có thể mưa.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w013",
+        "bai02_w017",
+        "bai02_w011"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 135,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai02_w016",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "不但……而且……",
+      "pinyin": "bùdàn...érqiě...",
+      "word_type": "连",
+      "meaning_vi": "không những... mà còn...",
+      "meaning_en": "not only... but also...",
+      "example_zh": "他不但会汉语，而且会英语。",
+      "example_pinyin": "Tā bù dàn huì hànyǔ, ér qiě huì yīngyǔ.",
+      "example_vi": "Anh ấy không những biết tiếng Trung mà còn biết tiếng Anh.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_g002",
+        "bai02_w015",
+        "bai02_w017"
+      ],
+      "tags": [
+        "tu_vung",
+        "lien_tu"
+      ],
+      "source_line": 385,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w017",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "得",
+      "pinyin": "dé",
+      "word_type": "动",
+      "meaning_vi": "đạt được; nhận được",
+      "meaning_en": "to get",
+      "example_zh": "他考试得了九十分。",
+      "example_pinyin": "Tā kǎo shì dé le jiǔ shí fēn.",
+      "example_vi": "Anh ấy thi được chín mươi điểm.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w015",
+        "bai02_w019",
+        "bai02_w013"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 109,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w018",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "分",
+      "pinyin": "fēn",
+      "word_type": "名",
+      "meaning_vi": "điểm",
+      "meaning_en": "point; mark",
+      "example_zh": "她考试得了九十五分。",
+      "example_pinyin": "Tā kǎo shì dé le jiǔ shí wǔ fēn.",
+      "example_vi": "Cô ấy thi được chín mươi lăm điểm.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_g002",
+        "bai02_w019",
+        "bai02_w020"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 110,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w019",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "听写",
+      "pinyin": "tīngxiě",
+      "word_type": "动、名",
+      "meaning_vi": "nghe viết; chính tả",
+      "meaning_en": "to dictate; dictation",
+      "example_zh": "明天有汉语听写。",
+      "example_pinyin": "Míngtiān yǒu hànyǔ tīngxiě.",
+      "example_vi": "Ngày mai có bài chính tả tiếng Trung.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w018",
+        "bai02_w020",
+        "bai02_w017"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu",
+        "dong_tu"
+      ],
+      "source_line": 211,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w020",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "周末",
+      "pinyin": "zhōumò",
+      "word_type": "名",
+      "meaning_vi": "cuối tuần",
+      "meaning_en": "weekend",
+      "example_zh": "周末我们去爬山。",
+      "example_pinyin": "Zhōumò wǒmen qù pá shān.",
+      "example_vi": "Cuối tuần chúng tôi đi leo núi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w019",
+        "bai02_w018",
+        "bai02_w022"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 58,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w021",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "出去",
+      "pinyin": "chūqù",
+      "word_type": "动",
+      "meaning_vi": "đi ra",
+      "meaning_en": "to go out",
+      "example_zh": "周末我们一起出去玩。",
+      "example_pinyin": "Zhōumò wǒmen yìqǐ chūqù wán.",
+      "example_vi": "Cuối tuần chúng tôi cùng ra ngoài chơi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w019",
+        "bai02_w023",
+        "bai02_w017"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 58,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w022",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "历史",
+      "pinyin": "lìshǐ",
+      "word_type": "名",
+      "meaning_vi": "lịch sử",
+      "meaning_en": "history",
+      "example_zh": "我喜欢学习中国历史。",
+      "example_pinyin": "Wǒ xǐhuān xué xí zhōngguó lìshǐ.",
+      "example_vi": "Tôi thích học lịch sử Trung Quốc.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w020",
+        "bai02_w024",
+        "bai02_w019"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 214,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w023",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "产生",
+      "pinyin": "chǎnshēng",
+      "word_type": "动",
+      "meaning_vi": "nảy sinh; xuất hiện",
+      "meaning_en": "to give rise to; to bring about",
+      "example_zh": "改革以后产生了变化。",
+      "example_pinyin": "Gǎigé yǐ hòu chǎnshēng le biàn huà.",
+      "example_vi": "Sau cải cách đã nảy sinh thay đổi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w021",
+        "bai02_w025",
+        "bai02_w019"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 215,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w024",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "画册",
+      "pinyin": "huàcè",
+      "word_type": "名",
+      "meaning_vi": "tập tranh",
+      "meaning_en": "album of paintings",
+      "example_zh": "这本画册很漂亮。",
+      "example_pinyin": "Zhè běn huàcè hěn piāo liàng.",
+      "example_vi": "Cuốn sách tranh này rất đẹp.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w025",
+        "bai02_w022",
+        "bai02_w020"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 216,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w025",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "研究",
+      "pinyin": "yánjiū",
+      "word_type": "动、名",
+      "meaning_vi": "nghiên cứu",
+      "meaning_en": "to study; to research; research",
+      "example_zh": "他在研究中国历史。",
+      "example_pinyin": "Tā zài yánjiū zhōngguó lìshǐ.",
+      "example_vi": "Anh ấy đang nghiên cứu lịch sử Trung Quốc.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w024",
+        "bai02_w023",
+        "bai02_w022"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu",
+        "dong_tu"
+      ],
+      "source_line": 217,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w026",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "只是",
+      "pinyin": "zhǐshì",
+      "word_type": "副",
+      "meaning_vi": "chỉ là; có điều là",
+      "meaning_en": "only",
+      "example_zh": "我想去，只是今天很忙。",
+      "example_pinyin": "Wǒ xiǎng qù, zhǐshì jīntiān hěn máng.",
+      "example_vi": "Tôi muốn đi, chỉ là hôm nay rất bận.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w025",
+        "bai02_w027",
+        "bai02_w024"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 218,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w027",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "老",
+      "pinyin": "lǎo",
+      "word_type": "形",
+      "meaning_vi": "già; cũ",
+      "meaning_en": "old",
+      "example_zh": "这本画册很老。",
+      "example_pinyin": "Zhè běn huàcè hěn lǎo.",
+      "example_vi": "Tập tranh này rất cũ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w010",
+        "bai02_w009",
+        "bai02_w002"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 80,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w028",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "改革",
+      "pinyin": "gǎigé",
+      "word_type": "动、名",
+      "meaning_vi": "cải cách; sửa đổi",
+      "meaning_en": "to reform; reformation",
+      "example_zh": "改革以后变化很大。",
+      "example_pinyin": "Gǎigé yǐ hòu biàn huà hěn dà.",
+      "example_vi": "Sau cải cách có thay đổi rất lớn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w029",
+        "bai02_w025",
+        "bai02_w024"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu",
+        "dong_tu"
+      ],
+      "source_line": 221,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w029",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "开放",
+      "pinyin": "kāifàng",
+      "word_type": "动",
+      "meaning_vi": "mở cửa; mở rộng",
+      "meaning_en": "to open",
+      "example_zh": "这里已经开放了。",
+      "example_pinyin": "Zhèlǐ yǐjīng kāifàng le.",
+      "example_vi": "Nơi đây đã mở cửa rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w028",
+        "bai02_w025",
+        "bai02_w023"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 223,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_w030",
+      "bai": 2,
+      "type": "word",
+      "word_zh": "一切",
+      "pinyin": "yīqiè",
+      "word_type": "代",
+      "meaning_vi": "tất cả; mọi thứ",
+      "meaning_en": "all; everything",
+      "example_zh": "一切都准备好了。",
+      "example_pinyin": "Yīqiè dōu zhǔn bèi hǎo le.",
+      "example_vi": "Mọi thứ đều đã chuẩn bị xong.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai02_w029",
+        "bai02_w028",
+        "bai02_w027"
+      ],
+      "tags": [
+        "tu_vung",
+        "dai_tu"
+      ],
+      "source_line": 229,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_g001",
+      "bai": 2,
+      "type": "grammar",
+      "grammar_title_zh": "跟……一样/不一样",
+      "grammar_title_vi": "So sánh giống hoặc khác",
+      "structure": "A + 跟 + B + 一样/不一样 + 谓语",
+      "explanation_vi": "Dùng 一样 khi kết quả so sánh giống nhau và 不一样 khi khác nhau. Cả cụm cũng có thể làm định ngữ.",
+      "explanation_zh": "“A跟B一样”表示相同，“A跟B不一样”表示不同；该结构也可以作定语。",
+      "examples": [
+        {
+          "zh": "这件毛衣跟那件价钱一样。",
+          "pinyin": "Zhè jiàn máo yī gēn nà jiàn jià qián yīyàng.",
+          "vi": "Chiếc áo len này có giá giống chiếc kia.",
+          "source": "document"
+        },
+        {
+          "zh": "姐姐跟弟弟的爱好不一样。",
+          "pinyin": "Jiě jiě gēn dì dì de ài hǎo bù yīyàng.",
+          "vi": "Sở thích của chị gái khác với em trai.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai02_w002",
+        "bai02_g002"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 332,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_g002",
+      "bai": 2,
+      "type": "grammar",
+      "grammar_title_zh": "不但……而且……",
+      "grammar_title_vi": "Không những... mà còn...",
+      "structure": "不但 + 分句1，而且 + 分句2",
+      "explanation_vi": "Nối hai vế có ý nghĩa tăng tiến. Nếu hai vế cùng chủ ngữ, 不但 đứng sau chủ ngữ; nếu khác chủ ngữ, 不但 đứng trước chủ ngữ của vế đầu.",
+      "explanation_zh": "“不但……而且……”连接递进复句；主语相同时“不但”放在主语后，不同时放在主语前。",
+      "examples": [
+        {
+          "zh": "他不但会说英语，而且还会法语。",
+          "pinyin": "Tā bù dàn huì shuō yīngyǔ, ér qiě hái huì fǎ yǔ.",
+          "vi": "Anh ấy không những biết tiếng Anh mà còn biết tiếng Pháp.",
+          "source": "document"
+        },
+        {
+          "zh": "不但她会说汉语，而且她妹妹也会说汉语。",
+          "pinyin": "Bù dàn tā huì shuō hànyǔ, ér qiě tā mèi mèi yě huì shuō hànyǔ.",
+          "vi": "Không chỉ cô ấy biết tiếng Trung, em gái cô ấy cũng biết.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai02_w016",
+        "bai02_w018"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 404,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai02_p001",
+      "bai": 2,
+      "type": "phrase",
+      "phrase_zh": "好了",
+      "pinyin": "Hǎo le",
+      "meaning_vi": "được rồi; thôi được rồi",
+      "meaning_en": "all right; that's enough",
+      "usage_note": "Dùng để khuyên dừng hoặc báo người nói muốn kết thúc chủ đề hay hành động hiện tại.",
+      "related_words": [
+        "bai02_w020",
+        "bai02_w021",
+        "bai02_w013"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 58,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

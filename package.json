@@ -1,0 +1,33 @@
+{
+  "name": "dudu-hanyu-study",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:db": "node scripts/test-db.mjs",
+    "test:extractors": "node scripts/test-extractors.mjs",
+    "test:gemini": "node scripts/test-gemini.mjs",
+    "test:word-editor": "node scripts/test-word-editor.mjs",
+    "test:course-flow": "node scripts/test-course-flow.mjs",
+    "test:content-editor": "node scripts/test-content-editor.mjs",
+    "test:processing": "node scripts/test-processing.mjs",
+    "test:background-processing": "node scripts/test-background-processing.mjs",
+    "test:layout": "node scripts/test-layout.mjs",
+    "test:ux": "node scripts/test-ux-static.mjs"
+  },
+  "dependencies": {
+    "puppeteer": "^25.11.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "vite": "^5.4.11"
+  }
+}

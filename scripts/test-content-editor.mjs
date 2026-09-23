@@ -1,0 +1,82 @@
+import assert from 'node:assert/strict';
+import puppeteer from 'puppeteer';
+import { createServer } from 'vite';
+
+const server = await createServer({ server: { port: 0 } });
+let browser;
+try {
+  await server.listen();
+  browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+  const errors = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto(`http://127.0.0.1:${server.httpServer.address().port}/`, { waitUntil: 'networkidle0' });
+  await page.evaluate(() => [...document.querySelectorAll('nav button')].find((button) => button.textContent.trim() === 'Học')?.click());
+  await page.waitForSelector('[role="tablist"]');
+  await page.evaluate(() => [...document.querySelectorAll('[role="tab"]')].find((button) => button.textContent.includes('Ngữ pháp'))?.click());
+  await page.waitForFunction(() => [...document.querySelectorAll('button')].some((button) => button.textContent.trim() === 'Sửa ngữ pháp'));
+  const grammarId = await page.evaluate(async () => (await (await import('/src/lib/db.js')).getCourse('hanngu-tap2')).chapters[0].glossary.entries.find((entry) => entry.type === 'grammar').id);
+  await page.evaluate(() => [...document.querySelectorAll('button')].find((button) => button.textContent.trim() === 'Sửa ngữ pháp')?.click());
+  await page.waitForSelector('[role="dialog"][aria-label="Sửa ngữ pháp"]');
+  const field = await page.$('[role="dialog"][aria-label="Sửa ngữ pháp"] label:nth-child(2) input');
+  await field.click(); await page.keyboard.down('Control'); await page.keyboard.press('A'); await page.keyboard.up('Control'); await field.type('Ngữ pháp đã sửa');
+  await page.evaluate(() => [...document.querySelectorAll('[role="dialog"] button')].find((button) => button.textContent.trim() === 'Lưu')?.click());
+  await page.waitForFunction(() => !document.querySelector('[role="dialog"][aria-label="Sửa ngữ pháp"]'));
+  const grammar = await page.evaluate(async (id) => (await (await import('/src/lib/db.js')).getCourse('hanngu-tap2')).chapters[0].glossary.entries.find((entry) => entry.id === id), grammarId);
+  assert.equal(grammar.grammar_title_vi, 'Ngữ pháp đã sửa');
+
+  await page.evaluate(() => [...document.querySelectorAll('nav button')].find((button) => button.textContent.trim() === 'Quiz')?.click());
+  await page.waitForSelector('main button');
+  await page.evaluate(() => {
+    const options = [...document.querySelectorAll('main button')].filter((button) => /^[ABCD]/.test(button.textContent.trim()));
+    options[0]?.click();
+  });
+  await page.waitForFunction(() => [...document.querySelectorAll('button')].some((button) => button.textContent.trim() === 'Sửa câu hỏi'));
+  const questionId = await page.evaluate(async () => (await (await import('/src/lib/db.js')).getCourse('hanngu-tap2')).chapters[0].quiz.questions[0].id);
+  await page.evaluate(() => [...document.querySelectorAll('button')].find((button) => button.textContent.trim() === 'Sửa câu hỏi')?.click());
+  await page.waitForSelector('[role="dialog"][aria-label="Sửa câu hỏi"]');
+  const questionField = await page.$('[role="dialog"][aria-label="Sửa câu hỏi"] textarea');
+  await questionField.click(); await page.keyboard.down('Control'); await page.keyboard.press('A'); await page.keyboard.up('Control'); await questionField.type('Câu hỏi đã sửa?');
+  await page.evaluate(() => [...document.querySelectorAll('[role="dialog"] button')].find((button) => button.textContent.trim() === 'Lưu')?.click());
+  await page.waitForFunction(() => !document.querySelector('[role="dialog"][aria-label="Sửa câu hỏi"]'));
+  const question = await page.evaluate(async (id) => (await (await import('/src/lib/db.js')).getCourse('hanngu-tap2')).chapters[0].quiz.questions.find((item) => item.id === id), questionId);
+  assert.equal(question.question_vi, 'Câu hỏi đã sửa?');
+  await page.reload({ waitUntil: 'networkidle0' });
+  await page.evaluate(() => [...document.querySelectorAll('nav button')].find((button) => button.textContent.trim() === 'Học')?.click());
+  await page.waitForSelector('[role="tablist"]');
+  await page.evaluate(() => [...document.querySelectorAll('[role="tab"]')].find((button) => button.textContent.includes('Ngữ pháp'))?.click());
+  await page.waitForFunction(() => document.querySelector('main')?.textContent.includes('Ngữ pháp đã sửa'));
+  await page.evaluate(() => [...document.querySelectorAll('nav button')].find((button) => button.textContent.trim() === 'Quiz')?.click());
+  await page.waitForFunction(() => document.querySelector('main')?.textContent.includes('Câu hỏi đã sửa?'));
+  await page.evaluate(async () => {
+    const { getCourse, saveCourse } = await import('/src/lib/db.js');
+    const builtIn = await getCourse('hanngu-tap2');
+    const source = builtIn.chapters[0];
+    const typing = source.quiz.questions.find((item) => item.type === 'translation_vi_to_zh');
+    await saveCourse({ id: 'typing-editor-test', name: 'Kiểm thử câu gõ', type: 'imported', status: 'ready', metadata: {}, chapters: [{ ...source, glossary: { ...source.glossary, entries: source.glossary.entries.slice(0, 2) }, quiz: { ...source.quiz, questions: [typing] } }] });
+  });
+  await page.evaluate(() => [...document.querySelectorAll('nav button')].find((button) => button.textContent.trim() === 'Thư viện')?.click());
+  await page.waitForFunction(() => [...document.querySelectorAll('main article h2')].some((heading) => heading.textContent.trim() === 'Kiểm thử câu gõ'));
+  await page.evaluate(() => [...document.querySelectorAll('main article')].find((card) => card.querySelector('h2')?.textContent.trim() === 'Kiểm thử câu gõ')?.querySelector('button')?.click());
+  await page.waitForFunction(async () => (await (await import('/src/lib/db.js')).getSettings()).activeCourseId === 'typing-editor-test');
+  await page.evaluate(() => [...document.querySelectorAll('nav button')].find((button) => button.textContent.trim() === 'Quiz')?.click());
+  await page.waitForSelector('main textarea');
+  const sample = await page.evaluate(async () => (await (await import('/src/lib/db.js')).getCourse('typing-editor-test')).chapters[0].quiz.questions[0].sample_answer);
+  await page.type('main textarea', sample);
+  await page.evaluate(() => [...document.querySelectorAll('main button')].find((button) => button.textContent.trim() === 'Kiểm tra')?.click());
+  await page.waitForFunction(() => [...document.querySelectorAll('button')].some((button) => button.textContent.trim() === 'Sửa câu hỏi'));
+  await page.evaluate(() => [...document.querySelectorAll('button')].find((button) => button.textContent.trim() === 'Sửa câu hỏi')?.click());
+  await page.waitForSelector('[role="dialog"][aria-label="Sửa câu gõ"]');
+  const sampleInput = (await page.evaluateHandle(() => [...document.querySelectorAll('[role="dialog"][aria-label="Sửa câu gõ"] label')].find((label) => label.textContent.startsWith('Đáp án mẫu'))?.querySelector('textarea'))).asElement();
+  await sampleInput.click(); await page.keyboard.down('Control'); await page.keyboard.press('A'); await page.keyboard.up('Control'); await sampleInput.type(`${sample}。`);
+  await page.evaluate(() => [...document.querySelectorAll('[role="dialog"] button')].find((button) => button.textContent.trim() === 'Lưu')?.click());
+  await page.waitForFunction(() => !document.querySelector('[role="dialog"][aria-label="Sửa câu gõ"]'));
+  const changed = await page.evaluate(async () => (await (await import('/src/lib/db.js')).getCourse('typing-editor-test')).chapters[0].quiz.questions[0]);
+  assert.equal(changed.sample_answer, `${sample}。`);
+  assert.ok(changed.keywords_required.length > 0);
+  assert.deepEqual(errors, []);
+  console.log('Content editor OK: sửa grammar, MCQ và câu gõ, lưu IndexedDB.');
+} finally {
+  if (browser) await browser.close();
+  await server.close();
+}

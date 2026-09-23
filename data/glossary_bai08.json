@@ -1,0 +1,1094 @@
+{
+  "metadata": {
+    "bai": 8,
+    "title_zh": "我的眼镜摔坏了",
+    "title_vi": "Kính của tôi bị rơi hỏng rồi",
+    "title_source": "document",
+    "source_file": "data/_extracted/bai/bai08.txt",
+    "total_entries": 39,
+    "word_count": 32,
+    "grammar_count": 4,
+    "phrase_count": 3,
+    "example_stats": {
+      "from_document": 4,
+      "ai_inferred": 28,
+      "missing": 0
+    },
+    "generated_at": "2026-09-19T21:45:24Z",
+    "version": "2.0"
+  },
+  "entries": [
+    {
+      "id": "bai08_w001",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "照",
+      "pinyin": "zhào",
+      "word_type": "动",
+      "meaning_vi": "chụp ảnh",
+      "meaning_en": "to take a photograph",
+      "example_zh": "我们在长城照相。",
+      "example_pinyin": "Wǒmen zài chángchéng zhào xiāng.",
+      "example_vi": "Chúng tôi chụp ảnh ở Vạn Lý Trường Thành.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_g001",
+        "bai08_g002",
+        "bai08_w002"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 14,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w002",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "洗",
+      "pinyin": "xǐ",
+      "word_type": "动",
+      "meaning_vi": "rửa; tráng ảnh",
+      "meaning_en": "to develop a film",
+      "example_zh": "这些照片洗好了。",
+      "example_pinyin": "Zhèxiē zhào piàn xǐ hǎo le.",
+      "example_vi": "Những bức ảnh này đã tráng xong.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_g001",
+        "bai08_w001",
+        "bai08_w003"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 14,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w003",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "闭",
+      "pinyin": "bì",
+      "word_type": "动",
+      "meaning_vi": "nhắm; đóng",
+      "meaning_en": "to close",
+      "example_zh": "照片上他的眼睛闭着。",
+      "example_pinyin": "Zhào piàn shàng tā de yǎn jīng bì zhe.",
+      "example_vi": "Trong ảnh mắt anh ấy đang nhắm.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w002",
+        "bai08_w001",
+        "bai08_w005"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 24,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w004",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "油画",
+      "pinyin": "yóuhuà",
+      "word_type": "名",
+      "meaning_vi": "tranh sơn dầu",
+      "meaning_en": "oil painting",
+      "example_zh": "墙上挂着一幅油画。",
+      "example_pinyin": "Qiáng shàng guà zhe yī fú yóuhuà.",
+      "example_vi": "Trên tường treo một bức tranh sơn dầu.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w011",
+        "bai08_w013",
+        "bai08_w019"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 55,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w005",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "放大",
+      "pinyin": "fàngdà",
+      "word_type": "动",
+      "meaning_vi": "phóng to",
+      "meaning_en": "to enlarge",
+      "example_zh": "请把这张照片放大。",
+      "example_pinyin": "Qǐng bǎ zhè zhāng zhào piàn fàngdà.",
+      "example_vi": "Hãy phóng to bức ảnh này.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w003",
+        "bai08_w002",
+        "bai08_w001"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 57,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w006",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "倍",
+      "pinyin": "bèi",
+      "word_type": "量",
+      "meaning_vi": "lần; gấp",
+      "meaning_en": "times; fold",
+      "example_zh": "照片放大了两倍。",
+      "example_pinyin": "Zhào piàn fàngdà le liǎng bèi.",
+      "example_vi": "Bức ảnh được phóng to gấp hai lần.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w007",
+        "bai08_w010",
+        "bai08_w005"
+      ],
+      "tags": [
+        "tu_vung",
+        "luong_tu"
+      ],
+      "source_line": 126,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai08_w007",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "公分",
+      "pinyin": "gōngfēn",
+      "word_type": "量",
+      "meaning_vi": "xăng-ti-mét",
+      "meaning_en": "centimeter",
+      "example_zh": "这张照片长十公分。",
+      "example_pinyin": "Zhè zhāng zhào piàn zhǎng shí gōngfēn.",
+      "example_vi": "Bức ảnh này dài mười xăng-ti-mét.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w006",
+        "bai08_w010",
+        "bai08_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "luong_tu"
+      ],
+      "source_line": 61,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w008",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "差一点儿",
+      "pinyin": "chàyìdiǎnr",
+      "word_type": "副",
+      "meaning_vi": "suýt; kém một chút",
+      "meaning_en": "almost",
+      "example_zh": "今天早上我差点儿迟到。",
+      "example_pinyin": "Jīntiān zǎo shàng wǒ chàdiǎnér chí dào.",
+      "example_vi": "Sáng nay tôi suýt đến muộn.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w031",
+        "bai08_w007",
+        "bai08_w009"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 147,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai08_w009",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "碰",
+      "pinyin": "pèng",
+      "word_type": "动",
+      "meaning_vi": "va; chạm; gặp",
+      "meaning_en": "to meet; to run into",
+      "example_zh": "自行车碰到了汽车。",
+      "example_pinyin": "Zì xíng chē pèng dào le qì chē.",
+      "example_vi": "Xe đạp va phải ô tô.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w005",
+        "bai08_w003",
+        "bai08_w002"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 72,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w010",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "起",
+      "pinyin": "qǐ",
+      "word_type": "量",
+      "meaning_vi": "vụ; lượng từ cho sự cố",
+      "meaning_en": "classifier for accidents",
+      "example_zh": "发生了一起事故。",
+      "example_pinyin": "Fā shēng le yìqǐ shìgù.",
+      "example_vi": "Đã xảy ra một vụ tai nạn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w007",
+        "bai08_w006",
+        "bai08_w009"
+      ],
+      "tags": [
+        "tu_vung",
+        "luong_tu"
+      ],
+      "source_line": 251,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w011",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "事故",
+      "pinyin": "shìgù",
+      "word_type": "名",
+      "meaning_vi": "sự cố; tai nạn",
+      "meaning_en": "accident",
+      "example_zh": "路上发生了交通事故。",
+      "example_pinyin": "Lù shàng fā shēng le jiāo tōng shìgù.",
+      "example_vi": "Trên đường đã xảy ra tai nạn giao thông.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w013",
+        "bai08_w004",
+        "bai08_w019"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 72,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w012",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "整",
+      "pinyin": "zhěng",
+      "word_type": "形",
+      "meaning_vi": "trọn; nguyên; đầy",
+      "meaning_en": "full; whole",
+      "example_zh": "我整整等了二十分钟。",
+      "example_pinyin": "Wǒ zhěng zhěng děng le èr shí fēnzhōng.",
+      "example_vi": "Tôi đã đợi tròn hai mươi phút.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w015",
+        "bai08_w026",
+        "bai08_w027"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 73,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w013",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "眼镜",
+      "pinyin": "yǎnjìng",
+      "word_type": "名",
+      "meaning_vi": "kính mắt",
+      "meaning_en": "glasses",
+      "example_zh": "我的眼镜摔坏了。",
+      "example_pinyin": "Wǒ de yǎnjìng shuāi huài le.",
+      "example_vi": "Kính của tôi bị rơi hỏng rồi.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_g001",
+        "bai08_w011",
+        "bai08_w019"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w014",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "别提了",
+      "pinyin": "biétíle",
+      "word_type": "惯用语",
+      "meaning_vi": "đừng nhắc nữa",
+      "meaning_en": "don't mention it",
+      "example_zh": "别提了，今天倒霉得很。",
+      "example_pinyin": "Biétíle, jīntiān dǎoméi de hěn.",
+      "example_vi": "Đừng nhắc nữa, hôm nay xui xẻo lắm.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w013",
+        "bai08_w015",
+        "bai08_w012"
+      ],
+      "tags": [
+        "tu_vung"
+      ],
+      "source_line": 285,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w015",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "倒霉",
+      "pinyin": "dǎoméi",
+      "word_type": "形",
+      "meaning_vi": "xui xẻo",
+      "meaning_en": "being down on one's luck",
+      "example_zh": "别提了，今天倒霉得很。",
+      "example_pinyin": "Biétíle, jīntiān dǎoméi de hěn.",
+      "example_vi": "Đừng nhắc nữa, hôm nay xui xẻo lắm.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w012",
+        "bai08_w026",
+        "bai08_w027"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 353,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w016",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "摔跤",
+      "pinyin": "shuāijiāo",
+      "word_type": "动",
+      "meaning_vi": "ngã; té",
+      "meaning_en": "to have a fall",
+      "example_zh": "他骑车时摔跤了。",
+      "example_pinyin": "Tā qí chē shí shuāijiāo le.",
+      "example_vi": "Anh ấy bị ngã khi đi xe đạp.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w017",
+        "bai08_w018",
+        "bai08_w020"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 110,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w017",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "摔",
+      "pinyin": "shuāi",
+      "word_type": "动",
+      "meaning_vi": "rơi; ném; quăng",
+      "meaning_en": "to fall; to throw",
+      "example_zh": "我的眼镜摔坏了。",
+      "example_pinyin": "Wǒ de yǎnjìng shuāi huài le.",
+      "example_vi": "Kính của tôi bị rơi hỏng rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_g001",
+        "bai08_w016",
+        "bai08_w018"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 319,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w018",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "掉",
+      "pinyin": "diào",
+      "word_type": "动",
+      "meaning_vi": "rơi; rớt",
+      "meaning_en": "to drop",
+      "example_zh": "眼镜掉在地上了。",
+      "example_pinyin": "Yǎnjìng diào zài dìshàng le.",
+      "example_vi": "Kính đã rơi xuống đất.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w017",
+        "bai08_w016",
+        "bai08_w020"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 79,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w019",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "地上",
+      "pinyin": "dìshàng",
+      "word_type": "名",
+      "meaning_vi": "mặt đất; dưới đất",
+      "meaning_en": "ground",
+      "example_zh": "眼镜掉在地上了。",
+      "example_pinyin": "Yǎnjìng diào zài dìshàng le.",
+      "example_vi": "Kính rơi xuống đất rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w024",
+        "bai08_w013",
+        "bai08_w011"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 226,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w020",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "上班",
+      "pinyin": "shàngbān",
+      "word_type": "动",
+      "meaning_vi": "đi làm",
+      "meaning_en": "to go to work; to be on duty",
+      "example_zh": "他每天八点上班。",
+      "example_pinyin": "Tā měi tiān bā diǎn shàngbān.",
+      "example_vi": "Anh ấy đi làm lúc tám giờ mỗi ngày.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w021",
+        "bai08_w018",
+        "bai08_w022"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 227,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w021",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "下班",
+      "pinyin": "xiàbān",
+      "word_type": "动",
+      "meaning_vi": "tan làm",
+      "meaning_en": "to go off work",
+      "example_zh": "我六点下班回家。",
+      "example_pinyin": "Wǒ liù diǎn xiàbān huí jiā.",
+      "example_vi": "Tôi tan làm lúc sáu giờ rồi về nhà.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w020",
+        "bai08_w022",
+        "bai08_w023"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 229,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w022",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "保证",
+      "pinyin": "bǎozhèng",
+      "word_type": "动",
+      "meaning_vi": "bảo đảm; cam đoan",
+      "meaning_en": "to guarantee",
+      "example_zh": "我保证遵守交通规则。",
+      "example_pinyin": "Wǒ bǎozhèng zūnshǒu jiāo tōng guīzé.",
+      "example_vi": "Tôi bảo đảm tuân thủ luật giao thông.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w021",
+        "bai08_w023",
+        "bai08_w020"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 233,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w023",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "遵守",
+      "pinyin": "zūnshǒu",
+      "word_type": "动",
+      "meaning_vi": "tuân thủ",
+      "meaning_en": "to abide by",
+      "example_zh": "大家都要遵守交通规则。",
+      "example_pinyin": "Dà jiā dōu yào zūnshǒu jiāo tōng guīzé.",
+      "example_vi": "Mọi người đều phải tuân thủ luật giao thông.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w022",
+        "bai08_w021",
+        "bai08_w025"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 88,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w024",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "规则",
+      "pinyin": "guīzé",
+      "word_type": "名",
+      "meaning_vi": "quy tắc; luật",
+      "meaning_en": "rule",
+      "example_zh": "大家都要遵守规则。",
+      "example_pinyin": "Dà jiā dōu yào zūnshǒu guīzé.",
+      "example_vi": "Mọi người đều phải tuân thủ quy tắc.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w028",
+        "bai08_w019",
+        "bai08_w013"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 237,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w025",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "造成",
+      "pinyin": "zàochéng",
+      "word_type": "动",
+      "meaning_vi": "gây ra; tạo thành",
+      "meaning_en": "to cause; to bring about",
+      "example_zh": "拥挤容易造成事故。",
+      "example_pinyin": "Yōngjǐ róng yì zàochéng shìgù.",
+      "example_vi": "Chen chúc dễ gây ra tai nạn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w026",
+        "bai08_w023",
+        "bai08_w022"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 239,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w026",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "拥挤",
+      "pinyin": "yōngjǐ",
+      "word_type": "形、动",
+      "meaning_vi": "chen chúc; chật chội",
+      "meaning_en": "to be crowded; crowded",
+      "example_zh": "上班时间交通很拥挤。",
+      "example_pinyin": "Shàngbān shí jiān jiāo tōng hěn yōngjǐ.",
+      "example_vi": "Giờ đi làm giao thông rất đông đúc.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w025",
+        "bai08_w027",
+        "bai08_w023"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu",
+        "hinh_dung"
+      ],
+      "source_line": 242,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w027",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "主要",
+      "pinyin": "zhǔyào",
+      "word_type": "形",
+      "meaning_vi": "chủ yếu; chính",
+      "meaning_en": "main",
+      "example_zh": "这是事故的主要原因。",
+      "example_pinyin": "Zhè shì shìgù de zhǔyào yuányīn.",
+      "example_vi": "Đây là nguyên nhân chính của tai nạn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w026",
+        "bai08_w015",
+        "bai08_w012"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 245,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w028",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "原因",
+      "pinyin": "yuányīn",
+      "word_type": "名",
+      "meaning_vi": "nguyên nhân",
+      "meaning_en": "reason",
+      "example_zh": "你知道迟到的原因吗？",
+      "example_pinyin": "Nǐ zhīdào chí dào de yuányīn ma?",
+      "example_vi": "Bạn có biết nguyên nhân đến muộn không?",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w024",
+        "bai08_w019",
+        "bai08_w013"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 247,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w029",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "之一",
+      "pinyin": "zhīyī",
+      "word_type": "代",
+      "meaning_vi": "một trong những",
+      "meaning_en": "one of",
+      "example_zh": "交通是问题之一。",
+      "example_pinyin": "Jiāo tōng shì wèn tí zhīyī.",
+      "example_vi": "Giao thông là một trong các vấn đề.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w028",
+        "bai08_w030",
+        "bai08_w027"
+      ],
+      "tags": [
+        "tu_vung",
+        "dai_tu"
+      ],
+      "source_line": 89,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w030",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "引起",
+      "pinyin": "yǐnqǐ",
+      "word_type": "动",
+      "meaning_vi": "gây ra; dẫn tới",
+      "meaning_en": "to cause",
+      "example_zh": "自行车引起了事故。",
+      "example_pinyin": "Zì xíng chē yǐnqǐ le shìgù.",
+      "example_vi": "Xe đạp đã gây ra tai nạn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w032",
+        "bai08_w026",
+        "bai08_w025"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 251,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w031",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "赶快",
+      "pinyin": "gǎnkuài",
+      "word_type": "副",
+      "meaning_vi": "nhanh lên; mau chóng",
+      "meaning_en": "hurriedly; quickly",
+      "example_zh": "我们赶快去上班吧。",
+      "example_pinyin": "Wǒmen gǎnkuài qù shàngbān ba.",
+      "example_vi": "Chúng ta mau đi làm thôi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w008",
+        "bai08_w030",
+        "bai08_w032"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 253,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_w032",
+      "bai": 8,
+      "type": "word",
+      "word_zh": "发展",
+      "pinyin": "fāzhǎn",
+      "word_type": "动",
+      "meaning_vi": "phát triển",
+      "meaning_en": "to develop",
+      "example_zh": "城市正在发展地铁。",
+      "example_pinyin": "Chéng shì zhèng zài fāzhǎn dìtiě.",
+      "example_vi": "Thành phố đang phát triển tàu điện ngầm.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai08_w030",
+        "bai08_w026",
+        "bai08_w025"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 116,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_g001",
+      "bai": 8,
+      "type": "grammar",
+      "grammar_title_zh": "无标志被动句",
+      "grammar_title_vi": "Câu bị động không có dấu hiệu",
+      "structure": "受事主语 + 动词 + 结果补语",
+      "explanation_vi": "Khi chủ ngữ là đối tượng chịu tác động, câu có thể mang nghĩa bị động mà không cần 被; thường nhấn mạnh kết quả của hành động.",
+      "explanation_zh": "句子的主语可以是动作接受者；强调动作对象的结果时可以用无标志被动句。",
+      "examples": [
+        {
+          "zh": "我的眼镜摔坏了。",
+          "pinyin": "Wǒ de yǎnjìng shuāi huài le.",
+          "vi": "Kính của tôi bị rơi hỏng rồi.",
+          "source": "document"
+        },
+        {
+          "zh": "照片洗好了。",
+          "pinyin": "Zhào piàn xǐ hǎo le.",
+          "vi": "Ảnh đã được tráng xong.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai08_w001",
+        "bai08_w002",
+        "bai08_w013",
+        "bai08_w017"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 384,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_g002",
+      "bai": 8,
+      "type": "grammar",
+      "grammar_title_zh": "量词重叠",
+      "grammar_title_vi": "Lặp lại lượng từ",
+      "structure": "量词 → AA",
+      "explanation_vi": "Danh lượng từ và động lượng từ có thể lặp lại để biểu thị ý nghĩa “mỗi”.",
+      "explanation_zh": "名量词和动量词都可以重叠，表示“每”的意思。",
+      "examples": [
+        {
+          "zh": "这些照片张张照得都很好。",
+          "pinyin": "Zhèxiē zhào piàn zhāng zhāng zhào de dōu hěn hǎo.",
+          "vi": "Những bức ảnh này tấm nào chụp cũng đẹp.",
+          "source": "document"
+        },
+        {
+          "zh": "我们班的同学个个都很努力。",
+          "pinyin": "Wǒmen bān de tóngxué gè gè dōu hěn nǔ lì.",
+          "vi": "Học sinh lớp chúng tôi ai cũng chăm chỉ.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai08_w001",
+        "bai08_g001",
+        "bai08_g003",
+        "bai08_g004"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 394,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_g003",
+      "bai": 8,
+      "type": "grammar",
+      "grammar_title_zh": "一年比一年",
+      "grammar_title_vi": "Mỗi năm một...",
+      "structure": "一年比一年 + 形容词",
+      "explanation_vi": "Làm trạng ngữ để chỉ mức độ thay đổi tăng dần theo thời gian; tương tự có 一天比一天.",
+      "explanation_zh": "“一年比一年”说明事物随时间推移而程度递增；也可以说“一天比一天”。",
+      "examples": [
+        {
+          "zh": "有汽车的人一年比一年多。",
+          "pinyin": "Yǒu qì chē de rén yī nián bǐ yī nián duō.",
+          "vi": "Số người có ô tô mỗi năm một nhiều.",
+          "source": "document"
+        },
+        {
+          "zh": "来中国以后，我一天比一天胖。",
+          "pinyin": "Lái zhōngguó yǐ hòu, wǒ yī tiān bǐ yī tiān pàng.",
+          "vi": "Sau khi đến Trung Quốc, tôi béo lên từng ngày.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai08_g001",
+        "bai08_g002",
+        "bai08_g004"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 407,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_g004",
+      "bai": 8,
+      "type": "grammar",
+      "grammar_title_zh": "差点儿",
+      "grammar_title_vi": "Suýt nữa",
+      "structure": "差点儿 + 动词",
+      "explanation_vi": "Với việc xấu, dạng khẳng định và phủ định đều có thể chỉ việc cuối cùng không xảy ra. Với việc tốt, khẳng định thường chỉ tiếc vì không thành, còn phủ định chỉ may vì cuối cùng đã thành.",
+      "explanation_zh": "“差点儿”表示事情几乎发生；好事和坏事以及肯定、否定形式会影响最终结果。",
+      "examples": [
+        {
+          "zh": "今天早上我差点儿迟到。",
+          "pinyin": "Jīntiān zǎo shàng wǒ chàdiǎnér chí dào.",
+          "vi": "Sáng nay tôi suýt đến muộn.",
+          "source": "document"
+        },
+        {
+          "zh": "只有这一个了，我差点儿没买到。",
+          "pinyin": "Zhǐ yǒu zhè yígè le, wǒ chàdiǎnér méi mǎi dào.",
+          "vi": "Chỉ còn một cái, tôi suýt không mua được.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai08_g001",
+        "bai08_g002",
+        "bai08_g003"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 359,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_p001",
+      "bai": 8,
+      "type": "phrase",
+      "phrase_zh": "不怎么样",
+      "pinyin": "Bù zěn me yàng",
+      "meaning_vi": "không ra sao; không tốt lắm",
+      "meaning_en": "not very good",
+      "usage_note": "Biểu thị người nói không hài lòng.",
+      "related_words": [
+        "bai08_w004",
+        "bai08_w005",
+        "bai08_w007"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 54,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_p002",
+      "bai": 8,
+      "type": "phrase",
+      "phrase_zh": "别提了",
+      "pinyin": "Biétíle",
+      "meaning_vi": "đừng nhắc nữa",
+      "meaning_en": "don't mention it",
+      "usage_note": "Dùng khi sự việc khiến người nói bực, buồn hoặc không muốn nhắc lại.",
+      "related_words": [
+        "bai08_w014",
+        "bai08_w018",
+        "bai08_w012"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 78,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai08_p003",
+      "bai": 8,
+      "type": "phrase",
+      "phrase_zh": "倒霉得很",
+      "pinyin": "Dǎoméi de hěn",
+      "meaning_vi": "xui xẻo lắm",
+      "meaning_en": "very unlucky",
+      "usage_note": "Mẫu 得很 làm bổ ngữ mức độ cao.",
+      "related_words": [
+        "bai08_w015",
+        "bai08_w018",
+        "bai08_w012"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 78,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

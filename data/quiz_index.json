@@ -1,0 +1,122 @@
+{
+  "total_bai": 10,
+  "total_questions": 300,
+  "bais": [
+    {
+      "bai": 1,
+      "file": "quiz_bai01.json",
+      "title_zh": "我比你更喜欢音乐",
+      "questions": 30,
+      "mcq_questions": 21,
+      "typed_questions": 9,
+      "synthesize_questions": 2
+    },
+    {
+      "bai": 2,
+      "file": "quiz_bai02.json",
+      "title_zh": "我们那儿的冬天跟北京一样冷",
+      "questions": 30,
+      "mcq_questions": 21,
+      "typed_questions": 9,
+      "synthesize_questions": 4
+    },
+    {
+      "bai": 3,
+      "file": "quiz_bai03.json",
+      "title_zh": "冬天快要到了",
+      "questions": 30,
+      "mcq_questions": 21,
+      "typed_questions": 9,
+      "synthesize_questions": 4
+    },
+    {
+      "bai": 4,
+      "file": "quiz_bai04.json",
+      "title_zh": "快上来吧，要开车了",
+      "questions": 30,
+      "mcq_questions": 21,
+      "typed_questions": 9,
+      "synthesize_questions": 4
+    },
+    {
+      "bai": 5,
+      "file": "quiz_bai05.json",
+      "title_zh": "我听过钢琴协奏曲《黄河》",
+      "questions": 30,
+      "mcq_questions": 21,
+      "typed_questions": 9,
+      "synthesize_questions": 4
+    },
+    {
+      "bai": 6,
+      "file": "quiz_bai06.json",
+      "title_zh": "我是跟旅游团一起来的",
+      "questions": 30,
+      "mcq_questions": 21,
+      "typed_questions": 9,
+      "synthesize_questions": 4
+    },
+    {
+      "bai": 7,
+      "file": "quiz_bai07.json",
+      "title_zh": "我的护照你找到了没有",
+      "questions": 30,
+      "mcq_questions": 21,
+      "typed_questions": 9,
+      "synthesize_questions": 4
+    },
+    {
+      "bai": 8,
+      "file": "quiz_bai08.json",
+      "title_zh": "我的眼镜摔坏了",
+      "questions": 30,
+      "mcq_questions": 21,
+      "typed_questions": 9,
+      "synthesize_questions": 4
+    },
+    {
+      "bai": 9,
+      "file": "quiz_bai09.json",
+      "title_zh": "钥匙忘拔下来了",
+      "questions": 30,
+      "mcq_questions": 21,
+      "typed_questions": 9,
+      "synthesize_questions": 4
+    },
+    {
+      "bai": 10,
+      "file": "quiz_bai10.json",
+      "title_zh": "会议厅的门开着呢",
+      "questions": 30,
+      "mcq_questions": 21,
+      "typed_questions": 9,
+      "synthesize_questions": 4
+    }
+  ],
+  "group_totals": {
+    "mcq": 210,
+    "typed": 90
+  },
+  "level_totals": {
+    "recall": 128,
+    "understand": 62,
+    "apply": 72,
+    "synthesize": 38
+  },
+  "type_totals": {
+    "mcq_meaning_zh_to_vi": 50,
+    "mcq_meaning_vi_to_zh": 20,
+    "mcq_pinyin": 20,
+    "mcq_word_type": 20,
+    "mcq_fill_blank": 40,
+    "mcq_grammar": 20,
+    "mcq_error_detection": 20,
+    "reading_comprehension": 20,
+    "translation_vi_to_zh": 40,
+    "translation_zh_to_vi": 20,
+    "typing_zh_from_pinyin": 20,
+    "sentence_reorder": 10
+  },
+  "generated_at": "2026-09-19T22:24:43Z",
+  "version": "2.0"
+}

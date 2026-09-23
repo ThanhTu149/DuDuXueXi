@@ -1,0 +1,1384 @@
+{
+  "metadata": {
+    "bai": 9,
+    "title_zh": "钥匙忘拔下来了",
+    "title_vi": "Quên rút chìa khóa ra rồi",
+    "title_source": "ai_inferred",
+    "source_file": "data/_extracted/bai/bai09.txt",
+    "total_entries": 50,
+    "word_count": 45,
+    "grammar_count": 3,
+    "phrase_count": 2,
+    "example_stats": {
+      "from_document": 5,
+      "ai_inferred": 40,
+      "missing": 0
+    },
+    "generated_at": "2026-09-19T21:45:24Z",
+    "version": "2.0"
+  },
+  "entries": [
+    {
+      "id": "bai09_w001",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "图书城",
+      "pinyin": "túshūchéng",
+      "word_type": "名",
+      "meaning_vi": "siêu thị sách; khu bán sách",
+      "meaning_en": "book bazaar",
+      "example_zh": "这座图书城很大。",
+      "example_pinyin": "Zhè zuò túshūchéng hěn dà.",
+      "example_vi": "Nhà sách tổng hợp này rất lớn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w002",
+        "bai09_w006",
+        "bai09_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 7,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w002",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "图书",
+      "pinyin": "túshū",
+      "word_type": "名",
+      "meaning_vi": "sách",
+      "meaning_en": "book",
+      "example_zh": "图书馆里有很多图书。",
+      "example_pinyin": "Túshūguǎn lǐ yǒu hěn duō túshū.",
+      "example_vi": "Trong thư viện có rất nhiều sách.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_g002",
+        "bai09_w001",
+        "bai09_w006"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 7,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w003",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "进去",
+      "pinyin": "jìnqù",
+      "word_type": "动",
+      "meaning_vi": "đi vào",
+      "meaning_en": "to enter",
+      "example_zh": "每个书店我都想进去看看。",
+      "example_pinyin": "Měi gè shūdiàn wǒ dōu xiǎng jìnqù kàn kàn.",
+      "example_vi": "Hiệu sách nào tôi cũng muốn vào xem.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w009",
+        "bai09_w010",
+        "bai09_w011"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 43,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w004",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "各种各样",
+      "pinyin": "gèzhǒnggèyàng",
+      "word_type": "形",
+      "meaning_vi": "đủ loại",
+      "meaning_en": "all sorts",
+      "example_zh": "书店里有各种各样的书。",
+      "example_pinyin": "Shūdiàn lǐ yǒu gèzhǒnggèyàng de shū.",
+      "example_vi": "Trong hiệu sách có đủ loại sách.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w007",
+        "bai09_w023",
+        "bai09_w029"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 66,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w005",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "各",
+      "pinyin": "gè",
+      "word_type": "代",
+      "meaning_vi": "mỗi; các",
+      "meaning_en": "each",
+      "example_zh": "各书店都有中文书。",
+      "example_pinyin": "Gè shūdiàn dōu yǒu zhōng wén shū.",
+      "example_vi": "Mỗi hiệu sách đều có sách tiếng Trung.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w018",
+        "bai09_w019",
+        "bai09_w004"
+      ],
+      "tags": [
+        "tu_vung",
+        "dai_tu"
+      ],
+      "source_line": 66,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w006",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "样",
+      "pinyin": "yàng",
+      "word_type": "名",
+      "meaning_vi": "loại; kiểu",
+      "meaning_en": "kind; type",
+      "example_zh": "这两件衣服一个样。",
+      "example_pinyin": "Zhè liǎng jiàn yī fú yígè yàng.",
+      "example_vi": "Hai bộ quần áo này giống hệt nhau.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w008",
+        "bai09_w002",
+        "bai09_w001"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 66,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w007",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "兴奋",
+      "pinyin": "xīngfèn",
+      "word_type": "形",
+      "meaning_vi": "hào hứng; phấn khởi",
+      "meaning_en": "excited",
+      "example_zh": "看到新书，我很兴奋。",
+      "example_pinyin": "Kàn dào xīn shū, wǒ hěn xīngfèn.",
+      "example_vi": "Nhìn thấy sách mới, tôi rất hào hứng.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w004",
+        "bai09_w023",
+        "bai09_w029"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 70,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w008",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "书架",
+      "pinyin": "shūjià",
+      "word_type": "名",
+      "meaning_vi": "giá sách",
+      "meaning_en": "bookshelf",
+      "example_zh": "我从这个书架上拿下来一本看看。",
+      "example_pinyin": "Wǒ cóng zhège shūjià shàng ná xiàlái yī běn kàn kàn.",
+      "example_vi": "Tôi lấy một cuốn từ giá sách này xuống xem.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w006",
+        "bai09_w013",
+        "bai09_w002"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 72,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w009",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "下来",
+      "pinyin": "xiàlái",
+      "word_type": "动",
+      "meaning_vi": "xuống; hướng xuống hoặc lại gần",
+      "meaning_en": "to come down; down",
+      "example_zh": "我从书架上拿下来一本书。",
+      "example_pinyin": "Wǒ cóng shūjià shàng ná xiàlái yī běn shū.",
+      "example_vi": "Tôi lấy một cuốn sách xuống từ giá.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w010",
+        "bai09_w011",
+        "bai09_w012"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 73,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w010",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "抽",
+      "pinyin": "chōu",
+      "word_type": "动",
+      "meaning_vi": "rút ra",
+      "meaning_en": "to take something from within",
+      "example_zh": "他从书架上抽出一本小说。",
+      "example_pinyin": "Tā cóng shūjià shàng chōu chū yī běn xiǎoshuō.",
+      "example_vi": "Anh ấy rút một cuốn tiểu thuyết từ giá sách.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w009",
+        "bai09_w011",
+        "bai09_w012"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 11,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w011",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "挑",
+      "pinyin": "tiāo",
+      "word_type": "动",
+      "meaning_vi": "chọn lựa",
+      "meaning_en": "to choose; to select",
+      "example_zh": "我挑了几本历史书。",
+      "example_pinyin": "Wǒ tiāo le jǐ běn lì shǐ shū.",
+      "example_vi": "Tôi chọn vài cuốn sách lịch sử.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w010",
+        "bai09_w012",
+        "bai09_w009"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 12,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w012",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "选",
+      "pinyin": "xuǎn",
+      "word_type": "动",
+      "meaning_vi": "lựa chọn",
+      "meaning_en": "to choose; to select",
+      "example_zh": "麦克选了一本中文小说。",
+      "example_pinyin": "Mài kè xuǎn le yī běn zhōng wén xiǎoshuō.",
+      "example_vi": "Mike chọn một cuốn tiểu thuyết tiếng Trung.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w011",
+        "bai09_w010",
+        "bai09_w014"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 12,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w013",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "小说",
+      "pinyin": "xiǎoshuō",
+      "word_type": "名",
+      "meaning_vi": "tiểu thuyết",
+      "meaning_en": "novel",
+      "example_zh": "麦克选了一些中文小说。",
+      "example_pinyin": "Mài kè xuǎn le yī xiē zhōng wén xiǎoshuō.",
+      "example_vi": "Mike chọn một số tiểu thuyết tiếng Trung.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w017",
+        "bai09_w008",
+        "bai09_w006"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 75,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w014",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "回去",
+      "pinyin": "huíqù",
+      "word_type": "动",
+      "meaning_vi": "quay về",
+      "meaning_en": "to go back; to return",
+      "example_zh": "我们都想买一些书带回国去。",
+      "example_pinyin": "Wǒmen dōu xiǎng mǎi yī xiē shū dài huí guó qù.",
+      "example_vi": "Chúng tôi đều muốn mua vài cuốn sách mang về nước.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w012",
+        "bai09_w011",
+        "bai09_w010"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 76,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w015",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "除了……以外",
+      "pinyin": "chúle...yǐwài",
+      "word_type": "介",
+      "meaning_vi": "ngoài... ra",
+      "meaning_en": "besides; apart from; except",
+      "example_zh": "除了买书以外，我还买光盘。",
+      "example_pinyin": "Chú le mǎi shū yǐ wài, wǒ hái mǎi guāngpán.",
+      "example_vi": "Ngoài mua sách, tôi còn mua đĩa.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w020",
+        "bai09_w014",
+        "bai09_w016"
+      ],
+      "tags": [
+        "tu_vung",
+        "gioi_tu"
+      ],
+      "source_line": 111,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai09_w016",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "于是",
+      "pinyin": "yúshì",
+      "word_type": "连",
+      "meaning_vi": "thế là; vì vậy",
+      "meaning_en": "so; then; thereupon",
+      "example_zh": "天很晚了，于是我们回去了。",
+      "example_pinyin": "Tiān hěn wǎn le, yúshì wǒmen huíqù le.",
+      "example_vi": "Trời đã muộn, vì vậy chúng tôi về.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w015",
+        "bai09_w017",
+        "bai09_w014"
+      ],
+      "tags": [
+        "tu_vung",
+        "lien_tu"
+      ],
+      "source_line": 15,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w017",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "音像",
+      "pinyin": "yīnxiàng",
+      "word_type": "名",
+      "meaning_vi": "nghe nhìn; phương tiện nghe nhìn",
+      "meaning_en": "audiovisual media",
+      "example_zh": "这里卖音像制品。",
+      "example_pinyin": "Zhèlǐ mài yīnxiàng zhì pǐn.",
+      "example_vi": "Ở đây bán sản phẩm nghe nhìn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w013",
+        "bai09_w024",
+        "bai09_w025"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 115,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai09_w018",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "这里",
+      "pinyin": "zhèlǐ",
+      "word_type": "代",
+      "meaning_vi": "ở đây",
+      "meaning_en": "here",
+      "example_zh": "这里有很多图书。",
+      "example_pinyin": "Zhèlǐ yǒu hěn duō túshū.",
+      "example_vi": "Ở đây có rất nhiều sách.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w019",
+        "bai09_w005",
+        "bai09_w017"
+      ],
+      "tags": [
+        "tu_vung",
+        "dai_tu"
+      ],
+      "source_line": 16,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w019",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "那里",
+      "pinyin": "nàlǐ",
+      "word_type": "代",
+      "meaning_vi": "ở kia",
+      "meaning_en": "there",
+      "example_zh": "那里有一家饭馆。",
+      "example_pinyin": "Nàlǐ yǒu yī jiā fànguǎn.",
+      "example_vi": "Ở đó có một quán ăn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w018",
+        "bai09_w005",
+        "bai09_w020"
+      ],
+      "tags": [
+        "tu_vung",
+        "dai_tu"
+      ],
+      "source_line": 228,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w020",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "根据",
+      "pinyin": "gēnjù",
+      "word_type": "介",
+      "meaning_vi": "căn cứ theo",
+      "meaning_en": "on the basis of; according to",
+      "example_zh": "电影是根据小说拍的。",
+      "example_pinyin": "Diàn yǐng shì gēnjù xiǎoshuō pāi de.",
+      "example_vi": "Bộ phim được quay dựa theo tiểu thuyết.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w015",
+        "bai09_w019",
+        "bai09_w021"
+      ],
+      "tags": [
+        "tu_vung",
+        "gioi_tu"
+      ],
+      "source_line": 229,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w021",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "拍",
+      "pinyin": "pāi",
+      "word_type": "动",
+      "meaning_vi": "chụp; quay phim",
+      "meaning_en": "to shoot a photograph or movie",
+      "example_zh": "这部电影是根据小说拍的。",
+      "example_pinyin": "Zhè bù diàn yǐng shì gēnjù xiǎoshuō pāi de.",
+      "example_vi": "Bộ phim này được quay dựa theo tiểu thuyết.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w014",
+        "bai09_w012",
+        "bai09_w011"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 16,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w022",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "盒",
+      "pinyin": "hé",
+      "word_type": "量",
+      "meaning_vi": "hộp",
+      "meaning_en": "box",
+      "example_zh": "我买了一盒光盘。",
+      "example_pinyin": "Wǒ mǎi le yī hé guāngpán.",
+      "example_vi": "Tôi mua một hộp đĩa.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w028",
+        "bai09_w037",
+        "bai09_w021"
+      ],
+      "tags": [
+        "tu_vung",
+        "luong_tu"
+      ],
+      "source_line": 242,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai09_w023",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "下",
+      "pinyin": "xià",
+      "word_type": "形",
+      "meaning_vi": "sau; tiếp theo",
+      "meaning_en": "next",
+      "example_zh": "下学期我学习小说。",
+      "example_pinyin": "Xià xuéqī wǒ xué xí xiǎoshuō.",
+      "example_vi": "Học kỳ sau tôi học tiểu thuyết.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_g001",
+        "bai09_w029",
+        "bai09_w030"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 73,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w024",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "学期",
+      "pinyin": "xuéqī",
+      "word_type": "名",
+      "meaning_vi": "học kỳ",
+      "meaning_en": "school term",
+      "example_zh": "这个学期我很忙。",
+      "example_pinyin": "Zhège xuéqī wǒ hěn máng.",
+      "example_vi": "Học kỳ này tôi rất bận.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w025",
+        "bai09_w026",
+        "bai09_w027"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 18,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w025",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "纸箱",
+      "pinyin": "zhǐxiāng",
+      "word_type": "名",
+      "meaning_vi": "thùng giấy",
+      "meaning_en": "carton",
+      "example_zh": "书都装在纸箱里。",
+      "example_pinyin": "Shū dōu zhuāng zài zhǐxiāng lǐ.",
+      "example_vi": "Sách đều được đựng trong thùng giấy.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w024",
+        "bai09_w026",
+        "bai09_w027"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 21,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w026",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "纸",
+      "pinyin": "zhǐ",
+      "word_type": "名",
+      "meaning_vi": "giấy",
+      "meaning_en": "paper",
+      "example_zh": "请给我一张纸。",
+      "example_pinyin": "Qǐng gěi wǒ yī zhāng zhǐ.",
+      "example_vi": "Xin đưa tôi một tờ giấy.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w025",
+        "bai09_w027",
+        "bai09_w024"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 21,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w027",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "饭馆",
+      "pinyin": "fànguǎn",
+      "word_type": "名",
+      "meaning_vi": "nhà hàng; quán ăn",
+      "meaning_en": "restaurant; eatery",
+      "example_zh": "学校旁边有一家饭馆。",
+      "example_pinyin": "Xué xiào páng biān yǒu yī jiā fànguǎn.",
+      "example_vi": "Bên cạnh trường có một quán ăn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w026",
+        "bai09_w025",
+        "bai09_w024"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 23,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w028",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "盘",
+      "pinyin": "pán",
+      "word_type": "量",
+      "meaning_vi": "đĩa",
+      "meaning_en": "plate",
+      "example_zh": "我们点了一盘菜。",
+      "example_pinyin": "Wǒmen diǎn le yī pán cài.",
+      "example_vi": "Chúng tôi gọi một đĩa thức ăn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w022",
+        "bai09_w037",
+        "bai09_w027"
+      ],
+      "tags": [
+        "tu_vung",
+        "luong_tu"
+      ],
+      "source_line": 15,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w029",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "累",
+      "pinyin": "lèi",
+      "word_type": "形",
+      "meaning_vi": "mệt",
+      "meaning_en": "tired",
+      "example_zh": "走了很久，我很累。",
+      "example_pinyin": "Zǒu le hěn jiǔ, wǒ hěn lèi.",
+      "example_vi": "Đi rất lâu nên tôi rất mệt.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w030",
+        "bai09_w023",
+        "bai09_w007"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 30,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w030",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "困",
+      "pinyin": "kùn",
+      "word_type": "形",
+      "meaning_vi": "buồn ngủ; kiệt sức",
+      "meaning_en": "sleepy; exhausted",
+      "example_zh": "吃完饭以后我很困。",
+      "example_pinyin": "Chī wán fàn yǐ hòu wǒ hěn kùn.",
+      "example_vi": "Ăn xong tôi rất buồn ngủ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w029",
+        "bai09_w023",
+        "bai09_w007"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 30,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w031",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "电梯",
+      "pinyin": "diàntī",
+      "word_type": "名",
+      "meaning_vi": "thang máy",
+      "meaning_en": "lift; elevator",
+      "example_zh": "我们坐电梯上楼。",
+      "example_pinyin": "Wǒmen zuò diàntī shàng lóu.",
+      "example_vi": "Chúng tôi đi thang máy lên tầng.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w034",
+        "bai09_w027",
+        "bai09_w026"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 234,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w032",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "维修",
+      "pinyin": "wéixiū",
+      "word_type": "动",
+      "meaning_vi": "bảo trì; sửa chữa",
+      "meaning_en": "to maintain and repair",
+      "example_zh": "电梯正在维修。",
+      "example_pinyin": "Diàntī zhèng zài wéixiū.",
+      "example_vi": "Thang máy đang được bảo trì.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w033",
+        "bai09_w036",
+        "bai09_w041"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 235,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w033",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "修",
+      "pinyin": "xiū",
+      "word_type": "动",
+      "meaning_vi": "sửa",
+      "meaning_en": "to repair",
+      "example_zh": "师傅正在修电梯。",
+      "example_pinyin": "Shī fù zhèng zài xiū diàntī.",
+      "example_vi": "Bác thợ đang sửa thang máy.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w032",
+        "bai09_w036",
+        "bai09_w041"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 235,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w034",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "楼梯",
+      "pinyin": "lóutī",
+      "word_type": "名",
+      "meaning_vi": "cầu thang",
+      "meaning_en": "stairs; stairway",
+      "example_zh": "他从楼梯走下来。",
+      "example_pinyin": "Tā cóng lóutī zǒu xiàlái.",
+      "example_vi": "Anh ấy đi xuống bằng cầu thang.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w031",
+        "bai09_w038",
+        "bai09_w027"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 259,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai09_w035",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "只好",
+      "pinyin": "zhǐhǎo",
+      "word_type": "副",
+      "meaning_vi": "đành phải",
+      "meaning_en": "have to; cannot but",
+      "example_zh": "电梯坏了，只好走楼梯。",
+      "example_pinyin": "Diàntī huài le, zhǐhǎo zǒu lóutī.",
+      "example_vi": "Thang máy hỏng nên đành đi cầu thang.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w039",
+        "bai09_w040",
+        "bai09_w034"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 33,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w036",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "提",
+      "pinyin": "tí",
+      "word_type": "动",
+      "meaning_vi": "xách; nhấc",
+      "meaning_en": "to carry in one's hand",
+      "example_zh": "他手里提着一个纸箱。",
+      "example_pinyin": "Tā shǒu lǐ tí zhe yígè zhǐxiāng.",
+      "example_vi": "Anh ấy đang xách một thùng giấy.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w033",
+        "bai09_w032",
+        "bai09_w041"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 33,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w037",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "步",
+      "pinyin": "bù",
+      "word_type": "量",
+      "meaning_vi": "bước",
+      "meaning_en": "step",
+      "example_zh": "他往前走了几步。",
+      "example_pinyin": "Tā wǎng qián zǒu le jǐ bù.",
+      "example_vi": "Anh ấy đi về phía trước vài bước.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w028",
+        "bai09_w022",
+        "bai09_w036"
+      ],
+      "tags": [
+        "tu_vung",
+        "luong_tu"
+      ],
+      "source_line": 33,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w038",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "钥匙",
+      "pinyin": "yàoshi",
+      "word_type": "名",
+      "meaning_vi": "chìa khóa",
+      "meaning_en": "key",
+      "example_zh": "我忘了带钥匙。",
+      "example_pinyin": "Wǒ wàng le dài yàoshi.",
+      "example_vi": "Tôi quên mang chìa khóa.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w034",
+        "bai09_w031",
+        "bai09_w027"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 35,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w039",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "却",
+      "pinyin": "què",
+      "word_type": "副",
+      "meaning_vi": "nhưng; lại",
+      "meaning_en": "but; yet",
+      "example_zh": "我很累，却睡不着。",
+      "example_pinyin": "Wǒ hěn lèi, què shuì bù zháo.",
+      "example_vi": "Tôi rất mệt nhưng lại không ngủ được.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w040",
+        "bai09_w035",
+        "bai09_w038"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 34,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w040",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "忽然",
+      "pinyin": "hūrán",
+      "word_type": "副",
+      "meaning_vi": "bỗng nhiên",
+      "meaning_en": "suddenly; unexpectedly",
+      "example_zh": "天空忽然下起雨来。",
+      "example_pinyin": "Tiān kōng hūrán xià qǐ yǔ lái.",
+      "example_vi": "Trời bỗng đổ mưa.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w039",
+        "bai09_w035",
+        "bai09_w041"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 35,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w041",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "想起来",
+      "pinyin": "xiǎngqǐlái",
+      "word_type": "动",
+      "meaning_vi": "nhớ ra",
+      "meaning_en": "to remember",
+      "example_zh": "我忽然想起来钥匙没拔。",
+      "example_pinyin": "Wǒ hūrán xiǎngqǐlái yàoshi méi bá.",
+      "example_vi": "Tôi bỗng nhớ ra chìa khóa chưa rút.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w042",
+        "bai09_w043",
+        "bai09_w044"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 386,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w042",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "起来",
+      "pinyin": "qǐlái",
+      "word_type": "动",
+      "meaning_vi": "đứng dậy; bắt đầu; hoàn thành hướng lên",
+      "meaning_en": "directional/result complement",
+      "example_zh": "我忽然想起来了。",
+      "example_pinyin": "Wǒ hūrán xiǎngqǐlái le.",
+      "example_vi": "Tôi bỗng nhớ ra rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w041",
+        "bai09_w043",
+        "bai09_w044"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 386,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w043",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "插",
+      "pinyin": "chā",
+      "word_type": "动",
+      "meaning_vi": "cắm; chèn",
+      "meaning_en": "to stick in; to insert",
+      "example_zh": "钥匙还插在车上。",
+      "example_pinyin": "Yàoshi hái chā zài chē shàng.",
+      "example_vi": "Chìa khóa vẫn đang cắm trên xe.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w042",
+        "bai09_w044",
+        "bai09_w041"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 389,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai09_w044",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "拔",
+      "pinyin": "bá",
+      "word_type": "动",
+      "meaning_vi": "rút ra",
+      "meaning_en": "to pull out",
+      "example_zh": "我忘了把钥匙拔下来。",
+      "example_pinyin": "Wǒ wàng le bǎ yàoshi bá xiàlái.",
+      "example_vi": "Tôi quên rút chìa khóa ra.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w043",
+        "bai09_w042",
+        "bai09_w041"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_w045",
+      "bai": 9,
+      "type": "word",
+      "word_zh": "哭笑不得",
+      "pinyin": "kūxiàobùdé",
+      "word_type": "惯用语",
+      "meaning_vi": "dở khóc dở cười",
+      "meaning_en": "not know whether to laugh or cry",
+      "example_zh": "看到钥匙，我哭笑不得。",
+      "example_pinyin": "Kàn dào yàoshi, wǒ kūxiàobùdé.",
+      "example_vi": "Nhìn thấy chìa khóa, tôi dở khóc dở cười.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai09_w044",
+        "bai09_w043",
+        "bai09_w042"
+      ],
+      "tags": [
+        "tu_vung"
+      ],
+      "source_line": 393,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai09_g001",
+      "bai": 9,
+      "type": "grammar",
+      "grammar_title_zh": "复合趋向补语",
+      "grammar_title_vi": "Bổ ngữ xu hướng kép",
+      "structure": "动词 + 上/下/进/出/回/过/起 + 来/去",
+      "explanation_vi": "Kết hợp động từ xu hướng với 来 hoặc 去 sau một động từ khác để biểu thị hướng vận động.",
+      "explanation_zh": "趋向动词“上、下、进、出、回、过、起”加“来/去”放在另一动词后作复合趋向补语。",
+      "examples": [
+        {
+          "zh": "她走出学校去了。",
+          "pinyin": "Tā zǒu chū xué xiào qù le.",
+          "vi": "Cô ấy đi ra khỏi trường.",
+          "source": "document"
+        },
+        {
+          "zh": "我买回来一本书。",
+          "pinyin": "Wǒ mǎi huí lái yī běn shū.",
+          "vi": "Tôi mua về một cuốn sách.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai09_w023",
+        "bai09_g002",
+        "bai09_g003"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 443,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_g002",
+      "bai": 9,
+      "type": "grammar",
+      "grammar_title_zh": "复合趋向补语和宾语",
+      "grammar_title_vi": "Vị trí tân ngữ với bổ ngữ xu hướng kép",
+      "structure": "动词 + 趋向补语 + 宾语",
+      "explanation_vi": "Tân ngữ chỉ nơi chốn bắt buộc đứng trước 来/去; tân ngữ chỉ sự vật có thể đứng trước hoặc sau 来/去.",
+      "explanation_zh": "处所宾语一定放在“来/去”之前；事物宾语可放在“来/去”前或后。",
+      "examples": [
+        {
+          "zh": "我看见他走进图书馆去了。",
+          "pinyin": "Wǒ kàn jiàn tā zǒu jìn túshūguǎn qù le.",
+          "vi": "Tôi nhìn thấy anh ấy đi vào thư viện.",
+          "source": "document"
+        },
+        {
+          "zh": "他从国外给我带回来一件礼物。",
+          "pinyin": "Tā cóng guó wài gěi wǒ dài huí lái yī jiàn lǐ wù.",
+          "vi": "Anh ấy mang từ nước ngoài về cho tôi một món quà.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai09_w002",
+        "bai09_g001",
+        "bai09_g003"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 470,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_g003",
+      "bai": 9,
+      "type": "grammar",
+      "grammar_title_zh": "复合趋向补语中的“了”",
+      "grammar_title_vi": "Vị trí 了 với bổ ngữ xu hướng kép",
+      "structure": "动词 + 了 + 趋向补语 / 动词 + 趋向补语 + 了",
+      "explanation_vi": "Không có tân ngữ, 了 có thể đứng sau động từ hoặc cuối câu. Có tân ngữ nơi chốn, 了 ở cuối câu; có tân ngữ sự vật, 了 đứng sau bổ ngữ và trước tân ngữ.",
+      "explanation_zh": "无宾语时“了”可在动词后或句末；有处所宾语时在句末；有事物宾语时在补语后、宾语前。",
+      "examples": [
+        {
+          "zh": "同学们都跑出去了。",
+          "pinyin": "Tóngxué men dōu pǎo chū qù le.",
+          "vi": "Các bạn học sinh đều chạy ra ngoài rồi.",
+          "source": "document"
+        },
+        {
+          "zh": "我给你买回来了一件羽绒服。",
+          "pinyin": "Wǒ gěi nǐ mǎi huí lái le yī jiàn yǔ róng fú.",
+          "vi": "Tôi đã mua về cho bạn một chiếc áo lông vũ.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai09_g001",
+        "bai09_g002"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 515,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_p001",
+      "bai": 9,
+      "type": "phrase",
+      "phrase_zh": "哭笑不得",
+      "pinyin": "Kūxiàobùdé",
+      "meaning_vi": "dở khóc dở cười",
+      "meaning_en": "not know whether to laugh or cry",
+      "usage_note": "Dùng khi sự việc vừa buồn cười vừa gây khó chịu hoặc bất lực.",
+      "related_words": [
+        "bai09_w045",
+        "bai09_w044",
+        "bai09_w001"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai09_p002",
+      "bai": 9,
+      "type": "phrase",
+      "phrase_zh": "想起来",
+      "pinyin": "Xiǎngqǐlái",
+      "meaning_vi": "nhớ ra",
+      "meaning_en": "to remember",
+      "usage_note": "Biểu thị một thông tin chợt trở lại trong trí nhớ.",
+      "related_words": [
+        "bai09_w041",
+        "bai09_w042",
+        "bai09_w038"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 35,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

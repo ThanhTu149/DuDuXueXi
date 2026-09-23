@@ -1,0 +1,1694 @@
+{
+  "metadata": {
+    "bai": 1,
+    "title_zh": "我比你更喜欢音乐",
+    "title_vi": "Tôi thích âm nhạc hơn bạn",
+    "source_glossary": "data/glossary_bai01.json",
+    "source_text": "data/_extracted/bai/bai01.txt",
+    "total_questions": 30,
+    "level_distribution": {
+      "recall": 11,
+      "understand": 8,
+      "apply": 9,
+      "synthesize": 2
+    },
+    "type_distribution": {
+      "mcq_meaning_zh_to_vi": 5,
+      "mcq_meaning_vi_to_zh": 2,
+      "mcq_pinyin": 2,
+      "mcq_word_type": 2,
+      "mcq_fill_blank": 4,
+      "mcq_grammar": 2,
+      "mcq_error_detection": 2,
+      "reading_comprehension": 2,
+      "translation_vi_to_zh": 4,
+      "translation_zh_to_vi": 2,
+      "typing_zh_from_pinyin": 2,
+      "sentence_reorder": 1
+    },
+    "group_distribution": {
+      "mcq": 21,
+      "typing": 9
+    },
+    "generated_at": "2026-09-19T22:02:28Z",
+    "version": "2.0"
+  },
+  "questions": [
+    {
+      "id": "quiz_bai01_001",
+      "bai": 1,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“变化” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "thay đổi; sự thay đổi"
+        },
+        {
+          "id": "B",
+          "text": "tăng thêm"
+        },
+        {
+          "id": "C",
+          "text": "kiến trúc"
+        },
+        {
+          "id": "D",
+          "text": "quá khứ"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "变化 vừa có thể là động từ “thay đổi”, vừa có thể là danh từ “sự thay đổi”.",
+        "why_others_wrong": {
+          "B": "增加 nhấn mạnh tăng thêm.",
+          "C": "建筑 là xây dựng hoặc kiến trúc.",
+          "D": "过去 là quá khứ hoặc trước đây."
+        },
+        "keyword_tip": "Liên hệ câu 这几年变化很大。",
+        "concept": "Nghĩa và từ loại của 变化"
+      },
+      "related_glossary": [
+        "bai01_w001",
+        "bai01_w008",
+        "bai01_w009",
+        "bai01_w010"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 80,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_002",
+      "bai": 1,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“暖气” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "thời tiết"
+        },
+        {
+          "id": "B",
+          "text": "hệ thống sưởi"
+        },
+        {
+          "id": "C",
+          "text": "dự báo"
+        },
+        {
+          "id": "D",
+          "text": "nhiệt độ không khí"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "暖气 là hệ thống hoặc thiết bị sưởi trong nhà.",
+        "why_others_wrong": {
+          "A": "天气 là thời tiết.",
+          "C": "预报 là dự báo.",
+          "D": "气温 là nhiệt độ không khí."
+        },
+        "keyword_tip": "暖 là ấm; 暖气 cung cấp hơi ấm trong nhà.",
+        "concept": "Từ vựng thời tiết và nhà ở"
+      },
+      "related_glossary": [
+        "bai01_w017",
+        "bai01_w018",
+        "bai01_w019",
+        "bai01_w020"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 125,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_003",
+      "bai": 1,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“旅馆” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "gia đình"
+        },
+        {
+          "id": "B",
+          "text": "căn phòng"
+        },
+        {
+          "id": "C",
+          "text": "nhà nghỉ; khách sạn"
+        },
+        {
+          "id": "D",
+          "text": "nhà hàng"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "旅馆 là nơi cung cấp phòng nghỉ cho khách.",
+        "why_others_wrong": {
+          "A": "家庭 là gia đình.",
+          "B": "屋子 là căn phòng.",
+          "D": "饭店 có thể là nhà hàng hoặc khách sạn."
+        },
+        "keyword_tip": "旅 là đi xa, 馆 là cơ sở phục vụ công cộng.",
+        "concept": "Từ vựng nơi ở và dịch vụ"
+      },
+      "related_glossary": [
+        "bai01_w023",
+        "bai01_w025",
+        "bai01_w026",
+        "bai01_w027"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 290,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_004",
+      "bai": 1,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“名曲” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "dân ca"
+        },
+        {
+          "id": "B",
+          "text": "bài hát"
+        },
+        {
+          "id": "C",
+          "text": "bản nhạc nổi tiếng"
+        },
+        {
+          "id": "D",
+          "text": "thế giới"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "名曲 là một ca khúc hoặc nhạc phẩm nổi tiếng.",
+        "why_others_wrong": {
+          "A": "民歌 là dân ca.",
+          "B": "歌曲 là bài hát nói chung.",
+          "D": "世界 là thế giới."
+        },
+        "keyword_tip": "名 nghĩa là nổi tiếng; 曲 là khúc nhạc.",
+        "concept": "Từ vựng âm nhạc"
+      },
+      "related_glossary": [
+        "bai01_w033",
+        "bai01_w034",
+        "bai01_w035",
+        "bai01_w036",
+        "bai01_w037"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 298,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_005",
+      "bai": 1,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“遥远” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "cổ điển"
+        },
+        {
+          "id": "B",
+          "text": "hiện đại"
+        },
+        {
+          "id": "C",
+          "text": "trẻ"
+        },
+        {
+          "id": "D",
+          "text": "xa xôi; xa thẳm"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "遥远 diễn tả khoảng cách rất xa.",
+        "why_others_wrong": {
+          "A": "古典 là cổ điển.",
+          "B": "现代 là hiện đại.",
+          "C": "年轻 là trẻ."
+        },
+        "keyword_tip": "Ghi nhớ câu hát 在那遥远的地方。",
+        "concept": "Tính từ miêu tả khoảng cách"
+      },
+      "related_glossary": [
+        "bai01_w031",
+        "bai01_w032",
+        "bai01_w038",
+        "bai01_w040",
+        "bai01_w041"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 72,
+        "context": "Bài khóa về âm nhạc"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_006",
+      "bai": 1,
+      "level": "recall",
+      "type": "mcq_meaning_vi_to_zh",
+      "question_vi": "Từ nào có nghĩa là “dân số”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "城市"
+        },
+        {
+          "id": "B",
+          "text": "人口"
+        },
+        {
+          "id": "C",
+          "text": "建筑"
+        },
+        {
+          "id": "D",
+          "text": "天气"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "人口 là dân số, tức số người trong một khu vực.",
+        "why_others_wrong": {
+          "A": "城市 là thành phố.",
+          "C": "建筑 là kiến trúc hoặc xây dựng.",
+          "D": "天气 là thời tiết."
+        },
+        "keyword_tip": "人 là người, 口 được dùng khi đếm nhân khẩu.",
+        "concept": "Từ vựng đô thị"
+      },
+      "related_glossary": [
+        "bai01_w005",
+        "bai01_w007",
+        "bai01_w009",
+        "bai01_w018"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 107,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_007",
+      "bai": 1,
+      "level": "recall",
+      "type": "mcq_meaning_vi_to_zh",
+      "question_vi": "Từ nào có nghĩa là “lời bài hát”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "歌曲"
+        },
+        {
+          "id": "B",
+          "text": "民歌"
+        },
+        {
+          "id": "C",
+          "text": "歌词"
+        },
+        {
+          "id": "D",
+          "text": "迷"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "歌词 là phần lời được hát trong một bài hát.",
+        "why_others_wrong": {
+          "A": "歌曲 là bài hát.",
+          "B": "民歌 là dân ca.",
+          "D": "迷 là người mê một lĩnh vực."
+        },
+        "keyword_tip": "歌 là hát, 词 là lời hoặc từ ngữ.",
+        "concept": "Từ vựng âm nhạc"
+      },
+      "related_glossary": [
+        "bai01_w028",
+        "bai01_w035",
+        "bai01_w037",
+        "bai01_w039"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 304,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_008",
+      "bai": 1,
+      "level": "recall",
+      "type": "mcq_pinyin",
+      "question_vi": "Pinyin đúng của “暑假” là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "shǔjià"
+        },
+        {
+          "id": "B",
+          "text": "shūjiǎ"
+        },
+        {
+          "id": "C",
+          "text": "shùjiā"
+        },
+        {
+          "id": "D",
+          "text": "shǔjiā"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "暑假 đọc là shǔjià, nghĩa là kỳ nghỉ hè.",
+        "why_others_wrong": {
+          "B": "Sai thanh ở cả hai âm tiết.",
+          "C": "暑 không đọc thanh 4 và 假 không đọc jiā trong nghĩa kỳ nghỉ.",
+          "D": "假 trong kỳ nghỉ đọc jià."
+        },
+        "keyword_tip": "暑 thanh 3, 假 thanh 4.",
+        "concept": "Pinyin có dấu thanh"
+      },
+      "related_glossary": [
+        "bai01_w002",
+        "bai01_w003"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 102,
+        "context": "Mục 生词; OCR đã phục hồi 暑假"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_009",
+      "bai": 1,
+      "level": "recall",
+      "type": "mcq_pinyin",
+      "question_vi": "Pinyin đúng của “也许” là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "yěxǔ"
+        },
+        {
+          "id": "B",
+          "text": "yéxù"
+        },
+        {
+          "id": "C",
+          "text": "yěxù"
+        },
+        {
+          "id": "D",
+          "text": "yèxǔ"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "也许 đọc là yěxǔ và có nghĩa là có lẽ.",
+        "why_others_wrong": {
+          "B": "Cả hai thanh đều sai.",
+          "C": "许 phải mang thanh 3.",
+          "D": "也 phải mang thanh 3."
+        },
+        "keyword_tip": "Cả 也 và 许 đều có thanh 3 trong dạng từ điển.",
+        "concept": "Pinyin của phó từ"
+      },
+      "related_glossary": [
+        "bai01_w029",
+        "bai01_w030"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 294,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_010",
+      "bai": 1,
+      "level": "understand",
+      "type": "mcq_word_type",
+      "question_vi": "Trong câu “上海比北京大”, từ “比” thuộc từ loại nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "名 (danh từ)"
+        },
+        {
+          "id": "B",
+          "text": "动 (động từ)"
+        },
+        {
+          "id": "C",
+          "text": "介 (giới từ)"
+        },
+        {
+          "id": "D",
+          "text": "副 (phó từ)"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "比 đứng trước đối tượng so sánh 北京 nên là giới từ.",
+        "why_others_wrong": {
+          "A": "比 không gọi tên sự vật.",
+          "B": "Trong cấu trúc này 比 không làm vị ngữ.",
+          "D": "比 không bổ nghĩa trực tiếp cho tính từ như phó từ."
+        },
+        "keyword_tip": "Nhận diện mẫu A + 比 + B + tính từ.",
+        "concept": "Từ loại của 比"
+      },
+      "related_glossary": [
+        "bai01_w004"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 460,
+        "context": "Ngữ pháp câu 比"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_011",
+      "bai": 1,
+      "level": "understand",
+      "type": "mcq_word_type",
+      "question_vi": "Trong “人口最多的城市”, từ “最” thuộc từ loại nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "副 (phó từ)"
+        },
+        {
+          "id": "B",
+          "text": "形 (tính từ)"
+        },
+        {
+          "id": "C",
+          "text": "量 (lượng từ)"
+        },
+        {
+          "id": "D",
+          "text": "连 (liên từ)"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "最 là phó từ chỉ mức độ cao nhất và bổ nghĩa cho 多.",
+        "why_others_wrong": {
+          "B": "最 không tự miêu tả tính chất.",
+          "C": "最 không dùng để đếm.",
+          "D": "最 không nối hai vế câu."
+        },
+        "keyword_tip": "So sánh 最 với 更 và 光: cả ba có thể làm phó từ.",
+        "concept": "Phó từ chỉ mức độ"
+      },
+      "related_glossary": [
+        "bai01_w006",
+        "bai01_w012",
+        "bai01_w029"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 108,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_012",
+      "bai": 1,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ đúng: 上海的冬天是不是___北京暖和一点儿？",
+      "sentence_zh": "上海的冬天是不是___北京暖和一点儿？",
+      "options": [
+        {
+          "id": "A",
+          "text": "最"
+        },
+        {
+          "id": "B",
+          "text": "比"
+        },
+        {
+          "id": "C",
+          "text": "更"
+        },
+        {
+          "id": "D",
+          "text": "还"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "比 đặt trước 北京 để tạo quan hệ so sánh với Thượng Hải.",
+        "why_others_wrong": {
+          "A": "最 cần một phạm vi so sánh và không đứng trước 北京.",
+          "C": "更 bổ nghĩa cho tính từ, không dẫn đối tượng so sánh.",
+          "D": "还 là phó từ, không thay được giới từ 比."
+        },
+        "keyword_tip": "Cấu trúc: A + 是不是 + 比 + B + 形容词 + 一点儿.",
+        "concept": "So sánh chênh lệch nhỏ"
+      },
+      "related_glossary": [
+        "bai01_w003",
+        "bai01_w004",
+        "bai01_w006",
+        "bai01_w012",
+        "bai01_w014",
+        "bai01_w015",
+        "bai01_g002"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 33,
+        "context": "Bài khóa về mùa đông"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_013",
+      "bai": 1,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ đúng: 上海比过去变得___漂亮了。",
+      "sentence_zh": "上海比过去变得___漂亮了。",
+      "options": [
+        {
+          "id": "A",
+          "text": "更"
+        },
+        {
+          "id": "B",
+          "text": "最"
+        },
+        {
+          "id": "C",
+          "text": "光"
+        },
+        {
+          "id": "D",
+          "text": "可是"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "更 đứng trước 漂亮 để chỉ mức độ đẹp hơn trước.",
+        "why_others_wrong": {
+          "B": "最 biểu thị mức cao nhất, không phù hợp với so sánh hai thời điểm này.",
+          "C": "光 nghĩa là chỉ hoặc riêng.",
+          "D": "可是 là liên từ nhưng."
+        },
+        "keyword_tip": "更 + tính từ = càng hoặc hơn nữa.",
+        "concept": "Biểu đạt sự thay đổi về mức độ"
+      },
+      "related_glossary": [
+        "bai01_w010",
+        "bai01_w011",
+        "bai01_w012",
+        "bai01_w013",
+        "bai01_w016"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 28,
+        "context": "Bài khóa về sự thay đổi của Thượng Hải"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_014",
+      "bai": 1,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ đúng: 天气预报说上海的___比北京高好几度。",
+      "sentence_zh": "天气预报说上海的___比北京高好几度。",
+      "options": [
+        {
+          "id": "A",
+          "text": "天气"
+        },
+        {
+          "id": "B",
+          "text": "气温"
+        },
+        {
+          "id": "C",
+          "text": "暖气"
+        },
+        {
+          "id": "D",
+          "text": "屋子"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "气温 là đại lượng có thể cao hơn vài độ.",
+        "why_others_wrong": {
+          "A": "天气 là khái niệm chung, không trực tiếp đi với 高好几度.",
+          "C": "暖气 là hệ thống sưởi.",
+          "D": "屋子 là căn phòng."
+        },
+        "keyword_tip": "Đơn vị 度 thường đo 气温.",
+        "concept": "Bổ ngữ số lượng trong so sánh"
+      },
+      "related_glossary": [
+        "bai01_w017",
+        "bai01_w018",
+        "bai01_w019",
+        "bai01_w020",
+        "bai01_w021",
+        "bai01_w022",
+        "bai01_w023",
+        "bai01_g005"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 42,
+        "context": "Bài khóa và câu có 好几度"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_015",
+      "bai": 1,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ đúng: 我是个音乐___，光CD就有好几百张呢。",
+      "sentence_zh": "我是个音乐___，光CD就有好几百张呢。",
+      "options": [
+        {
+          "id": "A",
+          "text": "歌曲"
+        },
+        {
+          "id": "B",
+          "text": "歌词"
+        },
+        {
+          "id": "C",
+          "text": "民歌"
+        },
+        {
+          "id": "D",
+          "text": "迷"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "音乐迷 là người mê âm nhạc.",
+        "why_others_wrong": {
+          "A": "音乐歌曲 không chỉ người.",
+          "B": "歌词 là lời bài hát.",
+          "C": "民歌 là dân ca."
+        },
+        "keyword_tip": "Danh từ lĩnh vực + 迷 = người say mê lĩnh vực đó.",
+        "concept": "Cách tạo danh từ chỉ người hâm mộ"
+      },
+      "related_glossary": [
+        "bai01_w028",
+        "bai01_w029",
+        "bai01_w035",
+        "bai01_w037",
+        "bai01_w039"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 56,
+        "context": "Bài khóa về sở thích âm nhạc"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_016",
+      "bai": 1,
+      "level": "understand",
+      "type": "mcq_grammar",
+      "question_vi": "Câu so sánh nào đúng ngữ pháp?",
+      "options": [
+        {
+          "id": "A",
+          "text": "飞机比汽车很快。"
+        },
+        {
+          "id": "B",
+          "text": "飞机汽车比快。"
+        },
+        {
+          "id": "C",
+          "text": "飞机比汽车快。"
+        },
+        {
+          "id": "D",
+          "text": "飞机很比汽车快。"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "飞机比汽车快 đúng trật tự A + 比 + B + tính từ và không dùng 很.",
+        "why_others_wrong": {
+          "A": "Không dùng 很 ngay trước tính từ trong câu 比.",
+          "B": "比 phải đứng trước đối tượng B.",
+          "D": "很比 không phải một cụm hợp lệ."
+        },
+        "keyword_tip": "Trong câu 比, tránh 很、真、非常 trước tính từ.",
+        "concept": "Câu so sánh dùng 比"
+      },
+      "related_glossary": [
+        "bai01_g001",
+        "bai01_w004",
+        "bai01_w021"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 465,
+        "context": "Ví dụ ngữ pháp 比"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_017",
+      "bai": 1,
+      "level": "understand",
+      "type": "mcq_grammar",
+      "question_vi": "Cấu trúc nào diễn đạt “A không bằng B đến mức đó”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "A + 比 + B + 很 + 形容词"
+        },
+        {
+          "id": "B",
+          "text": "A + 没有 + B + 那么 + 形容词"
+        },
+        {
+          "id": "C",
+          "text": "A + 最 + B + 形容词"
+        },
+        {
+          "id": "D",
+          "text": "A + 更 + B + 形容词"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "A + 没有 + B + 那么 + tính từ biểu thị A không đạt mức của B.",
+        "why_others_wrong": {
+          "A": "很 không đứng như vậy trong câu 比.",
+          "C": "最 không dùng để nối A và B.",
+          "D": "更 không dẫn đối tượng so sánh."
+        },
+        "keyword_tip": "Dạng phủ định thường dùng 没有; 那么 chỉ mức độ của B.",
+        "concept": "So sánh không bằng"
+      },
+      "related_glossary": [
+        "bai01_g004",
+        "bai01_w015",
+        "bai01_w024"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 546,
+        "context": "Ngữ pháp 有/没有...这么/那么"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_018",
+      "bai": 1,
+      "level": "apply",
+      "type": "mcq_error_detection",
+      "question_vi": "Câu nào mắc lỗi dùng phó từ mức độ trong câu 比?",
+      "options": [
+        {
+          "id": "A",
+          "text": "上海比北京很暖和。"
+        },
+        {
+          "id": "B",
+          "text": "上海比北京暖和。"
+        },
+        {
+          "id": "C",
+          "text": "上海比北京暖和一点儿。"
+        },
+        {
+          "id": "D",
+          "text": "上海比北京暖和得多。"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "上海比北京很暖和 sai vì 很 không đặt trước tính từ trong câu 比.",
+        "why_others_wrong": {
+          "B": "Đây là câu 比 cơ bản đúng.",
+          "C": "一点儿 đứng sau tính từ để chỉ chênh lệch nhỏ.",
+          "D": "得多 đứng sau tính từ để chỉ chênh lệch lớn."
+        },
+        "keyword_tip": "Hãy tìm 很 ngay sau đối tượng B.",
+        "concept": "Lỗi thường gặp trong câu 比"
+      },
+      "related_glossary": [
+        "bai01_g001",
+        "bai01_w004",
+        "bai01_w014",
+        "bai01_w015"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 488,
+        "context": "Ngữ pháp nêu câu sai với 很"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_019",
+      "bai": 1,
+      "level": "apply",
+      "type": "mcq_error_detection",
+      "question_vi": "Câu nào phủ định phép so sánh sai trong ngữ cảnh trung tính?",
+      "options": [
+        {
+          "id": "A",
+          "text": "弟弟没有我高。"
+        },
+        {
+          "id": "B",
+          "text": "火车没有飞机快。"
+        },
+        {
+          "id": "C",
+          "text": "弟弟比我不高。"
+        },
+        {
+          "id": "D",
+          "text": "上海没有北京大。"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "弟弟比我不高 sai trong lời kể trung tính; nên nói 弟弟没有我高.",
+        "why_others_wrong": {
+          "A": "Dùng 没有 để nói em trai không cao bằng tôi là đúng.",
+          "B": "Đây là mẫu phủ định so sánh đúng.",
+          "D": "Câu này dùng 没有 đúng để phủ định so sánh."
+        },
+        "keyword_tip": "Phủ định trung tính: A + 没有 + B + tính từ.",
+        "concept": "Phủ định câu so sánh"
+      },
+      "related_glossary": [
+        "bai01_g003",
+        "bai01_w004",
+        "bai01_w021"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 528,
+        "context": "Ngữ pháp phủ định câu 比"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_020",
+      "bai": 1,
+      "level": "understand",
+      "type": "reading_comprehension",
+      "question_vi": "Theo đoạn văn, nhận định nào đúng về Thượng Hải?",
+      "passage_zh": "上海没有北京大，不过人口比北京多。上海的气温比北京高好几度，不过屋子里没有暖气。",
+      "passage_pinyin": "Shànghǎi méiyǒu Běijīng dà, búguò rénkǒu bǐ Běijīng duō. Shànghǎi de qìwēn bǐ Běijīng gāo hǎo jǐ dù, búguò wūzi lǐ méiyǒu nuǎnqì.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Thượng Hải đông dân hơn Bắc Kinh."
+        },
+        {
+          "id": "B",
+          "text": "Thượng Hải lớn hơn Bắc Kinh."
+        },
+        {
+          "id": "C",
+          "text": "Mọi gia đình ở Thượng Hải đều có sưởi."
+        },
+        {
+          "id": "D",
+          "text": "Nhiệt độ Thượng Hải thấp hơn Bắc Kinh."
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "Đoạn văn nói rõ 人口比北京多: dân số Thượng Hải nhiều hơn Bắc Kinh.",
+        "why_others_wrong": {
+          "B": "Đoạn văn nói 上海没有北京大.",
+          "C": "Gia đình thông thường không có sưởi.",
+          "D": "气温比北京高好几度, không phải thấp hơn."
+        },
+        "keyword_tip": "Đối chiếu 大, 人口多 và 气温高.",
+        "concept": "Đọc hiểu thông tin so sánh"
+      },
+      "related_glossary": [
+        "bai01_w005",
+        "bai01_w007",
+        "bai01_w016",
+        "bai01_w018",
+        "bai01_w020",
+        "bai01_w024",
+        "bai01_g003"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 24,
+        "context": "Bài khóa về Thượng Hải và Bắc Kinh"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_021",
+      "bai": 1,
+      "level": "understand",
+      "type": "reading_comprehension",
+      "question_vi": "Vì sao thầy Vương nói “怎么说呢” khi được hỏi về nhạc thịnh hành?",
+      "passage_zh": "你喜欢流行歌曲吗？怎么说呢？可能没有你们年轻人那么喜欢。我还是觉得民歌的歌词好。",
+      "passage_pinyin": "Nǐ xǐhuan liúxíng gēqǔ ma? Zěnme shuō ne? Kěnéng méiyǒu nǐmen niánqīngrén nàme xǐhuan. Wǒ háishi juéde míngē de gēcí hǎo.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Vì ông không hiểu câu hỏi."
+        },
+        {
+          "id": "B",
+          "text": "Vì ông khó diễn đạt và không thích bằng người trẻ."
+        },
+        {
+          "id": "C",
+          "text": "Vì ông chỉ nghe nhạc hiện đại."
+        },
+        {
+          "id": "D",
+          "text": "Vì ông không biết dân ca."
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "怎么说呢 cho thấy ông cân nhắc cách nói; sau đó ông nói mình có lẽ không thích bằng người trẻ.",
+        "why_others_wrong": {
+          "A": "Ông hiểu câu hỏi và trả lời ngay sau đó.",
+          "C": "Ông thích nhạc cổ điển và dân ca.",
+          "D": "Ông nói rõ mình thích nghe dân ca."
+        },
+        "keyword_tip": "Đọc câu sau 怎么说呢 để suy ra thái độ người nói.",
+        "concept": "Đọc hiểu hàm ý và câu cảm thán"
+      },
+      "related_glossary": [
+        "bai01_p001",
+        "bai01_w030",
+        "bai01_w031",
+        "bai01_w032",
+        "bai01_w033",
+        "bai01_w034",
+        "bai01_w035",
+        "bai01_w036",
+        "bai01_w038",
+        "bai01_w039",
+        "bai01_w040",
+        "bai01_g006"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 54,
+        "context": "Bài khóa về sở thích âm nhạc"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_022",
+      "bai": 1,
+      "level": "apply",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Thượng Hải đã trở nên đẹp hơn trước.",
+      "target_language": "zh",
+      "sample_answer": "上海比过去变得更漂亮了。",
+      "sample_answer_pinyin": "Shànghǎi bǐ guòqù biàn de gèng piàoliang le.",
+      "alternative_answers": [
+        "跟过去比，上海变得更漂亮了。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "上海",
+          "pinyin": "Shànghǎi",
+          "meaning": "Thượng Hải"
+        },
+        {
+          "zh": "过去",
+          "pinyin": "guòqù",
+          "meaning": "trước đây"
+        },
+        {
+          "zh": "变",
+          "pinyin": "biàn",
+          "meaning": "trở nên; thay đổi"
+        },
+        {
+          "zh": "漂亮",
+          "pinyin": "piàoliang",
+          "meaning": "đẹp"
+        }
+      ],
+      "keywords_optional": [
+        {
+          "zh": "比",
+          "pinyin": "bǐ",
+          "meaning": "so với"
+        },
+        {
+          "zh": "更",
+          "pinyin": "gèng",
+          "meaning": "hơn nữa"
+        }
+      ],
+      "hints": [
+        "Dùng 比 để so sánh với 过去.",
+        "变得 + tính từ diễn tả sự thay đổi.",
+        "更 đặt trước 漂亮."
+      ],
+      "explanation": {
+        "why_correct": "Câu dùng 比 để so sánh hiện tại với trước đây và 变得更漂亮 để nêu sự thay đổi.",
+        "common_mistakes": [
+          "Đặt 更 sau 漂亮.",
+          "Bỏ 得 trong cấu trúc 变得 + tính từ."
+        ],
+        "keyword_tip": "Ghép theo thứ tự 上海 → 比过去 → 变得 → 更漂亮.",
+        "concept": "Câu 比 kết hợp 变得"
+      },
+      "related_glossary": [
+        "bai01_w008",
+        "bai01_w010",
+        "bai01_w011",
+        "bai01_w012",
+        "bai01_w013",
+        "bai01_g001"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 28,
+        "context": "Bài khóa về sự thay đổi của Thượng Hải"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_023",
+      "bai": 1,
+      "level": "apply",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Nhiệt độ ở Thượng Hải cao hơn Bắc Kinh mấy độ.",
+      "target_language": "zh",
+      "sample_answer": "上海的气温比北京高好几度。",
+      "sample_answer_pinyin": "Shànghǎi de qìwēn bǐ Běijīng gāo hǎo jǐ dù.",
+      "alternative_answers": [
+        "上海气温比北京高好几度。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "气温",
+          "pinyin": "qìwēn",
+          "meaning": "nhiệt độ không khí"
+        },
+        {
+          "zh": "比",
+          "pinyin": "bǐ",
+          "meaning": "so với"
+        },
+        {
+          "zh": "高",
+          "pinyin": "gāo",
+          "meaning": "cao"
+        },
+        {
+          "zh": "度",
+          "pinyin": "dù",
+          "meaning": "độ"
+        }
+      ],
+      "keywords_optional": [
+        {
+          "zh": "好几",
+          "pinyin": "hǎo jǐ",
+          "meaning": "mấy; vài"
+        }
+      ],
+      "hints": [
+        "Dùng mẫu A + 比 + B + tính từ.",
+        "Cụm số lượng đặt sau 高.",
+        "好几度 nghĩa là mấy độ."
+      ],
+      "explanation": {
+        "why_correct": "高好几度 đặt tính từ trước bổ ngữ số lượng, đúng trật tự của câu so sánh.",
+        "common_mistakes": [
+          "Đặt 好几度 trước 高.",
+          "Bỏ 比 nên mất quan hệ so sánh."
+        ],
+        "keyword_tip": "Khung câu: 上海的气温 + 比北京 + 高好几度.",
+        "concept": "Bổ ngữ số lượng trong câu 比"
+      },
+      "related_glossary": [
+        "bai01_w004",
+        "bai01_w020",
+        "bai01_w021",
+        "bai01_w022",
+        "bai01_g005"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 43,
+        "context": "Bài khóa về chênh lệch nhiệt độ"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_024",
+      "bai": 1,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Mùa đông chỗ chúng tôi không lạnh bằng ở đây.",
+      "target_language": "zh",
+      "sample_answer": "我们那儿冬天没有这儿这么冷。",
+      "sample_answer_pinyin": "Wǒmen nàr dōngtiān méiyǒu zhèr zhème lěng.",
+      "alternative_answers": [
+        "我们那儿冬天没有这儿那么冷。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "我们那儿",
+          "pinyin": "wǒmen nàr",
+          "meaning": "chỗ chúng tôi"
+        },
+        {
+          "zh": "冬天",
+          "pinyin": "dōngtiān",
+          "meaning": "mùa đông"
+        },
+        {
+          "zh": "没有",
+          "pinyin": "méiyǒu",
+          "meaning": "không bằng"
+        },
+        {
+          "zh": "冷",
+          "pinyin": "lěng",
+          "meaning": "lạnh"
+        }
+      ],
+      "keywords_optional": [
+        {
+          "zh": "这么",
+          "pinyin": "zhème",
+          "meaning": "đến mức này"
+        }
+      ],
+      "hints": [
+        "Dùng 没有 để nói không bằng.",
+        "这么 đứng trước tính từ.",
+        "冬天 đặt sau nơi chốn hoặc chủ đề."
+      ],
+      "explanation": {
+        "why_correct": "Mẫu A + 没有 + B + 这么 + tính từ diễn tả A không đạt mức độ của B.",
+        "common_mistakes": [
+          "Dùng 不比 trong câu kể trung tính.",
+          "Đặt 这么 sau 冷."
+        ],
+        "keyword_tip": "Nhớ cụm 没有这儿这么冷.",
+        "concept": "So sánh không bằng với 没有"
+      },
+      "related_glossary": [
+        "bai01_w014",
+        "bai01_w015",
+        "bai01_g004"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 570,
+        "context": "Ví dụ ngữ pháp so sánh không bằng"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_025",
+      "bai": 1,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Lời bài hát dân ca viết hay biết bao!",
+      "target_language": "zh",
+      "sample_answer": "民歌的歌词写得多好啊！",
+      "sample_answer_pinyin": "Míngē de gēcí xiě de duō hǎo a!",
+      "alternative_answers": [
+        "民歌的歌词写得真好啊！",
+        "民歌的歌词写得太好了！"
+      ],
+      "keywords_required": [
+        {
+          "zh": "民歌",
+          "pinyin": "míngē",
+          "meaning": "dân ca"
+        },
+        {
+          "zh": "歌词",
+          "pinyin": "gēcí",
+          "meaning": "lời bài hát"
+        },
+        {
+          "zh": "写得",
+          "pinyin": "xiě de",
+          "meaning": "viết được; viết một cách"
+        },
+        {
+          "zh": "好",
+          "pinyin": "hǎo",
+          "meaning": "hay; tốt"
+        }
+      ],
+      "keywords_optional": [
+        {
+          "zh": "多",
+          "pinyin": "duō",
+          "meaning": "biết bao"
+        },
+        {
+          "zh": "啊",
+          "pinyin": "a",
+          "meaning": "trợ từ cảm thán"
+        }
+      ],
+      "hints": [
+        "Dùng 写得 để nhận xét cách viết.",
+        "Mẫu 多 + tính từ diễn tả cảm thán.",
+        "Có thể thêm 啊 cuối câu."
+      ],
+      "explanation": {
+        "why_correct": "多好啊 tạo câu cảm thán; 写得好 nhận xét lời dân ca được viết hay.",
+        "common_mistakes": [
+          "Nhầm 多好 với 很好 trong sắc thái cảm thán.",
+          "Bỏ 得 sau 写."
+        ],
+        "keyword_tip": "民歌的歌词 → 写得 → 多好啊.",
+        "concept": "Câu cảm thán 多 + tính từ"
+      },
+      "related_glossary": [
+        "bai01_w035",
+        "bai01_w039",
+        "bai01_g006"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 634,
+        "context": "Ví dụ ngữ pháp câu cảm thán"
+      },
+      "difficulty_score": 5,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_026",
+      "bai": 1,
+      "level": "understand",
+      "type": "translation_zh_to_vi",
+      "question_vi": "Dịch câu sau sang tiếng Việt:",
+      "source_sentence_zh": "今年暑假我还在那儿玩了一个多月呢。",
+      "source_sentence_pinyin": "Jīnnián shǔjià wǒ hái zài nàr wán le yí ge duō yuè ne.",
+      "target_language": "vi",
+      "sample_answer": "Kỳ nghỉ hè năm nay tôi còn chơi ở đó hơn một tháng.",
+      "alternative_answers": [
+        "Hè năm nay tôi vẫn ở đó chơi hơn một tháng.",
+        "Trong kỳ nghỉ hè năm nay, tôi còn ở đó chơi hơn một tháng."
+      ],
+      "keywords_required": [
+        {
+          "vi": "kỳ nghỉ hè",
+          "zh": "暑假"
+        },
+        {
+          "vi": "vẫn; còn",
+          "zh": "还"
+        },
+        {
+          "vi": "ở đó",
+          "zh": "那儿"
+        },
+        {
+          "vi": "hơn một tháng",
+          "zh": "一个多月"
+        }
+      ],
+      "keywords_optional": [
+        {
+          "vi": "năm nay",
+          "zh": "今年"
+        }
+      ],
+      "hints": [
+        "还 mang nghĩa vẫn hoặc còn.",
+        "一个多月 là hơn một tháng.",
+        "呢 tạo sắc thái nhấn nhẹ."
+      ],
+      "explanation": {
+        "why_correct": "Bản dịch giữ đủ thời gian 暑假, phó từ 还 và khoảng thời gian 一个多月.",
+        "common_mistakes": [
+          "Dịch 还 thành trả lại.",
+          "Hiểu 一个多月 là nhiều tháng."
+        ],
+        "keyword_tip": "暑假 → 还 → 那儿 → 一个多月.",
+        "concept": "Phó từ 还 và bổ ngữ thời lượng"
+      },
+      "related_glossary": [
+        "bai01_w002",
+        "bai01_w003"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 21,
+        "context": "Bài khóa về chuyến đi Thượng Hải"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_027",
+      "bai": 1,
+      "level": "understand",
+      "type": "translation_zh_to_vi",
+      "question_vi": "Dịch câu sau sang tiếng Việt:",
+      "source_sentence_zh": "一般的家庭没有，不过旅馆和饭店里有。",
+      "source_sentence_pinyin": "Yìbān de jiātíng méiyǒu, búguò lǚguǎn hé fàndiàn lǐ yǒu.",
+      "target_language": "vi",
+      "sample_answer": "Gia đình bình thường thì không có, nhưng khách sạn và nhà hàng thì có.",
+      "alternative_answers": [
+        "Nhà dân thông thường không có, còn khách sạn và nhà hàng thì có.",
+        "Các gia đình thường không có, nhưng trong khách sạn và nhà hàng thì có."
+      ],
+      "keywords_required": [
+        {
+          "vi": "gia đình",
+          "zh": "家庭"
+        },
+        {
+          "vi": "không có",
+          "zh": "没有"
+        },
+        {
+          "vi": "khách sạn",
+          "zh": "旅馆"
+        },
+        {
+          "vi": "nhà hàng",
+          "zh": "饭店"
+        }
+      ],
+      "keywords_optional": [
+        {
+          "vi": "nhưng",
+          "zh": "不过"
+        }
+      ],
+      "hints": [
+        "不过 nối hai vế tương phản.",
+        "旅馆 là nơi lưu trú.",
+        "饭店 trong ngữ cảnh này là nhà hàng hoặc khách sạn."
+      ],
+      "explanation": {
+        "why_correct": "Câu đối chiếu nơi không có và nơi có 暖气; danh từ bị lược nhưng hiểu theo ngữ cảnh.",
+        "common_mistakes": [
+          "Dịch 不过 thành đi qua.",
+          "Bỏ quan hệ tương phản giữa hai vế."
+        ],
+        "keyword_tip": "家庭没有 ↔ 旅馆和饭店里有.",
+        "concept": "Lược bỏ danh từ đã biết và liên từ tương phản"
+      },
+      "related_glossary": [
+        "bai01_w016",
+        "bai01_w017",
+        "bai01_w025",
+        "bai01_w026",
+        "bai01_w027"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 48,
+        "context": "Bài khóa về hệ thống sưởi"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_028",
+      "bai": 1,
+      "level": "recall",
+      "type": "typing_zh_from_pinyin",
+      "question_vi": "Gõ chữ Hán tương ứng với pinyin và nghĩa sau:",
+      "pinyin": "nuǎnhuo",
+      "meaning_vi": "ấm áp",
+      "meaning_en": "warm",
+      "sample_answer": "暖和",
+      "alternative_answers": [],
+      "keywords_required": [
+        {
+          "zh": "暖和",
+          "pinyin": "nuǎnhuo",
+          "meaning": "ấm áp"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Chữ đầu có bộ 日 ở bên trái.",
+        "Từ gồm hai chữ, chữ thứ hai là 和."
+      ],
+      "explanation": {
+        "why_correct": "暖和 đọc là nuǎnhuo và có nghĩa là ấm áp.",
+        "common_mistakes": [
+          "Viết nhầm 暖 thành 暧.",
+          "Gõ nhầm 和 thành 合."
+        ],
+        "keyword_tip": "暖 chỉ sự ấm; 和 là âm tiết nhẹ trong từ này.",
+        "concept": "Từ vựng thời tiết"
+      },
+      "related_glossary": [
+        "bai01_w015"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 122,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_029",
+      "bai": 1,
+      "level": "recall",
+      "type": "typing_zh_from_pinyin",
+      "question_vi": "Gõ chữ Hán tương ứng với pinyin và nghĩa sau:",
+      "pinyin": "yáoyuǎn",
+      "meaning_vi": "xa xôi; xa thẳm",
+      "meaning_en": "distant",
+      "sample_answer": "遥远",
+      "alternative_answers": [],
+      "keywords_required": [
+        {
+          "zh": "遥远",
+          "pinyin": "yáoyuǎn",
+          "meaning": "xa xôi"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Cả hai chữ đều liên quan đến khoảng cách.",
+        "Chữ đầu là 遥, không phải 摇."
+      ],
+      "explanation": {
+        "why_correct": "遥远 đọc là yáoyuǎn và miêu tả nơi hoặc khoảng cách rất xa.",
+        "common_mistakes": [
+          "Viết 遥 thành 摇.",
+          "OCR nguồn từng nhận nhầm 遥 thành 各."
+        ],
+        "keyword_tip": "Nhớ cụm 在那遥远的地方.",
+        "concept": "Tính từ chỉ khoảng cách"
+      },
+      "related_glossary": [
+        "bai01_w041"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 72,
+        "context": "Bài khóa; chữ 遥 đã phục hồi từ OCR"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai01_030",
+      "bai": 1,
+      "level": "apply",
+      "type": "sentence_reorder",
+      "question_vi": "Sắp xếp các phần sau thành câu đúng:",
+      "shuffled_parts": [
+        "暖和一点儿",
+        "北京",
+        "上海冬天",
+        "比",
+        "吗"
+      ],
+      "sample_answer": "上海冬天比北京暖和一点儿吗？",
+      "sample_answer_pinyin": "Shànghǎi dōngtiān bǐ Běijīng nuǎnhuo yìdiǎnr ma?",
+      "alternative_answers": [
+        "上海冬天是不是比北京暖和一点儿？"
+      ],
+      "keywords_required": [
+        {
+          "zh": "上海冬天",
+          "pinyin": "Shànghǎi dōngtiān",
+          "meaning": "mùa đông ở Thượng Hải"
+        },
+        {
+          "zh": "吗",
+          "pinyin": "ma",
+          "meaning": "không; trợ từ nghi vấn"
+        },
+        {
+          "zh": "比北京",
+          "pinyin": "bǐ Běijīng",
+          "meaning": "so với Bắc Kinh"
+        },
+        {
+          "zh": "暖和一点儿",
+          "pinyin": "nuǎnhuo yìdiǎnr",
+          "meaning": "ấm hơn một chút"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Đặt chủ đề 上海冬天 ở đầu.",
+        "吗 đứng cuối câu hỏi.",
+        "一点儿 đứng sau 暖和."
+      ],
+      "explanation": {
+        "why_correct": "Trật tự là chủ đề + 比 + đối tượng + tính từ + mức chênh lệch + 吗.",
+        "common_mistakes": [
+          "Đặt 吗 trước cụm 比.",
+          "Đặt 一点儿 trước 暖和."
+        ],
+        "keyword_tip": "上海冬天 → 比北京 → 暖和一点儿 → 吗.",
+        "concept": "Trật tự câu hỏi so sánh 比"
+      },
+      "related_glossary": [
+        "bai01_w004",
+        "bai01_w014",
+        "bai01_w015",
+        "bai01_g002"
+      ],
+      "source": {
+        "bai": 1,
+        "source_line": 33,
+        "context": "Câu hỏi trong bài khóa"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

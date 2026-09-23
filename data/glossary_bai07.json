@@ -1,0 +1,1352 @@
+{
+  "metadata": {
+    "bai": 7,
+    "title_zh": "我的护照你找到了没有",
+    "title_vi": "Em tìm thấy hộ chiếu của anh chưa",
+    "title_source": "document",
+    "source_file": "data/_extracted/bai/bai07.txt",
+    "total_entries": 48,
+    "word_count": 41,
+    "grammar_count": 5,
+    "phrase_count": 2,
+    "example_stats": {
+      "from_document": 4,
+      "ai_inferred": 37,
+      "missing": 0
+    },
+    "generated_at": "2026-09-19T21:45:24Z",
+    "version": "2.0"
+  },
+  "entries": [
+    {
+      "id": "bai07_w001",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "放",
+      "pinyin": "fàng",
+      "word_type": "动",
+      "meaning_vi": "để; đặt",
+      "meaning_en": "to put",
+      "example_zh": "我把护照放在口袋里。",
+      "example_pinyin": "Wǒ bǎ hù zhào fàng zài kǒudài lǐ.",
+      "example_vi": "Tôi để hộ chiếu trong túi áo.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_g002",
+        "bai07_w006",
+        "bai07_w011"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 107,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w002",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "半天",
+      "pinyin": "bàntiān",
+      "word_type": "名",
+      "meaning_vi": "nửa ngày; khá lâu",
+      "meaning_en": "half a day; quite a while",
+      "example_zh": "我找了半天也没找着。",
+      "example_pinyin": "Wǒ zhǎo le bàntiān yě méi zhǎo zháo.",
+      "example_vi": "Tôi tìm khá lâu mà vẫn chưa thấy.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w004",
+        "bai07_w005",
+        "bai07_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 108,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w003",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "着",
+      "pinyin": "zháo",
+      "word_type": "补语",
+      "meaning_vi": "đạt được kết quả của hành động",
+      "meaning_en": "result complement indicating attainment",
+      "example_zh": "我的护照找着了。",
+      "example_pinyin": "Wǒ de hù zhào zhǎo zháo le.",
+      "example_vi": "Hộ chiếu của tôi đã tìm thấy rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_g003",
+        "bai07_w002",
+        "bai07_w004"
+      ],
+      "tags": [
+        "tu_vung"
+      ],
+      "source_line": 110,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w004",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "签证",
+      "pinyin": "qiānzhèng",
+      "word_type": "名",
+      "meaning_vi": "thị thực; visa",
+      "meaning_en": "visa",
+      "example_zh": "昨天你办完签证放在什么地方了？",
+      "example_pinyin": "Zuótiān nǐ bàn wán qiānzhèng fàng zài shénme dìfang le?",
+      "example_vi": "Hôm qua làm xong visa, anh để ở đâu rồi?",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w005",
+        "bai07_w002",
+        "bai07_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 112,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w005",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "手提包",
+      "pinyin": "shǒutíbāo",
+      "word_type": "名",
+      "meaning_vi": "túi xách",
+      "meaning_en": "bag; handbag",
+      "example_zh": "放在我的手提包里了。",
+      "example_pinyin": "Fàng zài wǒ de shǒutíbāo lǐ le.",
+      "example_vi": "Đã để trong túi xách của tôi rồi.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w004",
+        "bai07_w002",
+        "bai07_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 122,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w006",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "交",
+      "pinyin": "jiāo",
+      "word_type": "动",
+      "meaning_vi": "giao; nộp",
+      "meaning_en": "to hand in",
+      "example_zh": "我把手提包交给你了。",
+      "example_pinyin": "Wǒ bǎ shǒutíbāo jiāo gěi nǐ le.",
+      "example_vi": "Tôi đã giao túi xách cho bạn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w001",
+        "bai07_w011",
+        "bai07_w012"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 5,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w007",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "好好儿",
+      "pinyin": "hǎohǎoér",
+      "word_type": "副",
+      "meaning_vi": "chăm chỉ; hết sức; cẩn thận",
+      "meaning_en": "to try one's best",
+      "example_zh": "我再好好儿找找。",
+      "example_pinyin": "Wǒ zài hǎohǎoér zhǎo zhǎo.",
+      "example_vi": "Tôi sẽ tìm lại thật kỹ.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w015",
+        "bai07_w031",
+        "bai07_w034"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 130,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w008",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "大衣",
+      "pinyin": "dàyī",
+      "word_type": "名",
+      "meaning_vi": "áo khoác",
+      "meaning_en": "overcoat",
+      "example_zh": "天冷了，穿上大衣吧。",
+      "example_pinyin": "Tiān lěng le, chuān shàng dàyī ba.",
+      "example_vi": "Trời lạnh rồi, mặc áo khoác vào nhé.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w009",
+        "bai07_w005",
+        "bai07_w004"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 28,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w009",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "口袋",
+      "pinyin": "kǒudài",
+      "word_type": "名",
+      "meaning_vi": "túi áo",
+      "meaning_en": "pocket",
+      "example_zh": "钥匙在大衣口袋里。",
+      "example_pinyin": "Yào shi zài dàyī kǒudài lǐ.",
+      "example_vi": "Chìa khóa ở trong túi áo khoác.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w008",
+        "bai07_w005",
+        "bai07_w004"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 133,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w010",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "丢三落四",
+      "pinyin": "diūsānlàsì",
+      "word_type": "形",
+      "meaning_vi": "hay quên; trước quên sau",
+      "meaning_en": "forgetful",
+      "example_zh": "他总是丢三落四。",
+      "example_pinyin": "Tā zǒng shì diūsānlàsì.",
+      "example_vi": "Anh ấy lúc nào cũng hay quên.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w018",
+        "bai07_w026",
+        "bai07_w041"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 138,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w011",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "丢",
+      "pinyin": "diū",
+      "word_type": "动",
+      "meaning_vi": "đánh mất",
+      "meaning_en": "to lose",
+      "example_zh": "我把护照丢了。",
+      "example_pinyin": "Wǒ bǎ hù zhào diū le.",
+      "example_vi": "Tôi làm mất hộ chiếu rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w012",
+        "bai07_w013",
+        "bai07_w006"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 138,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w012",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "落",
+      "pinyin": "là",
+      "word_type": "动",
+      "meaning_vi": "bỏ quên; để sót",
+      "meaning_en": "to forget to bring; to leave behind",
+      "example_zh": "我把护照落在家里了。",
+      "example_pinyin": "Wǒ bǎ hù zhào là zài jiā lǐ le.",
+      "example_vi": "Tôi để quên hộ chiếu ở nhà rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w011",
+        "bai07_w013",
+        "bai07_w006"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 138,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w013",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "发现",
+      "pinyin": "fāxiàn",
+      "word_type": "动",
+      "meaning_vi": "phát hiện",
+      "meaning_en": "to find out; to discover",
+      "example_zh": "我发现护照在口袋里。",
+      "example_pinyin": "Wǒ fāxiàn hù zhào zài kǒudài lǐ.",
+      "example_vi": "Tôi phát hiện hộ chiếu ở trong túi áo.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w012",
+        "bai07_w011",
+        "bai07_w019"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 51,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w014",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "球迷",
+      "pinyin": "qiúmí",
+      "word_type": "名",
+      "meaning_vi": "người hâm mộ bóng",
+      "meaning_en": "ball fan",
+      "example_zh": "他是一个足球迷。",
+      "example_pinyin": "Tā shì yígè zú qiúmí.",
+      "example_vi": "Anh ấy là một người hâm mộ bóng đá.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w016",
+        "bai07_w009",
+        "bai07_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 45,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w015",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "可",
+      "pinyin": "kě",
+      "word_type": "副",
+      "meaning_vi": "thật; quả là",
+      "meaning_en": "used for emphasis",
+      "example_zh": "他可喜欢足球了。",
+      "example_pinyin": "Tā kě xǐhuān zú qiú le.",
+      "example_vi": "Anh ấy thật sự rất thích bóng đá.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w007",
+        "bai07_w031",
+        "bai07_w034"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 51,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w016",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "程度",
+      "pinyin": "chéngdù",
+      "word_type": "名",
+      "meaning_vi": "mức độ",
+      "meaning_en": "extent; degree",
+      "example_zh": "他的汉语到了什么程度？",
+      "example_pinyin": "Tā de hànyǔ dào le shénme chéngdù?",
+      "example_vi": "Tiếng Trung của anh ấy đã đến trình độ nào?",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w014",
+        "bai07_w021",
+        "bai07_w022"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 52,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w017",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "为了",
+      "pinyin": "wèile",
+      "word_type": "介",
+      "meaning_vi": "vì; để",
+      "meaning_en": "for; in order to",
+      "example_zh": "为了看球，他请假了。",
+      "example_pinyin": "Wèile kàn qiú, tā qǐng jiǎ le.",
+      "example_vi": "Để xem bóng đá, anh ấy đã xin nghỉ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w016",
+        "bai07_w018",
+        "bai07_w015"
+      ],
+      "tags": [
+        "tu_vung",
+        "gioi_tu"
+      ],
+      "source_line": 54,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w018",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "正常",
+      "pinyin": "zhèngcháng",
+      "word_type": "形",
+      "meaning_vi": "bình thường",
+      "meaning_en": "normal; usual",
+      "example_zh": "他的身体已经正常了。",
+      "example_pinyin": "Tā de shēn tǐ yǐjīng zhèngcháng le.",
+      "example_vi": "Sức khỏe của anh ấy đã bình thường lại.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w010",
+        "bai07_w026",
+        "bai07_w041"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 208,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w019",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "承认",
+      "pinyin": "chéngrèn",
+      "word_type": "动",
+      "meaning_vi": "thừa nhận",
+      "meaning_en": "to admit; to recognize",
+      "example_zh": "他承认自己是球迷。",
+      "example_pinyin": "Tā chéngrèn zì jǐ shì qiúmí.",
+      "example_vi": "Anh ấy thừa nhận mình là người hâm mộ bóng đá.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w020",
+        "bai07_w023",
+        "bai07_w024"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 58,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w020",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "发狂",
+      "pinyin": "fākuáng",
+      "word_type": "动",
+      "meaning_vi": "phát cuồng",
+      "meaning_en": "to go mad; to be crazy",
+      "example_zh": "球迷高兴得快发狂了。",
+      "example_pinyin": "Qiúmí gāo xīng de kuài fākuáng le.",
+      "example_vi": "Người hâm mộ vui đến mức sắp phát cuồng.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w019",
+        "bai07_w023",
+        "bai07_w024"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 58,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w021",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "锦标赛",
+      "pinyin": "jǐnbiāosài",
+      "word_type": "名",
+      "meaning_vi": "giải vô địch",
+      "meaning_en": "tournament",
+      "example_zh": "他参加了世界锦标赛。",
+      "example_pinyin": "Tā cān jiā le shì jiè jǐnbiāosài.",
+      "example_vi": "Anh ấy tham gia giải vô địch thế giới.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w022",
+        "bai07_w025",
+        "bai07_w016"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 212,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w022",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "期间",
+      "pinyin": "qījiān",
+      "word_type": "名",
+      "meaning_vi": "trong thời gian; giai đoạn",
+      "meaning_en": "period",
+      "example_zh": "比赛期间他很忙。",
+      "example_pinyin": "Bǐ sài qījiān tā hěn máng.",
+      "example_vi": "Trong thời gian thi đấu anh ấy rất bận.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w021",
+        "bai07_w025",
+        "bai07_w016"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 214,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w023",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "像",
+      "pinyin": "xiàng",
+      "word_type": "动",
+      "meaning_vi": "giống; có vẻ như",
+      "meaning_en": "to look as if; to seem",
+      "example_zh": "他看起来像生病了。",
+      "example_pinyin": "Tā kànqǐlái xiàng shēngbìng le.",
+      "example_vi": "Trông anh ấy như bị bệnh.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w024",
+        "bai07_w020",
+        "bai07_w019"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 215,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w024",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "生病",
+      "pinyin": "shēngbìng",
+      "word_type": "动",
+      "meaning_vi": "bị bệnh",
+      "meaning_en": "to fall ill",
+      "example_zh": "他昨天生病了。",
+      "example_pinyin": "Tā zuótiān shēngbìng le.",
+      "example_vi": "Hôm qua anh ấy bị bệnh.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w023",
+        "bai07_w027",
+        "bai07_w020"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 216,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w025",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "白天",
+      "pinyin": "báitiān",
+      "word_type": "名",
+      "meaning_vi": "ban ngày",
+      "meaning_en": "daytime",
+      "example_zh": "他白天上课，晚上打工。",
+      "example_pinyin": "Tā báitiān shàng kè, wǎn shàng dǎ gōng.",
+      "example_vi": "Ban ngày anh ấy học, buổi tối làm thêm.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w022",
+        "bai07_w028",
+        "bai07_w021"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 218,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w026",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "精神",
+      "pinyin": "jīngshén",
+      "word_type": "形",
+      "meaning_vi": "tỉnh táo; đầy sức sống",
+      "meaning_en": "vigorous; spirited",
+      "example_zh": "他今天很精神。",
+      "example_pinyin": "Tā jīntiān hěn jīngshén.",
+      "example_vi": "Hôm nay anh ấy rất tỉnh táo.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w018",
+        "bai07_w041",
+        "bai07_w010"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 219,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w027",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "贴",
+      "pinyin": "tiē",
+      "word_type": "动",
+      "meaning_vi": "dán",
+      "meaning_en": "to paste; to attach",
+      "example_zh": "门口贴着通知。",
+      "example_pinyin": "Mén kǒu tiē zhe tōngzhī.",
+      "example_vi": "Ở cửa đang dán thông báo.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w028",
+        "bai07_w029",
+        "bai07_w024"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 220,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w028",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "通知",
+      "pinyin": "tōngzhī",
+      "word_type": "名、动",
+      "meaning_vi": "thông báo; báo cho",
+      "meaning_en": "notice; to give notice",
+      "example_zh": "门口贴着一个通知。",
+      "example_pinyin": "Mén kǒu tiē zhe yígè tōngzhī.",
+      "example_vi": "Ở cửa đang dán một thông báo.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w027",
+        "bai07_w029",
+        "bai07_w030"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu",
+        "dong_tu"
+      ],
+      "source_line": 221,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w029",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "暂停",
+      "pinyin": "zàntíng",
+      "word_type": "动",
+      "meaning_vi": "tạm dừng",
+      "meaning_en": "to suspend",
+      "example_zh": "商店暂停营业。",
+      "example_pinyin": "Shāng diàn zàntíng yíngyè.",
+      "example_vi": "Cửa hàng tạm ngừng kinh doanh.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w028",
+        "bai07_w030",
+        "bai07_w027"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 222,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w030",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "营业",
+      "pinyin": "yíngyè",
+      "word_type": "动",
+      "meaning_vi": "kinh doanh; mở cửa",
+      "meaning_en": "to be in business",
+      "example_zh": "商店白天正常营业。",
+      "example_pinyin": "Shāng diàn báitiān zhèngcháng yíngyè.",
+      "example_vi": "Cửa hàng kinh doanh bình thường vào ban ngày.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w029",
+        "bai07_w028",
+        "bai07_w032"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 223,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w031",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "够",
+      "pinyin": "gòu",
+      "word_type": "副",
+      "meaning_vi": "đủ; đạt mức",
+      "meaning_en": "to reach a certain extent",
+      "example_zh": "这些钱够了。",
+      "example_pinyin": "Zhèxiē qián gòu le.",
+      "example_vi": "Số tiền này đủ rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w034",
+        "bai07_w015",
+        "bai07_w007"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 224,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w032",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "算",
+      "pinyin": "suàn",
+      "word_type": "动",
+      "meaning_vi": "coi như; tính là",
+      "meaning_en": "to consider; to count as",
+      "example_zh": "这也算成功。",
+      "example_pinyin": "Zhè yě suàn chéng gōng.",
+      "example_vi": "Điều này cũng coi như thành công.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w030",
+        "bai07_w029",
+        "bai07_w028"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 226,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w033",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "多的是",
+      "pinyin": "duōdeshì",
+      "word_type": "惯用语",
+      "meaning_vi": "có rất nhiều",
+      "meaning_en": "there are plenty",
+      "example_zh": "喜欢足球的人多的是。",
+      "example_pinyin": "Xǐhuān zú qiú de rén duōdeshì.",
+      "example_vi": "Người thích bóng đá có rất nhiều.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w032",
+        "bai07_w034",
+        "bai07_w031"
+      ],
+      "tags": [
+        "tu_vung"
+      ],
+      "source_line": 228,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w034",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "亲眼",
+      "pinyin": "qīnyǎn",
+      "word_type": "副",
+      "meaning_vi": "tận mắt",
+      "meaning_en": "with one's own eyes",
+      "example_zh": "我亲眼看见了比赛。",
+      "example_pinyin": "Wǒ qīnyǎn kàn jiàn le bǐ sài.",
+      "example_vi": "Tôi đã tận mắt xem trận đấu.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w031",
+        "bai07_w015",
+        "bai07_w007"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 229,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w035",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "世界杯",
+      "pinyin": "shìjièbēi",
+      "word_type": "名",
+      "meaning_vi": "World Cup; Cúp Thế giới",
+      "meaning_en": "the World Cup",
+      "example_zh": "很多球迷在看世界杯。",
+      "example_pinyin": "Hěn duō qiúmí zài kàn shìjièbēi.",
+      "example_vi": "Nhiều người hâm mộ đang xem World Cup.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w038",
+        "bai07_w028",
+        "bai07_w025"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 230,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w036",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "准",
+      "pinyin": "zhǔn",
+      "word_type": "动",
+      "meaning_vi": "cho phép",
+      "meaning_en": "to allow; to permit",
+      "example_zh": "老板不准他辞职。",
+      "example_pinyin": "Lǎobǎn bù zhǔn tā cízhí.",
+      "example_vi": "Ông chủ không cho phép anh ấy nghỉ việc.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w037",
+        "bai07_w039",
+        "bai07_w032"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 231,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w037",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "辞职",
+      "pinyin": "cízhí",
+      "word_type": "动",
+      "meaning_vi": "từ chức; thôi việc",
+      "meaning_en": "to resign",
+      "example_zh": "他最后决定辞职。",
+      "example_pinyin": "Tā zuìhòu jué dìng cízhí.",
+      "example_vi": "Cuối cùng anh ấy quyết định nghỉ việc.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w036",
+        "bai07_w039",
+        "bai07_w040"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 232,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w038",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "最后",
+      "pinyin": "zuìhòu",
+      "word_type": "名",
+      "meaning_vi": "cuối cùng",
+      "meaning_en": "final; last",
+      "example_zh": "他最后还是赢了。",
+      "example_pinyin": "Tā zuìhòu hái shì yíng le.",
+      "example_vi": "Cuối cùng anh ấy vẫn thắng.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w035",
+        "bai07_w028",
+        "bai07_w025"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 354,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w039",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "成",
+      "pinyin": "chéng",
+      "word_type": "动",
+      "meaning_vi": "thành công; trở thành",
+      "meaning_en": "to succeed; to become",
+      "example_zh": "这件事终于办成了。",
+      "example_pinyin": "Zhè jiàn shì zhōngyú bàn chéng le.",
+      "example_vi": "Việc này cuối cùng đã làm thành công.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_g005",
+        "bai07_w040",
+        "bai07_w037"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 87,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w040",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "佩服",
+      "pinyin": "pèifú",
+      "word_type": "动",
+      "meaning_vi": "khâm phục",
+      "meaning_en": "to admire; to think highly of",
+      "example_zh": "我很佩服这个球迷。",
+      "example_pinyin": "Wǒ hěn pèifú zhège qiúmí.",
+      "example_vi": "Tôi rất khâm phục người hâm mộ này.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w039",
+        "bai07_w037",
+        "bai07_w036"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 356,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_w041",
+      "bai": 7,
+      "type": "word",
+      "word_zh": "棒",
+      "pinyin": "bàng",
+      "word_type": "形",
+      "meaning_vi": "giỏi; tuyệt",
+      "meaning_en": "good; fine; excellent",
+      "example_zh": "他踢足球踢得真棒。",
+      "example_pinyin": "Tā tī zú qiú tī de zhēn bàng.",
+      "example_vi": "Anh ấy đá bóng thật tuyệt.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai07_w026",
+        "bai07_w018",
+        "bai07_w010"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 358,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_g001",
+      "bai": 7,
+      "type": "grammar",
+      "grammar_title_zh": "主谓谓语句",
+      "grammar_title_vi": "Câu chủ-vị làm vị ngữ",
+      "structure": "话题 + 主谓短语",
+      "explanation_vi": "Đưa đối tượng lên đầu làm chủ đề rồi dùng một cụm chủ-vị để nhận xét hoặc miêu tả đối tượng đó.",
+      "explanation_zh": "用主谓短语对句首话题加以说明或描写。",
+      "examples": [
+        {
+          "zh": "足球你喜欢吗？",
+          "pinyin": "Zú qiú nǐ xǐhuān ma?",
+          "vi": "Bóng đá, bạn có thích không?",
+          "source": "document"
+        },
+        {
+          "zh": "我的护照你找到了没有？",
+          "pinyin": "Wǒ de hù zhào nǐ zhǎo dào le méi yǒu?",
+          "vi": "Hộ chiếu của tôi, bạn tìm thấy chưa?",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai07_g002",
+        "bai07_g003",
+        "bai07_g004",
+        "bai07_g005"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 411,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_g002",
+      "bai": 7,
+      "type": "grammar",
+      "grammar_title_zh": "结果补语“在”",
+      "grammar_title_vi": "Bổ ngữ kết quả 在",
+      "structure": "动词 + 在 + 处所",
+      "explanation_vi": "Biểu thị qua hành động mà người hoặc vật được đặt ở một vị trí; tân ngữ thường là từ chỉ nơi chốn.",
+      "explanation_zh": "“动词+在”表示通过动作使人或事物处于某处。",
+      "examples": [
+        {
+          "zh": "我的词典你放在哪儿了？",
+          "pinyin": "Wǒ de cí diǎn nǐ fàng zài nǎ ér le?",
+          "vi": "Bạn để từ điển của tôi ở đâu rồi?",
+          "source": "document"
+        },
+        {
+          "zh": "这张画我们挂在哪儿呢？",
+          "pinyin": "Zhè zhāng huà wǒmen guà zài nǎ ér ne?",
+          "vi": "Bức tranh này chúng ta treo ở đâu?",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai07_w001",
+        "bai07_g001",
+        "bai07_g003",
+        "bai07_g004"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 429,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_g003",
+      "bai": 7,
+      "type": "grammar",
+      "grammar_title_zh": "结果补语“着”",
+      "grammar_title_vi": "Bổ ngữ kết quả 着",
+      "structure": "动词 + 着",
+      "explanation_vi": "Biểu thị mục đích của hành động đã đạt được hoặc đã có kết quả.",
+      "explanation_zh": "“动词+着”表示动作的目的达到了或有了结果。",
+      "examples": [
+        {
+          "zh": "我的护照你给我找着了没有？",
+          "pinyin": "Wǒ de hù zhào nǐ gěi wǒ zhǎo zháo le méi yǒu?",
+          "vi": "Bạn đã tìm thấy hộ chiếu giúp tôi chưa?",
+          "source": "document"
+        },
+        {
+          "zh": "你睡着了吗？",
+          "pinyin": "Nǐ shuì zháo le ma?",
+          "vi": "Bạn đã ngủ thiếp đi chưa?",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai07_w003",
+        "bai07_g001",
+        "bai07_g002",
+        "bai07_g004"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 446,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_g004",
+      "bai": 7,
+      "type": "grammar",
+      "grammar_title_zh": "结果补语“好”",
+      "grammar_title_vi": "Bổ ngữ kết quả 好",
+      "structure": "动词 + 好",
+      "explanation_vi": "Biểu thị hành động đã hoàn thành và đạt trạng thái hoàn chỉnh hoặc thỏa đáng.",
+      "explanation_zh": "“动词+好”表示动作完成并达到完善、令人满意的程度。",
+      "examples": [
+        {
+          "zh": "你的衣服洗好了吗？",
+          "pinyin": "Nǐ de yī fú xǐ hǎo le ma?",
+          "vi": "Quần áo của bạn giặt xong chưa?",
+          "source": "document"
+        },
+        {
+          "zh": "我跟老板商量好了。",
+          "pinyin": "Wǒ gēn lǎobǎn shāng liàng hǎo le.",
+          "vi": "Tôi đã bàn bạc xong với ông chủ.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai07_g001",
+        "bai07_g002",
+        "bai07_g003",
+        "bai07_g005"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 463,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_g005",
+      "bai": 7,
+      "type": "grammar",
+      "grammar_title_zh": "结果补语“成”",
+      "grammar_title_vi": "Bổ ngữ kết quả 成",
+      "structure": "动词 + 成",
+      "explanation_vi": "Biểu thị hành động đạt mục đích, làm sự vật biến đổi thành trạng thái khác hoặc tạo ra kết quả sai.",
+      "explanation_zh": "“动词+成”表示达到目的、发生变化或出现错误结果。",
+      "examples": [
+        {
+          "zh": "这篇故事他翻译成了英语。",
+          "pinyin": "Zhè piān gù shì tā fān yì chéng le yīngyǔ.",
+          "vi": "Anh ấy đã dịch câu chuyện này sang tiếng Anh.",
+          "source": "document"
+        },
+        {
+          "zh": "这个“我”字你写成“找”字了。",
+          "pinyin": "Zhège “ wǒ ” zì nǐ xiě chéng “ zhǎo ” zì le.",
+          "vi": "Bạn đã viết chữ 我 thành chữ 找 rồi.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai07_w039",
+        "bai07_g001",
+        "bai07_g002",
+        "bai07_g003"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 484,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_p001",
+      "bai": 7,
+      "type": "phrase",
+      "phrase_zh": "我看",
+      "pinyin": "Wǒ kàn",
+      "meaning_vi": "theo tôi; tôi nghĩ",
+      "meaning_en": "in my opinion; I think",
+      "usage_note": "Đặt trước ý kiến hoặc nhận định riêng của người nói.",
+      "related_words": [
+        "bai07_w019",
+        "bai07_w020",
+        "bai07_w017"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 57,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai07_p002",
+      "bai": 7,
+      "type": "phrase",
+      "phrase_zh": "多的是",
+      "pinyin": "Duōdeshì",
+      "meaning_vi": "có rất nhiều",
+      "meaning_en": "there are plenty",
+      "usage_note": "Dùng để nhấn mạnh số lượng nhiều, không thiếu.",
+      "related_words": [
+        "bai07_w033",
+        "bai07_w039",
+        "bai07_w019"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 77,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

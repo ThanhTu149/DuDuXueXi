@@ -1,0 +1,1209 @@
+{
+  "metadata": {
+    "bai": 5,
+    "title_zh": "我听过钢琴协奏曲《黄河》",
+    "title_vi": "Tôi đã nghe bản hòa tấu piano Hoàng Hà",
+    "title_source": "document",
+    "source_file": "data/_extracted/bai/bai05.txt",
+    "total_entries": 43,
+    "word_count": 37,
+    "grammar_count": 4,
+    "phrase_count": 2,
+    "example_stats": {
+      "from_document": 3,
+      "ai_inferred": 34,
+      "missing": 0
+    },
+    "generated_at": "2026-09-19T21:45:24Z",
+    "version": "2.0"
+  },
+  "entries": [
+    {
+      "id": "bai05_w001",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "经历",
+      "pinyin": "jīnglì",
+      "word_type": "动、名",
+      "meaning_vi": "trải qua; kinh nghiệm",
+      "meaning_en": "to experience; experience",
+      "example_zh": "这次经历让我难忘。",
+      "example_pinyin": "Zhè cì jīnglì ràng wǒ nán wàng.",
+      "example_vi": "Trải nghiệm lần này khiến tôi khó quên.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w003",
+        "bai05_w004",
+        "bai05_w006"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu",
+        "dong_tu"
+      ],
+      "source_line": 159,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w002",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "过",
+      "pinyin": "guo",
+      "word_type": "助",
+      "meaning_vi": "đã từng",
+      "meaning_en": "particle indicating a past experience",
+      "example_zh": "来中国以后我已经得过三次感冒了。",
+      "example_pinyin": "Lái zhōngguó yǐ hòu wǒ yǐjīng dé guo sān cì gǎn mào le.",
+      "example_vi": "Sau khi đến Trung Quốc, tôi đã từng bị cảm ba lần.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_g001",
+        "bai05_g002",
+        "bai05_g003",
+        "bai05_w021"
+      ],
+      "tags": [
+        "tu_vung",
+        "tro_tu"
+      ],
+      "source_line": 463,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w003",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "住院",
+      "pinyin": "zhùyuàn",
+      "word_type": "动",
+      "meaning_vi": "nằm viện",
+      "meaning_en": "to be hospitalized",
+      "example_zh": "我还住过一次院呢。",
+      "example_pinyin": "Wǒ hái zhù guo yī cì yuàn ne.",
+      "example_vi": "Tôi còn từng nằm viện một lần.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w001",
+        "bai05_w008",
+        "bai05_w011"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 178,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai05_w004",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "中医",
+      "pinyin": "zhōngyī",
+      "word_type": "名",
+      "meaning_vi": "đông y; bác sĩ đông y",
+      "meaning_en": "traditional Chinese medicine; doctor of Chinese medicine",
+      "example_zh": "我看过中医，也吃过中药。",
+      "example_pinyin": "Wǒ kàn guo zhōngyī, yě chī guo zhōng yào.",
+      "example_vi": "Tôi từng khám đông y và cũng từng uống thuốc bắc.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w006",
+        "bai05_w001",
+        "bai05_w009"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 21,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w005",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "苦",
+      "pinyin": "kǔ",
+      "word_type": "形",
+      "meaning_vi": "đắng",
+      "meaning_en": "bitter",
+      "example_zh": "中药有一点儿苦。",
+      "example_pinyin": "Zhōng yào yǒu yī diǎn ér kǔ.",
+      "example_vi": "Thuốc bắc hơi đắng.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w007",
+        "bai05_w016",
+        "bai05_w035"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 464,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w006",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "中成药",
+      "pinyin": "zhōngchéngyào",
+      "word_type": "名",
+      "meaning_vi": "thuốc đông y bào chế sẵn",
+      "meaning_en": "prepared Chinese medicine",
+      "example_zh": "医生给我开了中成药。",
+      "example_pinyin": "Yī shēng gěi wǒ kāi le zhōngchéngyào.",
+      "example_vi": "Bác sĩ kê thuốc Đông y bào chế sẵn cho tôi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w004",
+        "bai05_w009",
+        "bai05_w010"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 27,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w007",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "甜",
+      "pinyin": "tián",
+      "word_type": "形",
+      "meaning_vi": "ngọt",
+      "meaning_en": "sweet",
+      "example_zh": "糖葫芦甜甜的。",
+      "example_pinyin": "Tánghúlú tián tián de.",
+      "example_vi": "Kẹo hồ lô ngọt ngọt.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w005",
+        "bai05_w016",
+        "bai05_w035"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 464,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w008",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "摸",
+      "pinyin": "mō",
+      "word_type": "动",
+      "meaning_vi": "sờ; bắt; vuốt",
+      "meaning_en": "to feel; to touch",
+      "example_zh": "中医给他摸脉。",
+      "example_pinyin": "Zhōngyī gěi tā mō mài.",
+      "example_vi": "Bác sĩ đông y bắt mạch cho anh ấy.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w011",
+        "bai05_w003",
+        "bai05_w014"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 53,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w009",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "脉",
+      "pinyin": "mài",
+      "word_type": "名",
+      "meaning_vi": "mạch",
+      "meaning_en": "pulse; arteries and veins",
+      "example_zh": "医生正在给他把脉。",
+      "example_pinyin": "Yī shēng zhèng zài gěi tā bǎ mài.",
+      "example_vi": "Bác sĩ đang bắt mạch cho anh ấy.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w010",
+        "bai05_w006",
+        "bai05_w012"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 53,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w010",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "药方",
+      "pinyin": "yàofāng",
+      "word_type": "名",
+      "meaning_vi": "đơn thuốc",
+      "meaning_en": "prescription",
+      "example_zh": "医生开了一个药方。",
+      "example_pinyin": "Yī shēng kāi le yígè yàofāng.",
+      "example_vi": "Bác sĩ kê một đơn thuốc.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w009",
+        "bai05_w012",
+        "bai05_w013"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 53,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w011",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "按摩",
+      "pinyin": "ànmó",
+      "word_type": "动",
+      "meaning_vi": "xoa bóp",
+      "meaning_en": "to massage",
+      "example_zh": "医生给他按摩。",
+      "example_pinyin": "Yī shēng gěi tā ànmó.",
+      "example_vi": "Bác sĩ xoa bóp cho anh ấy.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w008",
+        "bai05_w014",
+        "bai05_w015"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 55,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w012",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "针灸",
+      "pinyin": "zhēnjiǔ",
+      "word_type": "名",
+      "meaning_vi": "châm cứu",
+      "meaning_en": "acupuncture and moxibustion",
+      "example_zh": "针灸是中医治疗方法。",
+      "example_pinyin": "Zhēnjiǔ shì zhōngyī zhì liáo fāngfǎ.",
+      "example_vi": "Châm cứu là một phương pháp điều trị của Đông y.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w013",
+        "bai05_w010",
+        "bai05_w009"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 226,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w013",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "方法",
+      "pinyin": "fāngfǎ",
+      "word_type": "名",
+      "meaning_vi": "phương pháp",
+      "meaning_en": "method",
+      "example_zh": "这个方法很有效。",
+      "example_pinyin": "Zhège fāngfǎ hěn yǒu xiào.",
+      "example_vi": "Phương pháp này rất hiệu quả.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w012",
+        "bai05_w010",
+        "bai05_w009"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 55,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w014",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "治",
+      "pinyin": "zhì",
+      "word_type": "动",
+      "meaning_vi": "điều trị; chữa",
+      "meaning_en": "to treat; to cure",
+      "example_zh": "中医给他治病。",
+      "example_pinyin": "Zhōngyī gěi tā zhì bìng.",
+      "example_vi": "Bác sĩ đông y chữa bệnh cho anh ấy.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w015",
+        "bai05_w011",
+        "bai05_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 228,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w015",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "扎针",
+      "pinyin": "zhāzhēn",
+      "word_type": "动",
+      "meaning_vi": "châm kim",
+      "meaning_en": "to give or have acupuncture treatment",
+      "example_zh": "护士正在给病人扎针。",
+      "example_pinyin": "Hù shì zhèng zài gěi bìng rén zhāzhēn.",
+      "example_vi": "Y tá đang châm kim cho bệnh nhân.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w014",
+        "bai05_w011",
+        "bai05_w020"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 230,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w016",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "细",
+      "pinyin": "xì",
+      "word_type": "形",
+      "meaning_vi": "nhỏ; mảnh",
+      "meaning_en": "thin; fine",
+      "example_zh": "针灸用的针很细。",
+      "example_pinyin": "Zhēnjiǔ yòng de zhēn hěn xì.",
+      "example_vi": "Kim dùng để châm cứu rất nhỏ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w007",
+        "bai05_w005",
+        "bai05_w035"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 65,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w017",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "曾经",
+      "pinyin": "céngjīng",
+      "word_type": "副",
+      "meaning_vi": "đã từng",
+      "meaning_en": "once; used to",
+      "example_zh": "我曾经去过北京。",
+      "example_pinyin": "Wǒ céngjīng qù guo běijīng.",
+      "example_vi": "Tôi đã từng đến Bắc Kinh.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w018",
+        "bai05_w027",
+        "bai05_w016"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 73,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w018",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "好",
+      "pinyin": "hǎo",
+      "word_type": "副",
+      "meaning_vi": "được; rất",
+      "meaning_en": "used before adjectives to indicate degree",
+      "example_zh": "这件衣服好漂亮。",
+      "example_pinyin": "Zhè jiàn yī fú hǎo piāo liàng.",
+      "example_vi": "Bộ quần áo này đẹp quá.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w017",
+        "bai05_w027",
+        "bai05_w019"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 170,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w019",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "烤鸭",
+      "pinyin": "kǎoyā",
+      "word_type": "名",
+      "meaning_vi": "vịt quay",
+      "meaning_en": "roast duck",
+      "example_zh": "北京烤鸭很有名。",
+      "example_pinyin": "Běijīng kǎoyā hěn yǒu míng.",
+      "example_vi": "Vịt quay Bắc Kinh rất nổi tiếng.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_g001",
+        "bai05_w022",
+        "bai05_w023"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 114,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w020",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "烤",
+      "pinyin": "kǎo",
+      "word_type": "动",
+      "meaning_vi": "nướng; quay",
+      "meaning_en": "to roast; to bake",
+      "example_zh": "我们在院子里烤白薯。",
+      "example_pinyin": "Wǒmen zài yuàn zi lǐ kǎo báishǔ.",
+      "example_vi": "Chúng tôi nướng khoai lang trong sân.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_g001",
+        "bai05_w015",
+        "bai05_w014"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 114,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w021",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "第",
+      "pinyin": "dì",
+      "word_type": "助",
+      "meaning_vi": "thứ; tiền tố chỉ số thứ tự",
+      "meaning_en": "prefix indicating ordinal numbers",
+      "example_zh": "这是第一次。",
+      "example_pinyin": "Zhè shì dì yī cì.",
+      "example_vi": "Đây là lần thứ nhất.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_g004",
+        "bai05_w026",
+        "bai05_w037"
+      ],
+      "tags": [
+        "tu_vung",
+        "tro_tu"
+      ],
+      "source_line": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w022",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "中餐",
+      "pinyin": "zhōngcān",
+      "word_type": "名",
+      "meaning_vi": "món ăn Trung Quốc",
+      "meaning_en": "Chinese food",
+      "example_zh": "我喜欢吃中餐。",
+      "example_pinyin": "Wǒ xǐhuān chī zhōngcān.",
+      "example_vi": "Tôi thích ăn món Trung Quốc.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w023",
+        "bai05_w024",
+        "bai05_w019"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 232,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w023",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "白薯",
+      "pinyin": "báishǔ",
+      "word_type": "名",
+      "meaning_vi": "khoai lang trắng",
+      "meaning_en": "sweet potato",
+      "example_zh": "冬天吃烤白薯很香。",
+      "example_pinyin": "Dōng tiān chī kǎo báishǔ hěn xiāng.",
+      "example_vi": "Mùa đông ăn khoai lang nướng rất thơm.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w022",
+        "bai05_w024",
+        "bai05_w025"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 116,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w024",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "糖葫芦",
+      "pinyin": "tánghúlú",
+      "word_type": "名",
+      "meaning_vi": "kẹo hồ lô",
+      "meaning_en": "sugarcoated haws on a stick",
+      "example_zh": "孩子喜欢吃糖葫芦。",
+      "example_pinyin": "Hái zi xǐhuān chī tánghúlú.",
+      "example_vi": "Trẻ em thích ăn kẹo hồ lô.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w023",
+        "bai05_w025",
+        "bai05_w022"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 116,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w025",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "糖",
+      "pinyin": "táng",
+      "word_type": "名",
+      "meaning_vi": "đường; kẹo",
+      "meaning_en": "sugar",
+      "example_zh": "咖啡里不要放糖。",
+      "example_pinyin": "Kā fēi lǐ bù yào fàng táng.",
+      "example_vi": "Đừng cho đường vào cà phê.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w024",
+        "bai05_w023",
+        "bai05_w022"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 244,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w026",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "什么的",
+      "pinyin": "shénmede",
+      "word_type": "助",
+      "meaning_vi": "vân vân; những thứ như...",
+      "meaning_en": "and so on",
+      "example_zh": "我买了糖果、白薯什么的。",
+      "example_pinyin": "Wǒ mǎi le táng guǒ 、 báishǔ shénmede.",
+      "example_vi": "Tôi mua kẹo, khoai lang và những thứ tương tự.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w021",
+        "bai05_w037",
+        "bai05_w002"
+      ],
+      "tags": [
+        "tu_vung",
+        "tro_tu"
+      ],
+      "source_line": 248,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w027",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "亲耳",
+      "pinyin": "qīněr",
+      "word_type": "副",
+      "meaning_vi": "tận tai",
+      "meaning_en": "to hear on the spot",
+      "example_zh": "这件事我亲耳听到。",
+      "example_pinyin": "Zhè jiàn shì wǒ qīněr tīng dào.",
+      "example_vi": "Chuyện này tôi tận tai nghe thấy.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w018",
+        "bai05_w017",
+        "bai05_w026"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 129,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w028",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "钢琴",
+      "pinyin": "gāngqín",
+      "word_type": "名",
+      "meaning_vi": "đàn piano",
+      "meaning_en": "piano",
+      "example_zh": "她每天练习钢琴。",
+      "example_pinyin": "Tā měi tiān liàn xí gāngqín.",
+      "example_vi": "Cô ấy luyện piano mỗi ngày.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w029",
+        "bai05_w025",
+        "bai05_w024"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w029",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "家",
+      "pinyin": "jiā",
+      "word_type": "名",
+      "meaning_vi": "chuyên gia; nhà chuyên môn",
+      "meaning_en": "specialist in a field",
+      "example_zh": "他是一位音乐家。",
+      "example_pinyin": "Tā shì yī wèi yīn lè jiā.",
+      "example_vi": "Ông ấy là một nhạc sĩ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w028",
+        "bai05_w032",
+        "bai05_w025"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 129,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w030",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "演奏",
+      "pinyin": "yǎnzòu",
+      "word_type": "动",
+      "meaning_vi": "biểu diễn nhạc cụ",
+      "meaning_en": "to play a musical instrument",
+      "example_zh": "她正在演奏小提琴。",
+      "example_pinyin": "Tā zhèng zài yǎnzòu xiǎotíqín.",
+      "example_vi": "Cô ấy đang biểu diễn violin.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w036",
+        "bai05_w020",
+        "bai05_w015"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 129,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w031",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "极了",
+      "pinyin": "jíle",
+      "word_type": "补语",
+      "meaning_vi": "cực kỳ; hết sức",
+      "meaning_en": "extremely; to the greatest extent",
+      "example_zh": "这支歌好听极了。",
+      "example_pinyin": "Zhè zhī gē hǎotīng jíle.",
+      "example_vi": "Bài hát này hay vô cùng.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w030",
+        "bai05_w032",
+        "bai05_w029"
+      ],
+      "tags": [
+        "tu_vung"
+      ],
+      "source_line": 353,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w032",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "小提琴",
+      "pinyin": "xiǎotíqín",
+      "word_type": "名",
+      "meaning_vi": "đàn violin",
+      "meaning_en": "violin",
+      "example_zh": "他会拉小提琴。",
+      "example_pinyin": "Tā huì lā xiǎotíqín.",
+      "example_vi": "Anh ấy biết kéo violin.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w033",
+        "bai05_w034",
+        "bai05_w029"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 355,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w033",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "协奏曲",
+      "pinyin": "xiézòuqǔ",
+      "word_type": "名",
+      "meaning_vi": "bản hòa tấu",
+      "meaning_en": "concerto",
+      "example_zh": "我听过这首协奏曲。",
+      "example_pinyin": "Wǒ tīng guo zhè shǒu xiézòuqǔ.",
+      "example_vi": "Tôi đã nghe bản concerto này.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w032",
+        "bai05_w034",
+        "bai05_w029"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 356,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w034",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "曲",
+      "pinyin": "qǔ",
+      "word_type": "名",
+      "meaning_vi": "khúc nhạc; giai điệu",
+      "meaning_en": "song; melody; concerto",
+      "example_zh": "我喜欢这支曲。",
+      "example_pinyin": "Wǒ xǐhuān zhè zhī qǔ.",
+      "example_vi": "Tôi thích khúc nhạc này.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w033",
+        "bai05_w032",
+        "bai05_w029"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 356,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w035",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "好听",
+      "pinyin": "hǎotīng",
+      "word_type": "形",
+      "meaning_vi": "dễ nghe; hay",
+      "meaning_en": "pleasing to the ear; melodious",
+      "example_zh": "这支小提琴曲很好听。",
+      "example_pinyin": "Zhè zhī xiǎotíqín qǔ hěn hǎotīng.",
+      "example_vi": "Khúc violin này rất hay.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w016",
+        "bai05_w007",
+        "bai05_w005"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 359,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w036",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "还",
+      "pinyin": "huán",
+      "word_type": "动",
+      "meaning_vi": "trả lại",
+      "meaning_en": "to return; to give back",
+      "example_zh": "听完就还给你。",
+      "example_pinyin": "Tīng wán jiù huán gěi nǐ.",
+      "example_vi": "Nghe xong sẽ trả lại cho bạn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w030",
+        "bai05_w020",
+        "bai05_w015"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 168,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_w037",
+      "bai": 5,
+      "type": "word",
+      "word_zh": "嘛",
+      "pinyin": "ma",
+      "word_type": "助",
+      "meaning_vi": "mà; trợ từ nhấn mạnh lẽ hiển nhiên",
+      "meaning_en": "modal particle indicating an obvious reason",
+      "example_zh": "好借好还，再借不难嘛。",
+      "example_pinyin": "Hǎo jiè hǎo huán, zài jiè bù nán ma.",
+      "example_vi": "Mượn rồi trả đúng hạn thì lần sau mượn không khó mà.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai05_w026",
+        "bai05_w021",
+        "bai05_w002"
+      ],
+      "tags": [
+        "tu_vung",
+        "tro_tu"
+      ],
+      "source_line": 170,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_g001",
+      "bai": 5,
+      "type": "grammar",
+      "grammar_title_zh": "动词+过",
+      "grammar_title_vi": "Động từ + 过 chỉ kinh nghiệm",
+      "structure": "动词 + 过",
+      "explanation_vi": "Biểu thị một hành động từng xảy ra trong quá khứ và thường đã kết thúc; trọng tâm là kinh nghiệm đã có.",
+      "explanation_zh": "动态助词“过”表示过去曾经发生并已经停止的动作，强调经历。",
+      "examples": [
+        {
+          "zh": "我以前来过中国。",
+          "pinyin": "Wǒ yǐ qián lái guo zhōngguó.",
+          "vi": "Trước đây tôi từng đến Trung Quốc.",
+          "source": "document"
+        },
+        {
+          "zh": "我没吃过北京烤鸭。",
+          "pinyin": "Wǒ méi chī guo běijīng kǎoyā.",
+          "vi": "Tôi chưa từng ăn vịt quay Bắc Kinh.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai05_w002",
+        "bai05_w019",
+        "bai05_w020"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 521,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_g002",
+      "bai": 5,
+      "type": "grammar",
+      "grammar_title_zh": "动量补语",
+      "grammar_title_vi": "Bổ ngữ động lượng",
+      "structure": "动词 + 了/过 + 数词 + 次/遍/声/趟/下",
+      "explanation_vi": "Cho biết số lần hành động xảy ra. 了 hoặc 过 đứng sau động từ và trước cụm động lượng.",
+      "explanation_zh": "动量补语说明动作发生的次数；“了、过”放在动词后、动量补语前。",
+      "examples": [
+        {
+          "zh": "这个电影我看过两遍。",
+          "pinyin": "Zhège diàn yǐng wǒ kàn guo liǎng biàn.",
+          "vi": "Tôi đã xem bộ phim này hai lượt.",
+          "source": "document"
+        },
+        {
+          "zh": "他敲了一下儿门。",
+          "pinyin": "Tā qiāo le yī xià ér mén.",
+          "vi": "Anh ấy gõ cửa một cái.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai05_w002",
+        "bai05_g001",
+        "bai05_g003",
+        "bai05_g004"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 553,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_g003",
+      "bai": 5,
+      "type": "grammar",
+      "grammar_title_zh": "“次”和“遍”",
+      "grammar_title_vi": "Phân biệt 次 và 遍",
+      "structure": "动词 + 次/遍",
+      "explanation_vi": "Cả hai đều đếm số lần; 遍 nhấn mạnh toàn bộ quá trình từ đầu đến cuối.",
+      "explanation_zh": "“次”和“遍”都表示次数，“遍”强调从头到尾的全过程。",
+      "examples": [
+        {
+          "zh": "这本书我已经看过两遍了。",
+          "pinyin": "Zhè běn shū wǒ yǐjīng kàn guo liǎng biàn le.",
+          "vi": "Tôi đã đọc trọn cuốn sách này hai lượt.",
+          "source": "document"
+        },
+        {
+          "zh": "这个电影我看了三次也没看完一遍。",
+          "pinyin": "Zhège diàn yǐng wǒ kàn le sān cì yě méi kàn wán yī biàn.",
+          "vi": "Tôi xem phim này ba lần mà vẫn chưa xem trọn một lượt.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai05_w002",
+        "bai05_g001",
+        "bai05_g002",
+        "bai05_g004"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 592,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_g004",
+      "bai": 5,
+      "type": "grammar",
+      "grammar_title_zh": "序数的表达",
+      "grammar_title_vi": "Cách biểu đạt số thứ tự",
+      "structure": "第 + 数词",
+      "explanation_vi": "Thêm 第 trước số từ để tạo số thứ tự; một số trường hợp như tháng, tầng hoặc cửa có thể không cần 第.",
+      "explanation_zh": "数词前加“第”表示序数；有时数词本身也可以表示序数。",
+      "examples": [
+        {
+          "zh": "第一次",
+          "pinyin": "Dì yī cì",
+          "vi": "Lần thứ nhất.",
+          "source": "document"
+        },
+        {
+          "zh": "第四十一课",
+          "pinyin": "Dì sì shí yī kè",
+          "vi": "Bài thứ bốn mươi mốt.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai05_w021",
+        "bai05_g001",
+        "bai05_g002",
+        "bai05_g003"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 631,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_p001",
+      "bai": 5,
+      "type": "phrase",
+      "phrase_zh": "好借好还，再借不难嘛",
+      "pinyin": "Hǎo jiè hǎo huán, zài jiè bù nán ma",
+      "meaning_vi": "mượn dễ trả đúng hạn thì lần sau mượn không khó",
+      "meaning_en": "borrow properly and return in time; borrowing again will not be difficult",
+      "usage_note": "Tục ngữ nhắc phải trả đồ mượn đúng hạn.",
+      "related_words": [
+        "bai05_w018",
+        "bai05_w036",
+        "bai05_w037"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 170,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai05_p002",
+      "bai": 5,
+      "type": "phrase",
+      "phrase_zh": "一点儿也不……",
+      "pinyin": "yìdiǎnr yě bù...",
+      "meaning_vi": "hoàn toàn không...",
+      "meaning_en": "not... at all",
+      "usage_note": "Dùng để nhấn mạnh phủ định hoàn toàn.",
+      "related_words": [
+        "bai05_w005",
+        "bai05_w007",
+        "bai05_w002"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 464,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

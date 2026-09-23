@@ -1,0 +1,1235 @@
+{
+  "metadata": {
+    "bai": 10,
+    "title_zh": "会议厅的门开着呢",
+    "title_vi": "Cửa phòng họp vẫn đang mở",
+    "title_source": "document",
+    "source_file": "data/_extracted/bai/bai10.txt",
+    "total_entries": 44,
+    "word_count": 38,
+    "grammar_count": 4,
+    "phrase_count": 2,
+    "example_stats": {
+      "from_document": 7,
+      "ai_inferred": 31,
+      "missing": 0
+    },
+    "generated_at": "2026-09-19T21:45:24Z",
+    "version": "2.0"
+  },
+  "entries": [
+    {
+      "id": "bai10_w001",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "会议厅",
+      "pinyin": "huìyìtīng",
+      "word_type": "名",
+      "meaning_vi": "phòng hội nghị",
+      "meaning_en": "conference or assembly hall",
+      "example_zh": "大家已经到了会议厅。",
+      "example_pinyin": "Dà jiā yǐjīng dào le huìyìtīng.",
+      "example_vi": "Mọi người đã đến phòng hội nghị.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w002",
+        "bai10_w003",
+        "bai10_w004"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w002",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "厅",
+      "pinyin": "tīng",
+      "word_type": "名",
+      "meaning_vi": "đại sảnh; phòng lớn",
+      "meaning_en": "hall",
+      "example_zh": "大厅里坐满了客人。",
+      "example_pinyin": "Dà tīng lǐ zuò mǎn le kèrén.",
+      "example_vi": "Đại sảnh đã kín khách ngồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w001",
+        "bai10_w003",
+        "bai10_w004"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 103,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w003",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "中心",
+      "pinyin": "zhōngxīn",
+      "word_type": "名",
+      "meaning_vi": "trung tâm",
+      "meaning_en": "center",
+      "example_zh": "市中心有很多商店。",
+      "example_pinyin": "Shì zhōngxīn yǒu hěn duō shāng diàn.",
+      "example_vi": "Trung tâm thành phố có nhiều cửa hàng.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w002",
+        "bai10_w004",
+        "bai10_w001"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 9,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w004",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "服务员",
+      "pinyin": "fúwùyuán",
+      "word_type": "名",
+      "meaning_vi": "nhân viên phục vụ",
+      "meaning_en": "attendant; steward; waiter",
+      "example_zh": "服务员正在摆桌子。",
+      "example_pinyin": "Fúwùyuán zhèng zài bǎi zhuō zi.",
+      "example_vi": "Nhân viên phục vụ đang sắp bàn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w003",
+        "bai10_w002",
+        "bai10_w006"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 9,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w005",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "长",
+      "pinyin": "zhǎng",
+      "word_type": "动",
+      "meaning_vi": "lớn lên; phát triển",
+      "meaning_en": "to grow; to develop",
+      "example_zh": "孩子已经长高了。",
+      "example_pinyin": "Hái zi yǐjīng zhǎng gāo le.",
+      "example_vi": "Đứa trẻ đã lớn cao lên.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w008",
+        "bai10_w011",
+        "bai10_w014"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 109,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w006",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "个子",
+      "pinyin": "gèzi",
+      "word_type": "名",
+      "meaning_vi": "vóc dáng; chiều cao",
+      "meaning_en": "height; stature",
+      "example_zh": "她个子高高的。",
+      "example_pinyin": "Tā gèzi gāo gāo de.",
+      "example_vi": "Cô ấy có vóc dáng cao.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w007",
+        "bai10_w004",
+        "bai10_w003"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 110,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w007",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "左右",
+      "pinyin": "zuǒyòu",
+      "word_type": "名",
+      "meaning_vi": "khoảng; xấp xỉ",
+      "meaning_en": "about; or so",
+      "example_zh": "她大概一米七左右。",
+      "example_pinyin": "Tā dà gài yī mǐ qī zuǒyòu.",
+      "example_vi": "Cô ấy cao khoảng một mét bảy.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w006",
+        "bai10_w004",
+        "bai10_w003"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 13,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w008",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "戴",
+      "pinyin": "dài",
+      "word_type": "动",
+      "meaning_vi": "đội; đeo",
+      "meaning_en": "to wear on the head, face, neck or arm",
+      "example_zh": "她戴着一副眼镜。",
+      "example_pinyin": "Tā dài zhe yī fù yǎn jìng.",
+      "example_vi": "Cô ấy đang đeo một chiếc kính.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w005",
+        "bai10_w011",
+        "bai10_w014"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 14,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w009",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "着",
+      "pinyin": "zhe",
+      "word_type": "助",
+      "meaning_vi": "đang; biểu thị trạng thái tiếp diễn",
+      "meaning_en": "particle indicating continuation",
+      "example_zh": "会议厅的门开着呢。",
+      "example_pinyin": "Huìyìtīng de mén kāi zhe ne.",
+      "example_vi": "Cửa phòng họp vẫn đang mở.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_g001",
+        "bai10_g002",
+        "bai10_g003",
+        "bai10_g004"
+      ],
+      "tags": [
+        "tu_vung",
+        "tro_tu"
+      ],
+      "source_line": 120,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w010",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "副",
+      "pinyin": "fù",
+      "word_type": "量",
+      "meaning_vi": "chiếc; cặp; bộ",
+      "meaning_en": "pair; set",
+      "example_zh": "她戴着一副眼镜。",
+      "example_pinyin": "Tā dài zhe yī fù yǎn jìng.",
+      "example_vi": "Cô ấy đang đeo một chiếc kính.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w009",
+        "bai10_w011",
+        "bai10_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "luong_tu"
+      ],
+      "source_line": 14,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w011",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "穿",
+      "pinyin": "chuān",
+      "word_type": "动",
+      "meaning_vi": "mặc",
+      "meaning_en": "to wear",
+      "example_zh": "她穿着一件红西服。",
+      "example_pinyin": "Tā chuān zhe yī jiàn hóng xīfú.",
+      "example_vi": "Cô ấy đang mặc một bộ com-lê đỏ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_g001",
+        "bai10_w008",
+        "bai10_w014"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 14,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w012",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "西服",
+      "pinyin": "xīfú",
+      "word_type": "名",
+      "meaning_vi": "âu phục; com-lê",
+      "meaning_en": "western suit",
+      "example_zh": "她穿着一件红色的西服。",
+      "example_pinyin": "Tā chuān zhe yī jiàn hóng sè de xīfú.",
+      "example_vi": "Cô ấy đang mặc một bộ com-lê màu đỏ.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_g001",
+        "bai10_w013",
+        "bai10_w015"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 157,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w013",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "裙子",
+      "pinyin": "qúnzi",
+      "word_type": "名",
+      "meaning_vi": "váy",
+      "meaning_en": "skirt",
+      "example_zh": "她穿着一条红裙子。",
+      "example_pinyin": "Tā chuān zhe yī tiáo hóng qúnzi.",
+      "example_vi": "Cô ấy đang mặc một chiếc váy đỏ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w012",
+        "bai10_w015",
+        "bai10_w017"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 15,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w014",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "干",
+      "pinyin": "gàn",
+      "word_type": "动",
+      "meaning_vi": "làm",
+      "meaning_en": "to do",
+      "example_zh": "你在干什么？",
+      "example_pinyin": "Nǐ zài gàn shénme?",
+      "example_vi": "Bạn đang làm gì?",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w016",
+        "bai10_w011",
+        "bai10_w018"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 17,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w015",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "主持人",
+      "pinyin": "zhǔchírén",
+      "word_type": "名",
+      "meaning_vi": "người dẫn chương trình",
+      "meaning_en": "host; hostess; anchorperson",
+      "example_zh": "她是电视台的主持人。",
+      "example_pinyin": "Tā shì diànshìtái de zhǔchírén.",
+      "example_vi": "Cô ấy là người dẫn chương trình của đài truyền hình.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w013",
+        "bai10_w017",
+        "bai10_w012"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 160,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w016",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "主持",
+      "pinyin": "zhǔchí",
+      "word_type": "动",
+      "meaning_vi": "chủ trì; dẫn chương trình",
+      "meaning_en": "to preside over; to take charge of",
+      "example_zh": "她正在主持婚礼。",
+      "example_pinyin": "Tā zhèng zài zhǔchí hūnlǐ.",
+      "example_vi": "Cô ấy đang chủ trì hôn lễ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w014",
+        "bai10_w018",
+        "bai10_w011"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 160,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w017",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "小伙子",
+      "pinyin": "xiǎohuǒzi",
+      "word_type": "名",
+      "meaning_vi": "chàng trai",
+      "meaning_en": "young man; lad",
+      "example_zh": "那个小伙子很热情。",
+      "example_pinyin": "Nà gè xiǎohuǒzi hěn rèqíng.",
+      "example_vi": "Chàng trai ấy rất nhiệt tình.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w015",
+        "bai10_w019",
+        "bai10_w020"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 162,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w018",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "扛",
+      "pinyin": "káng",
+      "word_type": "动",
+      "meaning_vi": "vác trên vai",
+      "meaning_en": "to carry on the shoulder",
+      "example_zh": "他扛着摄像机。",
+      "example_pinyin": "Tā káng zhe shèxiàngjī.",
+      "example_vi": "Anh ấy đang vác máy quay phim.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w016",
+        "bai10_w021",
+        "bai10_w014"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 196,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai10_w019",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "摄像机",
+      "pinyin": "shèxiàngjī",
+      "word_type": "名",
+      "meaning_vi": "máy quay phim",
+      "meaning_en": "video camera",
+      "example_zh": "两个小伙子扛着摄像机。",
+      "example_pinyin": "Liǎnggè xiǎohuǒzi káng zhe shèxiàngjī.",
+      "example_vi": "Hai chàng trai đang vác máy quay phim.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w020",
+        "bai10_w017",
+        "bai10_w022"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 165,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w020",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "麦克风",
+      "pinyin": "màikèfēng",
+      "word_type": "名",
+      "meaning_vi": "micro",
+      "meaning_en": "microphone",
+      "example_zh": "主持人拿着麦克风讲话。",
+      "example_pinyin": "Zhǔchírén ná zhe màikèfēng jiǎnghuà.",
+      "example_vi": "Người dẫn chương trình cầm micro nói chuyện.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w019",
+        "bai10_w022",
+        "bai10_w017"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 167,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w021",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "讲话",
+      "pinyin": "jiǎnghuà",
+      "word_type": "动",
+      "meaning_vi": "nói; nói chuyện",
+      "meaning_en": "to speak; to talk",
+      "example_zh": "主持人拿着麦克风讲话。",
+      "example_pinyin": "Zhǔchírén ná zhe màikèfēng jiǎnghuà.",
+      "example_vi": "Người dẫn chương trình cầm micro nói chuyện.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_g003",
+        "bai10_w018",
+        "bai10_w016"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 168,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w022",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "墙",
+      "pinyin": "qiáng",
+      "word_type": "名",
+      "meaning_vi": "tường",
+      "meaning_en": "wall",
+      "example_zh": "墙上贴着一张照片。",
+      "example_pinyin": "Qiáng shàng tiē zhe yī zhāng zhào piàn.",
+      "example_vi": "Trên tường dán một bức ảnh.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_g001",
+        "bai10_w020",
+        "bai10_w024"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 170,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w023",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "喜",
+      "pinyin": "xǐ",
+      "word_type": "形",
+      "meaning_vi": "vui",
+      "meaning_en": "happy",
+      "example_zh": "墙上挂着红双喜字。",
+      "example_pinyin": "Qiáng shàng guà zhe hóng shuāng xǐ zì.",
+      "example_vi": "Trên tường treo chữ song hỷ màu đỏ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_g001",
+        "bai10_w025",
+        "bai10_w032"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 171,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w024",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "婚礼",
+      "pinyin": "hūnlǐ",
+      "word_type": "名",
+      "meaning_vi": "hôn lễ; đám cưới",
+      "meaning_en": "wedding",
+      "example_zh": "我们参加了他们的婚礼。",
+      "example_pinyin": "Wǒmen cān jiā le tāmen de hūnlǐ.",
+      "example_vi": "Chúng tôi dự đám cưới của họ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w022",
+        "bai10_w027",
+        "bai10_w020"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 172,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w025",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "热闹",
+      "pinyin": "rènào",
+      "word_type": "形",
+      "meaning_vi": "náo nhiệt",
+      "meaning_en": "lively",
+      "example_zh": "婚礼现场很热闹。",
+      "example_pinyin": "Hūnlǐ xiàn chǎng hěn rènào.",
+      "example_vi": "Quang cảnh đám cưới rất náo nhiệt.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w023",
+        "bai10_w032",
+        "bai10_w034"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 222,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai10_w026",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "挂",
+      "pinyin": "guà",
+      "word_type": "动",
+      "meaning_vi": "treo",
+      "meaning_en": "to hang",
+      "example_zh": "墙上挂着红灯笼。",
+      "example_pinyin": "Qiáng shàng guà zhe hóng dēnglóng.",
+      "example_vi": "Trên tường treo đèn lồng đỏ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w028",
+        "bai10_w021",
+        "bai10_w018"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 174,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w027",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "灯笼",
+      "pinyin": "dēnglóng",
+      "word_type": "名",
+      "meaning_vi": "đèn lồng",
+      "meaning_en": "lantern",
+      "example_zh": "门口挂着红灯笼。",
+      "example_pinyin": "Mén kǒu guà zhe hóng dēnglóng.",
+      "example_vi": "Ở cửa treo đèn lồng đỏ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w029",
+        "bai10_w024",
+        "bai10_w030"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 75,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w028",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "摆",
+      "pinyin": "bǎi",
+      "word_type": "动",
+      "meaning_vi": "bày; sắp xếp",
+      "meaning_en": "to put; to place",
+      "example_zh": "桌上摆着很多水果。",
+      "example_pinyin": "Zhuō shàng bǎi zhe hěn duō shuǐ guǒ.",
+      "example_vi": "Trên bàn bày nhiều hoa quả.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w026",
+        "bai10_w021",
+        "bai10_w036"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 175,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w029",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "新娘",
+      "pinyin": "xīnniáng",
+      "word_type": "名",
+      "meaning_vi": "cô dâu",
+      "meaning_en": "bride",
+      "example_zh": "新娘穿着红棉袄。",
+      "example_pinyin": "Xīnniáng chuān zhe hóng miánǎo.",
+      "example_vi": "Cô dâu đang mặc áo bông đỏ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w030",
+        "bai10_w027",
+        "bai10_w031"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 76,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w030",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "棉袄",
+      "pinyin": "miánǎo",
+      "word_type": "名",
+      "meaning_vi": "áo bông",
+      "meaning_en": "padded coat",
+      "example_zh": "她穿着一件红棉袄。",
+      "example_pinyin": "Tā chuān zhe yī jiàn hóng miánǎo.",
+      "example_vi": "Cô ấy đang mặc một chiếc áo bông đỏ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w029",
+        "bai10_w031",
+        "bai10_w027"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 230,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai10_w031",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "新郎",
+      "pinyin": "xīnláng",
+      "word_type": "名",
+      "meaning_vi": "chú rể",
+      "meaning_en": "bridegroom",
+      "example_zh": "新郎系着红领带。",
+      "example_pinyin": "Xīnláng xì zhe hóng lǐngdài.",
+      "example_vi": "Chú rể đang thắt cà vạt đỏ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w030",
+        "bai10_w029",
+        "bai10_w033"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 178,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w032",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "帅",
+      "pinyin": "shuài",
+      "word_type": "形",
+      "meaning_vi": "đẹp trai",
+      "meaning_en": "handsome; smart",
+      "example_zh": "新郎长得很帅。",
+      "example_pinyin": "Xīnláng zhǎng de hěn shuài.",
+      "example_vi": "Chú rể trông rất đẹp trai.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w034",
+        "bai10_w025",
+        "bai10_w023"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 179,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w033",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "领带",
+      "pinyin": "lǐngdài",
+      "word_type": "名",
+      "meaning_vi": "cà vạt",
+      "meaning_en": "necktie",
+      "example_zh": "他今天系了一条领带。",
+      "example_pinyin": "Tā jīntiān xì le yī tiáo lǐngdài.",
+      "example_vi": "Hôm nay anh ấy thắt một chiếc cà vạt.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w031",
+        "bai10_w035",
+        "bai10_w030"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 180,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w034",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "热情",
+      "pinyin": "rèqíng",
+      "word_type": "形",
+      "meaning_vi": "nhiệt tình",
+      "meaning_en": "warm; enthusiastic",
+      "example_zh": "客人都很热情。",
+      "example_pinyin": "Kèrén dōu hěn rèqíng.",
+      "example_vi": "Các vị khách đều rất nhiệt tình.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w032",
+        "bai10_w025",
+        "bai10_w023"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 181,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w035",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "客人",
+      "pinyin": "kèrén",
+      "word_type": "名",
+      "meaning_vi": "khách",
+      "meaning_en": "guest",
+      "example_zh": "客人们都到齐了。",
+      "example_pinyin": "Kèrén men dōu dào qí le.",
+      "example_vi": "Các vị khách đã đến đông đủ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w033",
+        "bai10_w038",
+        "bai10_w031"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 272,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w036",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "倒",
+      "pinyin": "dào",
+      "word_type": "动",
+      "meaning_vi": "rót",
+      "meaning_en": "to pour",
+      "example_zh": "请给客人倒茶。",
+      "example_pinyin": "Qǐng gěi kèrén dào chá.",
+      "example_vi": "Hãy rót trà cho khách.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w028",
+        "bai10_w026",
+        "bai10_w021"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 273,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w037",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "不停",
+      "pinyin": "bùtíng",
+      "word_type": "副",
+      "meaning_vi": "không ngừng",
+      "meaning_en": "incessantly",
+      "example_zh": "他不停地讲话。",
+      "example_pinyin": "Tā bùtíng de jiǎnghuà.",
+      "example_vi": "Anh ấy nói không ngừng.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w036",
+        "bai10_w038",
+        "bai10_w035"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 274,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_w038",
+      "bai": 10,
+      "type": "word",
+      "word_zh": "气氛",
+      "pinyin": "qìfēn",
+      "word_type": "名",
+      "meaning_vi": "không khí; bầu không khí",
+      "meaning_en": "atmosphere",
+      "example_zh": "婚礼的气氛很热闹。",
+      "example_pinyin": "Hūnlǐ de qìfēn hěn rènào.",
+      "example_vi": "Không khí đám cưới rất náo nhiệt.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai10_w035",
+        "bai10_w033",
+        "bai10_w031"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 276,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_g001",
+      "bai": 10,
+      "type": "grammar",
+      "grammar_title_zh": "动词+着",
+      "grammar_title_vi": "Động từ + 着 chỉ sự tiếp diễn",
+      "structure": "动词 + 着",
+      "explanation_vi": "着 sau động từ biểu thị hành động hoặc trạng thái đang tiếp tục, chủ yếu dùng để miêu tả.",
+      "explanation_zh": "动词后加动态助词“着”，表示动作或状态的持续，主要用于描写。",
+      "examples": [
+        {
+          "zh": "墙上贴着红双喜字。",
+          "pinyin": "Qiáng shàng tiē zhe hóng shuāng xǐ zì.",
+          "vi": "Trên tường đang dán chữ song hỷ màu đỏ.",
+          "source": "document"
+        },
+        {
+          "zh": "她穿着一件红西服。",
+          "pinyin": "Tā chuān zhe yī jiàn hóng xīfú.",
+          "vi": "Cô ấy đang mặc một bộ com-lê đỏ.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai10_w009",
+        "bai10_w011",
+        "bai10_w012",
+        "bai10_w022"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 296,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_g002",
+      "bai": 10,
+      "type": "grammar",
+      "grammar_title_zh": "没（有）……着",
+      "grammar_title_vi": "Phủ định của 着",
+      "structure": "没（有）+ 动词 + 着",
+      "explanation_vi": "Dùng để phủ định trạng thái tiếp diễn hoặc trạng thái đang tồn tại, nhưng trong giao tiếp không dùng nhiều.",
+      "explanation_zh": "否定式是“没（有）……着”，但交际中很少用。",
+      "examples": [
+        {
+          "zh": "教室的门没开着。",
+          "pinyin": "Jiào shì de mén méi kāi zhe.",
+          "vi": "Cửa lớp không mở.",
+          "source": "document"
+        },
+        {
+          "zh": "书上没写着名字。",
+          "pinyin": "Shū shàng méi xiě zhe míng zì.",
+          "vi": "Trên sách không ghi tên.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai10_w009",
+        "bai10_g001",
+        "bai10_g003",
+        "bai10_g004"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 316,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_g003",
+      "bai": 10,
+      "type": "grammar",
+      "grammar_title_zh": "动词+着+动词",
+      "grammar_title_vi": "着 trong câu liên động",
+      "structure": "动词1 + 着 + 动词2",
+      "explanation_vi": "Động từ thứ nhất kèm 着 mô tả trạng thái hoặc cách thức khi hành động thứ hai diễn ra.",
+      "explanation_zh": "“动词+着”用于连动句第二个动词前，说明第二个动作进行时的状态或方式。",
+      "examples": [
+        {
+          "zh": "她正在前边站着讲话呢。",
+          "pinyin": "Tā zhèng zài qián biān zhàn zhe jiǎnghuà ne.",
+          "vi": "Cô ấy đang đứng phía trước nói chuyện.",
+          "source": "document"
+        },
+        {
+          "zh": "我们走着去吧。",
+          "pinyin": "Wǒmen zǒu zhe qù ba.",
+          "vi": "Chúng ta đi bộ tới đó nhé.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai10_w009",
+        "bai10_w021"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 332,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_g004",
+      "bai": 10,
+      "type": "grammar",
+      "grammar_title_zh": "着与正在/正/在/呢",
+      "grammar_title_vi": "着 kết hợp với 正在, 正, 在, 呢",
+      "structure": "正在/正/在 + 动词 + 着 + 呢",
+      "explanation_vi": "着 thường phối hợp với 正在、正、在、呢 để làm rõ hành động hoặc trạng thái đang tiếp diễn.",
+      "explanation_zh": "“动词+着”常和“正在、正、在、呢”等词连用。",
+      "examples": [
+        {
+          "zh": "里边正上着课呢。",
+          "pinyin": "Lǐ biān zhèng shàng zhe kè ne.",
+          "vi": "Bên trong đang học.",
+          "source": "document"
+        },
+        {
+          "zh": "老师没在前面坐着，他站着呢。",
+          "pinyin": "Lǎoshī méi zài qián miàn zuò zhe, tā zhàn zhe ne.",
+          "vi": "Giáo viên không ngồi phía trước, thầy đang đứng.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai10_w009",
+        "bai10_g001",
+        "bai10_g002",
+        "bai10_g003"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 311,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_p001",
+      "bai": 10,
+      "type": "phrase",
+      "phrase_zh": "长得什么样",
+      "pinyin": "Zhǎng de shénme yàng",
+      "meaning_vi": "trông như thế nào",
+      "meaning_en": "what does someone look like",
+      "usage_note": "Dùng để hỏi ngoại hình của một người.",
+      "related_words": [
+        "bai10_w005",
+        "bai10_w003",
+        "bai10_w004"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 11,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai10_p002",
+      "bai": 10,
+      "type": "phrase",
+      "phrase_zh": "开着呢",
+      "pinyin": "Kāi zhe ne",
+      "meaning_vi": "vẫn đang mở",
+      "meaning_en": "is still open",
+      "usage_note": "着 biểu thị trạng thái mở đang được duy trì; 呢 tăng sắc thái đang tiếp diễn.",
+      "related_words": [
+        "bai10_w009",
+        "bai10_w001",
+        "bai10_w003"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 1,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

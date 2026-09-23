@@ -1,0 +1,1378 @@
+{
+  "metadata": {
+    "bai": 3,
+    "title_zh": "冬天快要到了",
+    "title_vi": "Mùa đông sắp đến rồi",
+    "title_source": "document",
+    "source_file": "data/_extracted/bai/bai03.txt",
+    "total_entries": 49,
+    "word_count": 42,
+    "grammar_count": 5,
+    "phrase_count": 2,
+    "example_stats": {
+      "from_document": 5,
+      "ai_inferred": 37,
+      "missing": 0
+    },
+    "generated_at": "2026-09-19T21:45:24Z",
+    "version": "2.0"
+  },
+  "entries": [
+    {
+      "id": "bai03_w001",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "爱",
+      "pinyin": "ài",
+      "word_type": "动",
+      "meaning_vi": "yêu; thích",
+      "meaning_en": "to love; to like",
+      "example_zh": "我爱滑冰和滑雪。",
+      "example_pinyin": "Wǒ ài huábīng hé huáxuě.",
+      "example_vi": "Tôi thích trượt băng và trượt tuyết.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w002",
+        "bai03_w003",
+        "bai03_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 101,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w002",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "滑冰",
+      "pinyin": "huábīng",
+      "word_type": "动",
+      "meaning_vi": "trượt băng",
+      "meaning_en": "to skate",
+      "example_zh": "我爱滑冰，也爱滑雪。",
+      "example_pinyin": "Wǒ ài huábīng, yě ài huáxuě.",
+      "example_vi": "Tôi thích trượt băng, cũng thích trượt tuyết.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w001",
+        "bai03_w003",
+        "bai03_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 103,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w003",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "滑雪",
+      "pinyin": "huáxuě",
+      "word_type": "动",
+      "meaning_vi": "trượt tuyết",
+      "meaning_en": "to ski",
+      "example_zh": "我爱滑冰，也爱滑雪。",
+      "example_pinyin": "Wǒ ài huábīng, yě ài huáxuě.",
+      "example_vi": "Tôi thích trượt băng, cũng thích trượt tuyết.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w002",
+        "bai03_w001",
+        "bai03_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 104,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w004",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "家乡",
+      "pinyin": "jiāxiāng",
+      "word_type": "名",
+      "meaning_vi": "quê hương",
+      "meaning_en": "homeland",
+      "example_zh": "我的家乡在南方。",
+      "example_pinyin": "Wǒ de jiāxiāng zài nán fāng.",
+      "example_vi": "Quê tôi ở miền Nam.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w006",
+        "bai03_w007",
+        "bai03_w012"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 23,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w005",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "有名",
+      "pinyin": "yǒumíng",
+      "word_type": "形",
+      "meaning_vi": "nổi tiếng",
+      "meaning_en": "famous",
+      "example_zh": "我们家乡是有名的风景区。",
+      "example_pinyin": "Wǒmen jiāxiāng shì yǒumíng de fēngjǐng qū.",
+      "example_vi": "Quê chúng tôi là khu phong cảnh nổi tiếng.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w010",
+        "bai03_w022",
+        "bai03_w024"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 87,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w006",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "风景",
+      "pinyin": "fēngjǐng",
+      "word_type": "名",
+      "meaning_vi": "phong cảnh",
+      "meaning_en": "scenic view; landscape",
+      "example_zh": "我们家乡是有名的风景区。",
+      "example_pinyin": "Wǒmen jiāxiāng shì yǒumíng de fēngjǐng qū.",
+      "example_vi": "Quê chúng tôi là khu phong cảnh nổi tiếng.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w007",
+        "bai03_w004",
+        "bai03_w012"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 89,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w007",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "区",
+      "pinyin": "qū",
+      "word_type": "名",
+      "meaning_vi": "khu vực; vùng",
+      "meaning_en": "area; region",
+      "example_zh": "这个区冬天很冷。",
+      "example_pinyin": "Zhège qū dōng tiān hěn lěng.",
+      "example_vi": "Khu vực này mùa đông rất lạnh.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w006",
+        "bai03_w004",
+        "bai03_w012"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 107,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w008",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "旅游",
+      "pinyin": "lǚyóu",
+      "word_type": "动",
+      "meaning_vi": "du lịch",
+      "meaning_en": "to have a tour",
+      "example_zh": "暑假我们去北京旅游。",
+      "example_pinyin": "Shǔ jiǎ wǒmen qù běijīng lǚyóu.",
+      "example_vi": "Nghỉ hè chúng tôi đi Bắc Kinh du lịch.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w011",
+        "bai03_w003",
+        "bai03_w013"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 25,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w009",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "尤其",
+      "pinyin": "yóuqí",
+      "word_type": "副",
+      "meaning_vi": "đặc biệt là; nhất là",
+      "meaning_en": "especially",
+      "example_zh": "我尤其喜欢秋天。",
+      "example_pinyin": "Wǒ yóuqí xǐhuān qiū tiān.",
+      "example_vi": "Tôi đặc biệt thích mùa thu.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w008",
+        "bai03_w010",
+        "bai03_w007"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 25,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w010",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "凉快",
+      "pinyin": "liángkuài",
+      "word_type": "形",
+      "meaning_vi": "mát mẻ",
+      "meaning_en": "nice and cool",
+      "example_zh": "尤其是夏天，山里很凉快。",
+      "example_pinyin": "Yóuqí shì xià tiān, shān lǐ hěn liángkuài.",
+      "example_vi": "Đặc biệt vào mùa hè, trong núi rất mát.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w005",
+        "bai03_w022",
+        "bai03_w024"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 25,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w011",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "避暑",
+      "pinyin": "bìshǔ",
+      "word_type": "动",
+      "meaning_vi": "nghỉ mát; tránh nóng",
+      "meaning_en": "to spend a holiday at a summer resort",
+      "example_zh": "夏天我们去山里避暑。",
+      "example_pinyin": "Xià tiān wǒmen qù shān lǐ bìshǔ.",
+      "example_vi": "Mùa hè chúng tôi lên núi tránh nóng.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w013",
+        "bai03_w008",
+        "bai03_w014"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 133,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai03_w012",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "人家",
+      "pinyin": "rénjiā",
+      "word_type": "名",
+      "meaning_vi": "nhà người ta; gia đình",
+      "meaning_en": "household; family",
+      "example_zh": "别拿人家的东西。",
+      "example_pinyin": "Bié ná rénjiā de dōng xī.",
+      "example_vi": "Đừng lấy đồ của người khác.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w016",
+        "bai03_w007",
+        "bai03_w017"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 26,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w013",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "靠",
+      "pinyin": "kào",
+      "word_type": "动",
+      "meaning_vi": "dựa vào; trông vào",
+      "meaning_en": "to rely on",
+      "example_zh": "他们靠经营旅馆发财。",
+      "example_pinyin": "Tāmen kào jīngyíng lǚ guǎn fācái.",
+      "example_vi": "Họ dựa vào kinh doanh khách sạn để làm giàu.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w014",
+        "bai03_w011",
+        "bai03_w015"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 26,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w014",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "经营",
+      "pinyin": "jīngyíng",
+      "word_type": "动",
+      "meaning_vi": "kinh doanh; quản lý",
+      "meaning_en": "to manage; to run",
+      "example_zh": "他经营一家小饭馆。",
+      "example_pinyin": "Tā jīngyíng yī jiā xiǎo fàn guǎn.",
+      "example_vi": "Anh ấy kinh doanh một quán ăn nhỏ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w013",
+        "bai03_w015",
+        "bai03_w011"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 26,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w015",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "发财",
+      "pinyin": "fācái",
+      "word_type": "动",
+      "meaning_vi": "phát tài; làm giàu",
+      "meaning_en": "to get rich; to make a fortune",
+      "example_zh": "他们靠经营旅馆发财。",
+      "example_pinyin": "Tāmen kào jīngyíng lǚ guǎn fācái.",
+      "example_vi": "Họ dựa vào kinh doanh khách sạn để làm giàu.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w014",
+        "bai03_w013",
+        "bai03_w011"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 139,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai03_w016",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "树叶",
+      "pinyin": "shùyè",
+      "word_type": "名",
+      "meaning_vi": "lá cây",
+      "meaning_en": "leaf",
+      "example_zh": "秋天树叶变红了。",
+      "example_pinyin": "Qiū tiān shùyè biàn hóng le.",
+      "example_vi": "Mùa thu lá cây chuyển đỏ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_g001",
+        "bai03_w017",
+        "bai03_w018"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 30,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w017",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "树",
+      "pinyin": "shù",
+      "word_type": "名",
+      "meaning_vi": "cây",
+      "meaning_en": "tree",
+      "example_zh": "院子里有两棵树。",
+      "example_pinyin": "Yuàn zi lǐ yǒu liǎng kē shù.",
+      "example_vi": "Trong sân có hai cây.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_g001",
+        "bai03_w016",
+        "bai03_w018"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 30,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w018",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "叶",
+      "pinyin": "yè",
+      "word_type": "名",
+      "meaning_vi": "lá",
+      "meaning_en": "leaf",
+      "example_zh": "地上有很多落叶。",
+      "example_pinyin": "De shàng yǒu hěn duō luò yè.",
+      "example_vi": "Trên đất có rất nhiều lá rụng.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_g001",
+        "bai03_w017",
+        "bai03_w016"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 30,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w019",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "落",
+      "pinyin": "luò",
+      "word_type": "动",
+      "meaning_vi": "rơi; rụng",
+      "meaning_en": "to fall",
+      "example_zh": "秋天树叶落了。",
+      "example_pinyin": "Qiū tiān shùyè luò le.",
+      "example_vi": "Mùa thu lá cây rụng rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w021",
+        "bai03_w015",
+        "bai03_w014"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 146,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai03_w020",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "红叶",
+      "pinyin": "hóngyè",
+      "word_type": "名",
+      "meaning_vi": "lá đỏ mùa thu",
+      "meaning_en": "red autumn leaves",
+      "example_zh": "香山的红叶很美。",
+      "example_pinyin": "Xiāng shān de hóngyè hěn měi.",
+      "example_vi": "Lá đỏ ở Hương Sơn rất đẹp.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w018",
+        "bai03_w017",
+        "bai03_w023"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 30,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w021",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "捡",
+      "pinyin": "jiǎn",
+      "word_type": "动",
+      "meaning_vi": "nhặt; lượm",
+      "meaning_en": "to pick up",
+      "example_zh": "他从地上捡起钥匙。",
+      "example_pinyin": "Tā cóng de shàng jiǎn qǐ yào shi.",
+      "example_vi": "Anh ấy nhặt chìa khóa từ dưới đất lên.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w019",
+        "bai03_w026",
+        "bai03_w015"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 44,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w022",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "着急",
+      "pinyin": "zháojí",
+      "word_type": "形",
+      "meaning_vi": "sốt ruột; lo lắng",
+      "meaning_en": "feeling anxious",
+      "example_zh": "别着急，时间还早。",
+      "example_pinyin": "Bié zháojí, shí jiān hái zǎo.",
+      "example_vi": "Đừng sốt ruột, vẫn còn sớm.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w024",
+        "bai03_w010",
+        "bai03_w005"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 333,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai03_w023",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "表",
+      "pinyin": "biǎo",
+      "word_type": "名",
+      "meaning_vi": "đồng hồ đeo tay",
+      "meaning_en": "watch",
+      "example_zh": "我的表没电了。",
+      "example_pinyin": "Wǒ de biǎo méi diàn le.",
+      "example_vi": "Đồng hồ của tôi hết pin rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_g003",
+        "bai03_w020",
+        "bai03_w018"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 500,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w024",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "坏",
+      "pinyin": "huài",
+      "word_type": "形",
+      "meaning_vi": "hỏng; xấu",
+      "meaning_en": "bad; to go wrong",
+      "example_zh": "我的表坏了。",
+      "example_pinyin": "Wǒ de biǎo huài le.",
+      "example_vi": "Đồng hồ của tôi hỏng rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w022",
+        "bai03_w010",
+        "bai03_w005"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 291,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w025",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "哎呀",
+      "pinyin": "āiyā",
+      "word_type": "叹",
+      "meaning_vi": "ôi; ái chà",
+      "meaning_en": "expressing surprise or amazement",
+      "example_zh": "哎呀，我忘带钥匙了。",
+      "example_pinyin": "Āiyā, wǒ wàng dài yào shi le.",
+      "example_vi": "Ôi, tôi quên mang chìa khóa rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w024",
+        "bai03_w026",
+        "bai03_w023"
+      ],
+      "tags": [
+        "tu_vung",
+        "than_tu"
+      ],
+      "source_line": 292,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w026",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "停",
+      "pinyin": "tíng",
+      "word_type": "动",
+      "meaning_vi": "dừng; ngừng",
+      "meaning_en": "to stop",
+      "example_zh": "我的表突然停了。",
+      "example_pinyin": "Wǒ de biǎo tū rán tíng le.",
+      "example_vi": "Đồng hồ của tôi đột nhiên dừng rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w027",
+        "bai03_w029",
+        "bai03_w021"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 53,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w027",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "该",
+      "pinyin": "gāi",
+      "word_type": "动",
+      "meaning_vi": "nên; cần phải",
+      "meaning_en": "should; ought to; need",
+      "example_zh": "我们该走了。",
+      "example_pinyin": "Wǒmen gāi zǒu le.",
+      "example_vi": "Chúng ta nên đi rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w026",
+        "bai03_w029",
+        "bai03_w021"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 520,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w028",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "电池",
+      "pinyin": "diànchí",
+      "word_type": "名",
+      "meaning_vi": "pin",
+      "meaning_en": "battery",
+      "example_zh": "这个电池没有电了。",
+      "example_pinyin": "Zhège diànchí méi yǒu diàn le.",
+      "example_vi": "Viên pin này hết điện rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w030",
+        "bai03_w031",
+        "bai03_w023"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 294,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w029",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "迟到",
+      "pinyin": "chídào",
+      "word_type": "动",
+      "meaning_vi": "đến muộn",
+      "meaning_en": "to be late",
+      "example_zh": "他今天上课迟到了。",
+      "example_pinyin": "Tā jīntiān shàng kè chídào le.",
+      "example_vi": "Hôm nay anh ấy đi học muộn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w027",
+        "bai03_w026",
+        "bai03_w036"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 295,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w030",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "好事",
+      "pinyin": "hǎoshì",
+      "word_type": "名",
+      "meaning_vi": "việc tốt; chuyện vui",
+      "meaning_en": "happy event; good thing",
+      "example_zh": "帮助别人是好事。",
+      "example_pinyin": "Bāng zhù bié rén shì hǎoshì.",
+      "example_vi": "Giúp đỡ người khác là việc tốt.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w031",
+        "bai03_w028",
+        "bai03_w033"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 296,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w031",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "坏事",
+      "pinyin": "huàishì",
+      "word_type": "名",
+      "meaning_vi": "việc xấu",
+      "meaning_en": "bad thing",
+      "example_zh": "他从来不做坏事。",
+      "example_pinyin": "Tā cóng lái bù zuò huàishì.",
+      "example_vi": "Anh ấy chưa bao giờ làm việc xấu.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w030",
+        "bai03_w033",
+        "bai03_w028"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 297,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w032",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "了",
+      "pinyin": "le",
+      "word_type": "助",
+      "meaning_vi": "rồi; trợ từ biểu thị thay đổi",
+      "meaning_en": "modal particle indicating change",
+      "example_zh": "天气变冷了。",
+      "example_pinyin": "Tiān qì biàn lěng le.",
+      "example_vi": "Thời tiết trở lạnh rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_g001",
+        "bai03_g002",
+        "bai03_g003",
+        "bai03_g004"
+      ],
+      "tags": [
+        "tu_vung",
+        "tro_tu"
+      ],
+      "source_line": 512,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w033",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "母亲",
+      "pinyin": "mǔqīn",
+      "word_type": "名",
+      "meaning_vi": "mẹ",
+      "meaning_en": "mother",
+      "example_zh": "他的母亲是老师。",
+      "example_pinyin": "Tā de mǔqīn shì lǎoshī.",
+      "example_vi": "Mẹ anh ấy là giáo viên.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w034",
+        "bai03_w031",
+        "bai03_w030"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 299,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w034",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "父亲",
+      "pinyin": "fùqīn",
+      "word_type": "名",
+      "meaning_vi": "bố; cha",
+      "meaning_en": "father",
+      "example_zh": "我父亲明天回来。",
+      "example_pinyin": "Wǒ fùqīn míngtiān huí lái.",
+      "example_vi": "Ngày mai bố tôi về.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w033",
+        "bai03_w031",
+        "bai03_w030"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 353,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai03_w035",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "地",
+      "pinyin": "de",
+      "word_type": "助",
+      "meaning_vi": "trợ từ nối trạng ngữ với động từ",
+      "meaning_en": "structural particle marking an adverbial",
+      "example_zh": "她高兴地告诉我。",
+      "example_pinyin": "Tā gāo xīng de gào sù wǒ.",
+      "example_vi": "Cô ấy vui vẻ nói với tôi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_g004",
+        "bai03_w032",
+        "bai03_w034"
+      ],
+      "tags": [
+        "tu_vung",
+        "tro_tu"
+      ],
+      "source_line": 59,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w036",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "结婚",
+      "pinyin": "jiéhūn",
+      "word_type": "动",
+      "meaning_vi": "kết hôn",
+      "meaning_en": "to marry",
+      "example_zh": "姐姐下个月结婚。",
+      "example_pinyin": "Jiě jiě xià gè yuè jiéhūn.",
+      "example_vi": "Tháng sau chị gái kết hôn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_g004",
+        "bai03_w037",
+        "bai03_w029"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 301,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w037",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "离婚",
+      "pinyin": "líhūn",
+      "word_type": "动",
+      "meaning_vi": "ly hôn",
+      "meaning_en": "to divorce",
+      "example_zh": "他们已经离婚了。",
+      "example_pinyin": "Tāmen yǐjīng líhūn le.",
+      "example_vi": "Họ đã ly hôn rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w036",
+        "bai03_w029",
+        "bai03_w027"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 302,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w038",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "未婚夫",
+      "pinyin": "wèihūnfū",
+      "word_type": "名",
+      "meaning_vi": "chồng chưa cưới",
+      "meaning_en": "fiancé",
+      "example_zh": "她的未婚夫是医生。",
+      "example_pinyin": "Tā de wèihūnfū shì yī shēng.",
+      "example_vi": "Chồng sắp cưới của cô ấy là bác sĩ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w039",
+        "bai03_w040",
+        "bai03_w034"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 321,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w039",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "未婚妻",
+      "pinyin": "wèihūnqī",
+      "word_type": "名",
+      "meaning_vi": "vợ chưa cưới",
+      "meaning_en": "fiancée",
+      "example_zh": "这是他的未婚妻。",
+      "example_pinyin": "Zhè shì tā de wèihūnqī.",
+      "example_vi": "Đây là vợ sắp cưới của anh ấy.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w038",
+        "bai03_w040",
+        "bai03_w034"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 322,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w040",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "将来",
+      "pinyin": "jiānglái",
+      "word_type": "名",
+      "meaning_vi": "tương lai",
+      "meaning_en": "future",
+      "example_zh": "将来我想当老师。",
+      "example_pinyin": "Jiānglái wǒ xiǎng dāng lǎoshī.",
+      "example_vi": "Sau này tôi muốn làm giáo viên.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w039",
+        "bai03_w038",
+        "bai03_w034"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 324,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w041",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "这样",
+      "pinyin": "zhèyàng",
+      "word_type": "代",
+      "meaning_vi": "như thế này",
+      "meaning_en": "like this; this way",
+      "example_zh": "请不要这样说。",
+      "example_pinyin": "Qǐng bù yào zhèyàng shuō.",
+      "example_vi": "Xin đừng nói như vậy.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w042",
+        "bai03_w040",
+        "bai03_w039"
+      ],
+      "tags": [
+        "tu_vung",
+        "dai_tu"
+      ],
+      "source_line": 72,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_w042",
+      "bai": 3,
+      "type": "word",
+      "word_zh": "那样",
+      "pinyin": "nàyàng",
+      "word_type": "代",
+      "meaning_vi": "như thế kia",
+      "meaning_en": "like that; that way",
+      "example_zh": "事情不是那样。",
+      "example_pinyin": "Shì qíng bù shì nàyàng.",
+      "example_vi": "Sự việc không phải như thế.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai03_w041",
+        "bai03_w040",
+        "bai03_w039"
+      ],
+      "tags": [
+        "tu_vung",
+        "dai_tu"
+      ],
+      "source_line": 326,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_g001",
+      "bai": 3,
+      "type": "grammar",
+      "grammar_title_zh": "句尾的“了”",
+      "grammar_title_vi": "了 cuối câu biểu thị thay đổi",
+      "structure": "句子 + 了",
+      "explanation_vi": "Đặt ở cuối câu để biểu thị trạng thái mới hoặc sự thay đổi so với trước.",
+      "explanation_zh": "语气助词“了”用在句尾表示变化或新情况。",
+      "examples": [
+        {
+          "zh": "树叶已经黄了。",
+          "pinyin": "Shùyè yǐjīng huáng le.",
+          "vi": "Lá cây đã vàng rồi.",
+          "source": "document"
+        },
+        {
+          "zh": "这件衣服小了。",
+          "pinyin": "Zhè jiàn yī fú xiǎo le.",
+          "vi": "Bộ quần áo này đã chật rồi.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai03_w016",
+        "bai03_w017",
+        "bai03_w018",
+        "bai03_w032"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 564,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_g002",
+      "bai": 3,
+      "type": "grammar",
+      "grammar_title_zh": "不……了",
+      "grammar_title_vi": "Không... nữa",
+      "structure": "不 + 动词/形容词 + 了",
+      "explanation_vi": "Biểu thị tình trạng đã thay đổi: hành động hoặc trạng thái trước đây nay không còn tiếp tục.",
+      "explanation_zh": "“不……了”表示情况发生了变化。",
+      "examples": [
+        {
+          "zh": "我不回国了。",
+          "pinyin": "Wǒ bù huí guó le.",
+          "vi": "Tôi không về nước nữa.",
+          "source": "document"
+        },
+        {
+          "zh": "我今天不发烧了。",
+          "pinyin": "Wǒ jīntiān bù fā shāo le.",
+          "vi": "Hôm nay tôi không sốt nữa.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai03_w032",
+        "bai03_g001",
+        "bai03_g003",
+        "bai03_g004"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 577,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_g003",
+      "bai": 3,
+      "type": "grammar",
+      "grammar_title_zh": "将要发生的表达",
+      "grammar_title_vi": "Biểu đạt việc sắp xảy ra",
+      "structure": "要/就要/快要/快 + 动词 + 了",
+      "explanation_vi": "Các mẫu này báo một hành động hoặc tình huống sắp xảy ra. Khi có trạng ngữ thời gian cụ thể, dùng 就要 thay vì 快要.",
+      "explanation_zh": "“要……了、就要……了、快要……了、快……了”表示即将发生；有具体时间状语时不用“快要”。",
+      "examples": [
+        {
+          "zh": "再有两个月就要放寒假了。",
+          "pinyin": "Zài yǒu liǎnggè yuè jiù yào fàng hán jiǎ le.",
+          "vi": "Còn hai tháng nữa là nghỉ đông.",
+          "source": "document"
+        },
+        {
+          "zh": "快要下雪了。",
+          "pinyin": "Kuài yào xià xuě le.",
+          "vi": "Sắp có tuyết rơi rồi.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai03_w023",
+        "bai03_w032"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 587,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_g004",
+      "bai": 3,
+      "type": "grammar",
+      "grammar_title_zh": "状语和结构助词“地”",
+      "grammar_title_vi": "Trạng ngữ và trợ từ 地",
+      "structure": "形容词/短语 + 地 + 动词",
+      "explanation_vi": "地 là dấu hiệu nối trạng ngữ với động từ, cho biết cách thức hoặc trạng thái thực hiện hành động.",
+      "explanation_zh": "结构助词“地”是句中状语的标志。",
+      "examples": [
+        {
+          "zh": "她高兴地告诉我，姐姐下个月就要结婚了。",
+          "pinyin": "Tā gāo xīng de gào sù wǒ, jiě jiě xià gè yuè jiù yào jiéhūn le.",
+          "vi": "Cô ấy vui vẻ nói với tôi rằng tháng sau chị gái sẽ kết hôn.",
+          "source": "document"
+        },
+        {
+          "zh": "同学们都在努力地学习。",
+          "pinyin": "Tóngxué men dōu zài nǔ lì de xué xí.",
+          "vi": "Các bạn học sinh đều đang chăm chỉ học tập.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai03_w032",
+        "bai03_w035",
+        "bai03_w036"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 612,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_g005",
+      "bai": 3,
+      "type": "grammar",
+      "grammar_title_zh": "无主句",
+      "grammar_title_vi": "Câu không có chủ ngữ",
+      "structure": "动词 + 名词/其他成分",
+      "explanation_vi": "Một số câu tiếng Trung không có chủ ngữ, thường dùng để nói hiện tượng tự nhiên hoặc lời chúc.",
+      "explanation_zh": "汉语有些句子没有主语，可说明自然现象或表示祝愿。",
+      "examples": [
+        {
+          "zh": "下雪了。",
+          "pinyin": "Xià xuě le.",
+          "vi": "Tuyết rơi rồi.",
+          "source": "document"
+        },
+        {
+          "zh": "祝你生日快乐！",
+          "pinyin": "Zhù nǐ shēng rì kuài lè!",
+          "vi": "Chúc bạn sinh nhật vui vẻ!",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai03_w032",
+        "bai03_g001",
+        "bai03_g002",
+        "bai03_g003"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 633,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_p001",
+      "bai": 3,
+      "type": "phrase",
+      "phrase_zh": "着什么急",
+      "pinyin": "zháo shénme jí",
+      "meaning_vi": "có gì mà phải vội",
+      "meaning_en": "what's the hurry",
+      "usage_note": "Dùng để trấn an người đang sốt ruột.",
+      "related_words": [
+        "bai03_w021",
+        "bai03_w026",
+        "bai03_w035"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 45,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai03_p002",
+      "bai": 3,
+      "type": "phrase",
+      "phrase_zh": "还早着呢",
+      "pinyin": "hái zǎo zhe ne",
+      "meaning_vi": "vẫn còn sớm lắm",
+      "meaning_en": "it is still very early",
+      "usage_note": "着呢 nhấn mạnh mức độ hoặc trạng thái vẫn đang như vậy.",
+      "related_words": [
+        "bai03_w021",
+        "bai03_w026",
+        "bai03_w035"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 45,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

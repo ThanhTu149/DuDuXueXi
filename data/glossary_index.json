@@ -1,0 +1,146 @@
+{
+  "total_bai": 10,
+  "total_entries": 427,
+  "total_word_count": 373,
+  "total_grammar_count": 37,
+  "total_phrase_count": 17,
+  "example_stats": {
+    "from_document": 76,
+    "ai_inferred": 297,
+    "missing": 0
+  },
+  "bais": [
+    {
+      "bai": 1,
+      "file": "glossary_bai01.json",
+      "entries": 48,
+      "word_count": 41,
+      "grammar_count": 6,
+      "phrase_count": 1,
+      "example_stats": {
+        "from_document": 41,
+        "ai_inferred": 0,
+        "missing": 0
+      }
+    },
+    {
+      "bai": 2,
+      "file": "glossary_bai02.json",
+      "entries": 33,
+      "word_count": 30,
+      "grammar_count": 2,
+      "phrase_count": 1,
+      "example_stats": {
+        "from_document": 3,
+        "ai_inferred": 27,
+        "missing": 0
+      }
+    },
+    {
+      "bai": 3,
+      "file": "glossary_bai03.json",
+      "entries": 49,
+      "word_count": 42,
+      "grammar_count": 5,
+      "phrase_count": 2,
+      "example_stats": {
+        "from_document": 5,
+        "ai_inferred": 37,
+        "missing": 0
+      }
+    },
+    {
+      "bai": 4,
+      "file": "glossary_bai04.json",
+      "entries": 38,
+      "word_count": 36,
+      "grammar_count": 1,
+      "phrase_count": 1,
+      "example_stats": {
+        "from_document": 3,
+        "ai_inferred": 33,
+        "missing": 0
+      }
+    },
+    {
+      "bai": 5,
+      "file": "glossary_bai05.json",
+      "entries": 43,
+      "word_count": 37,
+      "grammar_count": 4,
+      "phrase_count": 2,
+      "example_stats": {
+        "from_document": 3,
+        "ai_inferred": 34,
+        "missing": 0
+      }
+    },
+    {
+      "bai": 6,
+      "file": "glossary_bai06.json",
+      "entries": 35,
+      "word_count": 31,
+      "grammar_count": 3,
+      "phrase_count": 1,
+      "example_stats": {
+        "from_document": 1,
+        "ai_inferred": 30,
+        "missing": 0
+      }
+    },
+    {
+      "bai": 7,
+      "file": "glossary_bai07.json",
+      "entries": 48,
+      "word_count": 41,
+      "grammar_count": 5,
+      "phrase_count": 2,
+      "example_stats": {
+        "from_document": 4,
+        "ai_inferred": 37,
+        "missing": 0
+      }
+    },
+    {
+      "bai": 8,
+      "file": "glossary_bai08.json",
+      "entries": 39,
+      "word_count": 32,
+      "grammar_count": 4,
+      "phrase_count": 3,
+      "example_stats": {
+        "from_document": 4,
+        "ai_inferred": 28,
+        "missing": 0
+      }
+    },
+    {
+      "bai": 9,
+      "file": "glossary_bai09.json",
+      "entries": 50,
+      "word_count": 45,
+      "grammar_count": 3,
+      "phrase_count": 2,
+      "example_stats": {
+        "from_document": 5,
+        "ai_inferred": 40,
+        "missing": 0
+      }
+    },
+    {
+      "bai": 10,
+      "file": "glossary_bai10.json",
+      "entries": 44,
+      "word_count": 38,
+      "grammar_count": 4,
+      "phrase_count": 2,
+      "example_stats": {
+        "from_document": 7,
+        "ai_inferred": 31,
+        "missing": 0
+      }
+    }
+  ],
+  "generated_at": "2026-09-19T21:46:22Z",
+  "version": "2.0"
+}

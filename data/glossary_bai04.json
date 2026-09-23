@@ -1,0 +1,1054 @@
+{
+  "metadata": {
+    "bai": 4,
+    "title_zh": "快上来吧，要开车了",
+    "title_vi": "Mau lên đây, xe sắp chạy rồi",
+    "title_source": "document",
+    "source_file": "data/_extracted/bai/bai04.txt",
+    "total_entries": 38,
+    "word_count": 36,
+    "grammar_count": 1,
+    "phrase_count": 1,
+    "example_stats": {
+      "from_document": 3,
+      "ai_inferred": 33,
+      "missing": 0
+    },
+    "generated_at": "2026-09-19T21:45:24Z",
+    "version": "2.0"
+  },
+  "entries": [
+    {
+      "id": "bai04_w001",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "送",
+      "pinyin": "sòng",
+      "word_type": "动",
+      "meaning_vi": "tặng; đưa; tiễn",
+      "meaning_en": "to deliver; to carry; to give; to see somebody off",
+      "example_zh": "我给老师送去礼物。",
+      "example_pinyin": "Wǒ gěi lǎoshī sòng qù lǐ wù.",
+      "example_vi": "Tôi mang quà tới tặng giáo viên.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w002",
+        "bai04_w004",
+        "bai04_w006"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 87,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w002",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "开会",
+      "pinyin": "kāihuì",
+      "word_type": "动",
+      "meaning_vi": "họp",
+      "meaning_en": "to have or attend a meeting",
+      "example_zh": "老师们正在开会。",
+      "example_pinyin": "Lǎoshī men zhèng zài kāihuì.",
+      "example_vi": "Các giáo viên đang họp.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w001",
+        "bai04_w004",
+        "bai04_w006"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 91,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai04_w003",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "教学",
+      "pinyin": "jiàoxué",
+      "word_type": "名",
+      "meaning_vi": "giảng dạy",
+      "meaning_en": "teaching",
+      "example_zh": "他负责汉语教学。",
+      "example_pinyin": "Tā fù zé hànyǔ jiàoxué.",
+      "example_vi": "Anh ấy phụ trách giảng dạy tiếng Trung.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w005",
+        "bai04_w012",
+        "bai04_w016"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 99,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w004",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "研讨",
+      "pinyin": "yántǎo",
+      "word_type": "动",
+      "meaning_vi": "nghiên cứu và thảo luận",
+      "meaning_en": "to study and discuss",
+      "example_zh": "我们研讨教学方法。",
+      "example_pinyin": "Wǒmen yántǎo jiàoxué fāng fǎ.",
+      "example_vi": "Chúng tôi thảo luận phương pháp giảng dạy.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w002",
+        "bai04_w006",
+        "bai04_w001"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 115,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w005",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "研讨会",
+      "pinyin": "yántǎohuì",
+      "word_type": "名",
+      "meaning_vi": "hội thảo",
+      "meaning_en": "seminar; symposium",
+      "example_zh": "你不是到台湾开汉语教学研讨会去了吗？",
+      "example_pinyin": "Nǐ bù shì dào tái wān kāi hànyǔ jiàoxué yántǎohuì qù le ma?",
+      "example_vi": "Chẳng phải cô đã đến Đài Loan dự hội thảo giảng dạy tiếng Trung sao?",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w003",
+        "bai04_w012",
+        "bai04_w016"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 117,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w006",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "经过",
+      "pinyin": "jīngguò",
+      "word_type": "动",
+      "meaning_vi": "đi qua; trải qua",
+      "meaning_en": "to pass; to go through",
+      "example_zh": "汽车经过大使馆。",
+      "example_pinyin": "Qì chē jīngguò dàshǐguǎn.",
+      "example_vi": "Ô tô đi qua đại sứ quán.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w004",
+        "bai04_w008",
+        "bai04_w009"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 119,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w007",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "向",
+      "pinyin": "xiàng",
+      "word_type": "介",
+      "meaning_vi": "hướng về; đối với",
+      "meaning_en": "to; towards; in the direction of",
+      "example_zh": "他向老师问好。",
+      "example_pinyin": "Tā xiàng lǎoshī wènhǎo.",
+      "example_vi": "Anh ấy gửi lời hỏi thăm thầy giáo.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_g001",
+        "bai04_w006",
+        "bai04_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "gioi_tu"
+      ],
+      "source_line": 121,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w008",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "问好",
+      "pinyin": "wènhǎo",
+      "word_type": "动",
+      "meaning_vi": "hỏi thăm; gửi lời chào",
+      "meaning_en": "to send regards; to say hello",
+      "example_zh": "请向老师问好。",
+      "example_pinyin": "Qǐng xiàng lǎoshī wènhǎo.",
+      "example_vi": "Hãy gửi lời hỏi thăm tới giáo viên.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w009",
+        "bai04_w006",
+        "bai04_w010"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 15,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w009",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "捎",
+      "pinyin": "shāo",
+      "word_type": "动",
+      "meaning_vi": "mang hộ; cầm hộ",
+      "meaning_en": "to take something along for someone",
+      "example_zh": "我给你捎来一些东西。",
+      "example_pinyin": "Wǒ gěi nǐ shāo lái yī xiē dōng xī.",
+      "example_vi": "Tôi mang hộ bạn một ít đồ tới.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w008",
+        "bai04_w010",
+        "bai04_w011"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 144,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai04_w010",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "过去",
+      "pinyin": "guòqu",
+      "word_type": "动",
+      "meaning_vi": "đi sang; đi qua",
+      "meaning_en": "to go over; to pass by",
+      "example_zh": "我现在过去取。",
+      "example_pinyin": "Wǒ xiàn zài guòqu qǔ.",
+      "example_vi": "Bây giờ tôi sang lấy.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w009",
+        "bai04_w011",
+        "bai04_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 19,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w011",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "过来",
+      "pinyin": "guòlái",
+      "word_type": "动",
+      "meaning_vi": "đi đến; sang đây",
+      "meaning_en": "to come over; to come by",
+      "example_zh": "请你马上过来。",
+      "example_pinyin": "Qǐng nǐ mǎshàng guòlái.",
+      "example_vi": "Bạn hãy đến đây ngay.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w010",
+        "bai04_w009",
+        "bai04_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 28,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w012",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "门口",
+      "pinyin": "ménkǒu",
+      "word_type": "名",
+      "meaning_vi": "cửa ra vào; cổng",
+      "meaning_en": "entrance; doorway",
+      "example_zh": "我在学校门口等你。",
+      "example_pinyin": "Wǒ zài xué xiào ménkǒu děng nǐ.",
+      "example_vi": "Tôi đợi bạn ở cổng trường.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w016",
+        "bai04_w005",
+        "bai04_w020"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 30,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w013",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "辛苦",
+      "pinyin": "xīnkǔ",
+      "word_type": "形",
+      "meaning_vi": "vất vả; cực nhọc",
+      "meaning_en": "hard; strenuous",
+      "example_zh": "师傅，您辛苦了。",
+      "example_pinyin": "Shīfù, nín xīnkǔ le.",
+      "example_vi": "Bác tài, bác vất vả rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w014",
+        "bai04_w019",
+        "bai04_w028"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 124,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w014",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "麻烦",
+      "pinyin": "máfán",
+      "word_type": "动、形",
+      "meaning_vi": "làm phiền; phiền phức",
+      "meaning_en": "to bother; trouble",
+      "example_zh": "麻烦你开车慢一点儿。",
+      "example_pinyin": "Máfán nǐ kāichē màn yī diǎn ér.",
+      "example_vi": "Phiền bác lái xe chậm một chút.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w013",
+        "bai04_w011",
+        "bai04_w017"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu",
+        "hinh_dung"
+      ],
+      "source_line": 32,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w015",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "趟",
+      "pinyin": "tàng",
+      "word_type": "量",
+      "meaning_vi": "lượt; chuyến",
+      "meaning_en": "classifier for trips",
+      "example_zh": "我去了一趟上海。",
+      "example_pinyin": "Wǒ qù le yī tàng shànghǎi.",
+      "example_vi": "Tôi đã đi Thượng Hải một chuyến.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w014",
+        "bai04_w016",
+        "bai04_w013"
+      ],
+      "tags": [
+        "tu_vung",
+        "luong_tu"
+      ],
+      "source_line": 358,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w016",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "爱人",
+      "pinyin": "àirén",
+      "word_type": "名",
+      "meaning_vi": "vợ hoặc chồng; người yêu",
+      "meaning_en": "husband or wife; lover",
+      "example_zh": "王老师的爱人来了。",
+      "example_pinyin": "Wáng lǎoshī de àirén lái le.",
+      "example_vi": "Vợ hoặc chồng của thầy Vương đã đến.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w012",
+        "bai04_w020",
+        "bai04_w021"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 126,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w017",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "办事",
+      "pinyin": "bànshì",
+      "word_type": "动",
+      "meaning_vi": "làm việc; giải quyết công việc",
+      "meaning_en": "to handle affairs",
+      "example_zh": "他去大使馆办事。",
+      "example_pinyin": "Tā qù dàshǐguǎn bànshì.",
+      "example_vi": "Anh ấy đến đại sứ quán giải quyết công việc.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w014",
+        "bai04_w021",
+        "bai04_w022"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 160,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai04_w018",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "马上",
+      "pinyin": "mǎshàng",
+      "word_type": "副",
+      "meaning_vi": "lập tức; ngay",
+      "meaning_en": "at once; immediately",
+      "example_zh": "我马上就回来。",
+      "example_pinyin": "Wǒ mǎshàng jiù huí lái.",
+      "example_vi": "Tôi sẽ quay lại ngay.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w028",
+        "bai04_w030",
+        "bai04_w017"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 128,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w019",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "慢",
+      "pinyin": "màn",
+      "word_type": "形",
+      "meaning_vi": "chậm",
+      "meaning_en": "slow",
+      "example_zh": "请开车慢一点儿。",
+      "example_pinyin": "Qǐng kāichē màn yī diǎn ér.",
+      "example_vi": "Hãy lái xe chậm một chút.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w014",
+        "bai04_w013",
+        "bai04_w028"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 129,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w020",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "展览馆",
+      "pinyin": "zhǎnlǎnguǎn",
+      "word_type": "名",
+      "meaning_vi": "nhà triển lãm",
+      "meaning_en": "exhibition hall",
+      "example_zh": "展览馆里有很多文物。",
+      "example_pinyin": "Zhǎnlǎnguǎn lǐ yǒu hěn duō wénwù.",
+      "example_vi": "Trong nhà triển lãm có nhiều cổ vật.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w021",
+        "bai04_w016",
+        "bai04_w024"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 45,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w021",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "展览",
+      "pinyin": "zhǎnlǎn",
+      "word_type": "动、名",
+      "meaning_vi": "trưng bày; triển lãm",
+      "meaning_en": "to exhibit; exhibition",
+      "example_zh": "我们去看文物展览。",
+      "example_pinyin": "Wǒmen qù kàn wénwù zhǎnlǎn.",
+      "example_vi": "Chúng tôi đi xem triển lãm văn vật.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w020",
+        "bai04_w022",
+        "bai04_w023"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu",
+        "dong_tu"
+      ],
+      "source_line": 45,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w022",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "上来",
+      "pinyin": "shànglái",
+      "word_type": "动",
+      "meaning_vi": "đi lên phía người nói",
+      "meaning_en": "to come up",
+      "example_zh": "快上来吧，要开车了。",
+      "example_pinyin": "Kuài shànglái ba, yào kāichē le.",
+      "example_vi": "Mau lên đây, xe sắp chạy rồi.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w021",
+        "bai04_w023",
+        "bai04_w025"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w023",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "开车",
+      "pinyin": "kāichē",
+      "word_type": "动",
+      "meaning_vi": "lái xe",
+      "meaning_en": "to drive",
+      "example_zh": "快上来吧，要开车了。",
+      "example_pinyin": "Kuài shànglái ba, yào kāichē le.",
+      "example_vi": "Mau lên đây, xe sắp chạy rồi.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w022",
+        "bai04_w021",
+        "bai04_w025"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 221,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w024",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "照相机",
+      "pinyin": "zhàoxiàngjī",
+      "word_type": "名",
+      "meaning_vi": "máy ảnh",
+      "meaning_en": "camera",
+      "example_zh": "我的照相机坏了。",
+      "example_pinyin": "Wǒ de zhàoxiàngjī huài le.",
+      "example_vi": "Máy ảnh của tôi hỏng rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w026",
+        "bai04_w021",
+        "bai04_w020"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 222,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w025",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "照相",
+      "pinyin": "zhàoxiàng",
+      "word_type": "动",
+      "meaning_vi": "chụp ảnh",
+      "meaning_en": "to take a photograph",
+      "example_zh": "我们在长城照相。",
+      "example_pinyin": "Wǒmen zài chángchéng zhàoxiàng.",
+      "example_vi": "Chúng tôi chụp ảnh ở Vạn Lý Trường Thành.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w023",
+        "bai04_w027",
+        "bai04_w022"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 222,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w026",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "座位",
+      "pinyin": "zuòwèi",
+      "word_type": "名",
+      "meaning_vi": "chỗ ngồi",
+      "meaning_en": "seat",
+      "example_zh": "这个座位有人吗？",
+      "example_pinyin": "Zhège zuòwèi yǒu rén ma?",
+      "example_vi": "Chỗ ngồi này có người chưa?",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w024",
+        "bai04_w029",
+        "bai04_w021"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 224,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w027",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "注意",
+      "pinyin": "zhùyì",
+      "word_type": "动",
+      "meaning_vi": "chú ý",
+      "meaning_en": "to pay attention",
+      "example_zh": "开车时要注意安全。",
+      "example_pinyin": "Kāichē shí yào zhùyì ān quán.",
+      "example_vi": "Khi lái xe phải chú ý an toàn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w025",
+        "bai04_w023",
+        "bai04_w031"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 225,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w028",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "差不多",
+      "pinyin": "chàbuduō",
+      "word_type": "形、副",
+      "meaning_vi": "gần như; xấp xỉ",
+      "meaning_en": "almost; about the same",
+      "example_zh": "我们差不多到了。",
+      "example_pinyin": "Wǒmen chàbuduō dào le.",
+      "example_vi": "Chúng ta gần tới rồi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w030",
+        "bai04_w033",
+        "bai04_w019"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung",
+        "pho_tu"
+      ],
+      "source_line": 226,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai04_w029",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "文物",
+      "pinyin": "wénwù",
+      "word_type": "名",
+      "meaning_vi": "văn vật; di tích văn hóa",
+      "meaning_en": "cultural relic",
+      "example_zh": "博物馆里有很多文物。",
+      "example_pinyin": "Bó wù guǎn lǐ yǒu hěn duō wénwù.",
+      "example_vi": "Trong bảo tàng có nhiều cổ vật.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w031",
+        "bai04_w026",
+        "bai04_w024"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 227,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w030",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "大约",
+      "pinyin": "dàyuē",
+      "word_type": "副",
+      "meaning_vi": "khoảng; chừng",
+      "meaning_en": "approximately; about",
+      "example_zh": "大约要两个小时。",
+      "example_pinyin": "Dàyuē yào liǎnggè xiǎoshí.",
+      "example_vi": "Khoảng hai tiếng.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w028",
+        "bai04_w018",
+        "bai04_w029"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 68,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w031",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "要求",
+      "pinyin": "yāoqiú",
+      "word_type": "动、名",
+      "meaning_vi": "yêu cầu",
+      "meaning_en": "to require; requirement",
+      "example_zh": "老师提出了新要求。",
+      "example_pinyin": "Lǎoshī tí chū le xīn yāoqiú.",
+      "example_vi": "Giáo viên đưa ra yêu cầu mới.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w032",
+        "bai04_w029",
+        "bai04_w034"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu",
+        "dong_tu"
+      ],
+      "source_line": 69,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w032",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "省",
+      "pinyin": "shěng",
+      "word_type": "动",
+      "meaning_vi": "tiết kiệm",
+      "meaning_en": "to save",
+      "example_zh": "这样可以省时间。",
+      "example_pinyin": "Zhè yàng kě yǐ shěng shí jiān.",
+      "example_vi": "Làm vậy có thể tiết kiệm thời gian.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w031",
+        "bai04_w027",
+        "bai04_w025"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 230,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai04_w033",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "清楚",
+      "pinyin": "qīngchǔ",
+      "word_type": "形",
+      "meaning_vi": "rõ ràng",
+      "meaning_en": "clear",
+      "example_zh": "老师讲得很清楚。",
+      "example_pinyin": "Lǎoshī jiǎng de hěn qīngchǔ.",
+      "example_vi": "Giáo viên giảng rất rõ.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w028",
+        "bai04_w019",
+        "bai04_w014"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 232,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w034",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "师傅",
+      "pinyin": "shīfù",
+      "word_type": "名",
+      "meaning_vi": "bác; thợ lành nghề; tài xế",
+      "meaning_en": "master worker; a respectful form of address",
+      "example_zh": "师傅，请停车。",
+      "example_pinyin": "Shīfù, qǐng tíng chē.",
+      "example_vi": "Bác tài, xin hãy dừng xe.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w035",
+        "bai04_w036",
+        "bai04_w031"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 233,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w035",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "大使馆",
+      "pinyin": "dàshǐguǎn",
+      "word_type": "名",
+      "meaning_vi": "đại sứ quán",
+      "meaning_en": "embassy",
+      "example_zh": "大使馆离这儿不远。",
+      "example_pinyin": "Dàshǐguǎn lí zhè ér bù yuǎn.",
+      "example_vi": "Đại sứ quán không xa đây.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w034",
+        "bai04_w036",
+        "bai04_w031"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 234,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_w036",
+      "bai": 4,
+      "type": "word",
+      "word_zh": "大使",
+      "pinyin": "dàshǐ",
+      "word_type": "名",
+      "meaning_vi": "đại sứ",
+      "meaning_en": "ambassador",
+      "example_zh": "那位大使会说汉语。",
+      "example_pinyin": "Nà wèi dàshǐ huì shuō hànyǔ.",
+      "example_vi": "Vị đại sứ ấy biết nói tiếng Trung.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai04_w035",
+        "bai04_w034",
+        "bai04_w031"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 234,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_g001",
+      "bai": 4,
+      "type": "grammar",
+      "grammar_title_zh": "简单趋向补语",
+      "grammar_title_vi": "Bổ ngữ xu hướng đơn",
+      "structure": "动词 + 来/去",
+      "explanation_vi": "来 chỉ hướng về phía người nói hoặc sự vật đang được nhắc tới; 去 chỉ hướng rời xa phía đó. Tân ngữ chỉ nơi chốn đặt trước 来/去.",
+      "explanation_zh": "“来、去”放在动词后表示动作趋向；处所宾语放在“来/去”之前。",
+      "examples": [
+        {
+          "zh": "上课了，快进来吧。",
+          "pinyin": "Shàng kè le, kuài jìn lái ba.",
+          "vi": "Vào học rồi, mau vào đây.",
+          "source": "document"
+        },
+        {
+          "zh": "我们进教室去吧。",
+          "pinyin": "Wǒmen jìn jiào shì qù ba.",
+          "vi": "Chúng ta vào lớp đi.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai04_w007",
+        "bai04_w001"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 405,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai04_p001",
+      "bai": 4,
+      "type": "phrase",
+      "phrase_zh": "快上来吧",
+      "pinyin": "Kuài shànglái ba",
+      "meaning_vi": "mau lên đây",
+      "meaning_en": "come up quickly",
+      "usage_note": "Dùng khi gọi người khác di chuyển lên phía người nói.",
+      "related_words": [
+        "bai04_w022",
+        "bai04_w008",
+        "bai04_w010"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 1,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

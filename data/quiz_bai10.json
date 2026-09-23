@@ -1,0 +1,1571 @@
+{
+  "metadata": {
+    "bai": 10,
+    "title_zh": "会议厅的门开着呢",
+    "title_vi": "Cửa phòng họp vẫn đang mở",
+    "source_glossary": "data/glossary_bai10.json",
+    "source_text": "data/_extracted/bai/bai10.txt",
+    "total_questions": 30,
+    "level_distribution": {
+      "recall": 13,
+      "apply": 7,
+      "understand": 6,
+      "synthesize": 4
+    },
+    "type_distribution": {
+      "mcq_meaning_zh_to_vi": 5,
+      "mcq_meaning_vi_to_zh": 2,
+      "mcq_pinyin": 2,
+      "mcq_word_type": 2,
+      "mcq_fill_blank": 4,
+      "mcq_grammar": 2,
+      "mcq_error_detection": 2,
+      "reading_comprehension": 2,
+      "translation_vi_to_zh": 4,
+      "translation_zh_to_vi": 2,
+      "typing_zh_from_pinyin": 2,
+      "sentence_reorder": 1
+    },
+    "group_distribution": {
+      "mcq": 21,
+      "typing": 9
+    },
+    "generated_at": "2026-09-19T22:21:30Z",
+    "version": "2.0"
+  },
+  "questions": [
+    {
+      "id": "quiz_bai10_001",
+      "bai": 10,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“会议厅” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "phòng hội nghị"
+        },
+        {
+          "id": "B",
+          "text": "đại sảnh; phòng lớn"
+        },
+        {
+          "id": "C",
+          "text": "trung tâm"
+        },
+        {
+          "id": "D",
+          "text": "nhân viên phục vụ"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "会议厅 nghĩa là “phòng hội nghị”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của 厅, không phải 会议厅.",
+          "C": "Đây là nghĩa của 中心, không phải 会议厅.",
+          "D": "Đây là nghĩa của 服务员, không phải 会议厅."
+        },
+        "keyword_tip": "Gắn 会议厅 với ví dụ: 大家已经到了会议厅。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai10_w001",
+        "bai10_w002",
+        "bai10_w003",
+        "bai10_w004"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 1,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_002",
+      "bai": 10,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“长” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "vóc dáng; chiều cao"
+        },
+        {
+          "id": "B",
+          "text": "lớn lên; phát triển"
+        },
+        {
+          "id": "C",
+          "text": "khoảng; xấp xỉ"
+        },
+        {
+          "id": "D",
+          "text": "đội; đeo"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "长 nghĩa là “lớn lên; phát triển”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 个子, không phải 长.",
+          "C": "Đây là nghĩa của 左右, không phải 长.",
+          "D": "Đây là nghĩa của 戴, không phải 长."
+        },
+        "keyword_tip": "Gắn 长 với ví dụ: 孩子已经长高了。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai10_w005",
+        "bai10_w006",
+        "bai10_w007",
+        "bai10_w008"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 109,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_003",
+      "bai": 10,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“着” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "chiếc; cặp; bộ"
+        },
+        {
+          "id": "B",
+          "text": "mặc"
+        },
+        {
+          "id": "C",
+          "text": "đang; biểu thị trạng thái tiếp diễn"
+        },
+        {
+          "id": "D",
+          "text": "âu phục; com-lê"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "着 nghĩa là “đang; biểu thị trạng thái tiếp diễn”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 副, không phải 着.",
+          "B": "Đây là nghĩa của 穿, không phải 着.",
+          "D": "Đây là nghĩa của 西服, không phải 着."
+        },
+        "keyword_tip": "Gắn 着 với ví dụ: 会议厅的门开着呢。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai10_w009",
+        "bai10_w010",
+        "bai10_w011",
+        "bai10_w012"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 120,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_004",
+      "bai": 10,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“裙子” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "làm"
+        },
+        {
+          "id": "B",
+          "text": "người dẫn chương trình"
+        },
+        {
+          "id": "C",
+          "text": "chủ trì; dẫn chương trình"
+        },
+        {
+          "id": "D",
+          "text": "váy"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "裙子 nghĩa là “váy”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 干, không phải 裙子.",
+          "B": "Đây là nghĩa của 主持人, không phải 裙子.",
+          "C": "Đây là nghĩa của 主持, không phải 裙子."
+        },
+        "keyword_tip": "Gắn 裙子 với ví dụ: 她穿着一条红裙子。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai10_w013",
+        "bai10_w014",
+        "bai10_w015",
+        "bai10_w016"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 15,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_005",
+      "bai": 10,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“小伙子” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "chàng trai"
+        },
+        {
+          "id": "B",
+          "text": "vác trên vai"
+        },
+        {
+          "id": "C",
+          "text": "máy quay phim"
+        },
+        {
+          "id": "D",
+          "text": "micro"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "小伙子 nghĩa là “chàng trai”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của 扛, không phải 小伙子.",
+          "C": "Đây là nghĩa của 摄像机, không phải 小伙子.",
+          "D": "Đây là nghĩa của 麦克风, không phải 小伙子."
+        },
+        "keyword_tip": "Gắn 小伙子 với ví dụ: 那个小伙子很热情。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai10_w017",
+        "bai10_w018",
+        "bai10_w019",
+        "bai10_w020"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 162,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_006",
+      "bai": 10,
+      "level": "recall",
+      "type": "mcq_meaning_vi_to_zh",
+      "question_vi": "Từ nào có nghĩa là “nói; nói chuyện”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "墙"
+        },
+        {
+          "id": "B",
+          "text": "讲话"
+        },
+        {
+          "id": "C",
+          "text": "喜"
+        },
+        {
+          "id": "D",
+          "text": "婚礼"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "讲话 là từ tương ứng với nghĩa “nói; nói chuyện”.",
+        "why_others_wrong": {
+          "A": "墙 nghĩa là tường.",
+          "C": "喜 nghĩa là vui.",
+          "D": "婚礼 nghĩa là hôn lễ; đám cưới."
+        },
+        "keyword_tip": "Nhớ câu: 主持人拿着麦克风讲话。",
+        "concept": "Gợi nhớ chữ Hán từ nghĩa Việt"
+      },
+      "related_glossary": [
+        "bai10_w021",
+        "bai10_w022",
+        "bai10_w023",
+        "bai10_w024"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 168,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_007",
+      "bai": 10,
+      "level": "recall",
+      "type": "mcq_meaning_vi_to_zh",
+      "question_vi": "Từ nào có nghĩa là “náo nhiệt”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "挂"
+        },
+        {
+          "id": "B",
+          "text": "灯笼"
+        },
+        {
+          "id": "C",
+          "text": "热闹"
+        },
+        {
+          "id": "D",
+          "text": "摆"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "热闹 là từ tương ứng với nghĩa “náo nhiệt”.",
+        "why_others_wrong": {
+          "A": "挂 nghĩa là treo.",
+          "B": "灯笼 nghĩa là đèn lồng.",
+          "D": "摆 nghĩa là bày; sắp xếp."
+        },
+        "keyword_tip": "Nhớ câu: 婚礼现场很热闹。",
+        "concept": "Gợi nhớ chữ Hán từ nghĩa Việt"
+      },
+      "related_glossary": [
+        "bai10_w025",
+        "bai10_w026",
+        "bai10_w027",
+        "bai10_w028"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 222,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_008",
+      "bai": 10,
+      "level": "recall",
+      "type": "mcq_pinyin",
+      "question_vi": "Pinyin đúng của “新娘” là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "miánǎo"
+        },
+        {
+          "id": "B",
+          "text": "xīnláng"
+        },
+        {
+          "id": "C",
+          "text": "xīnniáng"
+        },
+        {
+          "id": "D",
+          "text": "shuài"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "新娘 đọc là xīnniáng.",
+        "why_others_wrong": {
+          "A": "Đây là pinyin của 棉袄.",
+          "B": "Đây là pinyin của 新郎.",
+          "D": "Đây là pinyin của 帅."
+        },
+        "keyword_tip": "Đọc cùng nghĩa “cô dâu”.",
+        "concept": "Pinyin có dấu thanh"
+      },
+      "related_glossary": [
+        "bai10_w029",
+        "bai10_w030",
+        "bai10_w031",
+        "bai10_w032"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 76,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_009",
+      "bai": 10,
+      "level": "recall",
+      "type": "mcq_pinyin",
+      "question_vi": "Pinyin đúng của “领带” là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "rèqíng"
+        },
+        {
+          "id": "B",
+          "text": "kèrén"
+        },
+        {
+          "id": "C",
+          "text": "dào"
+        },
+        {
+          "id": "D",
+          "text": "lǐngdài"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "领带 đọc là lǐngdài.",
+        "why_others_wrong": {
+          "A": "Đây là pinyin của 热情.",
+          "B": "Đây là pinyin của 客人.",
+          "C": "Đây là pinyin của 倒."
+        },
+        "keyword_tip": "Đọc cùng nghĩa “cà vạt”.",
+        "concept": "Pinyin có dấu thanh"
+      },
+      "related_glossary": [
+        "bai10_w033",
+        "bai10_w034",
+        "bai10_w035",
+        "bai10_w036"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 180,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_010",
+      "bai": 10,
+      "level": "recall",
+      "type": "mcq_word_type",
+      "question_vi": "“不停” thuộc từ loại nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "副 (phó từ)"
+        },
+        {
+          "id": "B",
+          "text": "名 (danh từ)"
+        },
+        {
+          "id": "C",
+          "text": "动 (động từ)"
+        },
+        {
+          "id": "D",
+          "text": "形 (tính từ)"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "Trong bảng từ mới, 不停 được ghi là 副.",
+        "why_others_wrong": {
+          "B": "名 không phải ký hiệu từ loại của 不停 trong bài.",
+          "C": "动 không phải ký hiệu từ loại của 不停 trong bài.",
+          "D": "形 không phải ký hiệu từ loại của 不停 trong bài."
+        },
+        "keyword_tip": "Đặt từ vào câu: 他不停地讲话。",
+        "concept": "Nhận diện từ loại"
+      },
+      "related_glossary": [
+        "bai10_w037",
+        "bai10_w038"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 274,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_011",
+      "bai": 10,
+      "level": "recall",
+      "type": "mcq_word_type",
+      "question_vi": "“会议厅” thuộc từ loại nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "动 (động từ)"
+        },
+        {
+          "id": "B",
+          "text": "名 (danh từ)"
+        },
+        {
+          "id": "C",
+          "text": "形 (tính từ)"
+        },
+        {
+          "id": "D",
+          "text": "副 (phó từ)"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Trong bảng từ mới, 会议厅 được ghi là 名.",
+        "why_others_wrong": {
+          "A": "动 không phải ký hiệu từ loại của 会议厅 trong bài.",
+          "C": "形 không phải ký hiệu từ loại của 会议厅 trong bài.",
+          "D": "副 không phải ký hiệu từ loại của 会议厅 trong bài."
+        },
+        "keyword_tip": "Đặt từ vào câu: 大家已经到了会议厅。",
+        "concept": "Nhận diện từ loại"
+      },
+      "related_glossary": [
+        "bai10_w001",
+        "bai10_w002",
+        "bai10_w003",
+        "bai10_w004"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 1,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_012",
+      "bai": 10,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 孩子已经___高了。",
+      "sentence_zh": "孩子已经___高了。",
+      "options": [
+        {
+          "id": "A",
+          "text": "个子"
+        },
+        {
+          "id": "B",
+          "text": "长"
+        },
+        {
+          "id": "C",
+          "text": "左右"
+        },
+        {
+          "id": "D",
+          "text": "戴"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "长 khôi phục đúng câu “孩子已经长高了。”.",
+        "why_others_wrong": {
+          "A": "个子 nghĩa là vóc dáng; chiều cao, không phù hợp chỗ trống.",
+          "C": "左右 nghĩa là khoảng; xấp xỉ, không phù hợp chỗ trống.",
+          "D": "戴 nghĩa là đội; đeo, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “lớn lên; phát triển” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai10_w005",
+        "bai10_w006",
+        "bai10_w007",
+        "bai10_w008"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 109,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_013",
+      "bai": 10,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 会议厅的门开___呢。",
+      "sentence_zh": "会议厅的门开___呢。",
+      "options": [
+        {
+          "id": "A",
+          "text": "副"
+        },
+        {
+          "id": "B",
+          "text": "穿"
+        },
+        {
+          "id": "C",
+          "text": "着"
+        },
+        {
+          "id": "D",
+          "text": "西服"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "着 khôi phục đúng câu “会议厅的门开着呢。”.",
+        "why_others_wrong": {
+          "A": "副 nghĩa là chiếc; cặp; bộ, không phù hợp chỗ trống.",
+          "B": "穿 nghĩa là mặc, không phù hợp chỗ trống.",
+          "D": "西服 nghĩa là âu phục; com-lê, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “đang; biểu thị trạng thái tiếp diễn” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai10_w009",
+        "bai10_w010",
+        "bai10_w011",
+        "bai10_w012"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 120,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_014",
+      "bai": 10,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 她穿着一条红___。",
+      "sentence_zh": "她穿着一条红___。",
+      "options": [
+        {
+          "id": "A",
+          "text": "干"
+        },
+        {
+          "id": "B",
+          "text": "主持人"
+        },
+        {
+          "id": "C",
+          "text": "主持"
+        },
+        {
+          "id": "D",
+          "text": "裙子"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "裙子 khôi phục đúng câu “她穿着一条红裙子。”.",
+        "why_others_wrong": {
+          "A": "干 nghĩa là làm, không phù hợp chỗ trống.",
+          "B": "主持人 nghĩa là người dẫn chương trình, không phù hợp chỗ trống.",
+          "C": "主持 nghĩa là chủ trì; dẫn chương trình, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “váy” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai10_w013",
+        "bai10_w014",
+        "bai10_w015",
+        "bai10_w016"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 15,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_015",
+      "bai": 10,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 那个___很热情。",
+      "sentence_zh": "那个___很热情。",
+      "options": [
+        {
+          "id": "A",
+          "text": "小伙子"
+        },
+        {
+          "id": "B",
+          "text": "扛"
+        },
+        {
+          "id": "C",
+          "text": "摄像机"
+        },
+        {
+          "id": "D",
+          "text": "麦克风"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "小伙子 khôi phục đúng câu “那个小伙子很热情。”.",
+        "why_others_wrong": {
+          "B": "扛 nghĩa là vác trên vai, không phù hợp chỗ trống.",
+          "C": "摄像机 nghĩa là máy quay phim, không phù hợp chỗ trống.",
+          "D": "麦克风 nghĩa là micro, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “chàng trai” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai10_w017",
+        "bai10_w018",
+        "bai10_w019",
+        "bai10_w020"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 162,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_016",
+      "bai": 10,
+      "level": "understand",
+      "type": "mcq_grammar",
+      "question_vi": "Cấu trúc nào đúng với “动词+着”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "没（有）+ 动词 + 着"
+        },
+        {
+          "id": "B",
+          "text": "动词1 + 着 + 动词2"
+        },
+        {
+          "id": "C",
+          "text": "动词 + 着"
+        },
+        {
+          "id": "D",
+          "text": "正在/正/在 + 动词 + 着 + 呢"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "着 sau động từ biểu thị hành động hoặc trạng thái đang tiếp tục, chủ yếu dùng để miêu tả.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc của Phủ định của 着.",
+          "B": "Đây là cấu trúc của 着 trong câu liên động.",
+          "D": "Đây là cấu trúc của 着 kết hợp với 正在, 正, 在, 呢."
+        },
+        "keyword_tip": "Nhớ khung: 动词 + 着.",
+        "concept": "Động từ + 着 chỉ sự tiếp diễn"
+      },
+      "related_glossary": [
+        "bai10_g001"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 296,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_017",
+      "bai": 10,
+      "level": "understand",
+      "type": "mcq_grammar",
+      "question_vi": "Câu nào minh họa đúng “没（有）……着”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "大家已经到了会议厅。"
+        },
+        {
+          "id": "B",
+          "text": "教室的门没开着。"
+        },
+        {
+          "id": "C",
+          "text": "大厅里坐满了客人。"
+        },
+        {
+          "id": "D",
+          "text": "市中心有很多商店。"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Câu này dùng đúng cấu trúc 没（有）+ 动词 + 着.",
+        "why_others_wrong": {
+          "A": "Câu này minh họa từ 会议厅, không thể hiện rõ 没（有）……着.",
+          "C": "Câu này minh họa từ 厅, không thể hiện rõ 没（有）……着.",
+          "D": "Câu này minh họa từ 中心, không thể hiện rõ 没（有）……着."
+        },
+        "keyword_tip": "Dùng để phủ định trạng thái tiếp diễn hoặc trạng thái đang tồn tại, nhưng trong giao tiếp không dùng nhiều.",
+        "concept": "Phủ định của 着"
+      },
+      "related_glossary": [
+        "bai10_g002"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 316,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_018",
+      "bai": 10,
+      "level": "apply",
+      "type": "mcq_error_detection",
+      "question_vi": "Nhận định nào SAI về “动词+着+动词”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cấu trúc trọng tâm là: 动词1 + 着 + 动词2."
+        },
+        {
+          "id": "B",
+          "text": "Động từ thứ nhất kèm 着 mô tả trạng thái hoặc cách thức khi hành động thứ hai diễn ra."
+        },
+        {
+          "id": "C",
+          "text": "Ví dụ đúng: 她正在前边站着讲话呢。"
+        },
+        {
+          "id": "D",
+          "text": "Các thành phần trong cấu trúc này có thể đảo tự do mà nghĩa không đổi."
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "Trật tự thành phần mang chức năng ngữ pháp; không thể đảo tùy ý.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc được glossary ghi nhận.",
+          "B": "Đây là giải thích đúng của điểm ngữ pháp.",
+          "C": "Đây là ví dụ đúng từ tài liệu."
+        },
+        "keyword_tip": "Đối chiếu với khung 动词1 + 着 + 动词2.",
+        "concept": "着 trong câu liên động"
+      },
+      "related_glossary": [
+        "bai10_g003"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 332,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_019",
+      "bai": 10,
+      "level": "apply",
+      "type": "mcq_error_detection",
+      "question_vi": "Nhận định nào SAI về “着与正在/正/在/呢”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cấu trúc trọng tâm là: 正在/正/在 + 动词 + 着 + 呢."
+        },
+        {
+          "id": "B",
+          "text": "Các thành phần trong cấu trúc này có thể đảo tự do mà nghĩa không đổi."
+        },
+        {
+          "id": "C",
+          "text": "着 thường phối hợp với 正在、正、在、呢 để làm rõ hành động hoặc trạng thái đang tiếp diễn."
+        },
+        {
+          "id": "D",
+          "text": "Ví dụ đúng: 里边正上着课呢。"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Trật tự thành phần mang chức năng ngữ pháp; không thể đảo tùy ý.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc được glossary ghi nhận.",
+          "C": "Đây là giải thích đúng của điểm ngữ pháp.",
+          "D": "Đây là ví dụ đúng từ tài liệu."
+        },
+        "keyword_tip": "Đối chiếu với khung 正在/正/在 + 动词 + 着 + 呢.",
+        "concept": "着 kết hợp với 正在, 正, 在, 呢"
+      },
+      "related_glossary": [
+        "bai10_g004"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 311,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_020",
+      "bai": 10,
+      "level": "understand",
+      "type": "reading_comprehension",
+      "question_vi": "Ý nào đúng với câu đầu tiên của đoạn đọc?",
+      "passage_zh": "请给客人倒茶。 他不停地讲话。 婚礼的气氛很热闹。",
+      "passage_pinyin": "Qǐng gěi kèrén dào chá.   tā bùtíng de jiǎnghuà.   hūnlǐ de qìfēn hěn rènào.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Hãy rót trà cho khách."
+        },
+        {
+          "id": "B",
+          "text": "Anh ấy nói không ngừng."
+        },
+        {
+          "id": "C",
+          "text": "Không khí đám cưới rất náo nhiệt."
+        },
+        {
+          "id": "D",
+          "text": "Mọi người đã đến phòng hội nghị."
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "Câu đầu “请给客人倒茶。” có nghĩa là “Hãy rót trà cho khách.”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của câu “他不停地讲话。”.",
+          "C": "Đây là nghĩa của câu “婚礼的气氛很热闹。”.",
+          "D": "Đây là nội dung của ví dụ về 会议厅."
+        },
+        "keyword_tip": "Chú ý từ khóa 倒.",
+        "concept": "Đọc hiểu thông tin trực tiếp"
+      },
+      "related_glossary": [
+        "bai10_w036",
+        "bai10_w037",
+        "bai10_w038"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 273,
+        "context": "Các câu ví dụ của bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_021",
+      "bai": 10,
+      "level": "understand",
+      "type": "reading_comprehension",
+      "question_vi": "Trong ngữ cảnh bài, “长得什么样” có nghĩa gần nhất là gì?",
+      "passage_zh": "长得什么样；开着呢。",
+      "passage_pinyin": "Zhǎng de shénme yàng; kāi zhe ne.",
+      "options": [
+        {
+          "id": "A",
+          "text": "phòng hội nghị"
+        },
+        {
+          "id": "B",
+          "text": "trông như thế nào"
+        },
+        {
+          "id": "C",
+          "text": "đại sảnh; phòng lớn"
+        },
+        {
+          "id": "D",
+          "text": "trung tâm"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Dùng để hỏi ngoại hình của một người.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 会议厅, không phải mẫu câu 长得什么样.",
+          "C": "Đây là nghĩa của 厅, không phải mẫu câu 长得什么样.",
+          "D": "Đây là nghĩa của 中心, không phải mẫu câu 长得什么样."
+        },
+        "keyword_tip": "Gắn mẫu câu với ngữ cảnh: trông như thế nào.",
+        "concept": "Đọc hiểu mẫu câu khẩu ngữ"
+      },
+      "related_glossary": [
+        "bai10_p001",
+        "bai10_p002"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 11,
+        "context": "Mục 注释 hoặc bài khóa"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_022",
+      "bai": 10,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Trên tường đang dán chữ song hỷ màu đỏ.",
+      "target_language": "zh",
+      "sample_answer": "墙上贴着红双喜字。",
+      "sample_answer_pinyin": "Qiángshàng tiē zhe hóng shuāng xǐ zì.",
+      "alternative_answers": [
+        "墙上正贴着红双喜字。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "着",
+          "pinyin": "zhe",
+          "meaning": "đang"
+        },
+        {
+          "zh": "墙",
+          "pinyin": "qiáng",
+          "meaning": "tường"
+        },
+        {
+          "zh": "喜",
+          "pinyin": "xǐ",
+          "meaning": "vui"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: 动词 + 着.",
+        "Bắt đầu từ khóa “着”.",
+        "Giữ cụm “墙” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "着 sau động từ biểu thị hành động hoặc trạng thái đang tiếp tục, chủ yếu dùng để miêu tả.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "着 → 墙 → 喜",
+        "concept": "Động từ + 着 chỉ sự tiếp diễn"
+      },
+      "related_glossary": [
+        "bai10_g001",
+        "bai10_w009",
+        "bai10_w022",
+        "bai10_w023"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 296,
+        "context": "Ví dụ ngữ pháp 动词+着"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_023",
+      "bai": 10,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Cửa lớp không mở.",
+      "target_language": "zh",
+      "sample_answer": "教室的门没开着。",
+      "sample_answer_pinyin": "Jiào shì de mén méi kāi zhe.",
+      "alternative_answers": [
+        "教室的门没有开着。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "着",
+          "pinyin": "zhe",
+          "meaning": "đang"
+        },
+        {
+          "zh": "的",
+          "pinyin": "De",
+          "meaning": "trợ từ kết cấu"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: 没（有）+ 动词 + 着.",
+        "Bắt đầu từ khóa “着”.",
+        "Giữ cụm “的” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Dùng để phủ định trạng thái tiếp diễn hoặc trạng thái đang tồn tại, nhưng trong giao tiếp không dùng nhiều.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "着 → 的",
+        "concept": "Phủ định của 着"
+      },
+      "related_glossary": [
+        "bai10_g002",
+        "bai10_w009"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 316,
+        "context": "Ví dụ ngữ pháp 没（有）……着"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_024",
+      "bai": 10,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Cô ấy đang đứng phía trước nói chuyện.",
+      "target_language": "zh",
+      "sample_answer": "她正在前边站着讲话呢。",
+      "sample_answer_pinyin": "Tā zhèngzài qián biān zhàn zhe jiǎnghuà ne.",
+      "alternative_answers": [
+        "她在前边站着讲话。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "讲话",
+          "pinyin": "jiǎnghuà",
+          "meaning": "nói"
+        },
+        {
+          "zh": "着",
+          "pinyin": "zhe",
+          "meaning": "đang"
+        },
+        {
+          "zh": "正在",
+          "pinyin": "Zhèngzài",
+          "meaning": "đang"
+        },
+        {
+          "zh": "她",
+          "pinyin": "Tā",
+          "meaning": "cô ấy"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: 动词1 + 着 + 动词2.",
+        "Bắt đầu từ khóa “讲话”.",
+        "Giữ cụm “着” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Động từ thứ nhất kèm 着 mô tả trạng thái hoặc cách thức khi hành động thứ hai diễn ra.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "讲话 → 着 → 正在 → 她",
+        "concept": "着 trong câu liên động"
+      },
+      "related_glossary": [
+        "bai10_g003",
+        "bai10_w021",
+        "bai10_w009"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 332,
+        "context": "Ví dụ ngữ pháp 动词+着+动词"
+      },
+      "difficulty_score": 5,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_025",
+      "bai": 10,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Bên trong đang học.",
+      "target_language": "zh",
+      "sample_answer": "里边正上着课呢。",
+      "sample_answer_pinyin": "Lǐ biān zhèng shàng zhe kè ne.",
+      "alternative_answers": [
+        "里边正在上课呢。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "着",
+          "pinyin": "zhe",
+          "meaning": "đang"
+        },
+        {
+          "zh": "里",
+          "pinyin": "Lǐ",
+          "meaning": "từ khóa trong câu"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: 正在/正/在 + 动词 + 着 + 呢.",
+        "Bắt đầu từ khóa “着”.",
+        "Giữ cụm “里” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "着 thường phối hợp với 正在、正、在、呢 để làm rõ hành động hoặc trạng thái đang tiếp diễn.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "着 → 里",
+        "concept": "着 kết hợp với 正在, 正, 在, 呢"
+      },
+      "related_glossary": [
+        "bai10_g004",
+        "bai10_w009"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 311,
+        "context": "Ví dụ ngữ pháp 着与正在/正/在/呢"
+      },
+      "difficulty_score": 5,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_026",
+      "bai": 10,
+      "level": "understand",
+      "type": "translation_zh_to_vi",
+      "question_vi": "Dịch câu sau sang tiếng Việt:",
+      "source_sentence_zh": "大家已经到了会议厅。",
+      "source_sentence_pinyin": "Dàjiā yǐjīng dàole huìyìtīng.",
+      "target_language": "vi",
+      "sample_answer": "Mọi người đã đến phòng hội nghị.",
+      "alternative_answers": [
+        "Mọi người đã đến phòng hội nghị đấy."
+      ],
+      "keywords_required": [
+        {
+          "vi": "phòng hội nghị",
+          "zh": "会议厅"
+        },
+        {
+          "vi": "mọi người",
+          "zh": "大家"
+        },
+        {
+          "vi": "đã",
+          "zh": "已经"
+        },
+        {
+          "vi": "đã đến",
+          "zh": "到了"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "会议厅 = phòng hội nghị.",
+        "Chú ý trật tự cụm “会议厅”."
+      ],
+      "explanation": {
+        "why_correct": "Bản dịch giữ đúng nghĩa của 会议厅 và nội dung câu nguồn.",
+        "common_mistakes": [
+          "Dịch từng chữ khiến câu tiếng Việt thiếu tự nhiên.",
+          "Bỏ mất thông tin thời gian hoặc mức độ."
+        ],
+        "keyword_tip": "phòng hội nghị → mọi người → đã → đã đến",
+        "concept": "Đọc hiểu từ 会议厅"
+      },
+      "related_glossary": [
+        "bai10_w001",
+        "bai10_w002"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 1,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_027",
+      "bai": 10,
+      "level": "understand",
+      "type": "translation_zh_to_vi",
+      "question_vi": "Dịch câu sau sang tiếng Việt:",
+      "source_sentence_zh": "市中心有很多商店。",
+      "source_sentence_pinyin": "Shì zhōngxīn yǒu hěn duō shāng diàn.",
+      "target_language": "vi",
+      "sample_answer": "Trung tâm thành phố có nhiều cửa hàng.",
+      "alternative_answers": [
+        "Trung tâm thành phố có nhiều cửa hàng đấy."
+      ],
+      "keywords_required": [
+        {
+          "vi": "trung tâm",
+          "zh": "中心"
+        },
+        {
+          "vi": "từ khóa trong câu",
+          "zh": "市"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "中心 = trung tâm.",
+        "Chú ý trật tự cụm “中心”."
+      ],
+      "explanation": {
+        "why_correct": "Bản dịch giữ đúng nghĩa của 中心 và nội dung câu nguồn.",
+        "common_mistakes": [
+          "Dịch từng chữ khiến câu tiếng Việt thiếu tự nhiên.",
+          "Bỏ mất thông tin thời gian hoặc mức độ."
+        ],
+        "keyword_tip": "trung tâm → từ khóa trong câu",
+        "concept": "Đọc hiểu từ 中心"
+      },
+      "related_glossary": [
+        "bai10_w003"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 9,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_028",
+      "bai": 10,
+      "level": "recall",
+      "type": "typing_zh_from_pinyin",
+      "question_vi": "Gõ chữ Hán tương ứng với pinyin và nghĩa sau:",
+      "pinyin": "huìyìtīng",
+      "meaning_vi": "phòng hội nghị",
+      "meaning_en": "conference or assembly hall",
+      "sample_answer": "会议厅",
+      "alternative_answers": [],
+      "keywords_required": [
+        {
+          "zh": "会议厅",
+          "pinyin": "huìyìtīng",
+          "meaning": "phòng hội nghị"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Từ gồm 3 chữ Hán.",
+        "Ví dụ trong bài: 大家已经到了会议厅。"
+      ],
+      "explanation": {
+        "why_correct": "会议厅 đọc là huìyìtīng và nghĩa là phòng hội nghị.",
+        "common_mistakes": [
+          "Gõ đúng âm nhưng chọn nhầm chữ đồng âm.",
+          "Bỏ dấu thanh khi ghi nhớ pinyin."
+        ],
+        "keyword_tip": "Liên hệ 会议厅 với câu ví dụ trong bài.",
+        "concept": "Nhận diện chữ Hán từ pinyin"
+      },
+      "related_glossary": [
+        "bai10_w001"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 1,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_029",
+      "bai": 10,
+      "level": "recall",
+      "type": "typing_zh_from_pinyin",
+      "question_vi": "Gõ chữ Hán tương ứng với pinyin và nghĩa sau:",
+      "pinyin": "fúwùyuán",
+      "meaning_vi": "nhân viên phục vụ",
+      "meaning_en": "attendant; steward; waiter",
+      "sample_answer": "服务员",
+      "alternative_answers": [],
+      "keywords_required": [
+        {
+          "zh": "服务员",
+          "pinyin": "fúwùyuán",
+          "meaning": "nhân viên phục vụ"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Từ gồm 3 chữ Hán.",
+        "Ví dụ trong bài: 服务员正在摆桌子。"
+      ],
+      "explanation": {
+        "why_correct": "服务员 đọc là fúwùyuán và nghĩa là nhân viên phục vụ.",
+        "common_mistakes": [
+          "Gõ đúng âm nhưng chọn nhầm chữ đồng âm.",
+          "Bỏ dấu thanh khi ghi nhớ pinyin."
+        ],
+        "keyword_tip": "Liên hệ 服务员 với câu ví dụ trong bài.",
+        "concept": "Nhận diện chữ Hán từ pinyin"
+      },
+      "related_glossary": [
+        "bai10_w004"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 9,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai10_030",
+      "bai": 10,
+      "level": "apply",
+      "type": "sentence_reorder",
+      "question_vi": "Sắp xếp các phần sau thành câu đúng:",
+      "shuffled_parts": [
+        "到了",
+        "会议厅",
+        "大家",
+        "已经"
+      ],
+      "sample_answer": "大家已经到了会议厅。",
+      "sample_answer_pinyin": "Dàjiā yǐjīng dàole huìyìtīng.",
+      "alternative_answers": [
+        "已经到了会议厅。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "会议厅",
+          "pinyin": "huìyìtīng",
+          "meaning": "phòng hội nghị"
+        },
+        {
+          "zh": "大家",
+          "pinyin": "Dàjiā",
+          "meaning": "mọi người"
+        },
+        {
+          "zh": "已经",
+          "pinyin": "Yǐjīng",
+          "meaning": "đã"
+        },
+        {
+          "zh": "到了",
+          "pinyin": "Dàole",
+          "meaning": "đã đến"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Đặt 会议厅 đúng vị trí trong câu.",
+        "Ý tiếng Việt: Mọi người đã đến phòng hội nghị.",
+        "Xác định chủ ngữ hoặc chủ đề trước."
+      ],
+      "explanation": {
+        "why_correct": "Câu mẫu sắp xếp các thành phần theo đúng trật tự ngữ pháp và giữ nguyên nghĩa nguồn.",
+        "common_mistakes": [
+          "Đặt bổ ngữ trước động từ không đúng cấu trúc.",
+          "Đưa trợ từ sang sai vị trí."
+        ],
+        "keyword_tip": "会议厅 → 大家 → 已经 → 到了",
+        "concept": "Trật tự câu với 会议厅"
+      },
+      "related_glossary": [
+        "bai10_w001",
+        "bai10_w002"
+      ],
+      "source": {
+        "bai": 10,
+        "source_line": 1,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

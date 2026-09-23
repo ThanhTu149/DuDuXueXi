@@ -1,0 +1,1577 @@
+{
+  "metadata": {
+    "bai": 8,
+    "title_zh": "我的眼镜摔坏了",
+    "title_vi": "Kính của tôi bị rơi hỏng rồi",
+    "source_glossary": "data/glossary_bai08.json",
+    "source_text": "data/_extracted/bai/bai08.txt",
+    "total_questions": 30,
+    "level_distribution": {
+      "recall": 13,
+      "apply": 7,
+      "understand": 6,
+      "synthesize": 4
+    },
+    "type_distribution": {
+      "mcq_meaning_zh_to_vi": 5,
+      "mcq_meaning_vi_to_zh": 2,
+      "mcq_pinyin": 2,
+      "mcq_word_type": 2,
+      "mcq_fill_blank": 4,
+      "mcq_grammar": 2,
+      "mcq_error_detection": 2,
+      "reading_comprehension": 2,
+      "translation_vi_to_zh": 4,
+      "translation_zh_to_vi": 2,
+      "typing_zh_from_pinyin": 2,
+      "sentence_reorder": 1
+    },
+    "group_distribution": {
+      "mcq": 21,
+      "typing": 9
+    },
+    "generated_at": "2026-09-19T22:21:30Z",
+    "version": "2.0"
+  },
+  "questions": [
+    {
+      "id": "quiz_bai08_001",
+      "bai": 8,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“照” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "chụp ảnh"
+        },
+        {
+          "id": "B",
+          "text": "rửa; tráng ảnh"
+        },
+        {
+          "id": "C",
+          "text": "nhắm; đóng"
+        },
+        {
+          "id": "D",
+          "text": "tranh sơn dầu"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "照 nghĩa là “chụp ảnh”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của 洗, không phải 照.",
+          "C": "Đây là nghĩa của 闭, không phải 照.",
+          "D": "Đây là nghĩa của 油画, không phải 照."
+        },
+        "keyword_tip": "Gắn 照 với ví dụ: 我们在长城照相。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai08_w001",
+        "bai08_w002",
+        "bai08_w003",
+        "bai08_w004"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 14,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_002",
+      "bai": 8,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“放大” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "lần; gấp"
+        },
+        {
+          "id": "B",
+          "text": "phóng to"
+        },
+        {
+          "id": "C",
+          "text": "xăng-ti-mét"
+        },
+        {
+          "id": "D",
+          "text": "suýt; kém một chút"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "放大 nghĩa là “phóng to”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 倍, không phải 放大.",
+          "C": "Đây là nghĩa của 公分, không phải 放大.",
+          "D": "Đây là nghĩa của 差一点儿, không phải 放大."
+        },
+        "keyword_tip": "Gắn 放大 với ví dụ: 请把这张照片放大。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai08_w005",
+        "bai08_w006",
+        "bai08_w007",
+        "bai08_w008"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 57,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_003",
+      "bai": 8,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“碰” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "vụ; lượng từ cho sự cố"
+        },
+        {
+          "id": "B",
+          "text": "sự cố; tai nạn"
+        },
+        {
+          "id": "C",
+          "text": "va; chạm; gặp"
+        },
+        {
+          "id": "D",
+          "text": "trọn; nguyên; đầy"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "碰 nghĩa là “va; chạm; gặp”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 起, không phải 碰.",
+          "B": "Đây là nghĩa của 事故, không phải 碰.",
+          "D": "Đây là nghĩa của 整, không phải 碰."
+        },
+        "keyword_tip": "Gắn 碰 với ví dụ: 自行车碰到了汽车。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai08_w009",
+        "bai08_w010",
+        "bai08_w011",
+        "bai08_w012"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 72,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_004",
+      "bai": 8,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“眼镜” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "đừng nhắc nữa"
+        },
+        {
+          "id": "B",
+          "text": "xui xẻo"
+        },
+        {
+          "id": "C",
+          "text": "ngã; té"
+        },
+        {
+          "id": "D",
+          "text": "kính mắt"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "眼镜 nghĩa là “kính mắt”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 别提了, không phải 眼镜.",
+          "B": "Đây là nghĩa của 倒霉, không phải 眼镜.",
+          "C": "Đây là nghĩa của 摔跤, không phải 眼镜."
+        },
+        "keyword_tip": "Gắn 眼镜 với ví dụ: 我的眼镜摔坏了。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai08_w013",
+        "bai08_w014",
+        "bai08_w015",
+        "bai08_w016"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 1,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_005",
+      "bai": 8,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“摔” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "rơi; ném; quăng"
+        },
+        {
+          "id": "B",
+          "text": "rơi; rớt"
+        },
+        {
+          "id": "C",
+          "text": "mặt đất; dưới đất"
+        },
+        {
+          "id": "D",
+          "text": "đi làm"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "摔 nghĩa là “rơi; ném; quăng”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của 掉, không phải 摔.",
+          "C": "Đây là nghĩa của 地上, không phải 摔.",
+          "D": "Đây là nghĩa của 上班, không phải 摔."
+        },
+        "keyword_tip": "Gắn 摔 với ví dụ: 我的眼镜摔坏了。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai08_w017",
+        "bai08_w018",
+        "bai08_w019",
+        "bai08_w020"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 319,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_006",
+      "bai": 8,
+      "level": "recall",
+      "type": "mcq_meaning_vi_to_zh",
+      "question_vi": "Từ nào có nghĩa là “tan làm”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "保证"
+        },
+        {
+          "id": "B",
+          "text": "下班"
+        },
+        {
+          "id": "C",
+          "text": "遵守"
+        },
+        {
+          "id": "D",
+          "text": "规则"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "下班 là từ tương ứng với nghĩa “tan làm”.",
+        "why_others_wrong": {
+          "A": "保证 nghĩa là bảo đảm; cam đoan.",
+          "C": "遵守 nghĩa là tuân thủ.",
+          "D": "规则 nghĩa là quy tắc; luật."
+        },
+        "keyword_tip": "Nhớ câu: 我六点下班回家。",
+        "concept": "Gợi nhớ chữ Hán từ nghĩa Việt"
+      },
+      "related_glossary": [
+        "bai08_w021",
+        "bai08_w022",
+        "bai08_w023",
+        "bai08_w024"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 229,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_007",
+      "bai": 8,
+      "level": "recall",
+      "type": "mcq_meaning_vi_to_zh",
+      "question_vi": "Từ nào có nghĩa là “gây ra; tạo thành”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "拥挤"
+        },
+        {
+          "id": "B",
+          "text": "主要"
+        },
+        {
+          "id": "C",
+          "text": "造成"
+        },
+        {
+          "id": "D",
+          "text": "原因"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "造成 là từ tương ứng với nghĩa “gây ra; tạo thành”.",
+        "why_others_wrong": {
+          "A": "拥挤 nghĩa là chen chúc; chật chội.",
+          "B": "主要 nghĩa là chủ yếu; chính.",
+          "D": "原因 nghĩa là nguyên nhân."
+        },
+        "keyword_tip": "Nhớ câu: 拥挤容易造成事故。",
+        "concept": "Gợi nhớ chữ Hán từ nghĩa Việt"
+      },
+      "related_glossary": [
+        "bai08_w025",
+        "bai08_w026",
+        "bai08_w027",
+        "bai08_w028"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 239,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_008",
+      "bai": 8,
+      "level": "recall",
+      "type": "mcq_pinyin",
+      "question_vi": "Pinyin đúng của “之一” là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "yǐnqǐ"
+        },
+        {
+          "id": "B",
+          "text": "gǎnkuài"
+        },
+        {
+          "id": "C",
+          "text": "zhīyī"
+        },
+        {
+          "id": "D",
+          "text": "fāzhǎn"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "之一 đọc là zhīyī.",
+        "why_others_wrong": {
+          "A": "Đây là pinyin của 引起.",
+          "B": "Đây là pinyin của 赶快.",
+          "D": "Đây là pinyin của 发展."
+        },
+        "keyword_tip": "Đọc cùng nghĩa “một trong những”.",
+        "concept": "Pinyin có dấu thanh"
+      },
+      "related_glossary": [
+        "bai08_w029",
+        "bai08_w030",
+        "bai08_w031",
+        "bai08_w032"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 89,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_009",
+      "bai": 8,
+      "level": "recall",
+      "type": "mcq_pinyin",
+      "question_vi": "Pinyin đúng của “照” là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "xǐ"
+        },
+        {
+          "id": "B",
+          "text": "bì"
+        },
+        {
+          "id": "C",
+          "text": "yóuhuà"
+        },
+        {
+          "id": "D",
+          "text": "zhào"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "照 đọc là zhào.",
+        "why_others_wrong": {
+          "A": "Đây là pinyin của 洗.",
+          "B": "Đây là pinyin của 闭.",
+          "C": "Đây là pinyin của 油画."
+        },
+        "keyword_tip": "Đọc cùng nghĩa “chụp ảnh”.",
+        "concept": "Pinyin có dấu thanh"
+      },
+      "related_glossary": [
+        "bai08_w001",
+        "bai08_w002",
+        "bai08_w003",
+        "bai08_w004"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 14,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_010",
+      "bai": 8,
+      "level": "recall",
+      "type": "mcq_word_type",
+      "question_vi": "“放大” thuộc từ loại nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "动 (động từ)"
+        },
+        {
+          "id": "B",
+          "text": "名 (danh từ)"
+        },
+        {
+          "id": "C",
+          "text": "形 (tính từ)"
+        },
+        {
+          "id": "D",
+          "text": "副 (phó từ)"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "Trong bảng từ mới, 放大 được ghi là 动.",
+        "why_others_wrong": {
+          "B": "名 không phải ký hiệu từ loại của 放大 trong bài.",
+          "C": "形 không phải ký hiệu từ loại của 放大 trong bài.",
+          "D": "副 không phải ký hiệu từ loại của 放大 trong bài."
+        },
+        "keyword_tip": "Đặt từ vào câu: 请把这张照片放大。",
+        "concept": "Nhận diện từ loại"
+      },
+      "related_glossary": [
+        "bai08_w005",
+        "bai08_w006",
+        "bai08_w007",
+        "bai08_w008"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 57,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_011",
+      "bai": 8,
+      "level": "recall",
+      "type": "mcq_word_type",
+      "question_vi": "“碰” thuộc từ loại nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "名 (danh từ)"
+        },
+        {
+          "id": "B",
+          "text": "动 (động từ)"
+        },
+        {
+          "id": "C",
+          "text": "形 (tính từ)"
+        },
+        {
+          "id": "D",
+          "text": "副 (phó từ)"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Trong bảng từ mới, 碰 được ghi là 动.",
+        "why_others_wrong": {
+          "A": "名 không phải ký hiệu từ loại của 碰 trong bài.",
+          "C": "形 không phải ký hiệu từ loại của 碰 trong bài.",
+          "D": "副 không phải ký hiệu từ loại của 碰 trong bài."
+        },
+        "keyword_tip": "Đặt từ vào câu: 自行车碰到了汽车。",
+        "concept": "Nhận diện từ loại"
+      },
+      "related_glossary": [
+        "bai08_w009",
+        "bai08_w010",
+        "bai08_w011",
+        "bai08_w012"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 72,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_012",
+      "bai": 8,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 我的___摔坏了。",
+      "sentence_zh": "我的___摔坏了。",
+      "options": [
+        {
+          "id": "A",
+          "text": "别提了"
+        },
+        {
+          "id": "B",
+          "text": "眼镜"
+        },
+        {
+          "id": "C",
+          "text": "倒霉"
+        },
+        {
+          "id": "D",
+          "text": "摔跤"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "眼镜 khôi phục đúng câu “我的眼镜摔坏了。”.",
+        "why_others_wrong": {
+          "A": "别提了 nghĩa là đừng nhắc nữa, không phù hợp chỗ trống.",
+          "C": "倒霉 nghĩa là xui xẻo, không phù hợp chỗ trống.",
+          "D": "摔跤 nghĩa là ngã; té, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “kính mắt” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai08_w013",
+        "bai08_w014",
+        "bai08_w015",
+        "bai08_w016"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 1,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_013",
+      "bai": 8,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 我的眼镜___坏了。",
+      "sentence_zh": "我的眼镜___坏了。",
+      "options": [
+        {
+          "id": "A",
+          "text": "掉"
+        },
+        {
+          "id": "B",
+          "text": "地上"
+        },
+        {
+          "id": "C",
+          "text": "摔"
+        },
+        {
+          "id": "D",
+          "text": "上班"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "摔 khôi phục đúng câu “我的眼镜摔坏了。”.",
+        "why_others_wrong": {
+          "A": "掉 nghĩa là rơi; rớt, không phù hợp chỗ trống.",
+          "B": "地上 nghĩa là mặt đất; dưới đất, không phù hợp chỗ trống.",
+          "D": "上班 nghĩa là đi làm, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “rơi; ném; quăng” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai08_w017",
+        "bai08_w018",
+        "bai08_w019",
+        "bai08_w020"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 319,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_014",
+      "bai": 8,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 我六点___回家。",
+      "sentence_zh": "我六点___回家。",
+      "options": [
+        {
+          "id": "A",
+          "text": "保证"
+        },
+        {
+          "id": "B",
+          "text": "遵守"
+        },
+        {
+          "id": "C",
+          "text": "规则"
+        },
+        {
+          "id": "D",
+          "text": "下班"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "下班 khôi phục đúng câu “我六点下班回家。”.",
+        "why_others_wrong": {
+          "A": "保证 nghĩa là bảo đảm; cam đoan, không phù hợp chỗ trống.",
+          "B": "遵守 nghĩa là tuân thủ, không phù hợp chỗ trống.",
+          "C": "规则 nghĩa là quy tắc; luật, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “tan làm” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai08_w021",
+        "bai08_w022",
+        "bai08_w023",
+        "bai08_w024"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 229,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_015",
+      "bai": 8,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 拥挤容易___事故。",
+      "sentence_zh": "拥挤容易___事故。",
+      "options": [
+        {
+          "id": "A",
+          "text": "造成"
+        },
+        {
+          "id": "B",
+          "text": "拥挤"
+        },
+        {
+          "id": "C",
+          "text": "主要"
+        },
+        {
+          "id": "D",
+          "text": "原因"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "造成 khôi phục đúng câu “拥挤容易造成事故。”.",
+        "why_others_wrong": {
+          "B": "拥挤 nghĩa là chen chúc; chật chội, không phù hợp chỗ trống.",
+          "C": "主要 nghĩa là chủ yếu; chính, không phù hợp chỗ trống.",
+          "D": "原因 nghĩa là nguyên nhân, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “gây ra; tạo thành” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai08_w025",
+        "bai08_w026",
+        "bai08_w027",
+        "bai08_w028"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 239,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_016",
+      "bai": 8,
+      "level": "understand",
+      "type": "mcq_grammar",
+      "question_vi": "Cấu trúc nào đúng với “无标志被动句”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "量词 → AA"
+        },
+        {
+          "id": "B",
+          "text": "一年比一年 + 形容词"
+        },
+        {
+          "id": "C",
+          "text": "受事主语 + 动词 + 结果补语"
+        },
+        {
+          "id": "D",
+          "text": "差点儿 + 动词"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "Khi chủ ngữ là đối tượng chịu tác động, câu có thể mang nghĩa bị động mà không cần 被; thường nhấn mạnh kết quả của hành động.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc của Lặp lại lượng từ.",
+          "B": "Đây là cấu trúc của Mỗi năm một....",
+          "D": "Đây là cấu trúc của Suýt nữa."
+        },
+        "keyword_tip": "Nhớ khung: 受事主语 + 动词 + 结果补语.",
+        "concept": "Câu bị động không có dấu hiệu"
+      },
+      "related_glossary": [
+        "bai08_g001"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 384,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_017",
+      "bai": 8,
+      "level": "understand",
+      "type": "mcq_grammar",
+      "question_vi": "Câu nào minh họa đúng “量词重叠”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "我们在长城照相。"
+        },
+        {
+          "id": "B",
+          "text": "这些照片张张照得都很好。"
+        },
+        {
+          "id": "C",
+          "text": "这些照片洗好了。"
+        },
+        {
+          "id": "D",
+          "text": "照片上他的眼睛闭着。"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Câu này dùng đúng cấu trúc 量词 → AA.",
+        "why_others_wrong": {
+          "A": "Câu này minh họa từ 照, không thể hiện rõ 量词重叠.",
+          "C": "Câu này minh họa từ 洗, không thể hiện rõ 量词重叠.",
+          "D": "Câu này minh họa từ 闭, không thể hiện rõ 量词重叠."
+        },
+        "keyword_tip": "Danh lượng từ và động lượng từ có thể lặp lại để biểu thị ý nghĩa “mỗi”.",
+        "concept": "Lặp lại lượng từ"
+      },
+      "related_glossary": [
+        "bai08_g002"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 394,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_018",
+      "bai": 8,
+      "level": "apply",
+      "type": "mcq_error_detection",
+      "question_vi": "Nhận định nào SAI về “一年比一年”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cấu trúc trọng tâm là: 一年比一年 + 形容词."
+        },
+        {
+          "id": "B",
+          "text": "Làm trạng ngữ để chỉ mức độ thay đổi tăng dần theo thời gian; tương tự có 一天比一天."
+        },
+        {
+          "id": "C",
+          "text": "Ví dụ đúng: 有汽车的人一年比一年多。"
+        },
+        {
+          "id": "D",
+          "text": "Các thành phần trong cấu trúc này có thể đảo tự do mà nghĩa không đổi."
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "Trật tự thành phần mang chức năng ngữ pháp; không thể đảo tùy ý.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc được glossary ghi nhận.",
+          "B": "Đây là giải thích đúng của điểm ngữ pháp.",
+          "C": "Đây là ví dụ đúng từ tài liệu."
+        },
+        "keyword_tip": "Đối chiếu với khung 一年比一年 + 形容词.",
+        "concept": "Mỗi năm một..."
+      },
+      "related_glossary": [
+        "bai08_g003"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 407,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_019",
+      "bai": 8,
+      "level": "apply",
+      "type": "mcq_error_detection",
+      "question_vi": "Nhận định nào SAI về “差点儿”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cấu trúc trọng tâm là: 差点儿 + 动词."
+        },
+        {
+          "id": "B",
+          "text": "Các thành phần trong cấu trúc này có thể đảo tự do mà nghĩa không đổi."
+        },
+        {
+          "id": "C",
+          "text": "Với việc xấu, dạng khẳng định và phủ định đều có thể chỉ việc cuối cùng không xảy ra. Với việc tốt, khẳng định thường chỉ tiếc vì không thành, còn phủ định chỉ may vì cuối cùng đã thành."
+        },
+        {
+          "id": "D",
+          "text": "Ví dụ đúng: 今天早上我差点儿迟到。"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Trật tự thành phần mang chức năng ngữ pháp; không thể đảo tùy ý.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc được glossary ghi nhận.",
+          "C": "Đây là giải thích đúng của điểm ngữ pháp.",
+          "D": "Đây là ví dụ đúng từ tài liệu."
+        },
+        "keyword_tip": "Đối chiếu với khung 差点儿 + 动词.",
+        "concept": "Suýt nữa"
+      },
+      "related_glossary": [
+        "bai08_g004"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 359,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_020",
+      "bai": 8,
+      "level": "understand",
+      "type": "reading_comprehension",
+      "question_vi": "Ý nào đúng với câu đầu tiên của đoạn đọc?",
+      "passage_zh": "自行车引起了事故。 我们赶快去上班吧。 城市正在发展地铁。",
+      "passage_pinyin": "Zìxíngchē yǐnqǐ le shìgù.   wǒmen gǎnkuài qù shàngbān ba.   chéng shì zhèngzài fāzhǎn dì tiě.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Xe đạp đã gây ra tai nạn."
+        },
+        {
+          "id": "B",
+          "text": "Chúng ta mau đi làm thôi."
+        },
+        {
+          "id": "C",
+          "text": "Thành phố đang phát triển tàu điện ngầm."
+        },
+        {
+          "id": "D",
+          "text": "Chúng tôi chụp ảnh ở Vạn Lý Trường Thành."
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "Câu đầu “自行车引起了事故。” có nghĩa là “Xe đạp đã gây ra tai nạn.”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của câu “我们赶快去上班吧。”.",
+          "C": "Đây là nghĩa của câu “城市正在发展地铁。”.",
+          "D": "Đây là nội dung của ví dụ về 照."
+        },
+        "keyword_tip": "Chú ý từ khóa 引起.",
+        "concept": "Đọc hiểu thông tin trực tiếp"
+      },
+      "related_glossary": [
+        "bai08_w030",
+        "bai08_w031",
+        "bai08_w032"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 251,
+        "context": "Các câu ví dụ của bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_021",
+      "bai": 8,
+      "level": "understand",
+      "type": "reading_comprehension",
+      "question_vi": "Trong ngữ cảnh bài, “不怎么样” có nghĩa gần nhất là gì?",
+      "passage_zh": "不怎么样；别提了；倒霉得很。",
+      "passage_pinyin": "Bù zěn me yàng; biétíle; dǎoméi de hěn.",
+      "options": [
+        {
+          "id": "A",
+          "text": "chụp ảnh"
+        },
+        {
+          "id": "B",
+          "text": "không ra sao; không tốt lắm"
+        },
+        {
+          "id": "C",
+          "text": "rửa; tráng ảnh"
+        },
+        {
+          "id": "D",
+          "text": "nhắm; đóng"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Biểu thị người nói không hài lòng.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 照, không phải mẫu câu 不怎么样.",
+          "C": "Đây là nghĩa của 洗, không phải mẫu câu 不怎么样.",
+          "D": "Đây là nghĩa của 闭, không phải mẫu câu 不怎么样."
+        },
+        "keyword_tip": "Gắn mẫu câu với ngữ cảnh: không ra sao; không tốt lắm.",
+        "concept": "Đọc hiểu mẫu câu khẩu ngữ"
+      },
+      "related_glossary": [
+        "bai08_p001",
+        "bai08_p002",
+        "bai08_p003"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 54,
+        "context": "Mục 注释 hoặc bài khóa"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_022",
+      "bai": 8,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Kính của tôi bị rơi hỏng rồi.",
+      "target_language": "zh",
+      "sample_answer": "我的眼镜摔坏了。",
+      "sample_answer_pinyin": "Wǒ de yǎnjìng shuāi huài le.",
+      "alternative_answers": [
+        "我的眼镜被摔坏了。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "眼镜",
+          "pinyin": "yǎnjìng",
+          "meaning": "kính mắt"
+        },
+        {
+          "zh": "摔",
+          "pinyin": "shuāi",
+          "meaning": "rơi"
+        },
+        {
+          "zh": "我",
+          "pinyin": "Wǒ",
+          "meaning": "tôi"
+        },
+        {
+          "zh": "的",
+          "pinyin": "De",
+          "meaning": "trợ từ kết cấu"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: 受事主语 + 动词 + 结果补语.",
+        "Bắt đầu từ khóa “眼镜”.",
+        "Giữ cụm “摔” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Khi chủ ngữ là đối tượng chịu tác động, câu có thể mang nghĩa bị động mà không cần 被; thường nhấn mạnh kết quả của hành động.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "眼镜 → 摔 → 我 → 的",
+        "concept": "Câu bị động không có dấu hiệu"
+      },
+      "related_glossary": [
+        "bai08_g001",
+        "bai08_w013",
+        "bai08_w017"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 384,
+        "context": "Ví dụ ngữ pháp 无标志被动句"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_023",
+      "bai": 8,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Những bức ảnh này tấm nào chụp cũng đẹp.",
+      "target_language": "zh",
+      "sample_answer": "这些照片张张照得都很好。",
+      "sample_answer_pinyin": "Zhè xiē zhàopiān zhāng zhāng zhào de dōu hěn hǎo.",
+      "alternative_answers": [
+        "每张照片都照得很好。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "照",
+          "pinyin": "zhào",
+          "meaning": "chụp ảnh"
+        },
+        {
+          "zh": "好",
+          "pinyin": "Hǎo",
+          "meaning": "xong; tốt"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: 量词 → AA.",
+        "Bắt đầu từ khóa “照”.",
+        "Giữ cụm “好” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Danh lượng từ và động lượng từ có thể lặp lại để biểu thị ý nghĩa “mỗi”.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "照 → 好",
+        "concept": "Lặp lại lượng từ"
+      },
+      "related_glossary": [
+        "bai08_g002",
+        "bai08_w001"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 394,
+        "context": "Ví dụ ngữ pháp 量词重叠"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_024",
+      "bai": 8,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Số người có ô tô mỗi năm một nhiều.",
+      "target_language": "zh",
+      "sample_answer": "有汽车的人一年比一年多。",
+      "sample_answer_pinyin": "Yǒu qìchē de rén yì nián bǐ yì nián duō.",
+      "alternative_answers": [
+        "有汽车的人越来越多。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "汽车",
+          "pinyin": "Qìchē",
+          "meaning": "ô tô"
+        },
+        {
+          "zh": "的",
+          "pinyin": "De",
+          "meaning": "trợ từ kết cấu"
+        },
+        {
+          "zh": "一",
+          "pinyin": "Yī",
+          "meaning": "vừa; hễ"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: 一年比一年 + 形容词.",
+        "Bắt đầu từ khóa “汽车”.",
+        "Giữ cụm “的” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Làm trạng ngữ để chỉ mức độ thay đổi tăng dần theo thời gian; tương tự có 一天比一天.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "汽车 → 的 → 一",
+        "concept": "Mỗi năm một..."
+      },
+      "related_glossary": [
+        "bai08_g003"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 407,
+        "context": "Ví dụ ngữ pháp 一年比一年"
+      },
+      "difficulty_score": 5,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_025",
+      "bai": 8,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Sáng nay tôi suýt đến muộn.",
+      "target_language": "zh",
+      "sample_answer": "今天早上我差点儿迟到。",
+      "sample_answer_pinyin": "Jīntiān zǎo shàng wǒ chàdiǎnr chí dào.",
+      "alternative_answers": [
+        "我今天早上差一点儿迟到。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "差点儿",
+          "pinyin": "Chàdiǎnr",
+          "meaning": "suýt"
+        },
+        {
+          "zh": "今天",
+          "pinyin": "Jīntiān",
+          "meaning": "hôm nay"
+        },
+        {
+          "zh": "我",
+          "pinyin": "Wǒ",
+          "meaning": "tôi"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: 差点儿 + 动词.",
+        "Bắt đầu từ khóa “差点儿”.",
+        "Giữ cụm “今天” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Với việc xấu, dạng khẳng định và phủ định đều có thể chỉ việc cuối cùng không xảy ra. Với việc tốt, khẳng định thường chỉ tiếc vì không thành, còn phủ định chỉ may vì cuối cùng đã thành.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "差点儿 → 今天 → 我",
+        "concept": "Suýt nữa"
+      },
+      "related_glossary": [
+        "bai08_g004"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 359,
+        "context": "Ví dụ ngữ pháp 差点儿"
+      },
+      "difficulty_score": 5,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_026",
+      "bai": 8,
+      "level": "understand",
+      "type": "translation_zh_to_vi",
+      "question_vi": "Dịch câu sau sang tiếng Việt:",
+      "source_sentence_zh": "我们在长城照相。",
+      "source_sentence_pinyin": "Wǒmen zài chángchéng zhàoxiàng.",
+      "target_language": "vi",
+      "sample_answer": "Chúng tôi chụp ảnh ở Vạn Lý Trường Thành.",
+      "alternative_answers": [
+        "Bọn tôi chụp ảnh ở Vạn Lý Trường Thành."
+      ],
+      "keywords_required": [
+        {
+          "vi": "chụp ảnh",
+          "zh": "照"
+        },
+        {
+          "vi": "chúng tôi; chúng ta",
+          "zh": "我们"
+        },
+        {
+          "vi": "Vạn Lý Trường Thành",
+          "zh": "长城"
+        },
+        {
+          "vi": "ở; tại",
+          "zh": "在"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "照 = chụp ảnh.",
+        "Chú ý trật tự cụm “照”."
+      ],
+      "explanation": {
+        "why_correct": "Bản dịch giữ đúng nghĩa của 照 và nội dung câu nguồn.",
+        "common_mistakes": [
+          "Dịch từng chữ khiến câu tiếng Việt thiếu tự nhiên.",
+          "Bỏ mất thông tin thời gian hoặc mức độ."
+        ],
+        "keyword_tip": "chụp ảnh → chúng tôi; chúng ta → Vạn Lý Trường Thành → ở; tại",
+        "concept": "Đọc hiểu từ 照"
+      },
+      "related_glossary": [
+        "bai08_w001"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 14,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_027",
+      "bai": 8,
+      "level": "understand",
+      "type": "translation_zh_to_vi",
+      "question_vi": "Dịch câu sau sang tiếng Việt:",
+      "source_sentence_zh": "我整整等了二十分钟。",
+      "source_sentence_pinyin": "Wǒ zhěng zhěng děng le èr shí fēn zhōng.",
+      "target_language": "vi",
+      "sample_answer": "Tôi đã đợi tròn hai mươi phút.",
+      "alternative_answers": [
+        "Mình đã đợi tròn hai mươi phút."
+      ],
+      "keywords_required": [
+        {
+          "vi": "trọn",
+          "zh": "整"
+        },
+        {
+          "vi": "tôi",
+          "zh": "我"
+        },
+        {
+          "vi": "rồi",
+          "zh": "了"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "整 = trọn; nguyên; đầy.",
+        "Chú ý trật tự cụm “整”."
+      ],
+      "explanation": {
+        "why_correct": "Bản dịch giữ đúng nghĩa của 整 và nội dung câu nguồn.",
+        "common_mistakes": [
+          "Dịch từng chữ khiến câu tiếng Việt thiếu tự nhiên.",
+          "Bỏ mất thông tin thời gian hoặc mức độ."
+        ],
+        "keyword_tip": "trọn → tôi → rồi",
+        "concept": "Đọc hiểu từ 整"
+      },
+      "related_glossary": [
+        "bai08_w012"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 73,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_028",
+      "bai": 8,
+      "level": "recall",
+      "type": "typing_zh_from_pinyin",
+      "question_vi": "Gõ chữ Hán tương ứng với pinyin và nghĩa sau:",
+      "pinyin": "chàyìdiǎnr",
+      "meaning_vi": "suýt; kém một chút",
+      "meaning_en": "almost",
+      "sample_answer": "差一点儿",
+      "alternative_answers": [],
+      "keywords_required": [
+        {
+          "zh": "差一点儿",
+          "pinyin": "chàyìdiǎnr",
+          "meaning": "suýt"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Từ gồm 4 chữ Hán.",
+        "Ví dụ trong bài: 今天早上我差点儿迟到。"
+      ],
+      "explanation": {
+        "why_correct": "差一点儿 đọc là chàyìdiǎnr và nghĩa là suýt; kém một chút.",
+        "common_mistakes": [
+          "Gõ đúng âm nhưng chọn nhầm chữ đồng âm.",
+          "Bỏ dấu thanh khi ghi nhớ pinyin."
+        ],
+        "keyword_tip": "Liên hệ 差一点儿 với câu ví dụ trong bài.",
+        "concept": "Nhận diện chữ Hán từ pinyin"
+      },
+      "related_glossary": [
+        "bai08_w008"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 147,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "quiz_bai08_029",
+      "bai": 8,
+      "level": "recall",
+      "type": "typing_zh_from_pinyin",
+      "question_vi": "Gõ chữ Hán tương ứng với pinyin và nghĩa sau:",
+      "pinyin": "biétíle",
+      "meaning_vi": "đừng nhắc nữa",
+      "meaning_en": "don't mention it",
+      "sample_answer": "别提了",
+      "alternative_answers": [],
+      "keywords_required": [
+        {
+          "zh": "别提了",
+          "pinyin": "biétíle",
+          "meaning": "đừng nhắc nữa"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Từ gồm 3 chữ Hán.",
+        "Ví dụ trong bài: 别提了，今天倒霉得很。"
+      ],
+      "explanation": {
+        "why_correct": "别提了 đọc là biétíle và nghĩa là đừng nhắc nữa.",
+        "common_mistakes": [
+          "Gõ đúng âm nhưng chọn nhầm chữ đồng âm.",
+          "Bỏ dấu thanh khi ghi nhớ pinyin."
+        ],
+        "keyword_tip": "Liên hệ 别提了 với câu ví dụ trong bài.",
+        "concept": "Nhận diện chữ Hán từ pinyin"
+      },
+      "related_glossary": [
+        "bai08_w014"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 285,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai08_030",
+      "bai": 8,
+      "level": "apply",
+      "type": "sentence_reorder",
+      "question_vi": "Sắp xếp các phần sau thành câu đúng:",
+      "shuffled_parts": [
+        "长城",
+        "照相",
+        "我们",
+        "在"
+      ],
+      "sample_answer": "我们在长城照相。",
+      "sample_answer_pinyin": "Wǒmen zài chángchéng zhàoxiàng.",
+      "alternative_answers": [
+        "在长城照相。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "照",
+          "pinyin": "zhào",
+          "meaning": "chụp ảnh"
+        },
+        {
+          "zh": "我们",
+          "pinyin": "Wǒmen",
+          "meaning": "chúng tôi; chúng ta"
+        },
+        {
+          "zh": "长城",
+          "pinyin": "Chángchéng",
+          "meaning": "Vạn Lý Trường Thành"
+        },
+        {
+          "zh": "在",
+          "pinyin": "Zài",
+          "meaning": "ở; tại"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Đặt 照 đúng vị trí trong câu.",
+        "Ý tiếng Việt: Chúng tôi chụp ảnh ở Vạn Lý Trường Thành.",
+        "Xác định chủ ngữ hoặc chủ đề trước."
+      ],
+      "explanation": {
+        "why_correct": "Câu mẫu sắp xếp các thành phần theo đúng trật tự ngữ pháp và giữ nguyên nghĩa nguồn.",
+        "common_mistakes": [
+          "Đặt bổ ngữ trước động từ không đúng cấu trúc.",
+          "Đưa trợ từ sang sai vị trí."
+        ],
+        "keyword_tip": "照 → 我们 → 长城 → 在",
+        "concept": "Trật tự câu với 照"
+      },
+      "related_glossary": [
+        "bai08_w001"
+      ],
+      "source": {
+        "bai": 8,
+        "source_line": 14,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

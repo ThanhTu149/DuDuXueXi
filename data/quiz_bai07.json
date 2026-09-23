@@ -1,0 +1,1585 @@
+{
+  "metadata": {
+    "bai": 7,
+    "title_zh": "我的护照你找到了没有",
+    "title_vi": "Em tìm thấy hộ chiếu của anh chưa",
+    "source_glossary": "data/glossary_bai07.json",
+    "source_text": "data/_extracted/bai/bai07.txt",
+    "total_questions": 30,
+    "level_distribution": {
+      "recall": 13,
+      "apply": 7,
+      "understand": 6,
+      "synthesize": 4
+    },
+    "type_distribution": {
+      "mcq_meaning_zh_to_vi": 5,
+      "mcq_meaning_vi_to_zh": 2,
+      "mcq_pinyin": 2,
+      "mcq_word_type": 2,
+      "mcq_fill_blank": 4,
+      "mcq_grammar": 2,
+      "mcq_error_detection": 2,
+      "reading_comprehension": 2,
+      "translation_vi_to_zh": 4,
+      "translation_zh_to_vi": 2,
+      "typing_zh_from_pinyin": 2,
+      "sentence_reorder": 1
+    },
+    "group_distribution": {
+      "mcq": 21,
+      "typing": 9
+    },
+    "generated_at": "2026-09-19T22:21:30Z",
+    "version": "2.0"
+  },
+  "questions": [
+    {
+      "id": "quiz_bai07_001",
+      "bai": 7,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“放” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "để; đặt"
+        },
+        {
+          "id": "B",
+          "text": "nửa ngày; khá lâu"
+        },
+        {
+          "id": "C",
+          "text": "đạt được kết quả của hành động"
+        },
+        {
+          "id": "D",
+          "text": "thị thực; visa"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "放 nghĩa là “để; đặt”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của 半天, không phải 放.",
+          "C": "Đây là nghĩa của 着, không phải 放.",
+          "D": "Đây là nghĩa của 签证, không phải 放."
+        },
+        "keyword_tip": "Gắn 放 với ví dụ: 我把护照放在口袋里。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai07_w001",
+        "bai07_w002",
+        "bai07_w003",
+        "bai07_w004"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 107,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_002",
+      "bai": 7,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“手提包” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "giao; nộp"
+        },
+        {
+          "id": "B",
+          "text": "túi xách"
+        },
+        {
+          "id": "C",
+          "text": "chăm chỉ; hết sức; cẩn thận"
+        },
+        {
+          "id": "D",
+          "text": "áo khoác"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "手提包 nghĩa là “túi xách”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 交, không phải 手提包.",
+          "C": "Đây là nghĩa của 好好儿, không phải 手提包.",
+          "D": "Đây là nghĩa của 大衣, không phải 手提包."
+        },
+        "keyword_tip": "Gắn 手提包 với ví dụ: 放在我的手提包里了。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai07_w005",
+        "bai07_w006",
+        "bai07_w007",
+        "bai07_w008"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 122,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_003",
+      "bai": 7,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“口袋” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "hay quên; trước quên sau"
+        },
+        {
+          "id": "B",
+          "text": "đánh mất"
+        },
+        {
+          "id": "C",
+          "text": "túi áo"
+        },
+        {
+          "id": "D",
+          "text": "bỏ quên; để sót"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "口袋 nghĩa là “túi áo”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 丢三落四, không phải 口袋.",
+          "B": "Đây là nghĩa của 丢, không phải 口袋.",
+          "D": "Đây là nghĩa của 落, không phải 口袋."
+        },
+        "keyword_tip": "Gắn 口袋 với ví dụ: 钥匙在大衣口袋里。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai07_w009",
+        "bai07_w010",
+        "bai07_w011",
+        "bai07_w012"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 133,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_004",
+      "bai": 7,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“发现” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "người hâm mộ bóng"
+        },
+        {
+          "id": "B",
+          "text": "thật; quả là"
+        },
+        {
+          "id": "C",
+          "text": "mức độ"
+        },
+        {
+          "id": "D",
+          "text": "phát hiện"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "发现 nghĩa là “phát hiện”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 球迷, không phải 发现.",
+          "B": "Đây là nghĩa của 可, không phải 发现.",
+          "C": "Đây là nghĩa của 程度, không phải 发现."
+        },
+        "keyword_tip": "Gắn 发现 với ví dụ: 我发现护照在口袋里。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai07_w013",
+        "bai07_w014",
+        "bai07_w015",
+        "bai07_w016"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 51,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_005",
+      "bai": 7,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“为了” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "vì; để"
+        },
+        {
+          "id": "B",
+          "text": "bình thường"
+        },
+        {
+          "id": "C",
+          "text": "thừa nhận"
+        },
+        {
+          "id": "D",
+          "text": "phát cuồng"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "为了 nghĩa là “vì; để”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của 正常, không phải 为了.",
+          "C": "Đây là nghĩa của 承认, không phải 为了.",
+          "D": "Đây là nghĩa của 发狂, không phải 为了."
+        },
+        "keyword_tip": "Gắn 为了 với ví dụ: 为了看球，他请假了。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai07_w017",
+        "bai07_w018",
+        "bai07_w019",
+        "bai07_w020"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 54,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_006",
+      "bai": 7,
+      "level": "recall",
+      "type": "mcq_meaning_vi_to_zh",
+      "question_vi": "Từ nào có nghĩa là “giải vô địch”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "期间"
+        },
+        {
+          "id": "B",
+          "text": "锦标赛"
+        },
+        {
+          "id": "C",
+          "text": "像"
+        },
+        {
+          "id": "D",
+          "text": "生病"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "锦标赛 là từ tương ứng với nghĩa “giải vô địch”.",
+        "why_others_wrong": {
+          "A": "期间 nghĩa là trong thời gian; giai đoạn.",
+          "C": "像 nghĩa là giống; có vẻ như.",
+          "D": "生病 nghĩa là bị bệnh."
+        },
+        "keyword_tip": "Nhớ câu: 他参加了世界锦标赛。",
+        "concept": "Gợi nhớ chữ Hán từ nghĩa Việt"
+      },
+      "related_glossary": [
+        "bai07_w021",
+        "bai07_w022",
+        "bai07_w023",
+        "bai07_w024"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 212,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_007",
+      "bai": 7,
+      "level": "recall",
+      "type": "mcq_meaning_vi_to_zh",
+      "question_vi": "Từ nào có nghĩa là “ban ngày”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "精神"
+        },
+        {
+          "id": "B",
+          "text": "贴"
+        },
+        {
+          "id": "C",
+          "text": "白天"
+        },
+        {
+          "id": "D",
+          "text": "通知"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "白天 là từ tương ứng với nghĩa “ban ngày”.",
+        "why_others_wrong": {
+          "A": "精神 nghĩa là tỉnh táo; đầy sức sống.",
+          "B": "贴 nghĩa là dán.",
+          "D": "通知 nghĩa là thông báo; báo cho."
+        },
+        "keyword_tip": "Nhớ câu: 他白天上课，晚上打工。",
+        "concept": "Gợi nhớ chữ Hán từ nghĩa Việt"
+      },
+      "related_glossary": [
+        "bai07_w025",
+        "bai07_w026",
+        "bai07_w027",
+        "bai07_w028"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 218,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_008",
+      "bai": 7,
+      "level": "recall",
+      "type": "mcq_pinyin",
+      "question_vi": "Pinyin đúng của “暂停” là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "yíngyè"
+        },
+        {
+          "id": "B",
+          "text": "gòu"
+        },
+        {
+          "id": "C",
+          "text": "zàntíng"
+        },
+        {
+          "id": "D",
+          "text": "suàn"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "暂停 đọc là zàntíng.",
+        "why_others_wrong": {
+          "A": "Đây là pinyin của 营业.",
+          "B": "Đây là pinyin của 够.",
+          "D": "Đây là pinyin của 算."
+        },
+        "keyword_tip": "Đọc cùng nghĩa “tạm dừng”.",
+        "concept": "Pinyin có dấu thanh"
+      },
+      "related_glossary": [
+        "bai07_w029",
+        "bai07_w030",
+        "bai07_w031",
+        "bai07_w032"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 222,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_009",
+      "bai": 7,
+      "level": "recall",
+      "type": "mcq_pinyin",
+      "question_vi": "Pinyin đúng của “多的是” là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "qīnyǎn"
+        },
+        {
+          "id": "B",
+          "text": "shìjièbēi"
+        },
+        {
+          "id": "C",
+          "text": "zhǔn"
+        },
+        {
+          "id": "D",
+          "text": "duōdeshì"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "多的是 đọc là duōdeshì.",
+        "why_others_wrong": {
+          "A": "Đây là pinyin của 亲眼.",
+          "B": "Đây là pinyin của 世界杯.",
+          "C": "Đây là pinyin của 准."
+        },
+        "keyword_tip": "Đọc cùng nghĩa “có rất nhiều”.",
+        "concept": "Pinyin có dấu thanh"
+      },
+      "related_glossary": [
+        "bai07_w033",
+        "bai07_w034",
+        "bai07_w035",
+        "bai07_w036"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 228,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_010",
+      "bai": 7,
+      "level": "recall",
+      "type": "mcq_word_type",
+      "question_vi": "“辞职” thuộc từ loại nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "动 (động từ)"
+        },
+        {
+          "id": "B",
+          "text": "名 (danh từ)"
+        },
+        {
+          "id": "C",
+          "text": "形 (tính từ)"
+        },
+        {
+          "id": "D",
+          "text": "副 (phó từ)"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "Trong bảng từ mới, 辞职 được ghi là 动.",
+        "why_others_wrong": {
+          "B": "名 không phải ký hiệu từ loại của 辞职 trong bài.",
+          "C": "形 không phải ký hiệu từ loại của 辞职 trong bài.",
+          "D": "副 không phải ký hiệu từ loại của 辞职 trong bài."
+        },
+        "keyword_tip": "Đặt từ vào câu: 他最后决定辞职。",
+        "concept": "Nhận diện từ loại"
+      },
+      "related_glossary": [
+        "bai07_w037",
+        "bai07_w038",
+        "bai07_w039",
+        "bai07_w040"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 232,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_011",
+      "bai": 7,
+      "level": "recall",
+      "type": "mcq_word_type",
+      "question_vi": "“棒” thuộc từ loại nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "名 (danh từ)"
+        },
+        {
+          "id": "B",
+          "text": "形 (tính từ)"
+        },
+        {
+          "id": "C",
+          "text": "动 (động từ)"
+        },
+        {
+          "id": "D",
+          "text": "副 (phó từ)"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Trong bảng từ mới, 棒 được ghi là 形.",
+        "why_others_wrong": {
+          "A": "名 không phải ký hiệu từ loại của 棒 trong bài.",
+          "C": "动 không phải ký hiệu từ loại của 棒 trong bài.",
+          "D": "副 không phải ký hiệu từ loại của 棒 trong bài."
+        },
+        "keyword_tip": "Đặt từ vào câu: 他踢足球踢得真棒。",
+        "concept": "Nhận diện từ loại"
+      },
+      "related_glossary": [
+        "bai07_w041"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 358,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_012",
+      "bai": 7,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 我把护照___在口袋里。",
+      "sentence_zh": "我把护照___在口袋里。",
+      "options": [
+        {
+          "id": "A",
+          "text": "半天"
+        },
+        {
+          "id": "B",
+          "text": "放"
+        },
+        {
+          "id": "C",
+          "text": "着"
+        },
+        {
+          "id": "D",
+          "text": "签证"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "放 khôi phục đúng câu “我把护照放在口袋里。”.",
+        "why_others_wrong": {
+          "A": "半天 nghĩa là nửa ngày; khá lâu, không phù hợp chỗ trống.",
+          "C": "着 nghĩa là đạt được kết quả của hành động, không phù hợp chỗ trống.",
+          "D": "签证 nghĩa là thị thực; visa, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “để; đặt” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai07_w001",
+        "bai07_w002",
+        "bai07_w003",
+        "bai07_w004"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 107,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_013",
+      "bai": 7,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 放在我的___里了。",
+      "sentence_zh": "放在我的___里了。",
+      "options": [
+        {
+          "id": "A",
+          "text": "交"
+        },
+        {
+          "id": "B",
+          "text": "好好儿"
+        },
+        {
+          "id": "C",
+          "text": "手提包"
+        },
+        {
+          "id": "D",
+          "text": "大衣"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "手提包 khôi phục đúng câu “放在我的手提包里了。”.",
+        "why_others_wrong": {
+          "A": "交 nghĩa là giao; nộp, không phù hợp chỗ trống.",
+          "B": "好好儿 nghĩa là chăm chỉ; hết sức; cẩn thận, không phù hợp chỗ trống.",
+          "D": "大衣 nghĩa là áo khoác, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “túi xách” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai07_w005",
+        "bai07_w006",
+        "bai07_w007",
+        "bai07_w008"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 122,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_014",
+      "bai": 7,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 钥匙在大衣___里。",
+      "sentence_zh": "钥匙在大衣___里。",
+      "options": [
+        {
+          "id": "A",
+          "text": "丢三落四"
+        },
+        {
+          "id": "B",
+          "text": "丢"
+        },
+        {
+          "id": "C",
+          "text": "落"
+        },
+        {
+          "id": "D",
+          "text": "口袋"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "口袋 khôi phục đúng câu “钥匙在大衣口袋里。”.",
+        "why_others_wrong": {
+          "A": "丢三落四 nghĩa là hay quên; trước quên sau, không phù hợp chỗ trống.",
+          "B": "丢 nghĩa là đánh mất, không phù hợp chỗ trống.",
+          "C": "落 nghĩa là bỏ quên; để sót, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “túi áo” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai07_w009",
+        "bai07_w010",
+        "bai07_w011",
+        "bai07_w012"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 133,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_015",
+      "bai": 7,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 我___护照在口袋里。",
+      "sentence_zh": "我___护照在口袋里。",
+      "options": [
+        {
+          "id": "A",
+          "text": "发现"
+        },
+        {
+          "id": "B",
+          "text": "球迷"
+        },
+        {
+          "id": "C",
+          "text": "可"
+        },
+        {
+          "id": "D",
+          "text": "程度"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "发现 khôi phục đúng câu “我发现护照在口袋里。”.",
+        "why_others_wrong": {
+          "B": "球迷 nghĩa là người hâm mộ bóng, không phù hợp chỗ trống.",
+          "C": "可 nghĩa là thật; quả là, không phù hợp chỗ trống.",
+          "D": "程度 nghĩa là mức độ, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “phát hiện” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai07_w013",
+        "bai07_w014",
+        "bai07_w015",
+        "bai07_w016"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 51,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_016",
+      "bai": 7,
+      "level": "understand",
+      "type": "mcq_grammar",
+      "question_vi": "Cấu trúc nào đúng với “主谓谓语句”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "动词 + 在 + 处所"
+        },
+        {
+          "id": "B",
+          "text": "动词 + 着"
+        },
+        {
+          "id": "C",
+          "text": "话题 + 主谓短语"
+        },
+        {
+          "id": "D",
+          "text": "动词 + 好"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "Đưa đối tượng lên đầu làm chủ đề rồi dùng một cụm chủ-vị để nhận xét hoặc miêu tả đối tượng đó.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc của Bổ ngữ kết quả 在.",
+          "B": "Đây là cấu trúc của Bổ ngữ kết quả 着.",
+          "D": "Đây là cấu trúc của Bổ ngữ kết quả 好."
+        },
+        "keyword_tip": "Nhớ khung: 话题 + 主谓短语.",
+        "concept": "Câu chủ-vị làm vị ngữ"
+      },
+      "related_glossary": [
+        "bai07_g001",
+        "bai07_g005"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 411,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_017",
+      "bai": 7,
+      "level": "understand",
+      "type": "mcq_grammar",
+      "question_vi": "Câu nào minh họa đúng “结果补语“在””?",
+      "options": [
+        {
+          "id": "A",
+          "text": "我把护照放在口袋里。"
+        },
+        {
+          "id": "B",
+          "text": "我的词典你放在哪儿了？"
+        },
+        {
+          "id": "C",
+          "text": "我找了半天也没找着。"
+        },
+        {
+          "id": "D",
+          "text": "我的护照找着了。"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Câu này dùng đúng cấu trúc 动词 + 在 + 处所.",
+        "why_others_wrong": {
+          "A": "Câu này minh họa từ 放, không thể hiện rõ 结果补语“在”.",
+          "C": "Câu này minh họa từ 半天, không thể hiện rõ 结果补语“在”.",
+          "D": "Câu này minh họa từ 着, không thể hiện rõ 结果补语“在”."
+        },
+        "keyword_tip": "Biểu thị qua hành động mà người hoặc vật được đặt ở một vị trí; tân ngữ thường là từ chỉ nơi chốn.",
+        "concept": "Bổ ngữ kết quả 在"
+      },
+      "related_glossary": [
+        "bai07_g002"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 429,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_018",
+      "bai": 7,
+      "level": "apply",
+      "type": "mcq_error_detection",
+      "question_vi": "Nhận định nào SAI về “结果补语“着””?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cấu trúc trọng tâm là: 动词 + 着."
+        },
+        {
+          "id": "B",
+          "text": "Biểu thị mục đích của hành động đã đạt được hoặc đã có kết quả."
+        },
+        {
+          "id": "C",
+          "text": "Ví dụ đúng: 我的护照你给我找着了没有？"
+        },
+        {
+          "id": "D",
+          "text": "Các thành phần trong cấu trúc này có thể đảo tự do mà nghĩa không đổi."
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "Trật tự thành phần mang chức năng ngữ pháp; không thể đảo tùy ý.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc được glossary ghi nhận.",
+          "B": "Đây là giải thích đúng của điểm ngữ pháp.",
+          "C": "Đây là ví dụ đúng từ tài liệu."
+        },
+        "keyword_tip": "Đối chiếu với khung 动词 + 着.",
+        "concept": "Bổ ngữ kết quả 着"
+      },
+      "related_glossary": [
+        "bai07_g003"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 446,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_019",
+      "bai": 7,
+      "level": "apply",
+      "type": "mcq_error_detection",
+      "question_vi": "Nhận định nào SAI về “结果补语“好””?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cấu trúc trọng tâm là: 动词 + 好."
+        },
+        {
+          "id": "B",
+          "text": "Các thành phần trong cấu trúc này có thể đảo tự do mà nghĩa không đổi."
+        },
+        {
+          "id": "C",
+          "text": "Biểu thị hành động đã hoàn thành và đạt trạng thái hoàn chỉnh hoặc thỏa đáng."
+        },
+        {
+          "id": "D",
+          "text": "Ví dụ đúng: 你的衣服洗好了吗？"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Trật tự thành phần mang chức năng ngữ pháp; không thể đảo tùy ý.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc được glossary ghi nhận.",
+          "C": "Đây là giải thích đúng của điểm ngữ pháp.",
+          "D": "Đây là ví dụ đúng từ tài liệu."
+        },
+        "keyword_tip": "Đối chiếu với khung 动词 + 好.",
+        "concept": "Bổ ngữ kết quả 好"
+      },
+      "related_glossary": [
+        "bai07_g004"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 463,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_020",
+      "bai": 7,
+      "level": "understand",
+      "type": "reading_comprehension",
+      "question_vi": "Ý nào đúng với câu đầu tiên của đoạn đọc?",
+      "passage_zh": "这件事终于办成了。 我很佩服这个球迷。 他踢足球踢得真棒。",
+      "passage_pinyin": "Zhè jiàn shì zhōng yú bàn chéng le.   wǒ hěn pèifú zhè ge qiúmí.   tā tī zú qiú tī de zhēn bàng.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Việc này cuối cùng đã làm thành công."
+        },
+        {
+          "id": "B",
+          "text": "Tôi rất khâm phục người hâm mộ này."
+        },
+        {
+          "id": "C",
+          "text": "Anh ấy đá bóng thật tuyệt."
+        },
+        {
+          "id": "D",
+          "text": "Tôi để hộ chiếu trong túi áo."
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "Câu đầu “这件事终于办成了。” có nghĩa là “Việc này cuối cùng đã làm thành công.”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của câu “我很佩服这个球迷。”.",
+          "C": "Đây là nghĩa của câu “他踢足球踢得真棒。”.",
+          "D": "Đây là nội dung của ví dụ về 放."
+        },
+        "keyword_tip": "Chú ý từ khóa 成.",
+        "concept": "Đọc hiểu thông tin trực tiếp"
+      },
+      "related_glossary": [
+        "bai07_w039",
+        "bai07_w040",
+        "bai07_w041"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 87,
+        "context": "Các câu ví dụ của bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_021",
+      "bai": 7,
+      "level": "understand",
+      "type": "reading_comprehension",
+      "question_vi": "Trong ngữ cảnh bài, “我看” có nghĩa gần nhất là gì?",
+      "passage_zh": "我看；多的是。",
+      "passage_pinyin": "Wǒ kàn; duōdeshì.",
+      "options": [
+        {
+          "id": "A",
+          "text": "để; đặt"
+        },
+        {
+          "id": "B",
+          "text": "theo tôi; tôi nghĩ"
+        },
+        {
+          "id": "C",
+          "text": "nửa ngày; khá lâu"
+        },
+        {
+          "id": "D",
+          "text": "đạt được kết quả của hành động"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Đặt trước ý kiến hoặc nhận định riêng của người nói.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 放, không phải mẫu câu 我看.",
+          "C": "Đây là nghĩa của 半天, không phải mẫu câu 我看.",
+          "D": "Đây là nghĩa của 着, không phải mẫu câu 我看."
+        },
+        "keyword_tip": "Gắn mẫu câu với ngữ cảnh: theo tôi; tôi nghĩ.",
+        "concept": "Đọc hiểu mẫu câu khẩu ngữ"
+      },
+      "related_glossary": [
+        "bai07_p001",
+        "bai07_p002"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 57,
+        "context": "Mục 注释 hoặc bài khóa"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_022",
+      "bai": 7,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Anh ấy đã dịch câu chuyện này sang tiếng Anh.",
+      "target_language": "zh",
+      "sample_answer": "这篇故事他翻译成了英语。",
+      "sample_answer_pinyin": "Zhè piān gù shì tā fān yì chéng le yīng yǔ.",
+      "alternative_answers": [
+        "他把这篇故事翻译成英语了。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "成",
+          "pinyin": "chéng",
+          "meaning": "thành công"
+        },
+        {
+          "zh": "他",
+          "pinyin": "Tā",
+          "meaning": "anh ấy"
+        },
+        {
+          "zh": "了",
+          "pinyin": "Le",
+          "meaning": "rồi"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: 动词 + 成.",
+        "Bắt đầu từ khóa “成”.",
+        "Giữ cụm “他” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Biểu thị hành động đạt mục đích, làm sự vật biến đổi thành trạng thái khác hoặc tạo ra kết quả sai.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "成 → 他 → 了",
+        "concept": "Bổ ngữ kết quả 成"
+      },
+      "related_glossary": [
+        "bai07_g005",
+        "bai07_w039"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 484,
+        "context": "Ví dụ ngữ pháp 结果补语“成”"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_023",
+      "bai": 7,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Bóng đá, bạn có thích không?",
+      "target_language": "zh",
+      "sample_answer": "足球你喜欢吗？",
+      "sample_answer_pinyin": "Zú qiú nǐ xǐ huān ma?",
+      "alternative_answers": [
+        "你喜欢足球吗？"
+      ],
+      "keywords_required": [
+        {
+          "zh": "你",
+          "pinyin": "Nǐ",
+          "meaning": "bạn"
+        },
+        {
+          "zh": "足",
+          "pinyin": "Zú",
+          "meaning": "từ khóa trong câu"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: 话题 + 主谓短语.",
+        "Bắt đầu từ khóa “你”.",
+        "Giữ cụm “足” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Đưa đối tượng lên đầu làm chủ đề rồi dùng một cụm chủ-vị để nhận xét hoặc miêu tả đối tượng đó.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "你 → 足",
+        "concept": "Câu chủ-vị làm vị ngữ"
+      },
+      "related_glossary": [
+        "bai07_g001"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 411,
+        "context": "Ví dụ ngữ pháp 主谓谓语句"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_024",
+      "bai": 7,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Bạn để từ điển của tôi ở đâu rồi?",
+      "target_language": "zh",
+      "sample_answer": "我的词典你放在哪儿了？",
+      "sample_answer_pinyin": "Wǒ de cí diǎn nǐ fàng zài nǎ ér le?",
+      "alternative_answers": [
+        "你把我的词典放在哪儿了？"
+      ],
+      "keywords_required": [
+        {
+          "zh": "放",
+          "pinyin": "fàng",
+          "meaning": "để"
+        },
+        {
+          "zh": "我",
+          "pinyin": "Wǒ",
+          "meaning": "tôi"
+        },
+        {
+          "zh": "你",
+          "pinyin": "Nǐ",
+          "meaning": "bạn"
+        },
+        {
+          "zh": "的",
+          "pinyin": "De",
+          "meaning": "trợ từ kết cấu"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: 动词 + 在 + 处所.",
+        "Bắt đầu từ khóa “放”.",
+        "Giữ cụm “我” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Biểu thị qua hành động mà người hoặc vật được đặt ở một vị trí; tân ngữ thường là từ chỉ nơi chốn.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "放 → 我 → 你 → 的",
+        "concept": "Bổ ngữ kết quả 在"
+      },
+      "related_glossary": [
+        "bai07_g002",
+        "bai07_w001"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 429,
+        "context": "Ví dụ ngữ pháp 结果补语“在”"
+      },
+      "difficulty_score": 5,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_025",
+      "bai": 7,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Bạn đã tìm thấy hộ chiếu giúp tôi chưa?",
+      "target_language": "zh",
+      "sample_answer": "我的护照你给我找着了没有？",
+      "sample_answer_pinyin": "Wǒ de hùzhào nǐ gěi wǒ zhǎo zháo le méiyǒu?",
+      "alternative_answers": [
+        "你给我找着护照了没有？"
+      ],
+      "keywords_required": [
+        {
+          "zh": "着",
+          "pinyin": "zháo",
+          "meaning": "đạt được kết quả của hành động"
+        },
+        {
+          "zh": "没有",
+          "pinyin": "Méiyǒu",
+          "meaning": "không có; không bằng"
+        },
+        {
+          "zh": "护照",
+          "pinyin": "Hùzhào",
+          "meaning": "hộ chiếu"
+        },
+        {
+          "zh": "我",
+          "pinyin": "Wǒ",
+          "meaning": "tôi"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: 动词 + 着.",
+        "Bắt đầu từ khóa “着”.",
+        "Giữ cụm “没有” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Biểu thị mục đích của hành động đã đạt được hoặc đã có kết quả.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "着 → 没有 → 护照 → 我",
+        "concept": "Bổ ngữ kết quả 着"
+      },
+      "related_glossary": [
+        "bai07_g003",
+        "bai07_w003"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 446,
+        "context": "Ví dụ ngữ pháp 结果补语“着”"
+      },
+      "difficulty_score": 5,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_026",
+      "bai": 7,
+      "level": "understand",
+      "type": "translation_zh_to_vi",
+      "question_vi": "Dịch câu sau sang tiếng Việt:",
+      "source_sentence_zh": "我把护照放在口袋里。",
+      "source_sentence_pinyin": "Wǒ bǎ hùzhào fàng zài kǒudài lǐ.",
+      "target_language": "vi",
+      "sample_answer": "Tôi để hộ chiếu trong túi áo.",
+      "alternative_answers": [
+        "Mình để hộ chiếu trong túi áo."
+      ],
+      "keywords_required": [
+        {
+          "vi": "túi áo",
+          "zh": "口袋"
+        },
+        {
+          "vi": "để",
+          "zh": "放"
+        },
+        {
+          "vi": "hộ chiếu",
+          "zh": "护照"
+        },
+        {
+          "vi": "tôi",
+          "zh": "我"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "放 = để; đặt.",
+        "Chú ý trật tự cụm “口袋”."
+      ],
+      "explanation": {
+        "why_correct": "Bản dịch giữ đúng nghĩa của 放 và nội dung câu nguồn.",
+        "common_mistakes": [
+          "Dịch từng chữ khiến câu tiếng Việt thiếu tự nhiên.",
+          "Bỏ mất thông tin thời gian hoặc mức độ."
+        ],
+        "keyword_tip": "túi áo → để → hộ chiếu → tôi",
+        "concept": "Đọc hiểu từ 放"
+      },
+      "related_glossary": [
+        "bai07_w001",
+        "bai07_w009"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 107,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_027",
+      "bai": 7,
+      "level": "understand",
+      "type": "translation_zh_to_vi",
+      "question_vi": "Dịch câu sau sang tiếng Việt:",
+      "source_sentence_zh": "我找了半天也没找着。",
+      "source_sentence_pinyin": "Wǒ zhǎo le bàntiān yě méi zhǎo zháo.",
+      "target_language": "vi",
+      "sample_answer": "Tôi tìm khá lâu mà vẫn chưa thấy.",
+      "alternative_answers": [
+        "Mình tìm khá lâu mà vẫn chưa thấy."
+      ],
+      "keywords_required": [
+        {
+          "vi": "nửa ngày",
+          "zh": "半天"
+        },
+        {
+          "vi": "đạt được kết quả của hành động",
+          "zh": "着"
+        },
+        {
+          "vi": "tôi",
+          "zh": "我"
+        },
+        {
+          "vi": "rồi",
+          "zh": "了"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "半天 = nửa ngày; khá lâu.",
+        "Chú ý trật tự cụm “半天”."
+      ],
+      "explanation": {
+        "why_correct": "Bản dịch giữ đúng nghĩa của 半天 và nội dung câu nguồn.",
+        "common_mistakes": [
+          "Dịch từng chữ khiến câu tiếng Việt thiếu tự nhiên.",
+          "Bỏ mất thông tin thời gian hoặc mức độ."
+        ],
+        "keyword_tip": "nửa ngày → đạt được kết quả của hành động → tôi → rồi",
+        "concept": "Đọc hiểu từ 半天"
+      },
+      "related_glossary": [
+        "bai07_w002",
+        "bai07_w003"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 108,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_028",
+      "bai": 7,
+      "level": "recall",
+      "type": "typing_zh_from_pinyin",
+      "question_vi": "Gõ chữ Hán tương ứng với pinyin và nghĩa sau:",
+      "pinyin": "diūsānlàsì",
+      "meaning_vi": "hay quên; trước quên sau",
+      "meaning_en": "forgetful",
+      "sample_answer": "丢三落四",
+      "alternative_answers": [],
+      "keywords_required": [
+        {
+          "zh": "丢三落四",
+          "pinyin": "diūsānlàsì",
+          "meaning": "hay quên"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Từ gồm 4 chữ Hán.",
+        "Ví dụ trong bài: 他总是丢三落四。"
+      ],
+      "explanation": {
+        "why_correct": "丢三落四 đọc là diūsānlàsì và nghĩa là hay quên; trước quên sau.",
+        "common_mistakes": [
+          "Gõ đúng âm nhưng chọn nhầm chữ đồng âm.",
+          "Bỏ dấu thanh khi ghi nhớ pinyin."
+        ],
+        "keyword_tip": "Liên hệ 丢三落四 với câu ví dụ trong bài.",
+        "concept": "Nhận diện chữ Hán từ pinyin"
+      },
+      "related_glossary": [
+        "bai07_w010"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 138,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_029",
+      "bai": 7,
+      "level": "recall",
+      "type": "typing_zh_from_pinyin",
+      "question_vi": "Gõ chữ Hán tương ứng với pinyin và nghĩa sau:",
+      "pinyin": "shǒutíbāo",
+      "meaning_vi": "túi xách",
+      "meaning_en": "bag; handbag",
+      "sample_answer": "手提包",
+      "alternative_answers": [],
+      "keywords_required": [
+        {
+          "zh": "手提包",
+          "pinyin": "shǒutíbāo",
+          "meaning": "túi xách"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Từ gồm 3 chữ Hán.",
+        "Ví dụ trong bài: 放在我的手提包里了。"
+      ],
+      "explanation": {
+        "why_correct": "手提包 đọc là shǒutíbāo và nghĩa là túi xách.",
+        "common_mistakes": [
+          "Gõ đúng âm nhưng chọn nhầm chữ đồng âm.",
+          "Bỏ dấu thanh khi ghi nhớ pinyin."
+        ],
+        "keyword_tip": "Liên hệ 手提包 với câu ví dụ trong bài.",
+        "concept": "Nhận diện chữ Hán từ pinyin"
+      },
+      "related_glossary": [
+        "bai07_w005"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 122,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai07_030",
+      "bai": 7,
+      "level": "apply",
+      "type": "sentence_reorder",
+      "question_vi": "Sắp xếp các phần sau thành câu đúng:",
+      "shuffled_parts": [
+        "洗好",
+        "了吗",
+        "你的",
+        "衣服"
+      ],
+      "sample_answer": "你的衣服洗好了吗？",
+      "sample_answer_pinyin": "Nǐ de yīfú xǐhǎo lema?",
+      "alternative_answers": [
+        "的衣服洗好了吗？"
+      ],
+      "keywords_required": [
+        {
+          "zh": "衣服",
+          "pinyin": "Yīfú",
+          "meaning": "quần áo"
+        },
+        {
+          "zh": "你的",
+          "pinyin": "Nǐde",
+          "meaning": "của bạn"
+        },
+        {
+          "zh": "洗好",
+          "pinyin": "Xǐhǎo",
+          "meaning": "giặt xong"
+        },
+        {
+          "zh": "了吗",
+          "pinyin": "Lema",
+          "meaning": "rồi chưa"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "动词 + 好",
+        "Ý tiếng Việt: Quần áo của bạn giặt xong chưa?",
+        "Xác định chủ ngữ hoặc chủ đề trước."
+      ],
+      "explanation": {
+        "why_correct": "Câu mẫu sắp xếp các thành phần theo đúng trật tự ngữ pháp và giữ nguyên nghĩa nguồn.",
+        "common_mistakes": [
+          "Đặt bổ ngữ trước động từ không đúng cấu trúc.",
+          "Đưa trợ từ sang sai vị trí."
+        ],
+        "keyword_tip": "衣服 → 你的 → 洗好 → 了吗",
+        "concept": "Bổ ngữ kết quả 好"
+      },
+      "related_glossary": [
+        "bai07_g004"
+      ],
+      "source": {
+        "bai": 7,
+        "source_line": 463,
+        "context": "Ví dụ ngữ pháp 结果补语“好”"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

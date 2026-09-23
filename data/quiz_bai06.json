@@ -1,0 +1,1588 @@
+{
+  "metadata": {
+    "bai": 6,
+    "title_zh": "我是跟旅游团一起来的",
+    "title_vi": "Tôi đến cùng đoàn du lịch",
+    "source_glossary": "data/glossary_bai06.json",
+    "source_text": "data/_extracted/bai/bai06.txt",
+    "total_questions": 30,
+    "level_distribution": {
+      "recall": 13,
+      "apply": 7,
+      "understand": 6,
+      "synthesize": 4
+    },
+    "type_distribution": {
+      "mcq_meaning_zh_to_vi": 5,
+      "mcq_meaning_vi_to_zh": 2,
+      "mcq_pinyin": 2,
+      "mcq_word_type": 2,
+      "mcq_fill_blank": 4,
+      "mcq_grammar": 2,
+      "mcq_error_detection": 2,
+      "reading_comprehension": 2,
+      "translation_vi_to_zh": 4,
+      "translation_zh_to_vi": 2,
+      "typing_zh_from_pinyin": 2,
+      "sentence_reorder": 1
+    },
+    "group_distribution": {
+      "mcq": 21,
+      "typing": 9
+    },
+    "generated_at": "2026-09-19T22:21:30Z",
+    "version": "2.0"
+  },
+  "questions": [
+    {
+      "id": "quiz_bai06_001",
+      "bai": 6,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“前天” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "hôm kia"
+        },
+        {
+          "id": "B",
+          "text": "ngày kia"
+        },
+        {
+          "id": "C",
+          "text": "hướng dẫn viên du lịch"
+        },
+        {
+          "id": "D",
+          "text": "nghiên cứu sinh"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "前天 nghĩa là “hôm kia”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của 后天, không phải 前天.",
+          "C": "Đây là nghĩa của 导游, không phải 前天.",
+          "D": "Đây là nghĩa của 研究生, không phải 前天."
+        },
+        "keyword_tip": "Gắn 前天 với ví dụ: 前天我们去了长城。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai06_w001",
+        "bai06_w002",
+        "bai06_w003",
+        "bai06_w004"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 19,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_002",
+      "bai": 6,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“打工” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "tận dụng; sử dụng"
+        },
+        {
+          "id": "B",
+          "text": "làm thuê; đi làm"
+        },
+        {
+          "id": "C",
+          "text": "kỳ nghỉ"
+        },
+        {
+          "id": "D",
+          "text": "công ty du lịch"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "打工 nghĩa là “làm thuê; đi làm”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 利用, không phải 打工.",
+          "C": "Đây là nghĩa của 假期, không phải 打工.",
+          "D": "Đây là nghĩa của 旅行社, không phải 打工."
+        },
+        "keyword_tip": "Gắn 打工 với ví dụ: 他假期在饭馆打工。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai06_w005",
+        "bai06_w006",
+        "bai06_w007",
+        "bai06_w008"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 158,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_003",
+      "bai": 6,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“组织” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "ông chủ"
+        },
+        {
+          "id": "B",
+          "text": "cần; nhu cầu"
+        },
+        {
+          "id": "C",
+          "text": "tổ chức"
+        },
+        {
+          "id": "D",
+          "text": "thường xuyên"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "组织 nghĩa là “tổ chức”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 老板, không phải 组织.",
+          "B": "Đây là nghĩa của 需要, không phải 组织.",
+          "D": "Đây là nghĩa của 经常, không phải 组织."
+        },
+        "keyword_tip": "Gắn 组织 với ví dụ: 学校组织了一次旅行。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai06_w009",
+        "bai06_w010",
+        "bai06_w011",
+        "bai06_w012"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 162,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_004",
+      "bai": 6,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“收集” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "vừa... liền...; hễ... là..."
+        },
+        {
+          "id": "B",
+          "text": "sắp xếp; sự sắp xếp"
+        },
+        {
+          "id": "C",
+          "text": "giúp đỡ; sự giúp đỡ"
+        },
+        {
+          "id": "D",
+          "text": "thu thập"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "收集 nghĩa là “thu thập”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 一……就……, không phải 收集.",
+          "B": "Đây là nghĩa của 安排, không phải 收集.",
+          "C": "Đây là nghĩa của 帮助, không phải 收集."
+        },
+        "keyword_tip": "Gắn 收集 với ví dụ: 导游收集了很多资料。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai06_w013",
+        "bai06_w014",
+        "bai06_w015",
+        "bai06_w016"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 166,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_005",
+      "bai": 6,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“帮” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "giúp"
+        },
+        {
+          "id": "B",
+          "text": "hy vọng"
+        },
+        {
+          "id": "C",
+          "text": "đường sắt"
+        },
+        {
+          "id": "D",
+          "text": "phong cảnh"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "帮 nghĩa là “giúp”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của 希望, không phải 帮.",
+          "C": "Đây là nghĩa của 铁路, không phải 帮.",
+          "D": "Đây là nghĩa của 风光, không phải 帮."
+        },
+        "keyword_tip": "Gắn 帮 với ví dụ: 请你帮我安排一下。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai06_w017",
+        "bai06_w018",
+        "bai06_w019",
+        "bai06_w020"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 170,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_006",
+      "bai": 6,
+      "level": "recall",
+      "type": "mcq_meaning_vi_to_zh",
+      "question_vi": "Từ nào có nghĩa là “thương lượng; bàn bạc”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "故乡"
+        },
+        {
+          "id": "B",
+          "text": "商量"
+        },
+        {
+          "id": "C",
+          "text": "自由"
+        },
+        {
+          "id": "D",
+          "text": "活动"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "商量 là từ tương ứng với nghĩa “thương lượng; bàn bạc”.",
+        "why_others_wrong": {
+          "A": "故乡 nghĩa là quê hương.",
+          "C": "自由 nghĩa là tự do.",
+          "D": "活动 nghĩa là hoạt động."
+        },
+        "keyword_tip": "Nhớ câu: 我想跟你商量一件事。",
+        "concept": "Gợi nhớ chữ Hán từ nghĩa Việt"
+      },
+      "related_glossary": [
+        "bai06_w021",
+        "bai06_w022",
+        "bai06_w023",
+        "bai06_w024"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 283,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_007",
+      "bai": 6,
+      "level": "recall",
+      "type": "mcq_meaning_vi_to_zh",
+      "question_vi": "Từ nào có nghĩa là “lẫn nhau”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "老外"
+        },
+        {
+          "id": "B",
+          "text": "呀"
+        },
+        {
+          "id": "C",
+          "text": "互相"
+        },
+        {
+          "id": "D",
+          "text": "鼻子"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "互相 là từ tương ứng với nghĩa “lẫn nhau”.",
+        "why_others_wrong": {
+          "A": "老外 nghĩa là người nước ngoài.",
+          "B": "呀 nghĩa là nhé; à.",
+          "D": "鼻子 nghĩa là mũi."
+        },
+        "keyword_tip": "Nhớ câu: 同学们互相帮助。",
+        "concept": "Gợi nhớ chữ Hán từ nghĩa Việt"
+      },
+      "related_glossary": [
+        "bai06_w025",
+        "bai06_w026",
+        "bai06_w027",
+        "bai06_w028"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 118,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_008",
+      "bai": 6,
+      "level": "recall",
+      "type": "mcq_pinyin",
+      "question_vi": "Pinyin đúng của “头发” là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "yǎnjīng"
+        },
+        {
+          "id": "B",
+          "text": "shēngdiào"
+        },
+        {
+          "id": "C",
+          "text": "tóufà"
+        },
+        {
+          "id": "D",
+          "text": "qiántiān"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "头发 đọc là tóufà.",
+        "why_others_wrong": {
+          "A": "Đây là pinyin của 眼睛.",
+          "B": "Đây là pinyin của 声调.",
+          "D": "Đây là pinyin của 前天."
+        },
+        "keyword_tip": "Đọc cùng nghĩa “tóc”.",
+        "concept": "Pinyin có dấu thanh"
+      },
+      "related_glossary": [
+        "bai06_w029",
+        "bai06_w030",
+        "bai06_w031"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 114,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_009",
+      "bai": 6,
+      "level": "recall",
+      "type": "mcq_pinyin",
+      "question_vi": "Pinyin đúng của “前天” là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "hòutiān"
+        },
+        {
+          "id": "B",
+          "text": "dǎoyóu"
+        },
+        {
+          "id": "C",
+          "text": "yánjiūshēng"
+        },
+        {
+          "id": "D",
+          "text": "qiántiān"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "前天 đọc là qiántiān.",
+        "why_others_wrong": {
+          "A": "Đây là pinyin của 后天.",
+          "B": "Đây là pinyin của 导游.",
+          "C": "Đây là pinyin của 研究生."
+        },
+        "keyword_tip": "Đọc cùng nghĩa “hôm kia”.",
+        "concept": "Pinyin có dấu thanh"
+      },
+      "related_glossary": [
+        "bai06_w001",
+        "bai06_w002",
+        "bai06_w003",
+        "bai06_w004"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 19,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_010",
+      "bai": 6,
+      "level": "recall",
+      "type": "mcq_word_type",
+      "question_vi": "“打工” thuộc từ loại nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "动 (động từ)"
+        },
+        {
+          "id": "B",
+          "text": "名 (danh từ)"
+        },
+        {
+          "id": "C",
+          "text": "形 (tính từ)"
+        },
+        {
+          "id": "D",
+          "text": "副 (phó từ)"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "Trong bảng từ mới, 打工 được ghi là 动.",
+        "why_others_wrong": {
+          "B": "名 không phải ký hiệu từ loại của 打工 trong bài.",
+          "C": "形 không phải ký hiệu từ loại của 打工 trong bài.",
+          "D": "副 không phải ký hiệu từ loại của 打工 trong bài."
+        },
+        "keyword_tip": "Đặt từ vào câu: 他假期在饭馆打工。",
+        "concept": "Nhận diện từ loại"
+      },
+      "related_glossary": [
+        "bai06_w005",
+        "bai06_w006",
+        "bai06_w007",
+        "bai06_w008"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 158,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_011",
+      "bai": 6,
+      "level": "recall",
+      "type": "mcq_word_type",
+      "question_vi": "“组织” thuộc từ loại nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "名 (danh từ)"
+        },
+        {
+          "id": "B",
+          "text": "动、名 (động từ và danh từ)"
+        },
+        {
+          "id": "C",
+          "text": "动 (động từ)"
+        },
+        {
+          "id": "D",
+          "text": "形 (tính từ)"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Trong bảng từ mới, 组织 được ghi là 动、名.",
+        "why_others_wrong": {
+          "A": "名 không phải ký hiệu từ loại của 组织 trong bài.",
+          "C": "动 không phải ký hiệu từ loại của 组织 trong bài.",
+          "D": "形 không phải ký hiệu từ loại của 组织 trong bài."
+        },
+        "keyword_tip": "Đặt từ vào câu: 学校组织了一次旅行。",
+        "concept": "Nhận diện từ loại"
+      },
+      "related_glossary": [
+        "bai06_w009",
+        "bai06_w010",
+        "bai06_w011",
+        "bai06_w012"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 162,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_012",
+      "bai": 6,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 导游___了很多资料。",
+      "sentence_zh": "导游___了很多资料。",
+      "options": [
+        {
+          "id": "A",
+          "text": "一……就……"
+        },
+        {
+          "id": "B",
+          "text": "收集"
+        },
+        {
+          "id": "C",
+          "text": "安排"
+        },
+        {
+          "id": "D",
+          "text": "帮助"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "收集 khôi phục đúng câu “导游收集了很多资料。”.",
+        "why_others_wrong": {
+          "A": "一……就…… nghĩa là vừa... liền...; hễ... là..., không phù hợp chỗ trống.",
+          "C": "安排 nghĩa là sắp xếp; sự sắp xếp, không phù hợp chỗ trống.",
+          "D": "帮助 nghĩa là giúp đỡ; sự giúp đỡ, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “thu thập” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai06_w013",
+        "bai06_w014",
+        "bai06_w015",
+        "bai06_w016"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 166,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_013",
+      "bai": 6,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 请你___我安排一下。",
+      "sentence_zh": "请你___我安排一下。",
+      "options": [
+        {
+          "id": "A",
+          "text": "希望"
+        },
+        {
+          "id": "B",
+          "text": "铁路"
+        },
+        {
+          "id": "C",
+          "text": "帮"
+        },
+        {
+          "id": "D",
+          "text": "风光"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "帮 khôi phục đúng câu “请你帮我安排一下。”.",
+        "why_others_wrong": {
+          "A": "希望 nghĩa là hy vọng, không phù hợp chỗ trống.",
+          "B": "铁路 nghĩa là đường sắt, không phù hợp chỗ trống.",
+          "D": "风光 nghĩa là phong cảnh, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “giúp” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai06_w017",
+        "bai06_w018",
+        "bai06_w019",
+        "bai06_w020"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 170,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_014",
+      "bai": 6,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 我想跟你___一件事。",
+      "sentence_zh": "我想跟你___一件事。",
+      "options": [
+        {
+          "id": "A",
+          "text": "故乡"
+        },
+        {
+          "id": "B",
+          "text": "自由"
+        },
+        {
+          "id": "C",
+          "text": "活动"
+        },
+        {
+          "id": "D",
+          "text": "商量"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "商量 khôi phục đúng câu “我想跟你商量一件事。”.",
+        "why_others_wrong": {
+          "A": "故乡 nghĩa là quê hương, không phù hợp chỗ trống.",
+          "B": "自由 nghĩa là tự do, không phù hợp chỗ trống.",
+          "C": "活动 nghĩa là hoạt động, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “thương lượng; bàn bạc” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai06_w021",
+        "bai06_w022",
+        "bai06_w023",
+        "bai06_w024"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 283,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_015",
+      "bai": 6,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 同学们___帮助。",
+      "sentence_zh": "同学们___帮助。",
+      "options": [
+        {
+          "id": "A",
+          "text": "互相"
+        },
+        {
+          "id": "B",
+          "text": "老外"
+        },
+        {
+          "id": "C",
+          "text": "呀"
+        },
+        {
+          "id": "D",
+          "text": "鼻子"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "互相 khôi phục đúng câu “同学们互相帮助。”.",
+        "why_others_wrong": {
+          "B": "老外 nghĩa là người nước ngoài, không phù hợp chỗ trống.",
+          "C": "呀 nghĩa là nhé; à, không phù hợp chỗ trống.",
+          "D": "鼻子 nghĩa là mũi, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “lẫn nhau” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai06_w025",
+        "bai06_w026",
+        "bai06_w027",
+        "bai06_w028"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 118,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_016",
+      "bai": 6,
+      "level": "understand",
+      "type": "mcq_grammar",
+      "question_vi": "Cấu trúc nào đúng với “是……的”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "一 + 动作1 + 就 + 动作2"
+        },
+        {
+          "id": "B",
+          "text": "A→AA(儿)；AB→AABB + 地"
+        },
+        {
+          "id": "C",
+          "text": "主语 + 是 + 时间/地点/方式/目的 + 动词 + 的"
+        },
+        {
+          "id": "D",
+          "text": "主语 + 很 + 名词"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "Nhấn mạnh thời gian, địa điểm, cách thức, mục đích hoặc người tham gia của hành động đã xảy ra. Trong câu khẳng định có thể lược 是; trong câu phủ định không lược.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc của Vừa... liền... / hễ... là....",
+          "B": "Đây là cấu trúc của Lặp lại tính từ.",
+          "D": "Trật tự này không biểu đạt điểm ngữ pháp được hỏi."
+        },
+        "keyword_tip": "Nhớ khung: 主语 + 是 + 时间/地点/方式/目的 + 动词 + 的.",
+        "concept": "Kết cấu 是……的"
+      },
+      "related_glossary": [
+        "bai06_g001"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 387,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_017",
+      "bai": 6,
+      "level": "understand",
+      "type": "mcq_grammar",
+      "question_vi": "Câu nào minh họa đúng “一……就……”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "前天我们去了长城。"
+        },
+        {
+          "id": "B",
+          "text": "今天我一下课就去看你。"
+        },
+        {
+          "id": "C",
+          "text": "后天我们一起出发。"
+        },
+        {
+          "id": "D",
+          "text": "导游带我们参观故宫。"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Câu này dùng đúng cấu trúc 一 + 动作1 + 就 + 动作2.",
+        "why_others_wrong": {
+          "A": "Câu này minh họa từ 前天, không thể hiện rõ 一……就…….",
+          "C": "Câu này minh họa từ 后天, không thể hiện rõ 一……就…….",
+          "D": "Câu này minh họa từ 导游, không thể hiện rõ 一……就……."
+        },
+        "keyword_tip": "Có thể biểu thị hành động sau xảy ra ngay sau hành động trước, hoặc hành động trước là điều kiện/nguyên nhân dẫn đến kết quả sau.",
+        "concept": "Vừa... liền... / hễ... là..."
+      },
+      "related_glossary": [
+        "bai06_g002"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 415,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_018",
+      "bai": 6,
+      "level": "apply",
+      "type": "mcq_error_detection",
+      "question_vi": "Nhận định nào SAI về “形容词重叠”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cấu trúc trọng tâm là: A→AA(儿)；AB→AABB + 地."
+        },
+        {
+          "id": "B",
+          "text": "Tính từ một âm tiết thường lặp thành AA(儿); tính từ hai âm tiết thành AABB. Khi làm trạng ngữ, dạng lặp hai âm tiết thường đi với 地."
+        },
+        {
+          "id": "C",
+          "text": "Ví dụ đúng: 别着急，你慢慢儿说。"
+        },
+        {
+          "id": "D",
+          "text": "Các thành phần trong cấu trúc này có thể đảo tự do mà nghĩa không đổi."
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "Trật tự thành phần mang chức năng ngữ pháp; không thể đảo tùy ý.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc được glossary ghi nhận.",
+          "B": "Đây là giải thích đúng của điểm ngữ pháp.",
+          "C": "Đây là ví dụ đúng từ tài liệu."
+        },
+        "keyword_tip": "Đối chiếu với khung A→AA(儿)；AB→AABB + 地.",
+        "concept": "Lặp lại tính từ"
+      },
+      "related_glossary": [
+        "bai06_g003"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 467,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_019",
+      "bai": 6,
+      "level": "apply",
+      "type": "mcq_error_detection",
+      "question_vi": "Nhận định nào SAI về “是……的”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cấu trúc trọng tâm là: 主语 + 是 + 时间/地点/方式/目的 + 动词 + 的."
+        },
+        {
+          "id": "B",
+          "text": "Các thành phần trong cấu trúc này có thể đảo tự do mà nghĩa không đổi."
+        },
+        {
+          "id": "C",
+          "text": "Nhấn mạnh thời gian, địa điểm, cách thức, mục đích hoặc người tham gia của hành động đã xảy ra. Trong câu khẳng định có thể lược 是; trong câu phủ định không lược."
+        },
+        {
+          "id": "D",
+          "text": "Ví dụ đúng: 我们是从美国来的。"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Trật tự thành phần mang chức năng ngữ pháp; không thể đảo tùy ý.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc được glossary ghi nhận.",
+          "C": "Đây là giải thích đúng của điểm ngữ pháp.",
+          "D": "Đây là ví dụ đúng từ tài liệu."
+        },
+        "keyword_tip": "Đối chiếu với khung 主语 + 是 + 时间/地点/方式/目的 + 动词 + 的.",
+        "concept": "Kết cấu 是……的"
+      },
+      "related_glossary": [
+        "bai06_g001"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 387,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_020",
+      "bai": 6,
+      "level": "understand",
+      "type": "reading_comprehension",
+      "question_vi": "Ý nào đúng với câu đầu tiên của đoạn đọc?",
+      "passage_zh": "她的头发又黑又长。 她的眼睛很漂亮。 汉语有四个声调。",
+      "passage_pinyin": "Tā de tóufà yòu hēi yòu zhǎng.   tā de yǎnjīng hěn piào liàng.   hàn yǔ yǒu sì gè shēngdiào.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Tóc cô ấy vừa đen vừa dài."
+        },
+        {
+          "id": "B",
+          "text": "Đôi mắt cô ấy rất đẹp."
+        },
+        {
+          "id": "C",
+          "text": "Tiếng Trung có bốn thanh điệu."
+        },
+        {
+          "id": "D",
+          "text": "Hôm kia chúng tôi đã đến Vạn Lý Trường Thành."
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "Câu đầu “她的头发又黑又长。” có nghĩa là “Tóc cô ấy vừa đen vừa dài.”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của câu “她的眼睛很漂亮。”.",
+          "C": "Đây là nghĩa của câu “汉语有四个声调。”.",
+          "D": "Đây là nội dung của ví dụ về 前天."
+        },
+        "keyword_tip": "Chú ý từ khóa 头发.",
+        "concept": "Đọc hiểu thông tin trực tiếp"
+      },
+      "related_glossary": [
+        "bai06_w029",
+        "bai06_w030",
+        "bai06_w031"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 114,
+        "context": "Các câu ví dụ của bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_021",
+      "bai": 6,
+      "level": "understand",
+      "type": "reading_comprehension",
+      "question_vi": "Trong ngữ cảnh bài, “马马虎虎” có nghĩa gần nhất là gì?",
+      "passage_zh": "马马虎虎。",
+      "passage_pinyin": "Mǎ mǎ hǔ hǔ.",
+      "options": [
+        {
+          "id": "A",
+          "text": "hôm kia"
+        },
+        {
+          "id": "B",
+          "text": "tàm tạm; qua loa"
+        },
+        {
+          "id": "C",
+          "text": "ngày kia"
+        },
+        {
+          "id": "D",
+          "text": "hướng dẫn viên du lịch"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Có thể chỉ mức độ tạm được; trong ngữ cảnh phê bình còn mang nghĩa qua loa, không nghiêm túc.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 前天, không phải mẫu câu 马马虎虎.",
+          "C": "Đây là nghĩa của 后天, không phải mẫu câu 马马虎虎.",
+          "D": "Đây là nghĩa của 导游, không phải mẫu câu 马马虎虎."
+        },
+        "keyword_tip": "Gắn mẫu câu với ngữ cảnh: tàm tạm; qua loa.",
+        "concept": "Đọc hiểu mẫu câu khẩu ngữ"
+      },
+      "related_glossary": [
+        "bai06_p001"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 113,
+        "context": "Mục 注释 hoặc bài khóa"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_022",
+      "bai": 6,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Hôm nay vừa tan học tôi sẽ đi thăm bạn.",
+      "target_language": "zh",
+      "sample_answer": "今天我一下课就去看你。",
+      "sample_answer_pinyin": "Jīntiān wǒ yí xià kè jiù qù kàn nǐ.",
+      "alternative_answers": [
+        "今天一下课我就去看你。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "今天",
+          "pinyin": "Jīntiān",
+          "meaning": "hôm nay"
+        },
+        {
+          "zh": "我",
+          "pinyin": "Wǒ",
+          "meaning": "tôi"
+        },
+        {
+          "zh": "你",
+          "pinyin": "Nǐ",
+          "meaning": "bạn"
+        },
+        {
+          "zh": "一",
+          "pinyin": "Yī",
+          "meaning": "vừa; hễ"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: 一 + 动作1 + 就 + 动作2.",
+        "Bắt đầu từ khóa “今天”.",
+        "Giữ cụm “我” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Có thể biểu thị hành động sau xảy ra ngay sau hành động trước, hoặc hành động trước là điều kiện/nguyên nhân dẫn đến kết quả sau.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "今天 → 我 → 你 → 一",
+        "concept": "Vừa... liền... / hễ... là..."
+      },
+      "related_glossary": [
+        "bai06_g002"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 415,
+        "context": "Ví dụ ngữ pháp 一……就……"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_023",
+      "bai": 6,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Đừng vội, bạn cứ nói từ từ.",
+      "target_language": "zh",
+      "sample_answer": "别着急，你慢慢儿说。",
+      "sample_answer_pinyin": "Bié zháojí, nǐ màn màn ér shuō.",
+      "alternative_answers": [
+        "你别着急，慢慢儿说。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "着急",
+          "pinyin": "Zháojí",
+          "meaning": "sốt ruột; lo lắng"
+        },
+        {
+          "zh": "你",
+          "pinyin": "Nǐ",
+          "meaning": "bạn"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: A→AA(儿)；AB→AABB + 地.",
+        "Bắt đầu từ khóa “着急”.",
+        "Giữ cụm “你” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Tính từ một âm tiết thường lặp thành AA(儿); tính từ hai âm tiết thành AABB. Khi làm trạng ngữ, dạng lặp hai âm tiết thường đi với 地.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "着急 → 你",
+        "concept": "Lặp lại tính từ"
+      },
+      "related_glossary": [
+        "bai06_g003"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 467,
+        "context": "Ví dụ ngữ pháp 形容词重叠"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_024",
+      "bai": 6,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Anh ấy là học viên cao học chuyên ngành tiếng Trung.",
+      "target_language": "zh",
+      "sample_answer": "他是汉语专业研究生。",
+      "sample_answer_pinyin": "Tā shì hàn yǔ zhuān yè yánjiūshēng.",
+      "alternative_answers": [
+        "是汉语专业研究生。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "研究生",
+          "pinyin": "yánjiūshēng",
+          "meaning": "nghiên cứu sinh"
+        },
+        {
+          "zh": "他",
+          "pinyin": "Tā",
+          "meaning": "anh ấy"
+        },
+        {
+          "zh": "是",
+          "pinyin": "Shì",
+          "meaning": "là"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng từ 研究生 (yánjiūshēng).",
+        "Bắt đầu từ khóa “研究生”.",
+        "Giữ cụm “他” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Câu dùng 研究生 đúng với nghĩa “nghiên cứu sinh”.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "研究生 → 他 → 是",
+        "concept": "Vận dụng từ 研究生"
+      },
+      "related_glossary": [
+        "bai06_w004"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 59,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 5,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_025",
+      "bai": 6,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Kỳ nghỉ anh ấy làm thêm tại quán ăn.",
+      "target_language": "zh",
+      "sample_answer": "他假期在饭馆打工。",
+      "sample_answer_pinyin": "Tā jiàqī zài fàn guǎn dǎgōng.",
+      "alternative_answers": [
+        "假期在饭馆打工。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "打工",
+          "pinyin": "dǎgōng",
+          "meaning": "làm thuê"
+        },
+        {
+          "zh": "假期",
+          "pinyin": "jiàqī",
+          "meaning": "kỳ nghỉ"
+        },
+        {
+          "zh": "他",
+          "pinyin": "Tā",
+          "meaning": "anh ấy"
+        },
+        {
+          "zh": "在",
+          "pinyin": "Zài",
+          "meaning": "ở; tại"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng từ 打工 (dǎgōng).",
+        "Bắt đầu từ khóa “打工”.",
+        "Giữ cụm “假期” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Câu dùng 打工 đúng với nghĩa “làm thuê; đi làm”.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "打工 → 假期 → 他 → 在",
+        "concept": "Vận dụng từ 打工"
+      },
+      "related_glossary": [
+        "bai06_w005",
+        "bai06_w007"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 158,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 5,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_026",
+      "bai": 6,
+      "level": "understand",
+      "type": "translation_zh_to_vi",
+      "question_vi": "Dịch câu sau sang tiếng Việt:",
+      "source_sentence_zh": "他利用假期去打工。",
+      "source_sentence_pinyin": "Tā lìyòng jiàqī qù dǎgōng.",
+      "target_language": "vi",
+      "sample_answer": "Anh ấy tận dụng kỳ nghỉ để đi làm thêm.",
+      "alternative_answers": [
+        "Anh ta tận dụng kỳ nghỉ để đi làm thêm."
+      ],
+      "keywords_required": [
+        {
+          "vi": "làm thuê",
+          "zh": "打工"
+        },
+        {
+          "vi": "tận dụng",
+          "zh": "利用"
+        },
+        {
+          "vi": "kỳ nghỉ",
+          "zh": "假期"
+        },
+        {
+          "vi": "anh ấy",
+          "zh": "他"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "利用 = tận dụng; sử dụng.",
+        "Chú ý trật tự cụm “打工”."
+      ],
+      "explanation": {
+        "why_correct": "Bản dịch giữ đúng nghĩa của 利用 và nội dung câu nguồn.",
+        "common_mistakes": [
+          "Dịch từng chữ khiến câu tiếng Việt thiếu tự nhiên.",
+          "Bỏ mất thông tin thời gian hoặc mức độ."
+        ],
+        "keyword_tip": "làm thuê → tận dụng → kỳ nghỉ → anh ấy",
+        "concept": "Đọc hiểu từ 利用"
+      },
+      "related_glossary": [
+        "bai06_w006",
+        "bai06_w005",
+        "bai06_w007"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 159,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_027",
+      "bai": 6,
+      "level": "understand",
+      "type": "translation_zh_to_vi",
+      "question_vi": "Dịch câu sau sang tiếng Việt:",
+      "source_sentence_zh": "他经常利用假期旅行。",
+      "source_sentence_pinyin": "Tā jīngcháng lìyòng jiàqī lǚxíng.",
+      "target_language": "vi",
+      "sample_answer": "Anh ấy thường tận dụng kỳ nghỉ để du lịch.",
+      "alternative_answers": [
+        "Anh ta thường tận dụng kỳ nghỉ để du lịch."
+      ],
+      "keywords_required": [
+        {
+          "vi": "tận dụng",
+          "zh": "利用"
+        },
+        {
+          "vi": "kỳ nghỉ",
+          "zh": "假期"
+        },
+        {
+          "vi": "thường xuyên",
+          "zh": "经常"
+        },
+        {
+          "vi": "du lịch",
+          "zh": "旅行"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "经常 = thường xuyên.",
+        "Chú ý trật tự cụm “利用”."
+      ],
+      "explanation": {
+        "why_correct": "Bản dịch giữ đúng nghĩa của 经常 và nội dung câu nguồn.",
+        "common_mistakes": [
+          "Dịch từng chữ khiến câu tiếng Việt thiếu tự nhiên.",
+          "Bỏ mất thông tin thời gian hoặc mức độ."
+        ],
+        "keyword_tip": "tận dụng → kỳ nghỉ → thường xuyên → du lịch",
+        "concept": "Đọc hiểu từ 经常"
+      },
+      "related_glossary": [
+        "bai06_w012",
+        "bai06_w006",
+        "bai06_w007"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 165,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_028",
+      "bai": 6,
+      "level": "recall",
+      "type": "typing_zh_from_pinyin",
+      "question_vi": "Gõ chữ Hán tương ứng với pinyin và nghĩa sau:",
+      "pinyin": "yánjiūshēng",
+      "meaning_vi": "nghiên cứu sinh",
+      "meaning_en": "graduate student",
+      "sample_answer": "研究生",
+      "alternative_answers": [],
+      "keywords_required": [
+        {
+          "zh": "研究生",
+          "pinyin": "yánjiūshēng",
+          "meaning": "nghiên cứu sinh"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Từ gồm 3 chữ Hán.",
+        "Ví dụ trong bài: 他是汉语专业研究生。"
+      ],
+      "explanation": {
+        "why_correct": "研究生 đọc là yánjiūshēng và nghĩa là nghiên cứu sinh.",
+        "common_mistakes": [
+          "Gõ đúng âm nhưng chọn nhầm chữ đồng âm.",
+          "Bỏ dấu thanh khi ghi nhớ pinyin."
+        ],
+        "keyword_tip": "Liên hệ 研究生 với câu ví dụ trong bài.",
+        "concept": "Nhận diện chữ Hán từ pinyin"
+      },
+      "related_glossary": [
+        "bai06_w004"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 59,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_029",
+      "bai": 6,
+      "level": "recall",
+      "type": "typing_zh_from_pinyin",
+      "question_vi": "Gõ chữ Hán tương ứng với pinyin và nghĩa sau:",
+      "pinyin": "lǚxíngshè",
+      "meaning_vi": "công ty du lịch",
+      "meaning_en": "travel agency",
+      "sample_answer": "旅行社",
+      "alternative_answers": [],
+      "keywords_required": [
+        {
+          "zh": "旅行社",
+          "pinyin": "lǚxíngshè",
+          "meaning": "công ty du lịch"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Từ gồm 3 chữ Hán.",
+        "Ví dụ trong bài: 旅行社安排了行程。"
+      ],
+      "explanation": {
+        "why_correct": "旅行社 đọc là lǚxíngshè và nghĩa là công ty du lịch.",
+        "common_mistakes": [
+          "Gõ đúng âm nhưng chọn nhầm chữ đồng âm.",
+          "Bỏ dấu thanh khi ghi nhớ pinyin."
+        ],
+        "keyword_tip": "Liên hệ 旅行社 với câu ví dụ trong bài.",
+        "concept": "Nhận diện chữ Hán từ pinyin"
+      },
+      "related_glossary": [
+        "bai06_w008"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 161,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai06_030",
+      "bai": 6,
+      "level": "apply",
+      "type": "sentence_reorder",
+      "question_vi": "Sắp xếp các phần sau thành câu đúng:",
+      "shuffled_parts": [
+        "假期",
+        "去",
+        "打工",
+        "他",
+        "利用"
+      ],
+      "sample_answer": "他利用假期去打工。",
+      "sample_answer_pinyin": "Tā lìyòng jiàqī qù dǎgōng.",
+      "alternative_answers": [
+        "利用假期去打工。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "打工",
+          "pinyin": "dǎgōng",
+          "meaning": "làm thuê"
+        },
+        {
+          "zh": "利用",
+          "pinyin": "lìyòng",
+          "meaning": "tận dụng"
+        },
+        {
+          "zh": "假期",
+          "pinyin": "jiàqī",
+          "meaning": "kỳ nghỉ"
+        },
+        {
+          "zh": "他",
+          "pinyin": "Tā",
+          "meaning": "anh ấy"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Đặt 利用 đúng vị trí trong câu.",
+        "Ý tiếng Việt: Anh ấy tận dụng kỳ nghỉ để đi làm thêm.",
+        "Xác định chủ ngữ hoặc chủ đề trước."
+      ],
+      "explanation": {
+        "why_correct": "Câu mẫu sắp xếp các thành phần theo đúng trật tự ngữ pháp và giữ nguyên nghĩa nguồn.",
+        "common_mistakes": [
+          "Đặt bổ ngữ trước động từ không đúng cấu trúc.",
+          "Đưa trợ từ sang sai vị trí."
+        ],
+        "keyword_tip": "打工 → 利用 → 假期 → 他",
+        "concept": "Trật tự câu với 利用"
+      },
+      "related_glossary": [
+        "bai06_w005",
+        "bai06_w006",
+        "bai06_w007"
+      ],
+      "source": {
+        "bai": 6,
+        "source_line": 159,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

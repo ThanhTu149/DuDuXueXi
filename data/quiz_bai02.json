@@ -1,0 +1,1570 @@
+{
+  "metadata": {
+    "bai": 2,
+    "title_zh": "我们那儿的冬天跟北京一样冷",
+    "title_vi": "Mùa đông chỗ chúng tôi lạnh như ở Bắc Kinh",
+    "source_glossary": "data/glossary_bai02.json",
+    "source_text": "data/_extracted/bai/bai02.txt",
+    "total_questions": 30,
+    "level_distribution": {
+      "recall": 13,
+      "apply": 7,
+      "understand": 6,
+      "synthesize": 4
+    },
+    "type_distribution": {
+      "mcq_meaning_zh_to_vi": 5,
+      "mcq_meaning_vi_to_zh": 2,
+      "mcq_pinyin": 2,
+      "mcq_word_type": 2,
+      "mcq_fill_blank": 4,
+      "mcq_grammar": 2,
+      "mcq_error_detection": 2,
+      "reading_comprehension": 2,
+      "translation_vi_to_zh": 4,
+      "translation_zh_to_vi": 2,
+      "typing_zh_from_pinyin": 2,
+      "sentence_reorder": 1
+    },
+    "group_distribution": {
+      "mcq": 21,
+      "typing": 9
+    },
+    "generated_at": "2026-09-19T22:21:30Z",
+    "version": "2.0"
+  },
+  "questions": [
+    {
+      "id": "quiz_bai02_001",
+      "bai": 2,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“国家” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "quốc gia"
+        },
+        {
+          "id": "B",
+          "text": "như nhau; giống nhau"
+        },
+        {
+          "id": "C",
+          "text": "chênh lệch múi giờ"
+        },
+        {
+          "id": "D",
+          "text": "đêm"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "国家 nghĩa là “quốc gia”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của 一样, không phải 国家.",
+          "C": "Đây là nghĩa của 时差, không phải 国家.",
+          "D": "Đây là nghĩa của 夜, không phải 国家."
+        },
+        "keyword_tip": "Gắn 国家 với ví dụ: 我爱自己的国家。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai02_w001",
+        "bai02_w002",
+        "bai02_w003",
+        "bai02_w004"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 97,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_002",
+      "bai": 2,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“季节” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "mùa xuân"
+        },
+        {
+          "id": "B",
+          "text": "mùa; thời kỳ"
+        },
+        {
+          "id": "C",
+          "text": "mùa hè"
+        },
+        {
+          "id": "D",
+          "text": "mùa thu"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "季节 nghĩa là “mùa; thời kỳ”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 春天, không phải 季节.",
+          "C": "Đây là nghĩa của 夏天, không phải 季节.",
+          "D": "Đây là nghĩa của 秋天, không phải 季节."
+        },
+        "keyword_tip": "Gắn 季节 với ví dụ: 我最喜欢春天这个季节。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai02_w005",
+        "bai02_w006",
+        "bai02_w007",
+        "bai02_w008"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 101,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_003",
+      "bai": 2,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“热” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "lạnh"
+        },
+        {
+          "id": "B",
+          "text": "gió thổi"
+        },
+        {
+          "id": "C",
+          "text": "nóng"
+        },
+        {
+          "id": "D",
+          "text": "gió"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "热 nghĩa là “nóng”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 冷, không phải 热.",
+          "B": "Đây là nghĩa của 刮风, không phải 热.",
+          "D": "Đây là nghĩa của 风, không phải 热."
+        },
+        "keyword_tip": "Gắn 热 với ví dụ: 北京的夏天很热。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai02_w009",
+        "bai02_w010",
+        "bai02_w011",
+        "bai02_w012"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 105,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_004",
+      "bai": 2,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“下雪” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "tuyết"
+        },
+        {
+          "id": "B",
+          "text": "mưa rơi"
+        },
+        {
+          "id": "C",
+          "text": "không những... mà còn..."
+        },
+        {
+          "id": "D",
+          "text": "tuyết rơi"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "下雪 nghĩa là “tuyết rơi”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 雪, không phải 下雪.",
+          "B": "Đây là nghĩa của 下雨, không phải 下雪.",
+          "C": "Đây là nghĩa của 不但……而且……, không phải 下雪."
+        },
+        "keyword_tip": "Gắn 下雪 với ví dụ: 冬天这里常常下雪。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai02_w013",
+        "bai02_w014",
+        "bai02_w015",
+        "bai02_w016"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 40,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_005",
+      "bai": 2,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“得” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "đạt được; nhận được"
+        },
+        {
+          "id": "B",
+          "text": "điểm"
+        },
+        {
+          "id": "C",
+          "text": "nghe viết; chính tả"
+        },
+        {
+          "id": "D",
+          "text": "cuối tuần"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "得 nghĩa là “đạt được; nhận được”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của 分, không phải 得.",
+          "C": "Đây là nghĩa của 听写, không phải 得.",
+          "D": "Đây là nghĩa của 周末, không phải 得."
+        },
+        "keyword_tip": "Gắn 得 với ví dụ: 他考试得了九十分。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai02_w017",
+        "bai02_w018",
+        "bai02_w019",
+        "bai02_w020"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 109,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_006",
+      "bai": 2,
+      "level": "recall",
+      "type": "mcq_meaning_vi_to_zh",
+      "question_vi": "Từ nào có nghĩa là “đi ra”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "历史"
+        },
+        {
+          "id": "B",
+          "text": "出去"
+        },
+        {
+          "id": "C",
+          "text": "产生"
+        },
+        {
+          "id": "D",
+          "text": "画册"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "出去 là từ tương ứng với nghĩa “đi ra”.",
+        "why_others_wrong": {
+          "A": "历史 nghĩa là lịch sử.",
+          "C": "产生 nghĩa là nảy sinh; xuất hiện.",
+          "D": "画册 nghĩa là tập tranh."
+        },
+        "keyword_tip": "Nhớ câu: 周末我们一起出去玩。",
+        "concept": "Gợi nhớ chữ Hán từ nghĩa Việt"
+      },
+      "related_glossary": [
+        "bai02_w021",
+        "bai02_w022",
+        "bai02_w023",
+        "bai02_w024"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 58,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_007",
+      "bai": 2,
+      "level": "recall",
+      "type": "mcq_meaning_vi_to_zh",
+      "question_vi": "Từ nào có nghĩa là “nghiên cứu”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "只是"
+        },
+        {
+          "id": "B",
+          "text": "老"
+        },
+        {
+          "id": "C",
+          "text": "研究"
+        },
+        {
+          "id": "D",
+          "text": "改革"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "研究 là từ tương ứng với nghĩa “nghiên cứu”.",
+        "why_others_wrong": {
+          "A": "只是 nghĩa là chỉ là; có điều là.",
+          "B": "老 nghĩa là già; cũ.",
+          "D": "改革 nghĩa là cải cách; sửa đổi."
+        },
+        "keyword_tip": "Nhớ câu: 他在研究中国历史。",
+        "concept": "Gợi nhớ chữ Hán từ nghĩa Việt"
+      },
+      "related_glossary": [
+        "bai02_w025",
+        "bai02_w026",
+        "bai02_w027",
+        "bai02_w028"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 217,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_008",
+      "bai": 2,
+      "level": "recall",
+      "type": "mcq_pinyin",
+      "question_vi": "Pinyin đúng của “开放” là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "yīqiè"
+        },
+        {
+          "id": "B",
+          "text": "guójiā"
+        },
+        {
+          "id": "C",
+          "text": "kāifàng"
+        },
+        {
+          "id": "D",
+          "text": "yīyàng"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "开放 đọc là kāifàng.",
+        "why_others_wrong": {
+          "A": "Đây là pinyin của 一切.",
+          "B": "Đây là pinyin của 国家.",
+          "D": "Đây là pinyin của 一样."
+        },
+        "keyword_tip": "Đọc cùng nghĩa “mở cửa; mở rộng”.",
+        "concept": "Pinyin có dấu thanh"
+      },
+      "related_glossary": [
+        "bai02_w029",
+        "bai02_w030"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 223,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_009",
+      "bai": 2,
+      "level": "recall",
+      "type": "mcq_pinyin",
+      "question_vi": "Pinyin đúng của “国家” là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "yīyàng"
+        },
+        {
+          "id": "B",
+          "text": "shíchà"
+        },
+        {
+          "id": "C",
+          "text": "yè"
+        },
+        {
+          "id": "D",
+          "text": "guójiā"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "国家 đọc là guójiā.",
+        "why_others_wrong": {
+          "A": "Đây là pinyin của 一样.",
+          "B": "Đây là pinyin của 时差.",
+          "C": "Đây là pinyin của 夜."
+        },
+        "keyword_tip": "Đọc cùng nghĩa “quốc gia”.",
+        "concept": "Pinyin có dấu thanh"
+      },
+      "related_glossary": [
+        "bai02_w001",
+        "bai02_w002",
+        "bai02_w003",
+        "bai02_w004"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 97,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_010",
+      "bai": 2,
+      "level": "recall",
+      "type": "mcq_word_type",
+      "question_vi": "“季节” thuộc từ loại nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "名 (danh từ)"
+        },
+        {
+          "id": "B",
+          "text": "动 (động từ)"
+        },
+        {
+          "id": "C",
+          "text": "形 (tính từ)"
+        },
+        {
+          "id": "D",
+          "text": "副 (phó từ)"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "Trong bảng từ mới, 季节 được ghi là 名.",
+        "why_others_wrong": {
+          "B": "动 không phải ký hiệu từ loại của 季节 trong bài.",
+          "C": "形 không phải ký hiệu từ loại của 季节 trong bài.",
+          "D": "副 không phải ký hiệu từ loại của 季节 trong bài."
+        },
+        "keyword_tip": "Đặt từ vào câu: 我最喜欢春天这个季节。",
+        "concept": "Nhận diện từ loại"
+      },
+      "related_glossary": [
+        "bai02_w005",
+        "bai02_w006",
+        "bai02_w007",
+        "bai02_w008"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 101,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_011",
+      "bai": 2,
+      "level": "recall",
+      "type": "mcq_word_type",
+      "question_vi": "“热” thuộc từ loại nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "名 (danh từ)"
+        },
+        {
+          "id": "B",
+          "text": "形 (tính từ)"
+        },
+        {
+          "id": "C",
+          "text": "动 (động từ)"
+        },
+        {
+          "id": "D",
+          "text": "副 (phó từ)"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Trong bảng từ mới, 热 được ghi là 形.",
+        "why_others_wrong": {
+          "A": "名 không phải ký hiệu từ loại của 热 trong bài.",
+          "C": "动 không phải ký hiệu từ loại của 热 trong bài.",
+          "D": "副 không phải ký hiệu từ loại của 热 trong bài."
+        },
+        "keyword_tip": "Đặt từ vào câu: 北京的夏天很热。",
+        "concept": "Nhận diện từ loại"
+      },
+      "related_glossary": [
+        "bai02_w009",
+        "bai02_w010",
+        "bai02_w011",
+        "bai02_w012"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 105,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_012",
+      "bai": 2,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 冬天这里常常___。",
+      "sentence_zh": "冬天这里常常___。",
+      "options": [
+        {
+          "id": "A",
+          "text": "雪"
+        },
+        {
+          "id": "B",
+          "text": "下雪"
+        },
+        {
+          "id": "C",
+          "text": "下雨"
+        },
+        {
+          "id": "D",
+          "text": "不但……而且……"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "下雪 khôi phục đúng câu “冬天这里常常下雪。”.",
+        "why_others_wrong": {
+          "A": "雪 nghĩa là tuyết, không phù hợp chỗ trống.",
+          "C": "下雨 nghĩa là mưa rơi, không phù hợp chỗ trống.",
+          "D": "不但……而且…… nghĩa là không những... mà còn..., không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “tuyết rơi” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai02_w013",
+        "bai02_w014",
+        "bai02_w015",
+        "bai02_w016"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 40,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_013",
+      "bai": 2,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 他考试___了九十分。",
+      "sentence_zh": "他考试___了九十分。",
+      "options": [
+        {
+          "id": "A",
+          "text": "分"
+        },
+        {
+          "id": "B",
+          "text": "听写"
+        },
+        {
+          "id": "C",
+          "text": "得"
+        },
+        {
+          "id": "D",
+          "text": "周末"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "得 khôi phục đúng câu “他考试得了九十分。”.",
+        "why_others_wrong": {
+          "A": "分 nghĩa là điểm, không phù hợp chỗ trống.",
+          "B": "听写 nghĩa là nghe viết; chính tả, không phù hợp chỗ trống.",
+          "D": "周末 nghĩa là cuối tuần, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “đạt được; nhận được” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai02_w017",
+        "bai02_w018",
+        "bai02_w019",
+        "bai02_w020"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 109,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_014",
+      "bai": 2,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 周末我们一起___玩。",
+      "sentence_zh": "周末我们一起___玩。",
+      "options": [
+        {
+          "id": "A",
+          "text": "历史"
+        },
+        {
+          "id": "B",
+          "text": "产生"
+        },
+        {
+          "id": "C",
+          "text": "画册"
+        },
+        {
+          "id": "D",
+          "text": "出去"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "出去 khôi phục đúng câu “周末我们一起出去玩。”.",
+        "why_others_wrong": {
+          "A": "历史 nghĩa là lịch sử, không phù hợp chỗ trống.",
+          "B": "产生 nghĩa là nảy sinh; xuất hiện, không phù hợp chỗ trống.",
+          "C": "画册 nghĩa là tập tranh, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “đi ra” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai02_w021",
+        "bai02_w022",
+        "bai02_w023",
+        "bai02_w024"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 58,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_015",
+      "bai": 2,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 他在___中国历史。",
+      "sentence_zh": "他在___中国历史。",
+      "options": [
+        {
+          "id": "A",
+          "text": "研究"
+        },
+        {
+          "id": "B",
+          "text": "只是"
+        },
+        {
+          "id": "C",
+          "text": "老"
+        },
+        {
+          "id": "D",
+          "text": "改革"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "研究 khôi phục đúng câu “他在研究中国历史。”.",
+        "why_others_wrong": {
+          "B": "只是 nghĩa là chỉ là; có điều là, không phù hợp chỗ trống.",
+          "C": "老 nghĩa là già; cũ, không phù hợp chỗ trống.",
+          "D": "改革 nghĩa là cải cách; sửa đổi, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “nghiên cứu” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai02_w025",
+        "bai02_w026",
+        "bai02_w027",
+        "bai02_w028"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 217,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_016",
+      "bai": 2,
+      "level": "understand",
+      "type": "mcq_grammar",
+      "question_vi": "Cấu trúc nào đúng với “跟……一样/不一样”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "不但 + 分句1，而且 + 分句2"
+        },
+        {
+          "id": "B",
+          "text": "主语 + 很 + 名词"
+        },
+        {
+          "id": "C",
+          "text": "A + 跟 + B + 一样/不一样 + 谓语"
+        },
+        {
+          "id": "D",
+          "text": "动词 + 主语 + 宾语"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "Dùng 一样 khi kết quả so sánh giống nhau và 不一样 khi khác nhau. Cả cụm cũng có thể làm định ngữ.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc của Không những... mà còn....",
+          "B": "Trật tự này không biểu đạt điểm ngữ pháp được hỏi.",
+          "D": "Trật tự này không biểu đạt điểm ngữ pháp được hỏi."
+        },
+        "keyword_tip": "Nhớ khung: A + 跟 + B + 一样/不一样 + 谓语.",
+        "concept": "So sánh giống hoặc khác"
+      },
+      "related_glossary": [
+        "bai02_g001"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 332,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_017",
+      "bai": 2,
+      "level": "understand",
+      "type": "mcq_grammar",
+      "question_vi": "Câu nào minh họa đúng “不但……而且……”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "我爱自己的国家。"
+        },
+        {
+          "id": "B",
+          "text": "他不但会说英语，而且还会法语。"
+        },
+        {
+          "id": "C",
+          "text": "我们那儿的冬天跟北京一样冷。"
+        },
+        {
+          "id": "D",
+          "text": "我们那儿跟北京有七个小时的时差呢。"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Câu này dùng đúng cấu trúc 不但 + 分句1，而且 + 分句2.",
+        "why_others_wrong": {
+          "A": "Câu này minh họa từ 国家, không thể hiện rõ 不但……而且…….",
+          "C": "Câu này minh họa từ 一样, không thể hiện rõ 不但……而且…….",
+          "D": "Câu này minh họa từ 时差, không thể hiện rõ 不但……而且……."
+        },
+        "keyword_tip": "Nối hai vế có ý nghĩa tăng tiến. Nếu hai vế cùng chủ ngữ, 不但 đứng sau chủ ngữ; nếu khác chủ ngữ, 不但 đứng trước chủ ngữ của vế đầu.",
+        "concept": "Không những... mà còn..."
+      },
+      "related_glossary": [
+        "bai02_g002"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 404,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_018",
+      "bai": 2,
+      "level": "apply",
+      "type": "mcq_error_detection",
+      "question_vi": "Nhận định nào SAI về “跟……一样/不一样”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cấu trúc trọng tâm là: A + 跟 + B + 一样/不一样 + 谓语."
+        },
+        {
+          "id": "B",
+          "text": "Dùng 一样 khi kết quả so sánh giống nhau và 不一样 khi khác nhau. Cả cụm cũng có thể làm định ngữ."
+        },
+        {
+          "id": "C",
+          "text": "Ví dụ đúng: 这件毛衣跟那件价钱一样。"
+        },
+        {
+          "id": "D",
+          "text": "Các thành phần trong cấu trúc này có thể đảo tự do mà nghĩa không đổi."
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "Trật tự thành phần mang chức năng ngữ pháp; không thể đảo tùy ý.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc được glossary ghi nhận.",
+          "B": "Đây là giải thích đúng của điểm ngữ pháp.",
+          "C": "Đây là ví dụ đúng từ tài liệu."
+        },
+        "keyword_tip": "Đối chiếu với khung A + 跟 + B + 一样/不一样 + 谓语.",
+        "concept": "So sánh giống hoặc khác"
+      },
+      "related_glossary": [
+        "bai02_g001"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 332,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_019",
+      "bai": 2,
+      "level": "apply",
+      "type": "mcq_error_detection",
+      "question_vi": "Nhận định nào SAI về “不但……而且……”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cấu trúc trọng tâm là: 不但 + 分句1，而且 + 分句2."
+        },
+        {
+          "id": "B",
+          "text": "Các thành phần trong cấu trúc này có thể đảo tự do mà nghĩa không đổi."
+        },
+        {
+          "id": "C",
+          "text": "Nối hai vế có ý nghĩa tăng tiến. Nếu hai vế cùng chủ ngữ, 不但 đứng sau chủ ngữ; nếu khác chủ ngữ, 不但 đứng trước chủ ngữ của vế đầu."
+        },
+        {
+          "id": "D",
+          "text": "Ví dụ đúng: 他不但会说英语，而且还会法语。"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Trật tự thành phần mang chức năng ngữ pháp; không thể đảo tùy ý.",
+        "why_others_wrong": {
+          "A": "Đây là cấu trúc được glossary ghi nhận.",
+          "C": "Đây là giải thích đúng của điểm ngữ pháp.",
+          "D": "Đây là ví dụ đúng từ tài liệu."
+        },
+        "keyword_tip": "Đối chiếu với khung 不但 + 分句1，而且 + 分句2.",
+        "concept": "Không những... mà còn..."
+      },
+      "related_glossary": [
+        "bai02_g002"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 404,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_020",
+      "bai": 2,
+      "level": "understand",
+      "type": "reading_comprehension",
+      "question_vi": "Ý nào đúng với câu đầu tiên của đoạn đọc?",
+      "passage_zh": "改革以后变化很大。 这里已经开放了。 一切都准备好了。",
+      "passage_pinyin": "Gǎigé yǐhòu biàn huà hěn dà.   zhèlǐ yǐjīng kāifàng le.   yíqiè dōu zhǔn bèi hǎo le.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Sau cải cách có thay đổi rất lớn."
+        },
+        {
+          "id": "B",
+          "text": "Nơi đây đã mở cửa rồi."
+        },
+        {
+          "id": "C",
+          "text": "Mọi thứ đều đã chuẩn bị xong."
+        },
+        {
+          "id": "D",
+          "text": "Tôi yêu đất nước của mình."
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "Câu đầu “改革以后变化很大。” có nghĩa là “Sau cải cách có thay đổi rất lớn.”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của câu “这里已经开放了。”.",
+          "C": "Đây là nghĩa của câu “一切都准备好了。”.",
+          "D": "Đây là nội dung của ví dụ về 国家."
+        },
+        "keyword_tip": "Chú ý từ khóa 改革.",
+        "concept": "Đọc hiểu thông tin trực tiếp"
+      },
+      "related_glossary": [
+        "bai02_w028",
+        "bai02_w029",
+        "bai02_w030"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 221,
+        "context": "Các câu ví dụ của bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_021",
+      "bai": 2,
+      "level": "understand",
+      "type": "reading_comprehension",
+      "question_vi": "Trong ngữ cảnh bài, “好了” có nghĩa gần nhất là gì?",
+      "passage_zh": "好了。",
+      "passage_pinyin": "Hǎo le.",
+      "options": [
+        {
+          "id": "A",
+          "text": "quốc gia"
+        },
+        {
+          "id": "B",
+          "text": "được rồi; thôi được rồi"
+        },
+        {
+          "id": "C",
+          "text": "như nhau; giống nhau"
+        },
+        {
+          "id": "D",
+          "text": "chênh lệch múi giờ"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Dùng để khuyên dừng hoặc báo người nói muốn kết thúc chủ đề hay hành động hiện tại.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 国家, không phải mẫu câu 好了.",
+          "C": "Đây là nghĩa của 一样, không phải mẫu câu 好了.",
+          "D": "Đây là nghĩa của 时差, không phải mẫu câu 好了."
+        },
+        "keyword_tip": "Gắn mẫu câu với ngữ cảnh: được rồi; thôi được rồi.",
+        "concept": "Đọc hiểu mẫu câu khẩu ngữ"
+      },
+      "related_glossary": [
+        "bai02_p001"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 58,
+        "context": "Mục 注释 hoặc bài khóa"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_022",
+      "bai": 2,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Tôi yêu đất nước của mình.",
+      "target_language": "zh",
+      "sample_answer": "我爱自己的国家。",
+      "sample_answer_pinyin": "Wǒ ài zì jǐ de guójiā.",
+      "alternative_answers": [
+        "爱自己的国家。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "国家",
+          "pinyin": "guójiā",
+          "meaning": "quốc gia"
+        },
+        {
+          "zh": "我",
+          "pinyin": "Wǒ",
+          "meaning": "tôi"
+        },
+        {
+          "zh": "的",
+          "pinyin": "De",
+          "meaning": "trợ từ kết cấu"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng từ 国家 (guójiā).",
+        "Bắt đầu từ khóa “国家”.",
+        "Giữ cụm “我” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Câu dùng 国家 đúng với nghĩa “quốc gia”.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "国家 → 我 → 的",
+        "concept": "Vận dụng từ 国家"
+      },
+      "related_glossary": [
+        "bai02_w001"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 97,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_023",
+      "bai": 2,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Mùa đông chỗ chúng tôi lạnh như Bắc Kinh.",
+      "target_language": "zh",
+      "sample_answer": "我们那儿的冬天跟北京一样冷。",
+      "sample_answer_pinyin": "Wǒmen nàr de dōngtiān gēn běijīng yíyàng lěng.",
+      "alternative_answers": [
+        "那儿的冬天跟北京一样冷。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "一样",
+          "pinyin": "yīyàng",
+          "meaning": "như nhau"
+        },
+        {
+          "zh": "冷",
+          "pinyin": "lěng",
+          "meaning": "lạnh"
+        },
+        {
+          "zh": "我们",
+          "pinyin": "Wǒmen",
+          "meaning": "chúng tôi; chúng ta"
+        },
+        {
+          "zh": "北京",
+          "pinyin": "Běijīng",
+          "meaning": "Bắc Kinh"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng từ 一样 (yīyàng).",
+        "Bắt đầu từ khóa “一样”.",
+        "Giữ cụm “冷” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Câu dùng 一样 đúng với nghĩa “như nhau; giống nhau”.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "一样 → 冷 → 我们 → 北京",
+        "concept": "Vận dụng từ 一样"
+      },
+      "related_glossary": [
+        "bai02_w002",
+        "bai02_w010"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 98,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_024",
+      "bai": 2,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Tôi thích nhất mùa xuân.",
+      "target_language": "zh",
+      "sample_answer": "我最喜欢春天这个季节。",
+      "sample_answer_pinyin": "Wǒ zuì xǐ huān chūntiān zhè ge jìjié.",
+      "alternative_answers": [
+        "最喜欢春天这个季节。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "季节",
+          "pinyin": "jìjié",
+          "meaning": "mùa"
+        },
+        {
+          "zh": "春天",
+          "pinyin": "chūntiān",
+          "meaning": "mùa xuân"
+        },
+        {
+          "zh": "我",
+          "pinyin": "Wǒ",
+          "meaning": "tôi"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng từ 季节 (jìjié).",
+        "Bắt đầu từ khóa “季节”.",
+        "Giữ cụm “春天” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Câu dùng 季节 đúng với nghĩa “mùa; thời kỳ”.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "季节 → 春天 → 我",
+        "concept": "Vận dụng từ 季节"
+      },
+      "related_glossary": [
+        "bai02_w005",
+        "bai02_w006"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 101,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 5,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_025",
+      "bai": 2,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Thời tiết mùa thu rất mát mẻ.",
+      "target_language": "zh",
+      "sample_answer": "秋天的天气很凉快。",
+      "sample_answer_pinyin": "Qiūtiān de tiānqì hěn liáng kuài.",
+      "alternative_answers": [
+        "秋天的天气非常凉快。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "秋天",
+          "pinyin": "qiūtiān",
+          "meaning": "mùa thu"
+        },
+        {
+          "zh": "天气",
+          "pinyin": "Tiānqì",
+          "meaning": "thời tiết"
+        },
+        {
+          "zh": "的",
+          "pinyin": "De",
+          "meaning": "trợ từ kết cấu"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng từ 秋天 (qiūtiān).",
+        "Bắt đầu từ khóa “秋天”.",
+        "Giữ cụm “天气” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Câu dùng 秋天 đúng với nghĩa “mùa thu”.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "秋天 → 天气 → 的",
+        "concept": "Vận dụng từ 秋天"
+      },
+      "related_glossary": [
+        "bai02_w008"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 104,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 5,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_026",
+      "bai": 2,
+      "level": "understand",
+      "type": "translation_zh_to_vi",
+      "question_vi": "Dịch câu sau sang tiếng Việt:",
+      "source_sentence_zh": "北京的夏天很热。",
+      "source_sentence_pinyin": "Běijīng de xiàtiān hěn rè.",
+      "target_language": "vi",
+      "sample_answer": "Mùa hè ở Bắc Kinh rất nóng.",
+      "alternative_answers": [
+        "Mùa hè ở Bắc Kinh rất nóng đấy."
+      ],
+      "keywords_required": [
+        {
+          "vi": "mùa hè",
+          "zh": "夏天"
+        },
+        {
+          "vi": "nóng",
+          "zh": "热"
+        },
+        {
+          "vi": "của Bắc Kinh",
+          "zh": "北京的"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "热 = nóng.",
+        "Chú ý trật tự cụm “夏天”."
+      ],
+      "explanation": {
+        "why_correct": "Bản dịch giữ đúng nghĩa của 热 và nội dung câu nguồn.",
+        "common_mistakes": [
+          "Dịch từng chữ khiến câu tiếng Việt thiếu tự nhiên.",
+          "Bỏ mất thông tin thời gian hoặc mức độ."
+        ],
+        "keyword_tip": "mùa hè → nóng → của Bắc Kinh",
+        "concept": "Đọc hiểu từ 热"
+      },
+      "related_glossary": [
+        "bai02_w009",
+        "bai02_w007"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 105,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_027",
+      "bai": 2,
+      "level": "understand",
+      "type": "translation_zh_to_vi",
+      "question_vi": "Dịch câu sau sang tiếng Việt:",
+      "source_sentence_zh": "今天的风很大。",
+      "source_sentence_pinyin": "Jīntiān de fēng hěn dà.",
+      "target_language": "vi",
+      "sample_answer": "Hôm nay gió rất lớn.",
+      "alternative_answers": [
+        "Trong hôm nay, gió rất lớn."
+      ],
+      "keywords_required": [
+        {
+          "vi": "gió",
+          "zh": "风"
+        },
+        {
+          "vi": "hôm nay",
+          "zh": "今天"
+        },
+        {
+          "vi": "trợ từ kết cấu",
+          "zh": "的"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "风 = gió.",
+        "Chú ý trật tự cụm “风”."
+      ],
+      "explanation": {
+        "why_correct": "Bản dịch giữ đúng nghĩa của 风 và nội dung câu nguồn.",
+        "common_mistakes": [
+          "Dịch từng chữ khiến câu tiếng Việt thiếu tự nhiên.",
+          "Bỏ mất thông tin thời gian hoặc mức độ."
+        ],
+        "keyword_tip": "gió → hôm nay → trợ từ kết cấu",
+        "concept": "Đọc hiểu từ 风"
+      },
+      "related_glossary": [
+        "bai02_w012"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 107,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_028",
+      "bai": 2,
+      "level": "recall",
+      "type": "typing_zh_from_pinyin",
+      "question_vi": "Gõ chữ Hán tương ứng với pinyin và nghĩa sau:",
+      "pinyin": "guójiā",
+      "meaning_vi": "quốc gia",
+      "meaning_en": "country",
+      "sample_answer": "国家",
+      "alternative_answers": [],
+      "keywords_required": [
+        {
+          "zh": "国家",
+          "pinyin": "guójiā",
+          "meaning": "quốc gia"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Từ gồm 2 chữ Hán.",
+        "Ví dụ trong bài: 我爱自己的国家。"
+      ],
+      "explanation": {
+        "why_correct": "国家 đọc là guójiā và nghĩa là quốc gia.",
+        "common_mistakes": [
+          "Gõ đúng âm nhưng chọn nhầm chữ đồng âm.",
+          "Bỏ dấu thanh khi ghi nhớ pinyin."
+        ],
+        "keyword_tip": "Liên hệ 国家 với câu ví dụ trong bài.",
+        "concept": "Nhận diện chữ Hán từ pinyin"
+      },
+      "related_glossary": [
+        "bai02_w001"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 97,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_029",
+      "bai": 2,
+      "level": "recall",
+      "type": "typing_zh_from_pinyin",
+      "question_vi": "Gõ chữ Hán tương ứng với pinyin và nghĩa sau:",
+      "pinyin": "yīyàng",
+      "meaning_vi": "như nhau; giống nhau",
+      "meaning_en": "same",
+      "sample_answer": "一样",
+      "alternative_answers": [],
+      "keywords_required": [
+        {
+          "zh": "一样",
+          "pinyin": "yīyàng",
+          "meaning": "như nhau"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Từ gồm 2 chữ Hán.",
+        "Ví dụ trong bài: 我们那儿的冬天跟北京一样冷。"
+      ],
+      "explanation": {
+        "why_correct": "一样 đọc là yīyàng và nghĩa là như nhau; giống nhau.",
+        "common_mistakes": [
+          "Gõ đúng âm nhưng chọn nhầm chữ đồng âm.",
+          "Bỏ dấu thanh khi ghi nhớ pinyin."
+        ],
+        "keyword_tip": "Liên hệ 一样 với câu ví dụ trong bài.",
+        "concept": "Nhận diện chữ Hán từ pinyin"
+      },
+      "related_glossary": [
+        "bai02_w002"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 98,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai02_030",
+      "bai": 2,
+      "level": "apply",
+      "type": "sentence_reorder",
+      "question_vi": "Sắp xếp các phần sau thành câu đúng:",
+      "shuffled_parts": [
+        "很",
+        "热",
+        "北京的",
+        "夏天"
+      ],
+      "sample_answer": "北京的夏天很热。",
+      "sample_answer_pinyin": "Běijīng de xiàtiān hěn rè.",
+      "alternative_answers": [
+        "北京的夏天非常热。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "夏天",
+          "pinyin": "xiàtiān",
+          "meaning": "mùa hè"
+        },
+        {
+          "zh": "热",
+          "pinyin": "rè",
+          "meaning": "nóng"
+        },
+        {
+          "zh": "北京的",
+          "pinyin": "Běijīngde",
+          "meaning": "của Bắc Kinh"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Đặt 热 đúng vị trí trong câu.",
+        "Ý tiếng Việt: Mùa hè ở Bắc Kinh rất nóng.",
+        "Xác định chủ ngữ hoặc chủ đề trước."
+      ],
+      "explanation": {
+        "why_correct": "Câu mẫu sắp xếp các thành phần theo đúng trật tự ngữ pháp và giữ nguyên nghĩa nguồn.",
+        "common_mistakes": [
+          "Đặt bổ ngữ trước động từ không đúng cấu trúc.",
+          "Đưa trợ từ sang sai vị trí."
+        ],
+        "keyword_tip": "夏天 → 热 → 北京的",
+        "concept": "Trật tự câu với 热"
+      },
+      "related_glossary": [
+        "bai02_w007",
+        "bai02_w009"
+      ],
+      "source": {
+        "bai": 2,
+        "source_line": 105,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

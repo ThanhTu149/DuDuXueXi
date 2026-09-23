@@ -1,0 +1,990 @@
+{
+  "metadata": {
+    "bai": 6,
+    "title_zh": "我是跟旅游团一起来的",
+    "title_vi": "Tôi đến cùng đoàn du lịch",
+    "title_source": "ai_inferred",
+    "source_file": "data/_extracted/bai/bai06.txt",
+    "total_entries": 35,
+    "word_count": 31,
+    "grammar_count": 3,
+    "phrase_count": 1,
+    "example_stats": {
+      "from_document": 1,
+      "ai_inferred": 30,
+      "missing": 0
+    },
+    "generated_at": "2026-09-19T21:45:24Z",
+    "version": "2.0"
+  },
+  "entries": [
+    {
+      "id": "bai06_w001",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "前天",
+      "pinyin": "qiántiān",
+      "word_type": "名",
+      "meaning_vi": "hôm kia",
+      "meaning_en": "the day before yesterday",
+      "example_zh": "前天我们去了长城。",
+      "example_pinyin": "Qiántiān wǒmen qù le chángchéng.",
+      "example_vi": "Hôm kia chúng tôi đã đến Vạn Lý Trường Thành.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w002",
+        "bai06_w003",
+        "bai06_w004"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 19,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w002",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "后天",
+      "pinyin": "hòutiān",
+      "word_type": "名",
+      "meaning_vi": "ngày kia",
+      "meaning_en": "the day after tomorrow",
+      "example_zh": "后天我们一起出发。",
+      "example_pinyin": "Hòutiān wǒmen yìqǐ chū fā.",
+      "example_vi": "Ngày kia chúng ta cùng xuất phát.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w001",
+        "bai06_w003",
+        "bai06_w004"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 84,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w003",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "导游",
+      "pinyin": "dǎoyóu",
+      "word_type": "名",
+      "meaning_vi": "hướng dẫn viên du lịch",
+      "meaning_en": "tourist guide",
+      "example_zh": "导游带我们参观故宫。",
+      "example_pinyin": "Dǎoyóu dài wǒmen cān guān gù gōng.",
+      "example_vi": "Hướng dẫn viên dẫn chúng tôi tham quan Cố Cung.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w002",
+        "bai06_w004",
+        "bai06_w001"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 33,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w004",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "研究生",
+      "pinyin": "yánjiūshēng",
+      "word_type": "名",
+      "meaning_vi": "nghiên cứu sinh",
+      "meaning_en": "graduate student",
+      "example_zh": "他是汉语专业研究生。",
+      "example_pinyin": "Tā shì hànyǔ zhuān yè yánjiūshēng.",
+      "example_vi": "Anh ấy là học viên cao học chuyên ngành tiếng Trung.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w003",
+        "bai06_w002",
+        "bai06_w001"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 59,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w005",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "打工",
+      "pinyin": "dǎgōng",
+      "word_type": "动",
+      "meaning_vi": "làm thuê; đi làm",
+      "meaning_en": "to do part-time work",
+      "example_zh": "他假期在饭馆打工。",
+      "example_pinyin": "Tā jiàqī zài fàn guǎn dǎgōng.",
+      "example_vi": "Kỳ nghỉ anh ấy làm thêm tại quán ăn.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w006",
+        "bai06_w009",
+        "bai06_w011"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 158,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w006",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "利用",
+      "pinyin": "lìyòng",
+      "word_type": "动",
+      "meaning_vi": "tận dụng; sử dụng",
+      "meaning_en": "to make use of; to use",
+      "example_zh": "他利用假期去打工。",
+      "example_pinyin": "Tā lìyòng jiàqī qù dǎgōng.",
+      "example_vi": "Anh ấy tận dụng kỳ nghỉ để đi làm thêm.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w005",
+        "bai06_w009",
+        "bai06_w011"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 159,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w007",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "假期",
+      "pinyin": "jiàqī",
+      "word_type": "名",
+      "meaning_vi": "kỳ nghỉ",
+      "meaning_en": "holiday",
+      "example_zh": "假期我想去旅行。",
+      "example_pinyin": "Jiàqī wǒ xiǎng qù lǚ xíng.",
+      "example_vi": "Kỳ nghỉ tôi muốn đi du lịch.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w008",
+        "bai06_w009",
+        "bai06_w004"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 160,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w008",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "旅行社",
+      "pinyin": "lǚxíngshè",
+      "word_type": "名",
+      "meaning_vi": "công ty du lịch",
+      "meaning_en": "travel agency",
+      "example_zh": "旅行社安排了行程。",
+      "example_pinyin": "Lǚxíngshè ānpái le xíng chéng.",
+      "example_vi": "Công ty du lịch đã sắp xếp hành trình.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w007",
+        "bai06_w009",
+        "bai06_w010"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 161,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w009",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "组织",
+      "pinyin": "zǔzhī",
+      "word_type": "动、名",
+      "meaning_vi": "tổ chức",
+      "meaning_en": "to organize; organization",
+      "example_zh": "学校组织了一次旅行。",
+      "example_pinyin": "Xué xiào zǔzhī le yī cì lǚ xíng.",
+      "example_vi": "Nhà trường tổ chức một chuyến đi.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w008",
+        "bai06_w010",
+        "bai06_w007"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu",
+        "dong_tu"
+      ],
+      "source_line": 162,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w010",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "老板",
+      "pinyin": "lǎobǎn",
+      "word_type": "名",
+      "meaning_vi": "ông chủ",
+      "meaning_en": "boss",
+      "example_zh": "老板同意我请假。",
+      "example_pinyin": "Lǎobǎn tóng yì wǒ qǐng jiǎ.",
+      "example_vi": "Ông chủ đồng ý cho tôi nghỉ phép.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w009",
+        "bai06_w011",
+        "bai06_w008"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 163,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w011",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "需要",
+      "pinyin": "xūyào",
+      "word_type": "动、名",
+      "meaning_vi": "cần; nhu cầu",
+      "meaning_en": "to need; need",
+      "example_zh": "旅行社需要一个导游。",
+      "example_pinyin": "Lǚxíngshè xūyào yígè dǎoyóu.",
+      "example_vi": "Công ty du lịch cần một hướng dẫn viên.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w010",
+        "bai06_w009",
+        "bai06_w013"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu",
+        "dong_tu"
+      ],
+      "source_line": 164,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w012",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "经常",
+      "pinyin": "jīngcháng",
+      "word_type": "副",
+      "meaning_vi": "thường xuyên",
+      "meaning_en": "usually; often",
+      "example_zh": "他经常利用假期旅行。",
+      "example_pinyin": "Tā jīngcháng lìyòng jiàqī lǚ xíng.",
+      "example_vi": "Anh ấy thường tận dụng kỳ nghỉ để du lịch.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w025",
+        "bai06_w011",
+        "bai06_w013"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 165,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w013",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "收集",
+      "pinyin": "shōují",
+      "word_type": "动",
+      "meaning_vi": "thu thập",
+      "meaning_en": "to gather; to collect",
+      "example_zh": "导游收集了很多资料。",
+      "example_pinyin": "Dǎoyóu shōují le hěn duō zī liào.",
+      "example_vi": "Hướng dẫn viên đã thu thập nhiều tài liệu.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w011",
+        "bai06_w015",
+        "bai06_w016"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 166,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w014",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "一……就……",
+      "pinyin": "yī...jiù...",
+      "word_type": "连",
+      "meaning_vi": "vừa... liền...; hễ... là...",
+      "meaning_en": "as soon as...; whenever...",
+      "example_zh": "我一下课就回宿舍。",
+      "example_pinyin": "Wǒ yī xià kè jiù huí sùshè.",
+      "example_vi": "Vừa tan học là tôi về ký túc xá.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_g002",
+        "bai06_w013",
+        "bai06_w015"
+      ],
+      "tags": [
+        "tu_vung",
+        "lien_tu"
+      ],
+      "source_line": 168,
+      "confidence": "medium",
+      "note": "Chữ Hán bị mất/lệch trong OCR; source_line trỏ tới hàng từ hoặc pinyin gần nhất."
+    },
+    {
+      "id": "bai06_w015",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "安排",
+      "pinyin": "ānpái",
+      "word_type": "动、名",
+      "meaning_vi": "sắp xếp; sự sắp xếp",
+      "meaning_en": "to arrange; arrangement",
+      "example_zh": "老板安排我帮助导游。",
+      "example_pinyin": "Lǎobǎn ānpái wǒ bāngzhù dǎoyóu.",
+      "example_vi": "Ông chủ sắp xếp tôi giúp hướng dẫn viên.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w016",
+        "bai06_w013",
+        "bai06_w017"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu",
+        "dong_tu"
+      ],
+      "source_line": 169,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w016",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "帮助",
+      "pinyin": "bāngzhù",
+      "word_type": "动、名",
+      "meaning_vi": "giúp đỡ; sự giúp đỡ",
+      "meaning_en": "to help; help",
+      "example_zh": "同学们互相帮助。",
+      "example_pinyin": "Tóngxué men hùxiāng bāngzhù.",
+      "example_vi": "Các bạn học giúp đỡ lẫn nhau.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w015",
+        "bai06_w017",
+        "bai06_w018"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu",
+        "dong_tu"
+      ],
+      "source_line": 170,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w017",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "帮",
+      "pinyin": "bāng",
+      "word_type": "动",
+      "meaning_vi": "giúp",
+      "meaning_en": "to help",
+      "example_zh": "请你帮我安排一下。",
+      "example_pinyin": "Qǐng nǐ bāng wǒ ānpái yī xià.",
+      "example_vi": "Bạn hãy giúp tôi sắp xếp một chút.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w016",
+        "bai06_w018",
+        "bai06_w015"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 170,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w018",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "希望",
+      "pinyin": "xīwàng",
+      "word_type": "动、名",
+      "meaning_vi": "hy vọng",
+      "meaning_en": "to hope; hope",
+      "example_zh": "我希望去故乡旅行。",
+      "example_pinyin": "Wǒ xīwàng qù gùxiāng lǚ xíng.",
+      "example_vi": "Tôi hy vọng đi du lịch quê hương.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w017",
+        "bai06_w019",
+        "bai06_w016"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu",
+        "dong_tu"
+      ],
+      "source_line": 172,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w019",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "铁路",
+      "pinyin": "tiělù",
+      "word_type": "名",
+      "meaning_vi": "đường sắt",
+      "meaning_en": "railway",
+      "example_zh": "这条铁路通往上海。",
+      "example_pinyin": "Zhè tiáo tiělù tōng wǎng shànghǎi.",
+      "example_vi": "Tuyến đường sắt này đi đến Thượng Hải.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w018",
+        "bai06_w020",
+        "bai06_w016"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 173,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w020",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "风光",
+      "pinyin": "fēngguāng",
+      "word_type": "名",
+      "meaning_vi": "phong cảnh",
+      "meaning_en": "scenery",
+      "example_zh": "沿途风光非常美。",
+      "example_pinyin": "Yán tú fēngguāng fēi cháng měi.",
+      "example_vi": "Phong cảnh dọc đường rất đẹp.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w019",
+        "bai06_w018",
+        "bai06_w022"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 80,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w021",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "商量",
+      "pinyin": "shāngliáng",
+      "word_type": "动",
+      "meaning_vi": "thương lượng; bàn bạc",
+      "meaning_en": "to consult; to discuss",
+      "example_zh": "我想跟你商量一件事。",
+      "example_pinyin": "Wǒ xiǎng gēn nǐ shāngliáng yī jiàn shì.",
+      "example_vi": "Tôi muốn bàn với bạn một việc.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w018",
+        "bai06_w024",
+        "bai06_w017"
+      ],
+      "tags": [
+        "tu_vung",
+        "dong_tu"
+      ],
+      "source_line": 283,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w022",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "故乡",
+      "pinyin": "gùxiāng",
+      "word_type": "名",
+      "meaning_vi": "quê hương",
+      "meaning_en": "birthplace; hometown",
+      "example_zh": "他很想念自己的故乡。",
+      "example_pinyin": "Tā hěn xiǎng niàn zì jǐ de gùxiāng.",
+      "example_vi": "Anh ấy rất nhớ quê hương mình.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w020",
+        "bai06_w024",
+        "bai06_w019"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 287,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w023",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "自由",
+      "pinyin": "zìyóu",
+      "word_type": "形",
+      "meaning_vi": "tự do",
+      "meaning_en": "free",
+      "example_zh": "假期里时间很自由。",
+      "example_pinyin": "Jiàqī lǐ shí jiān hěn zìyóu.",
+      "example_vi": "Trong kỳ nghỉ, thời gian rất tự do.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w022",
+        "bai06_w024",
+        "bai06_w021"
+      ],
+      "tags": [
+        "tu_vung",
+        "hinh_dung"
+      ],
+      "source_line": 85,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w024",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "活动",
+      "pinyin": "huódòng",
+      "word_type": "名、动",
+      "meaning_vi": "hoạt động",
+      "meaning_en": "activity; to exercise",
+      "example_zh": "下午有文化活动。",
+      "example_pinyin": "Xià wǔ yǒu wén huà huódòng.",
+      "example_vi": "Buổi chiều có hoạt động văn hóa.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w022",
+        "bai06_w026",
+        "bai06_w021"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu",
+        "dong_tu"
+      ],
+      "source_line": 292,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w025",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "互相",
+      "pinyin": "hùxiāng",
+      "word_type": "副",
+      "meaning_vi": "lẫn nhau",
+      "meaning_en": "each other",
+      "example_zh": "同学们互相帮助。",
+      "example_pinyin": "Tóngxué men hùxiāng bāngzhù.",
+      "example_vi": "Các bạn học giúp đỡ lẫn nhau.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w012",
+        "bai06_w024",
+        "bai06_w026"
+      ],
+      "tags": [
+        "tu_vung",
+        "pho_tu"
+      ],
+      "source_line": 118,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w026",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "老外",
+      "pinyin": "lǎowài",
+      "word_type": "名",
+      "meaning_vi": "người nước ngoài",
+      "meaning_en": "international guest; foreigner",
+      "example_zh": "中国人一听就知道我是老外。",
+      "example_pinyin": "Zhōngguó rén yī tīng jiù zhīdào wǒ shì lǎowài.",
+      "example_vi": "Người Trung Quốc vừa nghe là biết tôi là người nước ngoài.",
+      "example_source": "document",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w024",
+        "bai06_w028",
+        "bai06_w029"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 296,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w027",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "呀",
+      "pinyin": "ya",
+      "word_type": "助",
+      "meaning_vi": "nhé; à",
+      "meaning_en": "sentence-final particle",
+      "example_zh": "你慢慢说呀。",
+      "example_pinyin": "Nǐ màn màn shuō ya.",
+      "example_vi": "Bạn cứ từ từ nói nhé.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w026",
+        "bai06_w028",
+        "bai06_w025"
+      ],
+      "tags": [
+        "tu_vung",
+        "tro_tu"
+      ],
+      "source_line": 114,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w028",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "鼻子",
+      "pinyin": "bízi",
+      "word_type": "名",
+      "meaning_vi": "mũi",
+      "meaning_en": "nose",
+      "example_zh": "他的鼻子很高。",
+      "example_pinyin": "Tā de bízi hěn gāo.",
+      "example_vi": "Mũi anh ấy cao.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w029",
+        "bai06_w026",
+        "bai06_w030"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 114,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w029",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "头发",
+      "pinyin": "tóufà",
+      "word_type": "名",
+      "meaning_vi": "tóc",
+      "meaning_en": "hair",
+      "example_zh": "她的头发又黑又长。",
+      "example_pinyin": "Tā de tóufà yòu hēi yòu zhǎng.",
+      "example_vi": "Tóc cô ấy vừa đen vừa dài.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w028",
+        "bai06_w030",
+        "bai06_w031"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 114,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w030",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "眼睛",
+      "pinyin": "yǎnjīng",
+      "word_type": "名",
+      "meaning_vi": "mắt",
+      "meaning_en": "eye",
+      "example_zh": "她的眼睛很漂亮。",
+      "example_pinyin": "Tā de yǎnjīng hěn piāo liàng.",
+      "example_vi": "Đôi mắt cô ấy rất đẹp.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w029",
+        "bai06_w031",
+        "bai06_w028"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 308,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_w031",
+      "bai": 6,
+      "type": "word",
+      "word_zh": "声调",
+      "pinyin": "shēngdiào",
+      "word_type": "名",
+      "meaning_vi": "thanh điệu",
+      "meaning_en": "tone of Chinese characters",
+      "example_zh": "汉语有四个声调。",
+      "example_pinyin": "Hànyǔ yǒu sì gè shēngdiào.",
+      "example_vi": "Tiếng Trung có bốn thanh điệu.",
+      "example_source": "ai_inferred",
+      "grammar_note": null,
+      "related_words": [
+        "bai06_w030",
+        "bai06_w029",
+        "bai06_w028"
+      ],
+      "tags": [
+        "tu_vung",
+        "danh_tu"
+      ],
+      "source_line": 310,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_g001",
+      "bai": 6,
+      "type": "grammar",
+      "grammar_title_zh": "是……的",
+      "grammar_title_vi": "Kết cấu 是……的",
+      "structure": "主语 + 是 + 时间/地点/方式/目的 + 动词 + 的",
+      "explanation_vi": "Nhấn mạnh thời gian, địa điểm, cách thức, mục đích hoặc người tham gia của hành động đã xảy ra. Trong câu khẳng định có thể lược 是; trong câu phủ định không lược.",
+      "explanation_zh": "“是……的”强调已发生动作的时间、地点、方式、目的等；肯定句可省“是”，否定句不可省。",
+      "examples": [
+        {
+          "zh": "我们是从美国来的。",
+          "pinyin": "Wǒmen shì cóng měi guó lái de.",
+          "vi": "Chúng tôi đến từ Mỹ.",
+          "source": "document"
+        },
+        {
+          "zh": "我不是来旅行的，我是来留学的。",
+          "pinyin": "Wǒ bù shì lái lǚ xíng de, wǒ shì lái liú xué de.",
+          "vi": "Tôi không đến để du lịch, tôi đến để du học.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai06_g002",
+        "bai06_g003"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 387,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_g002",
+      "bai": 6,
+      "type": "grammar",
+      "grammar_title_zh": "一……就……",
+      "grammar_title_vi": "Vừa... liền... / hễ... là...",
+      "structure": "一 + 动作1 + 就 + 动作2",
+      "explanation_vi": "Có thể biểu thị hành động sau xảy ra ngay sau hành động trước, hoặc hành động trước là điều kiện/nguyên nhân dẫn đến kết quả sau.",
+      "explanation_zh": "“一……就……”表示后一动作紧跟前一动作，或前一动作是后一结果的条件和原因。",
+      "examples": [
+        {
+          "zh": "今天我一下课就去看你。",
+          "pinyin": "Jīntiān wǒ yī xià kè jiù qù kàn nǐ.",
+          "vi": "Hôm nay vừa tan học tôi sẽ đi thăm bạn.",
+          "source": "document"
+        },
+        {
+          "zh": "我一感冒就咳嗽。",
+          "pinyin": "Wǒ yī gǎn mào jiù ké sòu.",
+          "vi": "Hễ bị cảm là tôi ho.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai06_w014",
+        "bai06_g001",
+        "bai06_g003"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 415,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_g003",
+      "bai": 6,
+      "type": "grammar",
+      "grammar_title_zh": "形容词重叠",
+      "grammar_title_vi": "Lặp lại tính từ",
+      "structure": "A→AA(儿)；AB→AABB + 地",
+      "explanation_vi": "Tính từ một âm tiết thường lặp thành AA(儿); tính từ hai âm tiết thành AABB. Khi làm trạng ngữ, dạng lặp hai âm tiết thường đi với 地.",
+      "explanation_zh": "单音节形容词可重叠为AA(儿)，双音节形容词重叠为AABB；作状语时一般带“地”。",
+      "examples": [
+        {
+          "zh": "别着急，你慢慢儿说。",
+          "pinyin": "Bié zháojí, nǐ màn màn ér shuō.",
+          "vi": "Đừng vội, bạn cứ nói từ từ.",
+          "source": "document"
+        },
+        {
+          "zh": "高高兴兴地对我说。",
+          "pinyin": "Gāo gāo xīng xīng de duì wǒ shuō.",
+          "vi": "Vui vẻ nói với tôi.",
+          "source": "document"
+        }
+      ],
+      "related_words": [
+        "bai06_g001",
+        "bai06_g002"
+      ],
+      "tags": [
+        "ngu_phap"
+      ],
+      "source_line": 467,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "bai06_p001",
+      "bai": 6,
+      "type": "phrase",
+      "phrase_zh": "马马虎虎",
+      "pinyin": "Mǎ mǎ hǔ hǔ",
+      "meaning_vi": "tàm tạm; qua loa",
+      "meaning_en": "so-so; careless",
+      "usage_note": "Có thể chỉ mức độ tạm được; trong ngữ cảnh phê bình còn mang nghĩa qua loa, không nghiêm túc.",
+      "related_words": [
+        "bai06_w027",
+        "bai06_w028",
+        "bai06_w029"
+      ],
+      "tags": [
+        "mau_cau",
+        "khau_ngu"
+      ],
+      "source_line": 113,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}

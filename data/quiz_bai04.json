@@ -1,0 +1,1575 @@
+{
+  "metadata": {
+    "bai": 4,
+    "title_zh": "快上来吧，要开车了",
+    "title_vi": "Mau lên đây, xe sắp chạy rồi",
+    "source_glossary": "data/glossary_bai04.json",
+    "source_text": "data/_extracted/bai/bai04.txt",
+    "total_questions": 30,
+    "level_distribution": {
+      "recall": 13,
+      "apply": 7,
+      "understand": 6,
+      "synthesize": 4
+    },
+    "type_distribution": {
+      "mcq_meaning_zh_to_vi": 5,
+      "mcq_meaning_vi_to_zh": 2,
+      "mcq_pinyin": 2,
+      "mcq_word_type": 2,
+      "mcq_fill_blank": 4,
+      "mcq_grammar": 2,
+      "mcq_error_detection": 2,
+      "reading_comprehension": 2,
+      "translation_vi_to_zh": 4,
+      "translation_zh_to_vi": 2,
+      "typing_zh_from_pinyin": 2,
+      "sentence_reorder": 1
+    },
+    "group_distribution": {
+      "mcq": 21,
+      "typing": 9
+    },
+    "generated_at": "2026-09-19T22:21:30Z",
+    "version": "2.0"
+  },
+  "questions": [
+    {
+      "id": "quiz_bai04_001",
+      "bai": 4,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“送” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "tặng; đưa; tiễn"
+        },
+        {
+          "id": "B",
+          "text": "họp"
+        },
+        {
+          "id": "C",
+          "text": "giảng dạy"
+        },
+        {
+          "id": "D",
+          "text": "nghiên cứu và thảo luận"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "送 nghĩa là “tặng; đưa; tiễn”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của 开会, không phải 送.",
+          "C": "Đây là nghĩa của 教学, không phải 送.",
+          "D": "Đây là nghĩa của 研讨, không phải 送."
+        },
+        "keyword_tip": "Gắn 送 với ví dụ: 我给老师送去礼物。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai04_w001",
+        "bai04_w002",
+        "bai04_w003",
+        "bai04_w004"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 87,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_002",
+      "bai": 4,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“研讨会” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "đi qua; trải qua"
+        },
+        {
+          "id": "B",
+          "text": "hội thảo"
+        },
+        {
+          "id": "C",
+          "text": "hướng về; đối với"
+        },
+        {
+          "id": "D",
+          "text": "hỏi thăm; gửi lời chào"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "研讨会 nghĩa là “hội thảo”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 经过, không phải 研讨会.",
+          "C": "Đây là nghĩa của 向, không phải 研讨会.",
+          "D": "Đây là nghĩa của 问好, không phải 研讨会."
+        },
+        "keyword_tip": "Gắn 研讨会 với ví dụ: 你不是到台湾开汉语教学研讨会去了吗？",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai04_w005",
+        "bai04_w006",
+        "bai04_w007",
+        "bai04_w008"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 117,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_003",
+      "bai": 4,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“捎” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "đi sang; đi qua"
+        },
+        {
+          "id": "B",
+          "text": "đi đến; sang đây"
+        },
+        {
+          "id": "C",
+          "text": "mang hộ; cầm hộ"
+        },
+        {
+          "id": "D",
+          "text": "cửa ra vào; cổng"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "捎 nghĩa là “mang hộ; cầm hộ”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 过去, không phải 捎.",
+          "B": "Đây là nghĩa của 过来, không phải 捎.",
+          "D": "Đây là nghĩa của 门口, không phải 捎."
+        },
+        "keyword_tip": "Gắn 捎 với ví dụ: 我给你捎来一些东西。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai04_w009",
+        "bai04_w010",
+        "bai04_w011",
+        "bai04_w012"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 144,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_004",
+      "bai": 4,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“辛苦” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "làm phiền; phiền phức"
+        },
+        {
+          "id": "B",
+          "text": "lượt; chuyến"
+        },
+        {
+          "id": "C",
+          "text": "vợ hoặc chồng; người yêu"
+        },
+        {
+          "id": "D",
+          "text": "vất vả; cực nhọc"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "辛苦 nghĩa là “vất vả; cực nhọc”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 麻烦, không phải 辛苦.",
+          "B": "Đây là nghĩa của 趟, không phải 辛苦.",
+          "C": "Đây là nghĩa của 爱人, không phải 辛苦."
+        },
+        "keyword_tip": "Gắn 辛苦 với ví dụ: 师傅，您辛苦了。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai04_w013",
+        "bai04_w014",
+        "bai04_w015",
+        "bai04_w016"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 124,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_005",
+      "bai": 4,
+      "level": "recall",
+      "type": "mcq_meaning_zh_to_vi",
+      "question_vi": "“办事” có nghĩa là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "làm việc; giải quyết công việc"
+        },
+        {
+          "id": "B",
+          "text": "lập tức; ngay"
+        },
+        {
+          "id": "C",
+          "text": "chậm"
+        },
+        {
+          "id": "D",
+          "text": "nhà triển lãm"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "办事 nghĩa là “làm việc; giải quyết công việc”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của 马上, không phải 办事.",
+          "C": "Đây là nghĩa của 慢, không phải 办事.",
+          "D": "Đây là nghĩa của 展览馆, không phải 办事."
+        },
+        "keyword_tip": "Gắn 办事 với ví dụ: 他去大使馆办事。",
+        "concept": "Nhận biết nghĩa từ vựng"
+      },
+      "related_glossary": [
+        "bai04_w017",
+        "bai04_w018",
+        "bai04_w019",
+        "bai04_w020"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 160,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_006",
+      "bai": 4,
+      "level": "recall",
+      "type": "mcq_meaning_vi_to_zh",
+      "question_vi": "Từ nào có nghĩa là “trưng bày; triển lãm”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "上来"
+        },
+        {
+          "id": "B",
+          "text": "展览"
+        },
+        {
+          "id": "C",
+          "text": "开车"
+        },
+        {
+          "id": "D",
+          "text": "照相机"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "展览 là từ tương ứng với nghĩa “trưng bày; triển lãm”.",
+        "why_others_wrong": {
+          "A": "上来 nghĩa là đi lên phía người nói.",
+          "C": "开车 nghĩa là lái xe.",
+          "D": "照相机 nghĩa là máy ảnh."
+        },
+        "keyword_tip": "Nhớ câu: 我们去看文物展览。",
+        "concept": "Gợi nhớ chữ Hán từ nghĩa Việt"
+      },
+      "related_glossary": [
+        "bai04_w021",
+        "bai04_w022",
+        "bai04_w023",
+        "bai04_w024"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 45,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_007",
+      "bai": 4,
+      "level": "recall",
+      "type": "mcq_meaning_vi_to_zh",
+      "question_vi": "Từ nào có nghĩa là “chụp ảnh”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "座位"
+        },
+        {
+          "id": "B",
+          "text": "注意"
+        },
+        {
+          "id": "C",
+          "text": "照相"
+        },
+        {
+          "id": "D",
+          "text": "差不多"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "照相 là từ tương ứng với nghĩa “chụp ảnh”.",
+        "why_others_wrong": {
+          "A": "座位 nghĩa là chỗ ngồi.",
+          "B": "注意 nghĩa là chú ý.",
+          "D": "差不多 nghĩa là gần như; xấp xỉ."
+        },
+        "keyword_tip": "Nhớ câu: 我们在长城照相。",
+        "concept": "Gợi nhớ chữ Hán từ nghĩa Việt"
+      },
+      "related_glossary": [
+        "bai04_w025",
+        "bai04_w026",
+        "bai04_w027",
+        "bai04_w028"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 222,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 1,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_008",
+      "bai": 4,
+      "level": "recall",
+      "type": "mcq_pinyin",
+      "question_vi": "Pinyin đúng của “文物” là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "dàyuē"
+        },
+        {
+          "id": "B",
+          "text": "yāoqiú"
+        },
+        {
+          "id": "C",
+          "text": "wénwù"
+        },
+        {
+          "id": "D",
+          "text": "shěng"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "文物 đọc là wénwù.",
+        "why_others_wrong": {
+          "A": "Đây là pinyin của 大约.",
+          "B": "Đây là pinyin của 要求.",
+          "D": "Đây là pinyin của 省."
+        },
+        "keyword_tip": "Đọc cùng nghĩa “văn vật; di tích văn hóa”.",
+        "concept": "Pinyin có dấu thanh"
+      },
+      "related_glossary": [
+        "bai04_w029",
+        "bai04_w030",
+        "bai04_w031",
+        "bai04_w032"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 227,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_009",
+      "bai": 4,
+      "level": "recall",
+      "type": "mcq_pinyin",
+      "question_vi": "Pinyin đúng của “清楚” là gì?",
+      "options": [
+        {
+          "id": "A",
+          "text": "shīfù"
+        },
+        {
+          "id": "B",
+          "text": "dàshǐguǎn"
+        },
+        {
+          "id": "C",
+          "text": "dàshǐ"
+        },
+        {
+          "id": "D",
+          "text": "qīngchǔ"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "清楚 đọc là qīngchǔ.",
+        "why_others_wrong": {
+          "A": "Đây là pinyin của 师傅.",
+          "B": "Đây là pinyin của 大使馆.",
+          "C": "Đây là pinyin của 大使."
+        },
+        "keyword_tip": "Đọc cùng nghĩa “rõ ràng”.",
+        "concept": "Pinyin có dấu thanh"
+      },
+      "related_glossary": [
+        "bai04_w033",
+        "bai04_w034",
+        "bai04_w035",
+        "bai04_w036"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 232,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_010",
+      "bai": 4,
+      "level": "recall",
+      "type": "mcq_word_type",
+      "question_vi": "“送” thuộc từ loại nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "动 (động từ)"
+        },
+        {
+          "id": "B",
+          "text": "名 (danh từ)"
+        },
+        {
+          "id": "C",
+          "text": "形 (tính từ)"
+        },
+        {
+          "id": "D",
+          "text": "副 (phó từ)"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "Trong bảng từ mới, 送 được ghi là 动.",
+        "why_others_wrong": {
+          "B": "名 không phải ký hiệu từ loại của 送 trong bài.",
+          "C": "形 không phải ký hiệu từ loại của 送 trong bài.",
+          "D": "副 không phải ký hiệu từ loại của 送 trong bài."
+        },
+        "keyword_tip": "Đặt từ vào câu: 我给老师送去礼物。",
+        "concept": "Nhận diện từ loại"
+      },
+      "related_glossary": [
+        "bai04_w001",
+        "bai04_w002",
+        "bai04_w003",
+        "bai04_w004"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 87,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_011",
+      "bai": 4,
+      "level": "recall",
+      "type": "mcq_word_type",
+      "question_vi": "“研讨会” thuộc từ loại nào?",
+      "options": [
+        {
+          "id": "A",
+          "text": "动 (động từ)"
+        },
+        {
+          "id": "B",
+          "text": "名 (danh từ)"
+        },
+        {
+          "id": "C",
+          "text": "形 (tính từ)"
+        },
+        {
+          "id": "D",
+          "text": "副 (phó từ)"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Trong bảng từ mới, 研讨会 được ghi là 名.",
+        "why_others_wrong": {
+          "A": "动 không phải ký hiệu từ loại của 研讨会 trong bài.",
+          "C": "形 không phải ký hiệu từ loại của 研讨会 trong bài.",
+          "D": "副 không phải ký hiệu từ loại của 研讨会 trong bài."
+        },
+        "keyword_tip": "Đặt từ vào câu: 你不是到台湾开汉语教学研讨会去了吗？",
+        "concept": "Nhận diện từ loại"
+      },
+      "related_glossary": [
+        "bai04_w005",
+        "bai04_w006",
+        "bai04_w007",
+        "bai04_w008"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 117,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_012",
+      "bai": 4,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 我给你___来一些东西。",
+      "sentence_zh": "我给你___来一些东西。",
+      "options": [
+        {
+          "id": "A",
+          "text": "过去"
+        },
+        {
+          "id": "B",
+          "text": "捎"
+        },
+        {
+          "id": "C",
+          "text": "过来"
+        },
+        {
+          "id": "D",
+          "text": "门口"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "捎 khôi phục đúng câu “我给你捎来一些东西。”.",
+        "why_others_wrong": {
+          "A": "过去 nghĩa là đi sang; đi qua, không phù hợp chỗ trống.",
+          "C": "过来 nghĩa là đi đến; sang đây, không phù hợp chỗ trống.",
+          "D": "门口 nghĩa là cửa ra vào; cổng, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “mang hộ; cầm hộ” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai04_w009",
+        "bai04_w010",
+        "bai04_w011",
+        "bai04_w012"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 144,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_013",
+      "bai": 4,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 师傅，您___了。",
+      "sentence_zh": "师傅，您___了。",
+      "options": [
+        {
+          "id": "A",
+          "text": "麻烦"
+        },
+        {
+          "id": "B",
+          "text": "趟"
+        },
+        {
+          "id": "C",
+          "text": "辛苦"
+        },
+        {
+          "id": "D",
+          "text": "爱人"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "辛苦 khôi phục đúng câu “师傅，您辛苦了。”.",
+        "why_others_wrong": {
+          "A": "麻烦 nghĩa là làm phiền; phiền phức, không phù hợp chỗ trống.",
+          "B": "趟 nghĩa là lượt; chuyến, không phù hợp chỗ trống.",
+          "D": "爱人 nghĩa là vợ hoặc chồng; người yêu, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “vất vả; cực nhọc” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai04_w013",
+        "bai04_w014",
+        "bai04_w015",
+        "bai04_w016"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 124,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_014",
+      "bai": 4,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 他去大使馆___。",
+      "sentence_zh": "他去大使馆___。",
+      "options": [
+        {
+          "id": "A",
+          "text": "马上"
+        },
+        {
+          "id": "B",
+          "text": "慢"
+        },
+        {
+          "id": "C",
+          "text": "展览馆"
+        },
+        {
+          "id": "D",
+          "text": "办事"
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "办事 khôi phục đúng câu “他去大使馆办事。”.",
+        "why_others_wrong": {
+          "A": "马上 nghĩa là lập tức; ngay, không phù hợp chỗ trống.",
+          "B": "慢 nghĩa là chậm, không phù hợp chỗ trống.",
+          "C": "展览馆 nghĩa là nhà triển lãm, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “làm việc; giải quyết công việc” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai04_w017",
+        "bai04_w018",
+        "bai04_w019",
+        "bai04_w020"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 160,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_015",
+      "bai": 4,
+      "level": "apply",
+      "type": "mcq_fill_blank",
+      "question_vi": "Chọn từ thích hợp: 我们去看文物___。",
+      "sentence_zh": "我们去看文物___。",
+      "options": [
+        {
+          "id": "A",
+          "text": "展览"
+        },
+        {
+          "id": "B",
+          "text": "上来"
+        },
+        {
+          "id": "C",
+          "text": "开车"
+        },
+        {
+          "id": "D",
+          "text": "照相机"
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "展览 khôi phục đúng câu “我们去看文物展览。”.",
+        "why_others_wrong": {
+          "B": "上来 nghĩa là đi lên phía người nói, không phù hợp chỗ trống.",
+          "C": "开车 nghĩa là lái xe, không phù hợp chỗ trống.",
+          "D": "照相机 nghĩa là máy ảnh, không phù hợp chỗ trống."
+        },
+        "keyword_tip": "Dựa vào nghĩa “trưng bày; triển lãm” và ngữ cảnh quanh chỗ trống.",
+        "concept": "Điền từ theo ngữ cảnh"
+      },
+      "related_glossary": [
+        "bai04_w021",
+        "bai04_w022",
+        "bai04_w023",
+        "bai04_w024"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 45,
+        "context": "Ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_016",
+      "bai": 4,
+      "level": "understand",
+      "type": "mcq_grammar",
+      "question_vi": "Cấu trúc nào đúng với “简单趋向补语”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "主语 + 很 + 名词"
+        },
+        {
+          "id": "B",
+          "text": "动词 + 主语 + 宾语"
+        },
+        {
+          "id": "C",
+          "text": "动词 + 来/去"
+        },
+        {
+          "id": "D",
+          "text": "形容词 + 把 + 名词"
+        }
+      ],
+      "correct_option": "C",
+      "explanation": {
+        "why_correct": "来 chỉ hướng về phía người nói hoặc sự vật đang được nhắc tới; 去 chỉ hướng rời xa phía đó. Tân ngữ chỉ nơi chốn đặt trước 来/去.",
+        "why_others_wrong": {
+          "A": "Trật tự này không biểu đạt điểm ngữ pháp được hỏi.",
+          "B": "Trật tự này không biểu đạt điểm ngữ pháp được hỏi.",
+          "D": "Trật tự này không biểu đạt điểm ngữ pháp được hỏi."
+        },
+        "keyword_tip": "Nhớ khung: 动词 + 来/去.",
+        "concept": "Bổ ngữ xu hướng đơn"
+      },
+      "related_glossary": [
+        "bai04_g001"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 405,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_017",
+      "bai": 4,
+      "level": "understand",
+      "type": "mcq_grammar",
+      "question_vi": "Câu nào minh họa đúng “简单趋向补语”?",
+      "options": [
+        {
+          "id": "A",
+          "text": "我给老师送去礼物。"
+        },
+        {
+          "id": "B",
+          "text": "上课了，快进来吧。"
+        },
+        {
+          "id": "C",
+          "text": "老师们正在开会。"
+        },
+        {
+          "id": "D",
+          "text": "他负责汉语教学。"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Câu này dùng đúng cấu trúc 动词 + 来/去.",
+        "why_others_wrong": {
+          "A": "Câu này minh họa từ 送, không thể hiện rõ 简单趋向补语.",
+          "C": "Câu này minh họa từ 开会, không thể hiện rõ 简单趋向补语.",
+          "D": "Câu này minh họa từ 教学, không thể hiện rõ 简单趋向补语."
+        },
+        "keyword_tip": "来 chỉ hướng về phía người nói hoặc sự vật đang được nhắc tới; 去 chỉ hướng rời xa phía đó. Tân ngữ chỉ nơi chốn đặt trước 来/去.",
+        "concept": "Bổ ngữ xu hướng đơn"
+      },
+      "related_glossary": [
+        "bai04_g001"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 405,
+        "context": "Mục 语法"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_018",
+      "bai": 4,
+      "level": "apply",
+      "type": "mcq_error_detection",
+      "question_vi": "Cặp từ và nghĩa nào KHÔNG đúng?",
+      "options": [
+        {
+          "id": "A",
+          "text": "展览 nghĩa là “trưng bày; triển lãm”."
+        },
+        {
+          "id": "B",
+          "text": "上来 nghĩa là “đi lên phía người nói”."
+        },
+        {
+          "id": "C",
+          "text": "开车 nghĩa là “lái xe”."
+        },
+        {
+          "id": "D",
+          "text": "展览 nghĩa là “đi lên phía người nói”."
+        }
+      ],
+      "correct_option": "D",
+      "explanation": {
+        "why_correct": "展览 không có nghĩa là “đi lên phía người nói”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa đúng của 展览.",
+          "B": "Đây là nghĩa đúng của 上来.",
+          "C": "Đây là nghĩa đúng của 开车."
+        },
+        "keyword_tip": "Đối chiếu từng chữ Hán với nghĩa trong bảng 生词.",
+        "concept": "Phát hiện lỗi dùng từ"
+      },
+      "related_glossary": [
+        "bai04_w021",
+        "bai04_w022",
+        "bai04_w023",
+        "bai04_w024"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 45,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_019",
+      "bai": 4,
+      "level": "apply",
+      "type": "mcq_error_detection",
+      "question_vi": "Cặp từ và nghĩa nào KHÔNG đúng?",
+      "options": [
+        {
+          "id": "A",
+          "text": "照相 nghĩa là “chụp ảnh”."
+        },
+        {
+          "id": "B",
+          "text": "照相 nghĩa là “chỗ ngồi”."
+        },
+        {
+          "id": "C",
+          "text": "座位 nghĩa là “chỗ ngồi”."
+        },
+        {
+          "id": "D",
+          "text": "注意 nghĩa là “chú ý”."
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "照相 không có nghĩa là “chỗ ngồi”.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa đúng của 照相.",
+          "C": "Đây là nghĩa đúng của 座位.",
+          "D": "Đây là nghĩa đúng của 注意."
+        },
+        "keyword_tip": "Đối chiếu từng chữ Hán với nghĩa trong bảng 生词.",
+        "concept": "Phát hiện lỗi dùng từ"
+      },
+      "related_glossary": [
+        "bai04_w025",
+        "bai04_w026",
+        "bai04_w027",
+        "bai04_w028"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 222,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_020",
+      "bai": 4,
+      "level": "understand",
+      "type": "reading_comprehension",
+      "question_vi": "Ý nào đúng với câu đầu tiên của đoạn đọc?",
+      "passage_zh": "师傅，请停车。 大使馆离这儿不远。 那位大使会说汉语。",
+      "passage_pinyin": "Shīfù, qǐng tíng chē.   dàshǐguǎn lí zhèr bù yuǎn.   nà wèi dàshǐ huì shuō hàn yǔ.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Bác tài, xin hãy dừng xe."
+        },
+        {
+          "id": "B",
+          "text": "Đại sứ quán không xa đây."
+        },
+        {
+          "id": "C",
+          "text": "Vị đại sứ ấy biết nói tiếng Trung."
+        },
+        {
+          "id": "D",
+          "text": "Tôi mang quà tới tặng giáo viên."
+        }
+      ],
+      "correct_option": "A",
+      "explanation": {
+        "why_correct": "Câu đầu “师傅，请停车。” có nghĩa là “Bác tài, xin hãy dừng xe.”.",
+        "why_others_wrong": {
+          "B": "Đây là nghĩa của câu “大使馆离这儿不远。”.",
+          "C": "Đây là nghĩa của câu “那位大使会说汉语。”.",
+          "D": "Đây là nội dung của ví dụ về 送."
+        },
+        "keyword_tip": "Chú ý từ khóa 师傅.",
+        "concept": "Đọc hiểu thông tin trực tiếp"
+      },
+      "related_glossary": [
+        "bai04_w034",
+        "bai04_w035",
+        "bai04_w036"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 233,
+        "context": "Các câu ví dụ của bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_021",
+      "bai": 4,
+      "level": "understand",
+      "type": "reading_comprehension",
+      "question_vi": "Trong ngữ cảnh bài, “快上来吧” có nghĩa gần nhất là gì?",
+      "passage_zh": "快上来吧。",
+      "passage_pinyin": "Kuài shànglái ba.",
+      "options": [
+        {
+          "id": "A",
+          "text": "tặng; đưa; tiễn"
+        },
+        {
+          "id": "B",
+          "text": "mau lên đây"
+        },
+        {
+          "id": "C",
+          "text": "họp"
+        },
+        {
+          "id": "D",
+          "text": "giảng dạy"
+        }
+      ],
+      "correct_option": "B",
+      "explanation": {
+        "why_correct": "Dùng khi gọi người khác di chuyển lên phía người nói.",
+        "why_others_wrong": {
+          "A": "Đây là nghĩa của 送, không phải mẫu câu 快上来吧.",
+          "C": "Đây là nghĩa của 开会, không phải mẫu câu 快上来吧.",
+          "D": "Đây là nghĩa của 教学, không phải mẫu câu 快上来吧."
+        },
+        "keyword_tip": "Gắn mẫu câu với ngữ cảnh: mau lên đây.",
+        "concept": "Đọc hiểu mẫu câu khẩu ngữ"
+      },
+      "related_glossary": [
+        "bai04_p001"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 1,
+        "context": "Mục 注释 hoặc bài khóa"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_022",
+      "bai": 4,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Vào học rồi, mau vào đây.",
+      "target_language": "zh",
+      "sample_answer": "上课了，快进来吧。",
+      "sample_answer_pinyin": "Shàng kè le, kuài jìn lái ba.",
+      "alternative_answers": [
+        "要上课了，快进来吧。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "了",
+          "pinyin": "Le",
+          "meaning": "rồi"
+        },
+        {
+          "zh": "上",
+          "pinyin": "Shàng",
+          "meaning": "từ khóa trong câu"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng cấu trúc: 动词 + 来/去.",
+        "Bắt đầu từ khóa “了”.",
+        "Giữ cụm “上” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "来 chỉ hướng về phía người nói hoặc sự vật đang được nhắc tới; 去 chỉ hướng rời xa phía đó. Tân ngữ chỉ nơi chốn đặt trước 来/去.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "了 → 上",
+        "concept": "Bổ ngữ xu hướng đơn"
+      },
+      "related_glossary": [
+        "bai04_g001"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 405,
+        "context": "Ví dụ ngữ pháp 简单趋向补语"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_023",
+      "bai": 4,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Tôi mang quà tới tặng giáo viên.",
+      "target_language": "zh",
+      "sample_answer": "我给老师送去礼物。",
+      "sample_answer_pinyin": "Wǒ gěi lǎoshī sòng qù lǐ wù.",
+      "alternative_answers": [
+        "给老师送去礼物。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "送",
+          "pinyin": "sòng",
+          "meaning": "tặng"
+        },
+        {
+          "zh": "老师",
+          "pinyin": "Lǎoshī",
+          "meaning": "giáo viên"
+        },
+        {
+          "zh": "我",
+          "pinyin": "Wǒ",
+          "meaning": "tôi"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng từ 送 (sòng).",
+        "Bắt đầu từ khóa “送”.",
+        "Giữ cụm “老师” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Câu dùng 送 đúng với nghĩa “tặng; đưa; tiễn”.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "送 → 老师 → 我",
+        "concept": "Vận dụng từ 送"
+      },
+      "related_glossary": [
+        "bai04_w001"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 87,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_024",
+      "bai": 4,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Các giáo viên đang họp.",
+      "target_language": "zh",
+      "sample_answer": "老师们正在开会。",
+      "sample_answer_pinyin": "Lǎoshī men zhèngzài kāihuì.",
+      "alternative_answers": [
+        "正在开会。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "开会",
+          "pinyin": "kāihuì",
+          "meaning": "họp"
+        },
+        {
+          "zh": "老师",
+          "pinyin": "Lǎoshī",
+          "meaning": "giáo viên"
+        },
+        {
+          "zh": "正在",
+          "pinyin": "Zhèngzài",
+          "meaning": "đang"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng từ 开会 (kāihuì).",
+        "Bắt đầu từ khóa “开会”.",
+        "Giữ cụm “老师” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Câu dùng 开会 đúng với nghĩa “họp”.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "开会 → 老师 → 正在",
+        "concept": "Vận dụng từ 开会"
+      },
+      "related_glossary": [
+        "bai04_w002"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 91,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 5,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_025",
+      "bai": 4,
+      "level": "synthesize",
+      "type": "translation_vi_to_zh",
+      "question_vi": "Dịch câu sau sang tiếng Trung:",
+      "source_sentence_vi": "Anh ấy phụ trách giảng dạy tiếng Trung.",
+      "target_language": "zh",
+      "sample_answer": "他负责汉语教学。",
+      "sample_answer_pinyin": "Tā fù zé hàn yǔ jiàoxué.",
+      "alternative_answers": [
+        "负责汉语教学。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "教学",
+          "pinyin": "jiàoxué",
+          "meaning": "giảng dạy"
+        },
+        {
+          "zh": "他",
+          "pinyin": "Tā",
+          "meaning": "anh ấy"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Dùng từ 教学 (jiàoxué).",
+        "Bắt đầu từ khóa “教学”.",
+        "Giữ cụm “他” đúng trật tự."
+      ],
+      "explanation": {
+        "why_correct": "Câu dùng 教学 đúng với nghĩa “giảng dạy”.",
+        "common_mistakes": [
+          "Bỏ từ khóa chính làm câu thiếu ý.",
+          "Đảo vị trí thành phần khiến cấu trúc không tự nhiên."
+        ],
+        "keyword_tip": "教学 → 他",
+        "concept": "Vận dụng từ 教学"
+      },
+      "related_glossary": [
+        "bai04_w003"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 99,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 5,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_026",
+      "bai": 4,
+      "level": "understand",
+      "type": "translation_zh_to_vi",
+      "question_vi": "Dịch câu sau sang tiếng Việt:",
+      "source_sentence_zh": "我们研讨教学方法。",
+      "source_sentence_pinyin": "Wǒmen yántǎo jiàoxué fāngfǎ.",
+      "target_language": "vi",
+      "sample_answer": "Chúng tôi thảo luận phương pháp giảng dạy.",
+      "alternative_answers": [
+        "Bọn tôi thảo luận phương pháp giảng dạy."
+      ],
+      "keywords_required": [
+        {
+          "vi": "giảng dạy",
+          "zh": "教学"
+        },
+        {
+          "vi": "nghiên cứu và thảo luận",
+          "zh": "研讨"
+        },
+        {
+          "vi": "chúng tôi; chúng ta",
+          "zh": "我们"
+        },
+        {
+          "vi": "phương pháp",
+          "zh": "方法"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "研讨 = nghiên cứu và thảo luận.",
+        "Chú ý trật tự cụm “教学”."
+      ],
+      "explanation": {
+        "why_correct": "Bản dịch giữ đúng nghĩa của 研讨 và nội dung câu nguồn.",
+        "common_mistakes": [
+          "Dịch từng chữ khiến câu tiếng Việt thiếu tự nhiên.",
+          "Bỏ mất thông tin thời gian hoặc mức độ."
+        ],
+        "keyword_tip": "giảng dạy → nghiên cứu và thảo luận → chúng tôi; chúng ta → phương pháp",
+        "concept": "Đọc hiểu từ 研讨"
+      },
+      "related_glossary": [
+        "bai04_w004",
+        "bai04_w003"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 115,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_027",
+      "bai": 4,
+      "level": "understand",
+      "type": "translation_zh_to_vi",
+      "question_vi": "Dịch câu sau sang tiếng Việt:",
+      "source_sentence_zh": "他向老师问好。",
+      "source_sentence_pinyin": "Tā xiàng lǎoshī wènhǎo.",
+      "target_language": "vi",
+      "sample_answer": "Anh ấy gửi lời hỏi thăm thầy giáo.",
+      "alternative_answers": [
+        "Anh ta gửi lời hỏi thăm thầy giáo."
+      ],
+      "keywords_required": [
+        {
+          "vi": "hỏi thăm",
+          "zh": "问好"
+        },
+        {
+          "vi": "hướng về",
+          "zh": "向"
+        },
+        {
+          "vi": "giáo viên",
+          "zh": "老师"
+        },
+        {
+          "vi": "anh ấy",
+          "zh": "他"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "向 = hướng về; đối với.",
+        "Chú ý trật tự cụm “问好”."
+      ],
+      "explanation": {
+        "why_correct": "Bản dịch giữ đúng nghĩa của 向 và nội dung câu nguồn.",
+        "common_mistakes": [
+          "Dịch từng chữ khiến câu tiếng Việt thiếu tự nhiên.",
+          "Bỏ mất thông tin thời gian hoặc mức độ."
+        ],
+        "keyword_tip": "hỏi thăm → hướng về → giáo viên → anh ấy",
+        "concept": "Đọc hiểu từ 向"
+      },
+      "related_glossary": [
+        "bai04_w007",
+        "bai04_w008"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 121,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 3,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_028",
+      "bai": 4,
+      "level": "recall",
+      "type": "typing_zh_from_pinyin",
+      "question_vi": "Gõ chữ Hán tương ứng với pinyin và nghĩa sau:",
+      "pinyin": "yántǎohuì",
+      "meaning_vi": "hội thảo",
+      "meaning_en": "seminar; symposium",
+      "sample_answer": "研讨会",
+      "alternative_answers": [],
+      "keywords_required": [
+        {
+          "zh": "研讨会",
+          "pinyin": "yántǎohuì",
+          "meaning": "hội thảo"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Từ gồm 3 chữ Hán.",
+        "Ví dụ trong bài: 你不是到台湾开汉语教学研讨会去了吗？"
+      ],
+      "explanation": {
+        "why_correct": "研讨会 đọc là yántǎohuì và nghĩa là hội thảo.",
+        "common_mistakes": [
+          "Gõ đúng âm nhưng chọn nhầm chữ đồng âm.",
+          "Bỏ dấu thanh khi ghi nhớ pinyin."
+        ],
+        "keyword_tip": "Liên hệ 研讨会 với câu ví dụ trong bài.",
+        "concept": "Nhận diện chữ Hán từ pinyin"
+      },
+      "related_glossary": [
+        "bai04_w005"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 117,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_029",
+      "bai": 4,
+      "level": "recall",
+      "type": "typing_zh_from_pinyin",
+      "question_vi": "Gõ chữ Hán tương ứng với pinyin và nghĩa sau:",
+      "pinyin": "zhǎnlǎnguǎn",
+      "meaning_vi": "nhà triển lãm",
+      "meaning_en": "exhibition hall",
+      "sample_answer": "展览馆",
+      "alternative_answers": [],
+      "keywords_required": [
+        {
+          "zh": "展览馆",
+          "pinyin": "zhǎnlǎnguǎn",
+          "meaning": "nhà triển lãm"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Từ gồm 3 chữ Hán.",
+        "Ví dụ trong bài: 展览馆里有很多文物。"
+      ],
+      "explanation": {
+        "why_correct": "展览馆 đọc là zhǎnlǎnguǎn và nghĩa là nhà triển lãm.",
+        "common_mistakes": [
+          "Gõ đúng âm nhưng chọn nhầm chữ đồng âm.",
+          "Bỏ dấu thanh khi ghi nhớ pinyin."
+        ],
+        "keyword_tip": "Liên hệ 展览馆 với câu ví dụ trong bài.",
+        "concept": "Nhận diện chữ Hán từ pinyin"
+      },
+      "related_glossary": [
+        "bai04_w020"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 45,
+        "context": "Mục 生词"
+      },
+      "difficulty_score": 2,
+      "confidence": "high",
+      "note": null
+    },
+    {
+      "id": "quiz_bai04_030",
+      "bai": 4,
+      "level": "apply",
+      "type": "sentence_reorder",
+      "question_vi": "Sắp xếp các phần sau thành câu đúng:",
+      "shuffled_parts": [
+        "教学",
+        "方法",
+        "我们",
+        "研讨"
+      ],
+      "sample_answer": "我们研讨教学方法。",
+      "sample_answer_pinyin": "Wǒmen yántǎo jiàoxué fāngfǎ.",
+      "alternative_answers": [
+        "研讨教学方法。"
+      ],
+      "keywords_required": [
+        {
+          "zh": "教学",
+          "pinyin": "jiàoxué",
+          "meaning": "giảng dạy"
+        },
+        {
+          "zh": "研讨",
+          "pinyin": "yántǎo",
+          "meaning": "nghiên cứu và thảo luận"
+        },
+        {
+          "zh": "我们",
+          "pinyin": "Wǒmen",
+          "meaning": "chúng tôi; chúng ta"
+        },
+        {
+          "zh": "方法",
+          "pinyin": "Fāngfǎ",
+          "meaning": "phương pháp"
+        }
+      ],
+      "keywords_optional": [],
+      "hints": [
+        "Đặt 研讨 đúng vị trí trong câu.",
+        "Ý tiếng Việt: Chúng tôi thảo luận phương pháp giảng dạy.",
+        "Xác định chủ ngữ hoặc chủ đề trước."
+      ],
+      "explanation": {
+        "why_correct": "Câu mẫu sắp xếp các thành phần theo đúng trật tự ngữ pháp và giữ nguyên nghĩa nguồn.",
+        "common_mistakes": [
+          "Đặt bổ ngữ trước động từ không đúng cấu trúc.",
+          "Đưa trợ từ sang sai vị trí."
+        ],
+        "keyword_tip": "教学 → 研讨 → 我们 → 方法",
+        "concept": "Trật tự câu với 研讨"
+      },
+      "related_glossary": [
+        "bai04_w003",
+        "bai04_w004"
+      ],
+      "source": {
+        "bai": 4,
+        "source_line": 115,
+        "context": "Câu ví dụ từ vựng trong bài"
+      },
+      "difficulty_score": 4,
+      "confidence": "high",
+      "note": null
+    }
+  ]
+}
