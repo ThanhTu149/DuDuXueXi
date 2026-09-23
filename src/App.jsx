@@ -731,13 +731,39 @@ const questionIsMcq = (q) => !TYPING_TYPES.has(q.type);
 
 function QuestionPrompt({ question }) {
   if (!question) return null;
+  const sourceVi = question.source_sentence_vi || question.sentence_vi || question.prompt_sentence_vi;
+  const sourceZh = question.source_sentence_zh || question.sentence_zh || question.prompt_sentence_zh;
+  const promptError = question.type === 'translation_vi_to_zh' && !sourceVi ? 'Câu hỏi này đang thiếu câu nguồn tiếng Việt.'
+    : question.type === 'translation_zh_to_vi' && !sourceZh ? 'Câu hỏi này đang thiếu câu nguồn tiếng Trung.'
+      : question.type === 'typing_zh_from_pinyin' && (!question.pinyin || !question.meaning_vi) ? 'Câu hỏi này đang thiếu pinyin hoặc nghĩa tiếng Việt.'
+        : question.type === 'sentence_reorder' && !question.shuffled_parts?.length ? 'Câu hỏi này đang thiếu các phần câu cần sắp xếp.' : '';
   return (
     <div className="mb-6 text-center">
       <p className="text-sm font-bold uppercase tracking-widest text-text-muted mb-3">{TYPE_LABELS[question.type] || question.type}</p>
-      {question.source_sentence_zh && (
-        <p className="text-xl font-bold mb-2">{question.source_sentence_zh}</p>
-      )}
       <p className="text-2xl font-bold text-text-primary">{question.question_vi || question.question_zh}</p>
+      {sourceVi && (
+        <div className="mx-auto mt-5 max-w-2xl rounded-lg border border-accent/30 bg-accent-subtle px-5 py-4" aria-label="Câu tiếng Việt cần dịch">
+          <p className="text-lg font-semibold leading-8 text-text-primary">{sourceVi}</p>
+        </div>
+      )}
+      {sourceZh && (
+        <div className="mx-auto mt-5 max-w-2xl rounded-lg border border-accent-2/30 bg-accent-2-subtle px-5 py-4" aria-label="Câu tiếng Trung cần dịch">
+          <p className="font-hanzi text-xl font-semibold leading-8 text-text-primary">{sourceZh}</p>
+          {question.source_sentence_pinyin && <p className="pinyin-text mt-2 text-sm text-text-muted">{question.source_sentence_pinyin}</p>}
+        </div>
+      )}
+      {question.type === 'typing_zh_from_pinyin' && (
+        <div className="mx-auto mt-5 grid max-w-xl gap-3 rounded-lg border border-border bg-bg-tertiary p-4 text-left sm:grid-cols-2">
+          <p><span className="block text-xs font-bold uppercase tracking-wider text-text-muted">Pinyin</span><span className="pinyin-text mt-1 block text-lg font-semibold text-accent">{question.pinyin || 'Chưa có dữ liệu'}</span></p>
+          <p><span className="block text-xs font-bold uppercase tracking-wider text-text-muted">Nghĩa tiếng Việt</span><span className="mt-1 block font-semibold">{question.meaning_vi || 'Chưa có dữ liệu'}</span></p>
+        </div>
+      )}
+      {question.type === 'sentence_reorder' && (
+        <div className="mx-auto mt-5 flex max-w-2xl flex-wrap justify-center gap-2" aria-label="Các phần câu cần sắp xếp">
+          {(question.shuffled_parts || []).map((part, index) => <span key={`${part}-${index}`} className="rounded-md border border-border-strong bg-bg-secondary px-3 py-2 font-hanzi text-lg font-semibold shadow-xs">{part}</span>)}
+        </div>
+      )}
+      {promptError && <p role="alert" className="mx-auto mt-5 max-w-2xl rounded-lg border border-error bg-error-subtle p-4 text-sm font-semibold text-error">{promptError} Hãy sửa câu hỏi trước khi tiếp tục.</p>}
     </div>
   );
 }
@@ -780,6 +806,11 @@ function McqOptions({ question, selected, result, onSelect }) {
 function TypingInput({ question, value, onChange, onCheck, result }) {
   const textareaRef = useRef(null);
   const useKeyboard = ['translation_vi_to_zh', 'typing_zh_from_pinyin'].includes(question.type);
+  const placeholder = question.type === 'translation_zh_to_vi' ? 'Gõ câu tiếng Việt...' : question.type === 'sentence_reorder' ? 'Gõ câu theo đúng thứ tự...' : 'Gõ chữ Hán...';
+  const promptMissing = question.type === 'translation_vi_to_zh' ? !(question.source_sentence_vi || question.sentence_vi || question.prompt_sentence_vi)
+    : question.type === 'translation_zh_to_vi' ? !(question.source_sentence_zh || question.sentence_zh || question.prompt_sentence_zh)
+      : question.type === 'typing_zh_from_pinyin' ? !question.pinyin || !question.meaning_vi
+        : question.type === 'sentence_reorder' ? !question.shuffled_parts?.length : false;
   return (
     <div>
       <textarea
@@ -787,12 +818,12 @@ function TypingInput({ question, value, onChange, onCheck, result }) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={!!result}
-        placeholder="Nhập câu trả lời của bạn..."
+        placeholder={placeholder}
         className={`w-full min-h-[120px] resize-none rounded-xl border p-4 font-bold outline-none transition ${result ? (result.isCorrect ? 'border-success bg-success-subtle text-success' : 'border-error bg-error-subtle text-error') : 'border-border bg-bg-secondary focus:border-accent focus:ring-2 focus:ring-accent-subtle'}`}
       />
       {!result && useKeyboard && <VirtualKeyboard textareaRef={textareaRef} value={value} onChange={onChange} />}
       {!result && (
-        <button onClick={onCheck} disabled={!value.trim()} className="btn-primary mt-4 w-full disabled:cursor-not-allowed disabled:opacity-40">Kiểm tra</button>
+        <button onClick={onCheck} disabled={!value.trim() || promptMissing} className="btn-primary mt-4 w-full disabled:cursor-not-allowed disabled:opacity-40">Kiểm tra</button>
       )}
     </div>
   );

@@ -59,7 +59,13 @@ export async function updateQuestionInCourse(courseId, questionId, values) {
   if (!updated.question_vi?.trim()) throw new Error('Cần câu hỏi tiếng Việt.');
   if (Array.isArray(updated.options)) {
     if (updated.options.length < 2 || updated.options.some((option) => !option.text?.trim()) || new Set(updated.options.map((option) => option.id)).size !== updated.options.length || !updated.options.some((option) => option.id === updated.correct_option)) throw new Error('Cần ít nhất hai lựa chọn khác rỗng và một đáp án đúng.');
-  } else if (!updated.sample_answer?.trim()) throw new Error('Câu gõ cần đáp án mẫu.');
+  } else {
+    if (!updated.sample_answer?.trim()) throw new Error('Câu gõ cần đáp án mẫu.');
+    if (updated.type === 'translation_vi_to_zh' && !updated.source_sentence_vi?.trim()) throw new Error('Câu dịch Việt sang Trung cần câu nguồn tiếng Việt.');
+    if (updated.type === 'translation_zh_to_vi' && !updated.source_sentence_zh?.trim()) throw new Error('Câu dịch Trung sang Việt cần câu nguồn tiếng Trung.');
+    if (updated.type === 'typing_zh_from_pinyin' && (!updated.pinyin?.trim() || !updated.meaning_vi?.trim())) throw new Error('Câu gõ chữ Hán cần pinyin và nghĩa tiếng Việt.');
+    if (updated.type === 'sentence_reorder' && !updated.shuffled_parts?.some((part) => String(part).trim())) throw new Error('Câu sắp xếp cần các phần câu.');
+  }
   chapter.quiz.questions[index] = updated;
   await saveCourse({ ...course, chapters });
   return updated;
