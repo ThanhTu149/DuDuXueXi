@@ -1923,8 +1923,8 @@ function CharacterDetailModal({ detail, onClose }) {
  const examples = [...new Set(compounds.map((item) => item.example_zh).filter(Boolean))].slice(0, 4);
  return (
  <div className="fixed inset-0 z-[90] flex items-center justify-center bg-slate-950/60 p-6 backdrop-blur-sm" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
- <section className="max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-lg border border-white/50 bg-bg-secondary p-6 shadow-lg dark:border-border-strong dark:bg-bg-secondary">
- <header className="flex items-start justify-between gap-4 border-b border-border pb-5 dark:border-border-strong">
+ <section className="animate-modal-in max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-xl border border-border bg-bg-secondary p-6 shadow-xl">
+ <header className="flex items-start justify-between gap-4 border-b border-border pb-5">
  <div className="flex items-center gap-5"><span className="text-7xl font-bold leading-none">{char}</span><div><p className="text-xl font-bold text-error">{exact?.pinyin || 'Chưa có pinyin riêng'}</p><p className="mt-2 font-bold">{entryMeaning(exact || {}) || 'Xem các từ ghép bên dưới'}</p></div><SpeakButton text={char} className="h-10 w-10" /></div>
  <button onClick={onClose} className="grid h-10 w-10 place-items-center rounded-lg bg-bg-tertiary text-xl font-bold " aria-label="Đóng chi tiết chữ Hán">×</button>
  </header>
@@ -2010,22 +2010,32 @@ function GlossaryModal({ entry, onClose, onOpenEntry, bookmarks = [], onToggleBo
 }
 
 function AchievementToast({ badge, onClose }) {
+ const isAchievement = !!(badge?.id && PROFILE_BADGE_ICONS[badge.id]);
  useEffect(() => {
- if (!badge) return undefined;
- sounds.achievement();
- const timer = setTimeout(onClose, 5000);
- return () => clearTimeout(timer);
- }, [badge, onClose]);
+  if (!badge) return undefined;
+  if (isAchievement) sounds.achievement();
+  const timer = setTimeout(onClose, isAchievement ? 5000 : 3500);
+  return () => clearTimeout(timer);
+ }, [badge, onClose, isAchievement]);
  if (!badge) return null;
- const BadgeIcon = PROFILE_BADGE_ICONS[badge.id] || Icon.Star;
+ const BadgeIcon = isAchievement ? (PROFILE_BADGE_ICONS[badge.id] || Icon.Star) : null;
+ const iconStr = String(badge.icon || '');
+ const isError = iconStr === '!';
+ const iconBg = isAchievement ? 'bg-warning-subtle text-warning' : isError ? 'bg-error-subtle text-error' : 'bg-accent-subtle text-accent';
  return (
- <div className="pointer-events-none fixed right-4 top-20 z-[110] sm:right-6" role="status" aria-live="polite">
- <div className="animate-toast-in pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-xl border border-border bg-bg-secondary p-4 shadow-md">
- <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-warning-subtle text-warning"><BadgeIcon className="h-5 w-5"/></span>
- <div className="min-w-0 flex-1"><p className="text-xs font-semibold uppercase text-text-muted">Thành tựu mới</p><h2 className="font-semibold text-accent">{badge.title}</h2><p className="text-sm text-text-secondary">{badge.description}</p></div>
- <button onClick={onClose} className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-bg-tertiary text-text-muted hover:bg-border" aria-label="Đóng thông báo"><Icon.X className="h-3.5 w-3.5" /></button>
- </div>
- </div>
+  <div className="pointer-events-none fixed right-4 top-20 z-[110] sm:right-6" role="status" aria-live="polite">
+  <div className="animate-toast-in pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-xl border border-border bg-bg-secondary p-4 shadow-md">
+  <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-lg text-lg ${iconBg}`} aria-hidden="true">
+   {isAchievement ? <BadgeIcon className="h-5 w-5" /> : iconStr}
+  </span>
+  <div className="min-w-0 flex-1">
+   {isAchievement && <p className="text-xs font-bold uppercase tracking-wide text-text-muted">Thành tựu mới 🏆</p>}
+   <p className={`font-bold leading-snug ${isAchievement ? 'text-accent' : 'text-text-primary'}`}>{badge.title}</p>
+   {badge.description && <p className="mt-0.5 text-sm text-text-secondary">{badge.description}</p>}
+  </div>
+  <button onClick={onClose} className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-bg-tertiary text-text-muted hover:bg-border" aria-label="Đóng thông báo"><Icon.X className="h-3.5 w-3.5" /></button>
+  </div>
+  </div>
  );
 }
 
