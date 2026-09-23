@@ -564,3 +564,22 @@
 .typing-placeholder::placeholder {
   position: relative;
 }
+
+/* Batch 2 additions */
+/* Better skeleton shimmer - gradient sweep instead of simple pulse */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.animate-pulse {
+  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-secondary) 50%, var(--bg-tertiary) 75%) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer 1.5s ease-in-out infinite !important;
+}
+
+/* Card reveal slide-up for SRS and list items */
+@keyframes card-reveal {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+.animate-card-reveal { animation: card-reveal 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }

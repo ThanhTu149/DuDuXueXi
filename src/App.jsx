@@ -829,19 +829,33 @@ function TypingInput({ question, value, onChange, onCheck, result }) {
   );
 }
 
-function FeedbackPanel({ question, result, userAnswer, onNext, onOpenEntry, onEditQuestion, nextLabel }) {
+function FeedbackPanel({ question, result, userAnswer, onNext, onOpenEntry, onEditQuestion, nextLabel, xpGained }) {
   const isCorrect = result.isCorrect;
   const explanation = typeof question.explanation === 'string' ? question.explanation : question.explanation?.why_correct;
+  const [showXp, setShowXp] = useState(false);
+  useEffect(() => {
+    if (xpGained && isCorrect) { setShowXp(true); const t = setTimeout(() => setShowXp(false), 1000); return () => clearTimeout(t); }
+  }, [xpGained, isCorrect]);
   return (
-    <div className={`mt-6 rounded-xl border p-5 ${isCorrect ? 'border-success bg-success-subtle' : 'border-error bg-error-subtle'}`}>
+    <div className={`animate-fade-slide mt-6 rounded-xl border p-5 ${isCorrect ? 'border-success bg-success-subtle' : 'border-error bg-error-subtle'}`}>
       <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
-        <div>
-          <h3 role="status" aria-live="polite" className={`text-xl font-bold flex items-center gap-2 ${isCorrect ? 'text-success' : 'text-error'}`}>
-            {isCorrect ? 'Chính xác!' : 'Chưa chính xác'}
-            {!questionIsMcq(question) && <span className="text-base">· {result.score}/100</span>}
-          </h3>
-          <p className="mt-1 text-sm text-text-secondary">{isCorrect ? 'Trúc: Làm tốt lắm, giữ nhịp này nhé.' : 'Băng: Không sao, xem lại một chút rồi mình làm tiếp.'}</p>
-          
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl" aria-hidden="true">{isCorrect ? '🐼' : '🐧'}</span>
+            <h3 role="status" aria-live="assertive" className={`text-xl font-bold ${isCorrect ? 'text-success' : 'text-error'}`}>
+              {isCorrect ? 'Chính xác!' : 'Chưa chính xác'}
+              {!questionIsMcq(question) && <span className="ml-2 text-base">· {result.score}/100</span>}
+            </h3>
+            {showXp && xpGained && (
+              <span className="relative inline-block" aria-hidden="true">
+                <span className="animate-xp-float absolute -top-1 left-0 text-sm font-bold text-warning">+{xpGained} XP</span>
+              </span>
+            )}
+          </div>
+          <p className="mt-1 text-sm text-text-secondary">
+            {isCorrect ? 'Trúc: Làm tốt lắm, giữ nhịp này nhé! 🎋' : 'Băng: Không sao, xem lại một chút rồi mình làm tiếp. ❄️'}
+          </p>
+
           {!isCorrect && (
             <div className="mt-3">
               <p className="text-sm font-bold text-text-muted">Đáp án đúng:</p>
@@ -850,17 +864,19 @@ function FeedbackPanel({ question, result, userAnswer, onNext, onOpenEntry, onEd
               </p>
             </div>
           )}
-          
+
           {explanation && (
             <p className="mt-3 text-sm font-medium text-text-primary">{explanation}</p>
           )}
           {(question.explanation?.keyword_tip || question.explanation?.common_mistakes?.length || question.explanation?.why_others_wrong || question.related_glossary?.length) && <details className="mt-3 text-sm text-text-secondary"><summary className="cursor-pointer font-semibold text-accent">Xem giải thích chi tiết</summary>{question.explanation?.keyword_tip && <p className="mt-2"><strong>Ghi nhớ:</strong> {question.explanation.keyword_tip}</p>}{question.explanation?.common_mistakes?.map((mistake, index) => <p key={index} className="mt-1">{mistake}</p>)}{Object.entries(question.explanation?.why_others_wrong || {}).map(([option, reason]) => <p key={option} className="mt-1">{option}: {reason}</p>)}{question.related_glossary?.length > 0 && <div className="mt-3 flex flex-wrap gap-2">{question.related_glossary.map((id) => { const entry = ALL_GLOSSARY_ENTRIES.find((item) => item.id === id); return entry ? <button key={id} onClick={() => onOpenEntry?.(entry)} className="rounded-md bg-bg-secondary px-2 py-1 text-xs font-bold text-accent">{entryTitle(entry)}</button> : null; })}</div>}</details>}
         </div>
-        
-        {onEditQuestion && <button onClick={() => onEditQuestion(question)} className="btn-secondary">Sửa câu hỏi</button>}
-        <button onClick={onNext} className={`w-full sm:w-auto shrink-0 rounded-lg px-6 py-3 font-bold text-white transition hover:-translate-y-0.5 ${isCorrect ? 'bg-success' : 'bg-error'}`}>
-          {nextLabel}
-        </button>
+
+        <div className="flex shrink-0 gap-2">
+          {onEditQuestion && <button onClick={() => onEditQuestion(question)} className="btn-secondary">Sửa câu hỏi</button>}
+          <button onClick={onNext} className={`rounded-xl px-6 py-3 font-bold text-white transition hover:-translate-y-0.5 active:translate-y-0 ${isCorrect ? 'bg-success hover:bg-success/90' : 'bg-error hover:bg-error/90'}`}>
+            {nextLabel}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -936,16 +952,22 @@ function QuizScreen({ session, progress, onAnswer, onFinish, onExit, onOpenEntry
     const correct = summary.filter((item) => item.isCorrect).length;
     const average = summary.length ? Math.round(summary.reduce((sum, item) => sum + item.score, 0) / summary.length) : 0;
     const isPerfect = correct === questions.length;
+    const isGood = correct / questions.length >= 0.7;
     return (
       <div className="mx-auto max-w-xl text-center">
-        {isPerfect && <Confetti />}
-        <div className="mx-auto grid h-20 w-20 place-items-center rounded-lg bg-success-subtle display-text dark:bg-success-subtle">✨</div>
-        <h1 className="mt-5 h1-text font-bold">Hoàn thành lượt luyện</h1>
-        <p className="mt-2 text-text-muted">{correct}/{questions.length} câu đạt | điểm trung bình {average}</p>
+        {(isPerfect || isGood) && <Confetti />}
+        <div className={`mx-auto grid h-20 w-20 place-items-center rounded-xl text-5xl ${isPerfect ? 'bg-warning-subtle' : isGood ? 'bg-success-subtle' : 'bg-error-subtle'}`}>
+          {isPerfect ? '🏆' : isGood ? '✨' : '📚'}
+        </div>
+        <h1 className="mt-5 h1-text font-bold">{isPerfect ? 'Hoàn hảo!' : isGood ? 'Làm tốt lắm!' : 'Tiếp tục cố lên!'}</h1>
+        <p className="mt-2 text-text-muted">{correct}/{questions.length} câu đạt · điểm trung bình {average}</p>
+        <p className="mt-1 text-sm text-text-secondary">
+          {isPerfect ? '🐼 Trúc tự hào về bạn lắm!' : isGood ? '🐼 Trúc: Giỏi, giữ đà này nhé!' : '🐧 Băng: Không sao, ôn lại rồi thử lần nữa nhé!'}
+        </p>
         <div className="mt-6 grid grid-cols-3 gap-2">
           <StatBox label="Đạt" value={correct} tone="mint" />
           <StatBox label="Cần ôn" value={questions.length - correct} tone="rose" />
-          <StatBox label="XP" value={progress.xp} tone="amber" />
+          <StatBox label="TB điểm" value={average} tone="amber" />
         </div>
         <button onClick={onExit} className="btn-primary mt-6 w-full">Về lộ trình</button>
       </div>
@@ -1860,7 +1882,7 @@ function SentenceChineseLine({ sentence, entries, onCharacter }) {
  const match = terms.find((entry) => sentence.startsWith(entry.word_zh, cursor));
  if (match) {
  nodes.push(
- <span key={`${cursor}-${match.id}`} className="rounded bg-error-subtle px-0.5 font-bold text-error underline decoration-rose-200 decoration-2 underline-offset-4 dark: dark:text-error">
+ <span key={`${cursor}-${match.id}`} className="rounded bg-error-subtle px-0.5 font-bold text-error underline decoration-rose-200 decoration-2 underline-offset-4">
  <ClickableHanzi text={match.word_zh} entry={match} onCharacter={onCharacter} />
  </span>
  );
@@ -1959,16 +1981,25 @@ function StatBox({ label, value, tone }) {
  return <div className={`rounded-lg p-4 text-center ${tones[tone]}`}><p className="h2-text font-bold">{value}</p><p className="mt-1 text-xs font-bold uppercase tracking-wider opacity-70">{label}</p></div>;
 }
 
-function EmptyState({ title, text, mascot = 'panda', action, secondaryAction }) {
- return <div className="px-4 py-16 text-center"><div className="mx-auto grid h-20 w-20 place-items-center rounded-md bg-accent-subtle"><Mascot type={mascot} size="md" /></div><h2 className="mt-4 font-serif text-xl font-semibold">{title}</h2><p className="mx-auto mt-2 max-w-sm text-sm text-text-secondary">{text}</p>{(action || secondaryAction) && <div className="mt-6 flex justify-center gap-3">{action}{secondaryAction}</div>}</div>;
+function EmptyState({ title, text, mascot = 'panda', icon, action, secondaryAction }) {
+ return <div className="animate-fade-slide px-4 py-16 text-center">
+   <div className="mx-auto grid h-20 w-20 place-items-center rounded-xl bg-accent-subtle text-4xl">
+     {icon ? <span aria-hidden="true">{icon}</span> : <Mascot type={mascot} size="md" />}
+   </div>
+   <h2 className="mt-5 font-serif text-xl font-semibold text-text-primary">{title}</h2>
+   <p className="mx-auto mt-2 max-w-sm text-sm text-text-secondary leading-relaxed">{text}</p>
+   {(action || secondaryAction) && <div className="mt-6 flex justify-center gap-3">{action}{secondaryAction}</div>}
+ </div>;
 }
 
 function GlossaryModal({ entry, onClose, onOpenEntry, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter, onEditWord }) {
+ const trapRef = useFocusTrap(!!entry);
+ useEffect(() => { if (!entry) return undefined; const k = (e) => { if (e.key === "Escape") onClose(); }; window.addEventListener("keydown", k); return () => window.removeEventListener("keydown", k); }, [entry, onClose]);
  if (!entry) return null;
  const openRelated = (id) => { const target = ALL_GLOSSARY_ENTRIES.find((item) => item.id === id); if (target) onOpenEntry(target); };
  return (
  <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/55 p-0 sm:items-center sm:p-4" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
- <div className="max-h-[88vh] w-full max-w-xl overflow-y-auto rounded-t-lg bg-bg-primary p-4 shadow-lg sm:rounded-lg sm:p-6">
+ <div className="animate-modal-in max-h-[88vh] w-full max-w-xl overflow-y-auto rounded-t-xl bg-bg-primary p-4 shadow-lg sm:rounded-xl sm:p-6" ref={trapRef} role="dialog" aria-modal="true">
  <div className="mb-4 flex items-center justify-between gap-3"><p className="text-xs font-bold uppercase tracking-wider text-text-muted">Bài {entry.bai} · {entry.type}</p><button onClick={onClose} className="grid h-9 w-9 place-items-center rounded-lg bg-bg-secondary text-lg font-bold shadow-sm dark:bg-bg-secondary" aria-label="Đóng">×</button></div>
  {entry.type === 'word' && <WordCard entry={entry} onRelated={openRelated} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} onCharacter={onCharacter} onEdit={onEditWord} />}
  {entry.type === 'grammar' && <GrammarCard entry={entry} onRelated={openRelated} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} onCharacter={onCharacter} />}
@@ -1988,11 +2019,11 @@ function AchievementToast({ badge, onClose }) {
  if (!badge) return null;
  const BadgeIcon = PROFILE_BADGE_ICONS[badge.id] || Icon.Star;
  return (
- <div className="pointer-events-none fixed inset-x-4 top-20 z-[110] flex justify-end animate-fade-slide sm:right-6 sm:left-auto" role="status" aria-live="polite">
- <div className="pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-md border border-border bg-bg-secondary p-4 shadow-lg">
+ <div className="pointer-events-none fixed right-4 top-20 z-[110] sm:right-6" role="status" aria-live="polite">
+ <div className="animate-toast-in pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-xl border border-border bg-bg-secondary p-4 shadow-md">
  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-warning-subtle text-warning"><BadgeIcon className="h-5 w-5"/></span>
  <div className="min-w-0 flex-1"><p className="text-xs font-semibold uppercase text-text-muted">Thành tựu mới</p><h2 className="font-semibold text-accent">{badge.title}</h2><p className="text-sm text-text-secondary">{badge.description}</p></div>
- <button onClick={onClose} className="icon-action shrink-0 rounded-md p-1 text-text-muted" aria-label="Đóng thông báo" data-tooltip="Đóng">×</button>
+ <button onClick={onClose} className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-bg-tertiary text-text-muted hover:bg-border" aria-label="Đóng thông báo"><Icon.X className="h-3.5 w-3.5" /></button>
  </div>
  </div>
  );
