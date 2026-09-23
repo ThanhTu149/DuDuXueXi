@@ -258,10 +258,12 @@ export async function isMigrationDone() {
 
 export async function migrateBuiltInCourse() {
   if (!migrationPromise) {
-    migrationPromise = import('./migration.js').then(({ migrateLegacyData }) => migrateLegacyData()).catch((error) => {
-      migrationPromise = undefined;
-      throw error;
-    });
+    migrationPromise = import('./migration.js').then(({ migrateLegacyData }) => migrateLegacyData());
   }
-  return migrationPromise;
+  const activeMigration = migrationPromise;
+  try {
+    return await activeMigration;
+  } finally {
+    if (migrationPromise === activeMigration) migrationPromise = undefined;
+  }
 }

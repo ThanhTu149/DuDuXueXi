@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-const [css, app, search, importer] = await Promise.all([
+const [css, app, search, importer, dialogHook, buildScript] = await Promise.all([
   readFile('src/index.css', 'utf8'),
   readFile('src/App.jsx', 'utf8'),
   readFile('src/components/GlobalCourseSearch.jsx', 'utf8'),
   readFile('src/screens/ImportScreen.jsx', 'utf8'),
+  readFile('src/lib/useDialogA11y.js', 'utf8'),
+  readFile('scripts/build.mjs', 'utf8'),
 ]);
 
 const hexToRgb = (hex) => hex.match(/[a-f\d]{2}/gi).map((part) => Number.parseInt(part, 16) / 255);
@@ -34,7 +36,13 @@ assert.match(search, /dudu-recent-commands/);
 assert.match(search, /event\.key !== 'Tab'/);
 assert.match(importer, /onDrop=/);
 assert.match(importer, /onDragOver=/);
+assert.match(dialogHook, /event\.key === 'Escape'/);
+assert.match(dialogHook, /event\.key !== 'Tab'/);
+assert.match(dialogHook, /document\.body\.style\.overflow = 'hidden'/);
+assert.match(app, /role="progressbar"/);
+assert.doesNotMatch(app, /transition-all/);
+assert.match(buildScript, /lesson-\$\{lesson\[1\]\}/);
 const toast = app.slice(app.indexOf('function AchievementToast'), app.indexOf('function Confetti'));
 assert.doesNotMatch(toast, /fixed inset-0/);
 
-console.log('UX static OK: contrast AA, reduced motion, lazy-load, keyboard palette, Focus Mode và kéo-thả.');
+console.log('UX static OK: contrast AA, reduced motion, focus trap, ARIA progress, code splitting, keyboard palette và kéo-thả.');

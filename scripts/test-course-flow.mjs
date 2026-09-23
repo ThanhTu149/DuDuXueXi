@@ -94,6 +94,7 @@ try {
     const card = [...document.querySelectorAll('article')].find((item) => item.textContent.includes('Hán Ngữ Tập 2'));
     [...card.querySelectorAll('button')].find((button) => button.textContent.trim() === 'Mở').click();
   });
+  await page.waitForFunction(async () => (await (await import('/src/lib/db.js')).getSettings()).activeCourseId === 'hanngu-tap2');
   await page.waitForFunction(() => document.querySelector('main')?.textContent.includes('427') || document.querySelector('main')?.textContent.includes('Bài học gần đây'));
   const switched = await page.evaluate(async () => ({ settings: await (await import('/src/lib/db.js')).getSettings(), lessons: Object.keys((await import('/src/data-loader.js')).GLOSSARY).length }));
   assert.equal(switched.settings.activeCourseId, 'hanngu-tap2');
@@ -124,9 +125,9 @@ try {
   });
   assert.equal(tamperRejected, true);
   await page.evaluate(() => [...document.querySelectorAll('header button')].find((button) => button.textContent.includes('Tìm từ vựng'))?.click());
-  await page.waitForSelector('[role="dialog"][aria-label="Tìm kiếm"]');
-  await page.select('[role="dialog"][aria-label="Tìm kiếm"] select', 'all');
-  await page.type('[role="dialog"][aria-label="Tìm kiếm"] input', '你好');
+  await page.waitForSelector('[role="dialog"][aria-label="Tìm kiếm và lệnh"]');
+  await page.select('[role="dialog"][aria-label="Tìm kiếm và lệnh"] select', 'all');
+  await page.type('[role="dialog"][aria-label="Tìm kiếm và lệnh"] input', '你好');
   await page.waitForFunction(() => [...document.querySelectorAll('[role="dialog"] button')].some((button) => button.textContent.includes('Khóa thử')));
   await page.evaluate(() => [...document.querySelectorAll('[role="dialog"] button')].find((button) => button.textContent.includes('Khóa thử') && !button.textContent.includes('(nhập)'))?.click());
   await page.waitForFunction(async () => (await (await import('/src/lib/db.js')).getSettings()).activeCourseId !== 'hanngu-tap2');

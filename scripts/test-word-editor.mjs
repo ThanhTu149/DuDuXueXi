@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import puppeteer from 'puppeteer';
 import { createServer } from 'vite';
+import react from '@vitejs/plugin-react';
 
-const server = await createServer({ server: { port: 0 } });
+const server = await createServer({ configFile: false, plugins: [react()], server: { host: '127.0.0.1', port: 0 } });
 let browser;
 try {
   await server.listen();

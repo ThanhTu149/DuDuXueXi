@@ -427,6 +427,16 @@
     height: 18px;
     flex-shrink: 0;
   }
+
+  .spinner {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 999px;
+    animation: spin 0.7s linear infinite;
+  }
 }
 
 .skip-link { position: fixed; z-index: 200; top: -64px; left: 16px; border-radius: 8px; background: var(--accent); color: white; padding: 8px 16px; font-weight: 600; }
@@ -512,6 +522,14 @@
 }
 .animate-modal-in { animation: modal-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.modal-backdrop { animation: backdrop-in 0.15s ease-out both; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
 @keyframes xp-float {
   0%   { opacity: 1; transform: translateY(0)    scale(1);   }
   60%  { opacity: 1; transform: translateY(-28px) scale(1.1); }
@@ -583,3 +601,19 @@
   to   { opacity: 1; transform: translateY(0)   scale(1); }
 }
 .animate-card-reveal { animation: card-reveal 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+@media (max-width: 639px) {
+  .card, .card-lg { padding: 16px; }
+  .display-text { font-size: 28px; }
+  .hanzi-large { font-size: 40px; }
+  .tabs-container { gap: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse,
+  .animate-card-reveal,
+  .modal-backdrop,
+  .spinner {
+    animation: none !important;
+  }
+}

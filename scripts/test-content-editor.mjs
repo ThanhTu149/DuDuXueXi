@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import puppeteer from 'puppeteer';
 import { createServer } from 'vite';
+import react from '@vitejs/plugin-react';
 
-const server = await createServer({ server: { port: 0 } });
+const server = await createServer({ configFile: false, plugins: [react()], server: { host: '127.0.0.1', port: 0 } });
 let browser;
 try {
   await server.listen();
@@ -55,6 +56,8 @@ try {
     const typing = source.quiz.questions.find((item) => item.type === 'translation_vi_to_zh');
     await saveCourse({ id: 'typing-editor-test', name: 'Kiểm thử câu gõ', type: 'imported', status: 'ready', metadata: {}, chapters: [{ ...source, glossary: { ...source.glossary, entries: source.glossary.entries.slice(0, 2) }, quiz: { ...source.quiz, questions: [typing] } }] });
   });
+  await page.click('button[aria-label="Thoát quiz"]');
+  await page.waitForFunction(() => [...document.querySelectorAll('nav button')].some((button) => button.textContent.trim() === 'Thư viện'));
   await page.evaluate(() => [...document.querySelectorAll('nav button')].find((button) => button.textContent.trim() === 'Thư viện')?.click());
   await page.waitForFunction(() => [...document.querySelectorAll('main article h2')].some((heading) => heading.textContent.trim() === 'Kiểm thử câu gõ'));
   await page.evaluate(() => [...document.querySelectorAll('main article')].find((card) => card.querySelector('h2')?.textContent.trim() === 'Kiểm thử câu gõ')?.querySelector('button')?.click());

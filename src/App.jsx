@@ -14,38 +14,7 @@ import ContentEditorModal from './components/editors/ContentEditorModal.jsx';
 import TypingEditorModal from './components/editors/TypingEditorModal.jsx';
 import ModelSelector from './components/ModelSelector.jsx';
 import { getActiveProcessingJobs, resumeInterruptedJobs, subscribeProcessingJobs } from './lib/processingJobs.js';
-
-// Accessibility: traps keyboard focus inside a modal container
-function useFocusTrap(isActive) {
-  const containerRef = useRef(null);
-  useEffect(() => {
-    if (!isActive || !containerRef.current) return undefined;
-    const container = containerRef.current;
-    const FOCUSABLE = 'button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled), a[href], [tabindex]:not([tabindex="-1"])';
-    const getFocusable = () => Array.from(container.querySelectorAll(FOCUSABLE));
-    const trap = (e) => {
-      if (e.key !== 'Tab') return;
-      const focusable = getFocusable();
-      if (!focusable.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.shiftKey) {
-        if (document.activeElement === first || !container.contains(document.activeElement)) {
-          e.preventDefault(); last.focus();
-        }
-      } else {
-        if (document.activeElement === last || !container.contains(document.activeElement)) {
-          e.preventDefault(); first.focus();
-        }
-      }
-    };
-    container.addEventListener('keydown', trap);
-    const focusable = getFocusable();
-    if (focusable.length) requestAnimationFrame(() => focusable[0]?.focus());
-    return () => container.removeEventListener('keydown', trap);
-  }, [isActive]);
-  return containerRef;
-}
+import useDialogA11y from './lib/useDialogA11y.js';
 
 const LESSONS = Array.from({ length: 10 }, (_, index) => index + 1);
 const TYPING_TYPES = new Set([
@@ -67,21 +36,21 @@ const XP_REWARDS = {
 
 const SRS_INTERVALS = [0, 1, 3, 7, 14, 30];
 const SRS_RATINGS = [
- { id: 'forgot', icon: '😵', label: 'Quên', tone: 'bg-error-subtle text-error dark:bg-error-subtle dark:text-error' },
- { id: 'hard', icon: '😕', label: 'Khó', tone: 'bg-warning-subtle text-warning' },
- { id: 'good', icon: '🙂', label: 'Được', tone: 'bg-success-subtle text-success dark:bg-success-subtle dark:text-success' },
- { id: 'easy', icon: '🤩', label: 'Dễ', tone: 'bg-accent-2-subtle text-accent-2 dark:bg-accent-2-subtle dark:text-accent-2' },
+ { id: 'forgot', shortcut: '1', label: 'Quên', tone: 'bg-error-subtle text-error dark:bg-error-subtle dark:text-error' },
+ { id: 'hard', shortcut: '2', label: 'Khó', tone: 'bg-warning-subtle text-warning' },
+ { id: 'good', shortcut: '3', label: 'Được', tone: 'bg-success-subtle text-success dark:bg-success-subtle dark:text-success' },
+ { id: 'easy', shortcut: '4', label: 'Dễ', tone: 'bg-accent-2-subtle text-accent-2 dark:bg-accent-2-subtle dark:text-accent-2' },
 ];
 
 const ACHIEVEMENTS = [
- { id: 'first_lesson', icon: '🎯', title: 'Bước đầu vững chắc', description: 'Hoàn thành bài đầu tiên' },
- { id: 'streak_3', icon: '🔥', title: 'Nhịp học 3 ngày', description: 'Duy trì streak 3 ngày' },
- { id: 'streak_7', icon: '🔥', title: 'Bền bỉ một tuần', description: 'Duy trì streak 7 ngày' },
- { id: 'combo_10', icon: '🧠', title: 'Chuỗi 10 câu', description: 'Trả lời đúng 10 câu liên tiếp' },
- { id: 'clean_book', icon: '📕', title: 'Sổ tay sạch', description: 'Không còn câu sai cần ôn' },
- { id: 'all_lessons', icon: '🏆', title: 'Thông thạo khóa học', description: 'Hoàn thành toàn bộ bài học' },
- { id: 'accuracy_90', icon: '💯', title: 'Chính xác xuất sắc', description: 'Đạt 90% sau ít nhất 50 câu' },
- { id: 'boss_first', icon: '🎮', title: 'Hạ Boss đầu tiên', description: 'Thắng một trận Boss Battle' },
+ { id: 'first_lesson', title: 'Bước đầu vững chắc', description: 'Hoàn thành bài đầu tiên' },
+ { id: 'streak_3', title: 'Nhịp học 3 ngày', description: 'Duy trì streak 3 ngày' },
+ { id: 'streak_7', title: 'Bền bỉ một tuần', description: 'Duy trì streak 7 ngày' },
+ { id: 'combo_10', title: 'Chuỗi 10 câu', description: 'Trả lời đúng 10 câu liên tiếp' },
+ { id: 'clean_book', title: 'Sổ tay sạch', description: 'Không còn câu sai cần ôn' },
+ { id: 'all_lessons', title: 'Thông thạo khóa học', description: 'Hoàn thành toàn bộ bài học' },
+ { id: 'accuracy_90', title: 'Chính xác xuất sắc', description: 'Đạt 90% sau ít nhất 50 câu' },
+ { id: 'boss_first', title: 'Hạ Boss đầu tiên', description: 'Thắng một trận Boss Battle' },
 ];
 
 const CHARACTER_INFO = {
@@ -323,7 +292,7 @@ function Mascot({ type = 'panda', size = 'md', className = '' }) {
   );
 }
 
-function ProgressBar({ value, className = '' }) { const safe = Math.min(100, Math.max(0, Number(value) || 0)); return <div className={`h-2 overflow-hidden rounded-full bg-bg-tertiary ${className}`}><div className="h-full rounded-full bg-accent transition-all duration-300" style={{ width: `${safe}%` }} /></div>; }
+function ProgressBar({ value, className = '', label = 'Tiến độ' }) { const safe = Math.min(100, Math.max(0, Number(value) || 0)); return <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={safe} className={`h-2 overflow-hidden rounded-full bg-bg-tertiary ${className}`}><div className="h-full origin-left rounded-full bg-accent transition-transform duration-300" style={{ transform: `scaleX(${safe / 100})` }} /></div>; }
 
 function SpeakButton({ text, lang = 'zh-CN', className = '' }) {
  const [speaking, setSpeaking] = useState(false);
@@ -345,7 +314,7 @@ function SearchModal({ isOpen, onClose, onSelect }) {
    window.addEventListener('keydown', onKey);
    return () => window.removeEventListener('keydown', onKey);
  }, [isOpen, onClose]);
- const trapRef = useFocusTrap(isOpen);
+ const trapRef = useDialogA11y(isOpen, onClose);
  if (!isOpen) return null;
  const normalized = query.toLowerCase().trim();
  const pinyinQuery = normalizePinyin(query);
@@ -354,7 +323,7 @@ function SearchModal({ isOpen, onClose, onSelect }) {
 }
 
 function KeyboardShortcutsModal({ isOpen, onClose }) {
-  const trapRef = useFocusTrap(isOpen);
+  const trapRef = useDialogA11y(isOpen, onClose);
   useEffect(() => {
     if (!isOpen) return undefined;
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -368,18 +337,18 @@ function KeyboardShortcutsModal({ isOpen, onClose }) {
 
 function BookmarkButton({ entryId, bookmarks = [], onToggle }) { const active = bookmarks.includes(entryId); return <button type="button" onClick={(event) => { event.stopPropagation(); onToggle?.(entryId); }} className={`icon-action grid h-8 w-8 place-items-center rounded-md ${active ? 'bg-warning-subtle text-warning' : 'bg-bg-tertiary text-text-muted'}`} aria-label={active ? 'Bỏ đánh dấu' : 'Đánh dấu'} data-tooltip={active ? 'Bỏ đánh dấu' : 'Đánh dấu'}><Icon.Bookmark className="h-4 w-4" /></button>; }
 
-function NoteEditor({ entryId, note = '', onSave }) { const [open, setOpen] = useState(false); const [draft, setDraft] = useState(note); const trapRef = useFocusTrap(open); useEffect(() => { if (open) setDraft(note); }, [open, note]); useEffect(() => { if (!open) return undefined; const onKey = (e) => { if (e.key === 'Escape') setOpen(false); }; window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey); }, [open]); return <><button type="button" onClick={(event) => { event.stopPropagation(); setOpen(true); }} className={`icon-action grid h-8 w-8 place-items-center rounded-md ${note ? 'bg-warning-subtle text-warning' : 'bg-bg-tertiary text-text-muted'}`} aria-label="Ghi chú" data-tooltip="Ghi chú"><Icon.Pen className="h-4 w-4" /></button>{open && <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/50 p-6" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false); }}><section ref={trapRef} role="dialog" aria-modal="true" aria-label="Ghi chú cá nhân" className="animate-modal-in w-full max-w-lg rounded-xl bg-bg-secondary p-5 shadow-lg"><div className="flex items-center justify-between"><h2 className="text-lg font-bold">Ghi chú cá nhân</h2><button onClick={() => setOpen(false)} aria-label="Đóng ghi chú" className="grid h-8 w-8 place-items-center rounded-md bg-bg-tertiary text-text-muted hover:bg-border"><Icon.X /></button></div><textarea autoFocus value={draft} onChange={(event) => setDraft(event.target.value)} rows={6} className="input mt-4 w-full" placeholder="Viết cách nhớ hoặc lưu ý riêng..." /><div className="mt-4 flex gap-2"><button onClick={() => { onSave?.(entryId, ''); setOpen(false); }} className="btn-secondary">Xóa</button><button onClick={() => { onSave?.(entryId, draft.trim()); setOpen(false); }} className="btn-primary ml-auto">Lưu</button></div></section></div>}</>; }
+function NoteEditor({ entryId, note = '', onSave }) { const [open, setOpen] = useState(false); const [draft, setDraft] = useState(note); const close = useCallback(() => setOpen(false), []); const trapRef = useDialogA11y(open, close); useEffect(() => { if (open) setDraft(note); }, [open, note]); return <><button type="button" onClick={(event) => { event.stopPropagation(); setOpen(true); }} className={`icon-action grid h-8 w-8 place-items-center rounded-md ${note ? 'bg-warning-subtle text-warning' : 'bg-bg-tertiary text-text-muted'}`} aria-label="Ghi chú" data-tooltip="Ghi chú"><Icon.Pen className="h-4 w-4" /></button>{open && <div className="modal-backdrop fixed inset-0 z-[110] flex items-center justify-center bg-black/50 p-4 sm:p-6" onMouseDown={(event) => { if (event.target === event.currentTarget) close(); }}><section ref={trapRef} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Ghi chú cá nhân" className="animate-modal-in w-full max-w-lg rounded-xl bg-bg-secondary p-5 shadow-lg"><div className="flex items-center justify-between"><h2 className="text-lg font-bold">Ghi chú cá nhân</h2><button onClick={close} aria-label="Đóng ghi chú" className="icon-action grid h-10 w-10 place-items-center rounded-md bg-bg-tertiary text-text-muted hover:bg-border" data-tooltip="Đóng"><Icon.X /></button></div><textarea autoFocus value={draft} onChange={(event) => setDraft(event.target.value)} rows={6} className="input mt-4 w-full" placeholder="Viết cách nhớ hoặc lưu ý riêng..." /><div className="mt-4 flex gap-2"><button onClick={() => { onSave?.(entryId, ''); close(); }} className="btn-secondary">Xóa</button><button onClick={() => { onSave?.(entryId, draft.trim()); close(); }} className="btn-primary ml-auto">Lưu</button></div></section></div>}</>; }
 
 function ClickableHanzi({ text = '', entry, onCharacter }) { return <>{[...text].map((char, index) => /[\u3400-\u9fff]/.test(char) ? <button key={`${char}-${index}`} onClick={(event) => { event.stopPropagation(); onCharacter?.(char, entry); }} className="rounded px-0.5 hover:bg-warning-subtle hover:text-warning" title={`Xem chữ ${char}`}>{char}</button> : <span key={`${char}-${index}`}>{char}</span>)}</>; }
 
 function EntryActions({ entry, bookmarks, onToggleBookmark, notes, onSaveNote, onEdit }) { return <div className="flex items-center gap-2"><SpeakButton text={entryTitle(entry)} /><NoteEditor entryId={entry.id} note={notes[entry.id]} onSave={onSaveNote} /><BookmarkButton entryId={entry.id} bookmarks={bookmarks} onToggle={onToggleBookmark} />{onEdit && <button type="button" onClick={() => onEdit(entry)} className="grid h-8 w-8 place-items-center rounded-md bg-bg-tertiary text-text-muted hover:text-accent" title="Sửa từ vựng" aria-label={`Sửa từ vựng ${entry.word_zh}`}><Icon.Pen className="h-4 w-4" /></button>}</div>; }
 function RelatedLinks({ entry, onRelated }) { return entry.related_words?.length ? <div className="mt-4 flex flex-wrap gap-2">{entry.related_words.map((id) => { const related = ALL_GLOSSARY_ENTRIES.find((item) => item.id === id); return <button key={id} onClick={() => onRelated?.(id)} className="rounded-md bg-bg-tertiary px-2 py-1 text-xs font-bold">{related ? entryTitle(related) : id}</button>; })}</div> : null; }
 
-const WordCard = memo(function WordCard({ entry, onRelated, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter, onEdit, virtual = false }) { return <article className={`card ${virtual ? 'virtual-list-item' : ''}`}><div className="flex items-start justify-between gap-3"><div><h3 className="font-hanzi text-3xl font-bold"><ClickableHanzi text={entry.word_zh} entry={entry} onCharacter={onCharacter} /></h3><p className="pinyin-text mt-1 text-accent">{entry.pinyin}</p></div><EntryActions entry={entry} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} onEdit={onEdit} /></div><p className="mt-4 font-bold">{entry.meaning_vi}</p>{entry.meaning_en && <p className="text-sm text-text-muted">{entry.meaning_en}</p>}{entry.example_zh && <div className="mt-4 rounded-lg bg-bg-tertiary p-3"><p className="font-hanzi font-bold">{entry.example_zh}</p><p className="pinyin-text text-sm text-success">{entry.example_pinyin}</p><p className="text-sm text-text-muted">{entry.example_vi}</p></div>}<RelatedLinks entry={entry} onRelated={onRelated} />{notes[entry.id] && <p className="mt-4 rounded-lg bg-warning-subtle p-3 text-sm">📝 {notes[entry.id]}</p>}</article>; });
+const WordCard = memo(function WordCard({ entry, onRelated, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter, onEdit, virtual = false }) { return <article className={`card ${virtual ? 'virtual-list-item' : ''}`}><div className="flex items-start justify-between gap-3"><div><h3 className="font-hanzi text-3xl font-bold"><ClickableHanzi text={entry.word_zh} entry={entry} onCharacter={onCharacter} /></h3><p className="pinyin-text mt-1 text-accent">{entry.pinyin}</p></div><EntryActions entry={entry} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} onEdit={onEdit} /></div><p className="mt-4 font-bold">{entry.meaning_vi}</p>{entry.meaning_en && <p className="text-sm text-text-muted">{entry.meaning_en}</p>}{entry.example_zh && <div className="mt-4 rounded-lg bg-bg-tertiary p-3"><p className="font-hanzi font-bold">{entry.example_zh}</p><p className="pinyin-text text-sm text-success">{entry.example_pinyin}</p><p className="text-sm text-text-muted">{entry.example_vi}</p></div>}<RelatedLinks entry={entry} onRelated={onRelated} />{notes[entry.id] && <div className="mt-4 flex gap-2 rounded-lg bg-warning-subtle p-3 text-sm"><Icon.Pen className="mt-0.5 h-4 w-4 shrink-0 text-warning"/><p>{notes[entry.id]}</p></div>}</article>; });
 function GrammarCard({ entry, onRelated, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter }) { return <article className="card"><div className="flex items-start justify-between gap-3"><div><h3 className="font-hanzi text-xl font-bold"><ClickableHanzi text={entry.grammar_title_zh} entry={entry} onCharacter={onCharacter} /></h3><p className="text-accent">{entry.grammar_title_vi}</p></div><EntryActions entry={entry} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} /></div>{entry.structure && <pre className="mt-4 overflow-x-auto rounded-lg bg-slate-950 p-3 text-sm text-emerald-300">{entry.structure}</pre>}<p className="mt-4 text-text-secondary">{entry.explanation_vi}</p>{(entry.examples || []).map((example, index) => <div key={index} className="mt-3 border-l-2 border-warning pl-3"><p className="font-hanzi font-bold">{example.zh}</p><p className="pinyin-text text-sm text-success">{example.pinyin}</p><p className="text-sm text-text-muted">{example.vi}</p></div>)}<RelatedLinks entry={entry} onRelated={onRelated} /></article>; }
 function PhraseCard({ entry, onRelated, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter }) { return <article className="card"><div className="flex items-start justify-between gap-3"><div><h3 className="font-hanzi text-2xl font-bold"><ClickableHanzi text={entry.phrase_zh} entry={entry} onCharacter={onCharacter} /></h3><p className="pinyin-text text-accent">{entry.pinyin}</p></div><EntryActions entry={entry} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} /></div><p className="mt-4 font-bold">{entry.meaning_vi}</p><p className="mt-2 text-sm text-text-muted">{entry.usage_note}</p><RelatedLinks entry={entry} onRelated={onRelated} /></article>; }
 
-function VirtualKeyboard({ textareaRef, value, onChange }) { const [open, setOpen] = useState(false); const [query, setQuery] = useState(''); const results = useMemo(() => searchPinyin(query), [query]); const insert = (text) => { const target = textareaRef.current; const start = target?.selectionStart ?? value.length; const end = target?.selectionEnd ?? value.length; onChange(`${value.slice(0, start)}${text}${value.slice(end)}`); requestAnimationFrame(() => { target?.focus(); target?.setSelectionRange(start + text.length, start + text.length); }); }; return <div className="mt-2"><button type="button" onClick={() => setOpen((value) => !value)} className="btn-secondary">⌨️ Bàn phím tiếng Trung</button>{open && <div className="mt-2 rounded-lg border border-border bg-bg-tertiary p-3"><input value={query} onChange={(event) => setQuery(event.target.value)} className="input w-full" placeholder="Gõ pinyin không dấu, ví dụ: bianhua" /><div className="mt-3 grid grid-cols-4 gap-2">{results.map((item, index) => <button key={`${item.key}-${item.zh}-${index}`} onClick={() => insert(item.zh)} className="rounded-lg bg-bg-secondary p-2 text-left hover:ring-1 hover:ring-accent"><span className="block text-lg font-bold">{item.zh}</span><span className="block truncate text-xs text-text-muted">{item.pinyin} · {item.vi}</span></button>)}</div></div>}</div>; }
+function VirtualKeyboard({ textareaRef, value, onChange }) { const [open, setOpen] = useState(false); const [query, setQuery] = useState(''); const results = useMemo(() => searchPinyin(query), [query]); const insert = (text) => { const target = textareaRef.current; const start = target?.selectionStart ?? value.length; const end = target?.selectionEnd ?? value.length; onChange(`${value.slice(0, start)}${text}${value.slice(end)}`); requestAnimationFrame(() => { target?.focus(); target?.setSelectionRange(start + text.length, start + text.length); }); }; return <div className="mt-2"><button type="button" onClick={() => setOpen((value) => !value)} className="btn-secondary inline-flex items-center gap-2"><Icon.Type className="h-4 w-4"/>Bàn phím tiếng Trung</button>{open && <div className="mt-2 rounded-lg border border-border bg-bg-tertiary p-3"><input value={query} onChange={(event) => setQuery(event.target.value)} className="input w-full" placeholder="Gõ pinyin không dấu, ví dụ: bianhua" aria-label="Tìm chữ Hán theo pinyin" /><div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">{results.map((item, index) => <button key={`${item.key}-${item.zh}-${index}`} onClick={() => insert(item.zh)} className="rounded-lg bg-bg-secondary p-2 text-left hover:ring-1 hover:ring-accent"><span className="block text-lg font-bold">{item.zh}</span><span className="block truncate text-xs text-text-muted">{item.pinyin} · {item.vi}</span></button>)}</div></div>}</div>; }
 
 const BACKGROUNDS = [
  { id: 'none', name: 'Mặc định' },
@@ -411,7 +380,7 @@ function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMe
   const accuracy = progress.accuracy.total ? Math.round((progress.accuracy.correct / progress.accuracy.total) * 100) : 0;
   const nextTheme = themeMode === 'light' ? 'dark' : themeMode === 'dark' ? 'auto' : 'light';
   return (
-    <header className={`app-header transition-transform duration-200 ${focused ? '' : 'lg:ml-[240px] xl:mr-[320px]'} ${hidden ? '-translate-y-full' : ''}`}>
+    <header className={`app-header transition-transform duration-200 ${focused ? '' : 'lg:ml-[240px] 2xl:mr-[320px]'} ${hidden ? '-translate-y-full' : ''}`}>
       <div className="mx-auto flex h-16 max-w-[864px] items-center gap-3 px-4 lg:px-8">
       {!focused && <button onClick={onMenu} className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-border bg-bg-secondary text-text-secondary lg:hidden" aria-label="Mở menu">
         <span className="space-y-1"><span className="block h-px w-4 bg-current"/><span className="block h-px w-4 bg-current"/><span className="block h-px w-4 bg-current"/></span>
@@ -500,12 +469,12 @@ function RightPanel({ progress, onNavigate }) {
   const streakTarget = progress.streak < 3 ? 3 : progress.streak < 7 ? 7 : 10;
   const streakPercent = Math.min(100, Math.round((progress.streak / streakTarget) * 100));
   return (
-    <aside className="fixed inset-y-0 right-0 z-10 hidden w-[320px] overflow-y-auto border-l border-border bg-bg-secondary p-5 xl:block scrollbar-thin">
+    <aside className="fixed inset-y-0 right-0 z-10 hidden w-[320px] overflow-y-auto border-l border-border bg-bg-secondary p-5 2xl:block scrollbar-thin">
       <div className="space-y-4">
         <section className="rounded-xl border border-border bg-bg-primary p-5">
           <div className="flex items-center gap-2"><Icon.Target className="h-[18px] w-[18px] text-accent"/><h2 className="font-serif text-[17px] font-semibold">Mục tiêu hôm nay</h2></div>
           <div className="mt-5 flex items-center gap-5">
-            <div className="relative h-[120px] w-[120px] shrink-0"><svg className="h-full w-full -rotate-90" viewBox="0 0 120 120"><circle cx="60" cy="60" r="48" fill="none" stroke="var(--bg-tertiary)" strokeWidth="8"/><circle cx="60" cy="60" r="48" fill="none" stroke="var(--accent)" strokeWidth="8" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={circumference * (1 - goalPercent / 100)} style={{ '--ring-length': circumference }} className="animate-ring-progress transition-all duration-700"/></svg><span className="absolute inset-0 grid place-items-center font-serif text-2xl font-semibold">{goalPercent}%</span></div>
+            <div className="relative h-[120px] w-[120px] shrink-0"><svg className="h-full w-full -rotate-90" viewBox="0 0 120 120"><circle cx="60" cy="60" r="48" fill="none" stroke="var(--bg-tertiary)" strokeWidth="8"/><circle cx="60" cy="60" r="48" fill="none" stroke="var(--accent)" strokeWidth="8" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={circumference * (1 - goalPercent / 100)} style={{ '--ring-length': circumference }} className="animate-ring-progress"/></svg><span className="absolute inset-0 grid place-items-center font-serif text-2xl font-semibold">{goalPercent}%</span></div>
             <div><p className="font-serif text-2xl font-semibold">{done} / {goal}</p><p className="mt-1 text-sm text-text-muted">câu hôm nay</p><p className="mt-3 text-sm font-medium text-accent">{goalPercent >= 100 ? 'Đã hoàn thành!' : 'Cố lên, sắp xong rồi!'}</p></div>
           </div>
         </section>
@@ -615,7 +584,7 @@ function HomeScreen({ progress, onOpenLesson, onNavigate }) {
           const percent = item.completed ? 100 : Math.round(((item.quizDone || 0) / quizTotal) * 100);
           const accuracy = item.quizDone ? Math.round(((item.quizCorrect || 0) / item.quizDone) * 100) : 0;
           const metadata = GLOSSARY[bai]?.metadata || {};
-          return <button key={bai} disabled={!isUnlocked} onClick={() => isUnlocked && onOpenLesson(bai)} className={`grid w-full grid-cols-[48px_1fr_auto] items-center gap-4 rounded-xl border p-4 text-left transition duration-200 ${isUnlocked ? 'border-border bg-bg-secondary hover:-translate-y-0.5 hover:border-accent hover:shadow-sm' : 'cursor-not-allowed border-border bg-bg-tertiary opacity-55'}`}><span className={`grid h-12 w-12 place-items-center rounded-lg font-serif text-lg font-semibold ${isUnlocked ? 'bg-accent-subtle text-accent' : 'bg-bg-secondary text-text-muted'}`}>{String(bai).padStart(2, '0')}</span><span className="min-w-0"><span className="flex items-center gap-2"><span className="text-sm font-semibold">Bài {bai}</span><span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${item.completed ? 'bg-success-subtle text-success' : isUnlocked ? 'bg-warning-subtle text-warning' : 'bg-bg-secondary text-text-muted'}`}>{item.completed ? 'Đã xong' : isUnlocked ? 'Đang học' : 'Đã khóa'}</span></span><span className="mt-0.5 block truncate font-hanzi text-[16px] font-medium">{metadata.title_zh || `Bài ${bai}`}</span><span className="block truncate text-xs text-text-muted">{metadata.title_vi || `${quizTotal} câu hỏi`}</span></span><span className="w-24 text-right"><span className="block text-xs font-semibold text-text-secondary">{isUnlocked ? `${percent}%` : '—'}</span><span className="mt-2 block"><ProgressBar value={percent}/></span>{isUnlocked && <span className="mt-1 block text-[10px] text-text-muted">{accuracy}% chính xác</span>}</span></button>;
+          return <button key={bai} disabled={!isUnlocked} onClick={() => isUnlocked && onOpenLesson(bai)} className={`grid w-full grid-cols-[48px_minmax(0,1fr)] items-center gap-3 rounded-xl border p-4 text-left transition duration-200 sm:grid-cols-[48px_minmax(0,1fr)_96px] sm:gap-4 ${isUnlocked ? 'border-border bg-bg-secondary hover:-translate-y-0.5 hover:border-accent hover:shadow-sm' : 'cursor-not-allowed border-border bg-bg-tertiary opacity-55'}`}><span className={`grid h-12 w-12 place-items-center rounded-lg font-serif text-lg font-semibold ${isUnlocked ? 'bg-accent-subtle text-accent' : 'bg-bg-secondary text-text-muted'}`}>{String(bai).padStart(2, '0')}</span><span className="min-w-0"><span className="flex flex-wrap items-center gap-2"><span className="text-sm font-semibold">Bài {bai}</span><span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${item.completed ? 'bg-success-subtle text-success' : isUnlocked ? 'bg-warning-subtle text-warning' : 'bg-bg-secondary text-text-muted'}`}>{item.completed ? 'Đã xong' : isUnlocked ? 'Đang học' : 'Đã khóa'}</span></span><span className="mt-0.5 block truncate font-hanzi text-[16px] font-medium">{metadata.title_zh || `Bài ${bai}`}</span><span className="block truncate text-xs text-text-muted">{metadata.title_vi || `${quizTotal} câu hỏi`}</span></span><span className="col-span-2 grid grid-cols-[auto_1fr_auto] items-center gap-3 text-right sm:col-span-1 sm:block sm:w-24"><span className="text-xs font-semibold text-text-secondary">{isUnlocked ? `${percent}%` : '—'}</span><ProgressBar value={percent} label={`Tiến độ bài ${bai}`} className="sm:mt-2"/>{isUnlocked && <span className="text-[10px] text-text-muted sm:mt-1 sm:block">{accuracy}% chính xác</span>}</span></button>;
         })}</div>
       </section>
     </div>
@@ -853,7 +822,7 @@ function FeedbackPanel({ question, result, userAnswer, onNext, onOpenEntry, onEd
             )}
           </div>
           <p className="mt-1 text-sm text-text-secondary">
-            {isCorrect ? 'Trúc: Làm tốt lắm, giữ nhịp này nhé! 🎋' : 'Băng: Không sao, xem lại một chút rồi mình làm tiếp. ❄️'}
+            {isCorrect ? 'Trúc: Làm tốt lắm, giữ nhịp này nhé!' : 'Băng: Không sao, xem lại một chút rồi mình làm tiếp.'}
           </p>
 
           {!isCorrect && (
@@ -957,12 +926,12 @@ function QuizScreen({ session, progress, onAnswer, onFinish, onExit, onOpenEntry
       <div className="mx-auto max-w-xl text-center">
         {(isPerfect || isGood) && <Confetti />}
         <div className={`mx-auto grid h-20 w-20 place-items-center rounded-xl text-5xl ${isPerfect ? 'bg-warning-subtle' : isGood ? 'bg-success-subtle' : 'bg-error-subtle'}`}>
-          {isPerfect ? '🏆' : isGood ? '✨' : '📚'}
+          {isPerfect ? <Icon.Trophy className="h-9 w-9 text-warning"/> : isGood ? <Icon.Check className="h-9 w-9 text-success"/> : <Icon.Book className="h-9 w-9 text-error"/>}
         </div>
         <h1 className="mt-5 h1-text font-bold">{isPerfect ? 'Hoàn hảo!' : isGood ? 'Làm tốt lắm!' : 'Tiếp tục cố lên!'}</h1>
         <p className="mt-2 text-text-muted">{correct}/{questions.length} câu đạt · điểm trung bình {average}</p>
         <p className="mt-1 text-sm text-text-secondary">
-          {isPerfect ? '🐼 Trúc tự hào về bạn lắm!' : isGood ? '🐼 Trúc: Giỏi, giữ đà này nhé!' : '🐧 Băng: Không sao, ôn lại rồi thử lần nữa nhé!'}
+          {isPerfect ? 'Trúc tự hào về bạn lắm!' : isGood ? 'Trúc: Giỏi, giữ đà này nhé!' : 'Băng: Không sao, ôn lại rồi thử lần nữa nhé!'}
         </p>
         <div className="mt-6 grid grid-cols-3 gap-2">
           <StatBox label="Đạt" value={correct} tone="mint" />
@@ -977,7 +946,7 @@ function QuizScreen({ session, progress, onAnswer, onFinish, onExit, onOpenEntry
   return (
     <div className="mx-auto max-w-2xl">
       <div className="mb-5 flex items-center gap-3">
-        <button onClick={onExit} className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-border-strong bg-bg-secondary font-bold" aria-label="Thoát quiz">x</button>
+        <button onClick={onExit} className="icon-action grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-border-strong bg-bg-secondary text-text-muted" aria-label="Thoát quiz" data-tooltip="Thoát quiz"><Icon.X /></button>
         <div className="flex-1">
           <div className="mb-2 flex justify-between text-xs font-bold text-text-muted"><span>Câu {index + 1}/{questions.length}</span><span>{accuracy}% chính xác</span></div>
           <ProgressBar value={((index + 1) / questions.length) * 100} />
@@ -1068,13 +1037,24 @@ function SRSReviewScreen({ progress, onRate }) {
  if (index >= deck.length - 1) setPhase('summary');
  else { setIndex((value) => value + 1); setFlipped(false); }
  };
+ useEffect(() => {
+  if (phase !== 'review' || !flipped) return undefined;
+  const onKeyDown = (event) => {
+   const rating = SRS_RATINGS[Number(event.key) - 1];
+   if (!rating) return;
+   event.preventDefault();
+   rate(rating.id);
+  };
+  window.addEventListener('keydown', onKeyDown);
+  return () => window.removeEventListener('keydown', onKeyDown);
+ }, [phase, flipped, index]);
  if (phase === 'intro') {
  return (
  <div className="rounded-lg border border-violet-200 bg-bg-secondary p-6 text-center shadow-sm dark:border-violet-900 dark:bg-bg-secondary">
- <div className="mx-auto grid h-16 w-16 place-items-center rounded-lg bg-violet-100 h1-text dark:bg-violet-950">🧠</div>
+ <div className="mx-auto grid h-16 w-16 place-items-center rounded-lg bg-accent-subtle text-accent"><Icon.Refresh className="h-7 w-7" /></div>
  <h2 className="mt-4 h2-text font-bold">Cần ôn hôm nay: {dueEntries.length} từ</h2>
  <p className="mt-2 text-sm text-text-muted">{Object.keys(progress.srs).length} mục đang được theo dõi theo lịch nhớ.</p>
- <button onClick={start} disabled={!dueEntries.length} className="mt-6 w-full rounded-lg bg-accent px-5 py-3 font-bold text-white disabled:cursor-not-allowed disabled:opacity-40">Bắt đầu ôn</button>
+ <button onClick={start} disabled={!dueEntries.length} className="btn-primary mt-6 w-full">Bắt đầu ôn</button>
  </div>
  );
  }
@@ -1101,7 +1081,7 @@ function SRSReviewScreen({ progress, onRate }) {
  <SpeakButton text={isWord ? entry.word_zh : entry.examples?.[0]?.zh || entry.grammar_title_zh} className="absolute right-4 top-4" />
  {!flipped ? <><span className="display-text font-bold">{entryTitle(entry)}</span>{entry.pinyin && <span className="mt-4 text-xl font-bold text-error">{entry.pinyin}</span>}<span className="mt-6 text-sm font-bold text-text-muted">Chạm để xem nghĩa</span></> : <><span className="h2-text font-bold">{entryMeaning(entry)}</span>{isWord && <><span className="mt-2 text-text-muted">{entry.meaning_en}</span><span className="mt-6 font-bold">{entry.example_zh}</span><span className="mt-1 text-sm text-success">{entry.example_pinyin}</span><span className="mt-1 text-sm text-text-muted">{entry.example_vi}</span></>}{!isWord && entry.structure && <span className="mt-5 rounded-lg bg-slate-950 px-4 py-3 font-mono text-sm font-bold text-success">{entry.structure}</span>}</>}
  </div>
- {flipped && <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">{SRS_RATINGS.map((rating) => <button key={rating.id} onClick={() => rate(rating.id)} className={`rounded-lg px-3 py-3 font-bold transition hover:-translate-y-0.5 ${rating.tone}`}><span className="mr-1">{rating.icon}</span>{rating.label}</button>)}</div>}
+ {flipped && <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">{SRS_RATINGS.map((rating) => <button key={rating.id} onClick={() => rate(rating.id)} className={`rounded-lg px-3 py-3 font-bold transition hover:-translate-y-0.5 ${rating.tone}`}><kbd className="mr-2 rounded border border-current/30 px-1.5 py-0.5 text-[10px] opacity-70">{rating.shortcut}</kbd>{rating.label}</button>)}</div>}
  </div>
  );
 }
@@ -1110,7 +1090,7 @@ function NotesPanel({ progress, onSaveNote, onOpenEntry }) {
  const items = Object.entries(progress.notes || {})
  .map(([id, note]) => ({ entry: ALL_GLOSSARY_ENTRIES.find((candidate) => candidate.id === id), note }))
  .filter((item) => item.entry && item.note);
- if (!items.length) return <EmptyState icon="📝" title="Chưa có ghi chú" text="Thêm ghi chú từ thẻ từ vựng, ngữ pháp hoặc mẫu câu." />;
+ if (!items.length) return <EmptyState icon="记" title="Chưa có ghi chú" text="Thêm ghi chú từ thẻ từ vựng, ngữ pháp hoặc mẫu câu." />;
  return (
  <div className="space-y-3">
  {items.map(({ entry, note }) => <article key={entry.id} className="rounded-lg border border-warning bg-bg-secondary p-4 shadow-sm dark:border-warning dark:bg-bg-secondary"><div className="flex items-start justify-between gap-3"><button onClick={() => onOpenEntry(entry)} className="min-w-0 flex-1 text-left"><p className="text-xs font-bold uppercase tracking-wider text-error">Bài {entry.bai} · {entry.type}</p><h3 className="mt-1 text-xl font-bold">{entryTitle(entry)}</h3><p className="mt-1 text-sm text-text-muted">{entryMeaning(entry)}</p></button><NoteEditor entryId={entry.id} note={note} onSave={onSaveNote} /></div><p className="mt-4 rounded-lg bg-warning-subtle p-3 text-sm leading-relaxed dark:bg-warning-subtle/30">{note}</p></article>)}
@@ -1151,10 +1131,10 @@ function WeakTopicsScreen({ progress, onPractice, onOpenEntry }) {
  const types = Object.entries(stats.byType).sort((a, b) => b[1] - a[1]).slice(0, 3);
  const tags = Object.entries(stats.byTag).sort((a, b) => b[1] - a[1]).slice(0, 5);
  const questionIds = Object.entries(stats.byQuestion).sort((a, b) => b[1] - a[1]).map(([id]) => id);
- if (!lessons.length) return <EmptyState icon="🎯" title="Chưa có chủ đề yếu" text="Kết quả sẽ xuất hiện sau khi bạn luyện quiz." />;
+ if (!lessons.length) return <EmptyState icon="析" title="Chưa có chủ đề yếu" text="Kết quả sẽ xuất hiện sau khi bạn luyện quiz." />;
  return (
  <div className="space-y-6">
- <div className="flex flex-col gap-3 rounded-lg border border-error bg-error-subtle p-4 sm:flex-row sm:items-center sm:justify-between dark:border-error"><div><p className="font-bold">Lượt luyện theo điểm yếu</p><p className="mt-1 text-sm text-text-secondary">Tạo từ {questionIds.length} câu từng trả lời chưa đúng.</p></div><button onClick={() => onPractice(questionIds.slice(0, 20))} disabled={!questionIds.length} className="rounded-lg bg-accent px-4 py-2.5 font-bold text-white disabled:opacity-40 dark:bg-error-subtle dark:text-text-primary">🎯 Ôn chủ đề yếu</button></div>
+ <div className="flex flex-col gap-3 rounded-lg border border-error bg-error-subtle p-4 sm:flex-row sm:items-center sm:justify-between dark:border-error"><div><p className="font-bold">Lượt luyện theo điểm yếu</p><p className="mt-1 text-sm text-text-secondary">Tạo từ {questionIds.length} câu từng trả lời chưa đúng.</p></div><button onClick={() => onPractice(questionIds.slice(0, 20))} disabled={!questionIds.length} className="btn-primary inline-flex items-center justify-center gap-2"><Icon.Target className="h-4 w-4"/>Ôn chủ đề yếu</button></div>
  <section><h2 className="text-lg font-bold">Bài cần ôn lại</h2><div className="mt-3 space-y-2">{lessons.map(([bai, count]) => { const attempts = Math.max(progress.baiProgress[bai]?.quizDone || 0, count); const percent = Math.min(100, Math.round((count / attempts) * 100)); return <div key={bai} className="grid grid-cols-[60px_1fr_54px] items-center gap-3 rounded-lg bg-bg-secondary p-3 dark:bg-bg-secondary"><span className="font-bold">Bài {bai}</span><ProgressBar value={percent} /><span className="text-right text-sm font-bold text-error">{percent}%</span></div>; })}</div></section>
  <section><h2 className="text-lg font-bold">Từ vựng và ngữ pháp hay sai</h2><div className="mt-3 grid gap-2 sm:grid-cols-2">{entries.map(({ entry, count }) => <button key={entry.id} onClick={() => onOpenEntry(entry)} className="flex items-center justify-between gap-3 rounded-lg border border-border bg-bg-secondary p-3 text-left dark:border-border-strong dark:bg-bg-secondary"><span><span className="block font-bold">{entryTitle(entry)}</span><span className="mt-1 block text-xs text-text-muted">Bài {entry.bai} · {entryMeaning(entry)}</span></span><span className="rounded-md bg-error-subtle px-2 py-1 text-xs font-bold text-error dark:bg-error-subtle dark:text-error">{count}×</span></button>)}</div></section>
  <section className="grid gap-5 sm:grid-cols-2"><div><h2 className="text-lg font-bold">Dạng câu hay sai</h2><div className="mt-3 space-y-2">{types.map(([type, count]) => <div key={type} className="flex items-center justify-between rounded-lg bg-bg-secondary p-3 text-sm dark:bg-bg-secondary"><span className="font-bold">{TYPE_LABELS[type] || type}</span><span className="font-bold text-error">{count} lần</span></div>)}</div></div><div><h2 className="text-lg font-bold">Tag cần củng cố</h2><div className="mt-3 flex flex-wrap gap-2">{tags.map(([tag, count]) => <span key={tag} className="rounded-lg bg-warning-subtle px-3 py-2 text-sm font-bold text-warning dark:bg-warning-subtle dark:text-warning">{tag.replaceAll('_', ' ')} · {count}</span>)}</div></div></section>
@@ -1172,9 +1152,9 @@ function ReviewScreen({ progress, onPracticeWrong, onOpenEntry, onToggleBookmark
  { id: 'flashcards', label: 'Từ vựng' },
  { id: 'grammar', label: 'Ngữ pháp' },
  { id: 'bookmarks', label: `Đánh dấu ${progress.bookmarks.length}` },
- { id: 'srs', label: `🧠 SRS ${getDueEntries(progress.srs).length}` },
- { id: 'notes', label: `📝 Notes ${Object.keys(progress.notes || {}).length}` },
- { id: 'weak', label: '🎯 Weak Topics' },
+ { id: 'srs', label: `SRS ${getDueEntries(progress.srs).length}` },
+ { id: 'notes', label: `Ghi chú ${Object.keys(progress.notes || {}).length}` },
+ { id: 'weak', label: 'Điểm yếu' },
  ];
  return (
  <div>
@@ -1331,14 +1311,14 @@ function BossBattleScreen({ progress, onRecord, onWin }) {
  };
  const reset = () => { setQuestions(shuffleArray(poolBais.flatMap((bai) => QUIZZES[bai].questions).filter((item) => ['apply', 'synthesize'].includes(item.level))).slice(0, 10)); setIndex(0); setBossHp(100); setPlayerHp(100); setSelected(''); setInput(''); setResult(null); setStatus('active'); };
 
- if (status !== 'active') return <div className="mx-auto max-w-lg text-center"><div className={`mx-auto grid h-24 w-24 place-items-center rounded-lg text-5xl ${status === 'won' ? 'bg-warning-subtle dark:bg-warning-subtle' : 'bg-border '}`}>{status === 'won' ? '🏆' : '↻'}</div><h1 className="mt-5 h1-text font-bold">{status === 'won' ? 'Chiến thắng!' : 'Thử lại nhé'}</h1><p className="mt-2 text-text-muted">{status === 'won' ? `Bạn nhận ${XP_REWARDS.boss} XP và một huy hiệu mới.` : 'Ôn lại câu sai rồi quay lại sẽ hiệu quả hơn.'}</p><button onClick={reset} className="btn-primary mt-6 w-full">Đấu lại</button></div>;
+ if (status !== 'active') return <div className="mx-auto max-w-lg text-center"><div className={`mx-auto grid h-24 w-24 place-items-center rounded-lg ${status === 'won' ? 'bg-warning-subtle text-warning' : 'bg-bg-tertiary text-text-muted'}`}>{status === 'won' ? <Icon.Trophy className="h-10 w-10"/> : <Icon.Refresh className="h-10 w-10"/>}</div><h1 className="mt-5 h1-text font-bold">{status === 'won' ? 'Chiến thắng!' : 'Thử lại nhé'}</h1><p className="mt-2 text-text-muted">{status === 'won' ? `Bạn nhận ${XP_REWARDS.boss} XP và một huy hiệu mới.` : 'Ôn lại câu sai rồi quay lại sẽ hiệu quả hơn.'}</p><button onClick={reset} className="btn-primary mt-6 w-full">Đấu lại</button></div>;
  if (!question) return <EmptyState icon="♛" title="Chưa có câu Boss" text="Hoàn thành thêm bài để mở câu hỏi tổng hợp." />;
  return (
  <div className="mx-auto max-w-2xl">
  <SectionHeading eyebrow="Boss Battle" title="Thử thách tổng hợp" />
  <div className="mb-4 grid grid-cols-2 gap-3">
- <div><div className="mb-1 flex justify-between text-xs font-bold"><span>Người học</span><span>{playerHp} HP</span></div><div className="h-3 overflow-hidden rounded-full bg-border "><div className="h-full bg-success transition-all duration-500" style={{ width: `${playerHp}%` }} /></div></div>
- <div><div className="mb-1 flex justify-between text-xs font-bold"><span>Boss</span><span>{bossHp} HP</span></div><div className="h-3 overflow-hidden rounded-full bg-border "><div className="h-full bg-error transition-all duration-500" style={{ width: `${bossHp}%` }} /></div></div>
+ <div><div className="mb-1 flex justify-between text-xs font-bold"><span>Người học</span><span>{playerHp} HP</span></div><div role="progressbar" aria-label="Sinh lực người học" aria-valuemin={0} aria-valuemax={100} aria-valuenow={playerHp} className="h-3 overflow-hidden rounded-full bg-border"><div className="h-full origin-left bg-success transition-transform duration-300" style={{ transform: `scaleX(${playerHp / 100})` }} /></div></div>
+ <div><div className="mb-1 flex justify-between text-xs font-bold"><span>Boss</span><span>{bossHp} HP</span></div><div role="progressbar" aria-label="Sinh lực Boss" aria-valuemin={0} aria-valuemax={100} aria-valuenow={bossHp} className="h-3 overflow-hidden rounded-full bg-border"><div className="h-full origin-left bg-error transition-transform duration-300" style={{ transform: `scaleX(${bossHp / 100})` }} /></div></div>
  </div>
  <section className="rounded-lg border border-border bg-bg-secondary p-5 shadow-lg sm:p-7">
  <QuestionPrompt question={question} />
@@ -1457,8 +1437,8 @@ function WeeklyLeaderboard({ weeklyXP = {} }) {
  const max = Math.max(...weeks.map((week) => week.xp), 10);
  return (
  <section className="mt-6 border-t border-border pt-6 dark:border-border-strong">
- <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end"><div><p className="text-xs font-bold uppercase tracking-widest text-warning dark:text-warning">🏅 Thành tích tuần</p><h2 className="mt-1 text-xl font-bold">Tuần này: {current.xp} XP</h2><p className="mt-1 text-sm text-text-muted">Tuần trước: {previous.xp} XP</p></div><span className={`self-start rounded-lg px-3 py-2 text-sm font-bold ${change >= 0 ? 'bg-success-subtle text-success dark:bg-success-subtle dark:text-success' : 'bg-error-subtle text-error dark:bg-error-subtle dark:text-error'}`}>{change >= 0 ? '📈 +' : '📉 '}{change}%{current.xp > previous.xp && <span> · Top tuần</span>}</span></div>
- <div className="mt-5 flex h-40 items-end gap-3 rounded-lg bg-bg-secondary p-4 dark:bg-bg-secondary">{weeks.map((week, index) => <div key={week.key} className="flex h-full flex-1 flex-col justify-end text-center"><span className="mb-1 text-xs font-bold text-text-muted">{week.xp}</span><div className={`min-h-1 rounded-t-md ${index === weeks.length - 1 ? 'bg-warning-subtle' : 'bg-success-subtle dark:bg-success-subtle'}`} style={{ height: `${Math.max(4, (week.xp / max) * 100)}%` }} /><span className="mt-2 text-xs font-bold text-text-muted">{week.label}</span></div>)}</div>
+ <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end"><div><p className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-warning"><Icon.Trophy className="h-4 w-4"/>Thành tích tuần</p><h2 className="mt-1 text-xl font-bold">Tuần này: {current.xp} XP</h2><p className="mt-1 text-sm text-text-muted">Tuần trước: {previous.xp} XP</p></div><span className={`self-start rounded-lg px-3 py-2 text-sm font-bold ${change >= 0 ? 'bg-success-subtle text-success' : 'bg-error-subtle text-error'}`}>{change >= 0 ? '+' : ''}{change}%{current.xp > previous.xp && <span> · Top tuần</span>}</span></div>
+ <div className="mt-5 flex h-40 items-end gap-3 rounded-lg bg-bg-secondary p-4 dark:bg-bg-secondary">{weeks.map((week, index) => { const ratio = Math.max(0.04, week.xp / max); return <div key={week.key} className="flex h-full flex-1 flex-col text-center"><span className="mb-1 text-xs font-bold text-text-muted">{week.xp}</span><div className="flex min-h-1 flex-1 items-end overflow-hidden rounded-t-md"><div className={`h-full w-full origin-bottom transition-transform duration-300 ${index === weeks.length - 1 ? 'bg-warning-subtle' : 'bg-success-subtle dark:bg-success-subtle'}`} style={{ transform: `scaleY(${ratio})` }} /></div><span className="mt-2 text-xs font-bold text-text-muted">{week.label}</span></div>; })}</div>
  </section>
  );
 }
@@ -1524,7 +1504,7 @@ function BackgroundSettings({ settings, updateSettings, customBackground, onCust
 
  return (
  <section className="rounded-lg border border-border bg-bg-secondary p-4">
- <div className="flex items-center justify-between gap-4"><div><h3 className="font-bold">Ảnh nền</h3><p className="mt-1 text-sm text-text-muted">Dùng ảnh có độ tương phản thấp để nội dung luôn dễ đọc.</p></div><label className="relative inline-flex cursor-pointer items-center"><input type="checkbox" className="peer sr-only" checked={backgroundEnabled} onChange={(event) => updateSettings({ enableBackground: event.target.checked, background: event.target.checked && (settings.background === 'none' || (settings.background === 'custom' && !customBackground)) ? (customBackground ? 'custom' : 'sakura') : settings.background })} /><span className="relative h-6 w-11 rounded-full bg-border transition after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-border after:bg-bg-secondary after:transition-all after:content-[''] peer-checked:bg-success peer-checked:after:translate-x-full" /></label></div>
+ <div className="flex items-center justify-between gap-4"><div><h3 className="font-bold">Ảnh nền</h3><p className="mt-1 text-sm text-text-muted">Dùng ảnh có độ tương phản thấp để nội dung luôn dễ đọc.</p></div><label className="relative inline-flex cursor-pointer items-center"><input type="checkbox" className="peer sr-only" checked={backgroundEnabled} onChange={(event) => updateSettings({ enableBackground: event.target.checked, background: event.target.checked && (settings.background === 'none' || (settings.background === 'custom' && !customBackground)) ? (customBackground ? 'custom' : 'sakura') : settings.background })} /><span className="relative h-6 w-11 rounded-full bg-border transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-border after:bg-bg-secondary after:transition-transform after:content-[''] peer-checked:bg-success peer-checked:after:translate-x-full" /></label></div>
  <div className="mt-5 space-y-5">
   <input ref={fileInputRef} type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" onChange={handleUpload} className="sr-only" />
   {customBackground ? <div className="grid grid-cols-[128px_1fr] gap-4 rounded-lg border border-border bg-bg-tertiary p-3"><img src={customBackground} alt="Ảnh nền tùy chỉnh" className="h-20 w-32 rounded-md object-cover"/><div className="flex flex-col justify-center"><p className="text-sm font-semibold">Ảnh nền tùy chỉnh</p><div className="mt-2 flex gap-2"><button type="button" onClick={() => fileInputRef.current?.click()} className="btn-secondary">Đổi ảnh</button><button type="button" onClick={removeCustom} className="btn-ghost text-error">Xóa</button></div></div></div> : <button type="button" onClick={() => fileInputRef.current?.click()} className="btn-secondary flex w-full items-center justify-center gap-2"><Icon.Upload className="h-4 w-4"/>Tải ảnh lên</button>}
@@ -1662,7 +1642,7 @@ function Dashboard({ progress, onImport, onThemeChange, onColorThemeChange, onCh
   {tab === 'overview' && <div className="grid gap-4 lg:grid-cols-[1fr_280px]">
    <div className="space-y-4">
     <section className="rounded-xl border border-border bg-bg-secondary p-5"><div className="flex items-center justify-between"><h2 className="font-serif text-lg font-semibold">Giới thiệu</h2>{!editing && <button onClick={() => setEditing(true)} className="grid h-8 w-8 place-items-center rounded-lg text-text-muted hover:bg-bg-tertiary" aria-label="Sửa giới thiệu"><Icon.Pen/></button>}</div>{editing ? <div className="mt-4 space-y-3"><input className="input w-full" value={draft.name} onChange={(event) => setDraft((item) => ({ ...item, name: event.target.value }))} aria-label="Tên hiển thị"/><input className="input w-full" value={draft.headline} onChange={(event) => setDraft((item) => ({ ...item, headline: event.target.value }))} aria-label="Mô tả hồ sơ"/><textarea className="input w-full" rows={4} value={draft.bio} onChange={(event) => setDraft((item) => ({ ...item, bio: event.target.value }))} aria-label="Giới thiệu bản thân"/><div className="flex justify-end gap-2"><button onClick={() => { setDraft(progress.profile); setEditing(false); }} className="btn-secondary">Hủy</button><button onClick={saveProfile} className="btn-primary">Lưu hồ sơ</button></div></div> : <p className="mt-3 text-sm leading-6 text-text-secondary">{progress.profile.bio}</p>}</section>
-    <section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Kỹ năng</h2><div className="mt-5 space-y-4">{skills.map((skill) => <div key={skill.label}><div className="mb-1.5 flex justify-between text-sm"><span className="font-semibold">{skill.label}</span><span className="text-text-muted">{Math.round(skill.value)}%</span></div><div className="h-2 overflow-hidden rounded-full bg-bg-tertiary"><div className={`h-full rounded-full transition-all duration-700 ${skill.tone}`} style={{ width: `${skill.value}%` }}/></div></div>)}</div></section>
+    <section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Kỹ năng</h2><div className="mt-5 space-y-4">{skills.map((skill) => <div key={skill.label}><div className="mb-1.5 flex justify-between text-sm"><span className="font-semibold">{skill.label}</span><span className="text-text-muted">{Math.round(skill.value)}%</span></div><div className="h-2 overflow-hidden rounded-full bg-bg-tertiary"><div className={`h-full origin-left rounded-full transition-transform duration-300 ${skill.tone}`} style={{ transform: `scaleX(${Math.min(100, Math.max(0, skill.value)) / 100})` }}/></div></div>)}</div></section>
     <section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Bài học gần đây</h2><div className="mt-3 divide-y divide-border">{progress.unlockedBai.slice().reverse().slice(0, 5).map((bai) => { const lesson=progress.baiProgress[bai]; const meta=GLOSSARY[bai]?.metadata; return <div key={bai} className="grid grid-cols-[40px_1fr_auto] items-center gap-3 py-3"><span className="grid h-10 w-10 place-items-center rounded-lg bg-accent-subtle font-serif font-semibold text-accent">{String(bai).padStart(2,'0')}</span><span className="min-w-0"><span className="block truncate font-hanzi font-medium">{meta?.title_zh || `Bài ${bai}`}</span><span className="block text-xs text-text-muted">{lesson.quizDone}/{QUIZZES[bai]?.questions.length || 30} câu</span></span><span className="text-xs font-semibold text-text-muted">{lesson.completed ? 'Đã xong' : 'Đang học'}</span></div>; })}</div></section>
    </div>
    <div className="space-y-4">
@@ -1674,7 +1654,7 @@ function Dashboard({ progress, onImport, onThemeChange, onColorThemeChange, onCh
 
   {tab === 'achievements' && <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{ACHIEVEMENTS.map((badge) => { const unlocked=progress.achievements.includes(badge.id); const percent=Math.round(achievementProgress(badge.id)); const BadgeIcon=PROFILE_BADGE_ICONS[badge.id] || Icon.Star; return <article key={badge.id} className={`rounded-xl border p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-sm ${unlocked ? 'border-warning bg-warning-subtle' : 'border-border bg-bg-secondary'}`}><span className={`grid h-11 w-11 place-items-center rounded-xl ${unlocked ? 'bg-warning text-white' : 'bg-bg-tertiary text-text-muted'}`}><BadgeIcon/></span><h2 className="mt-4 text-[15px] font-semibold">{badge.title}</h2><p className="mt-1 min-h-10 text-sm text-text-muted">{badge.description}</p><ProgressBar value={percent} className="mt-4"/><div className="mt-2 flex justify-between text-xs font-semibold"><span className={unlocked ? 'text-success' : 'text-text-muted'}>{unlocked ? 'Đã đạt' : 'Chưa đạt'}</span><span className="text-text-muted">{percent}%</span></div></article>; })}</div>}
 
-  {tab === 'activity' && <div className="space-y-4"><section className="rounded-xl border border-border bg-bg-secondary p-5"><div className="flex items-center gap-2"><Icon.Chart className="text-accent"/><h2 className="font-serif text-lg font-semibold">XP trong 7 ngày</h2></div><div className="mt-5 flex h-44 items-end gap-3">{lastSeven.map((item) => <div key={item.key} className="flex h-full flex-1 flex-col justify-end text-center"><span className="mb-2 text-xs font-semibold text-text-muted">{item.value}</span><div className="min-h-1 rounded-t-lg bg-accent transition-all duration-700" style={{height:`${Math.max(4,item.value/maxXp*100)}%`}}/><span className="mt-2 text-[11px] font-medium text-text-muted">{item.label}</span></div>)}</div></section><div className="grid gap-4 md:grid-cols-2"><section className="rounded-xl border border-border bg-bg-secondary p-5"><StreakCalendar studyDays={progress.studyDays} streak={progress.streak}/></section><section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Tiến độ theo bài</h2><div className="mt-4 space-y-3">{LESSONS.slice(0,5).map((bai)=>{const data=progress.baiProgress[bai]; const value=data.quizDone?data.quizCorrect/data.quizDone*100:0; return <div key={bai} className="grid grid-cols-[42px_1fr_48px] items-center gap-2 text-xs"><strong>Bài {bai}</strong><ProgressBar value={value}/><span className="text-right text-text-muted">{data.quizCorrect}/{data.quizDone}</span></div>;})}</div></section></div></div>}
+  {tab === 'activity' && <div className="space-y-4"><section className="rounded-xl border border-border bg-bg-secondary p-5"><div className="flex items-center gap-2"><Icon.Chart className="text-accent"/><h2 className="font-serif text-lg font-semibold">XP trong 7 ngày</h2></div><div className="mt-5 flex h-44 items-end gap-3">{lastSeven.map((item) => { const ratio = Math.max(0.04, item.value / maxXp); return <div key={item.key} className="flex h-full flex-1 flex-col text-center"><span className="mb-2 text-xs font-semibold text-text-muted">{item.value}</span><div className="flex min-h-1 flex-1 items-end overflow-hidden rounded-t-lg"><div className="h-full w-full origin-bottom bg-accent transition-transform duration-300" style={{ transform: `scaleY(${ratio})` }}/></div><span className="mt-2 text-[11px] font-medium text-text-muted">{item.label}</span></div>; })}</div></section><div className="grid gap-4 md:grid-cols-2"><section className="rounded-xl border border-border bg-bg-secondary p-5"><StreakCalendar studyDays={progress.studyDays} streak={progress.streak}/></section><section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Tiến độ theo bài</h2><div className="mt-4 space-y-3">{LESSONS.slice(0,5).map((bai)=>{const data=progress.baiProgress[bai]; const value=data.quizDone?data.quizCorrect/data.quizDone*100:0; return <div key={bai} className="grid grid-cols-[42px_1fr_48px] items-center gap-2 text-xs"><strong>Bài {bai}</strong><ProgressBar value={value}/><span className="text-right text-text-muted">{data.quizCorrect}/{data.quizDone}</span></div>;})}</div></section></div></div>}
 
   {tab === 'settings' && <div className="space-y-4"><section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Mục tiêu mỗi ngày</h2><p className="mt-1 text-sm text-text-muted">Điều chỉnh số câu muốn hoàn thành trong ngày.</p><div className="mt-4 grid grid-cols-4 gap-2">{[10,20,30,50].map((goal)=><button key={goal} onClick={()=>onChangeGoal(goal)} className={`rounded-lg border px-3 py-2 text-sm font-semibold ${progress.dailyGoal===goal?'border-accent bg-accent-subtle text-accent':'border-border hover:bg-bg-tertiary'}`}>{goal}</button>)}</div></section><section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Giao diện sáng / tối</h2><p className="mb-4 mt-1 text-sm text-text-muted">Chế độ tự động dùng giao diện sáng từ 06:00 đến 18:00.</p><div className="grid grid-cols-3 gap-2">{[['light','Sáng'],['dark','Tối'],['auto','Tự động']].map(([id,label])=><button key={id} onClick={()=>onThemeChange(id)} className={`rounded-lg border px-3 py-2 text-sm font-semibold ${progress.themeMode===id?'border-accent bg-accent-subtle text-accent':'border-border'}`}>{label}</button>)}</div></section><section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Theme màu sắc</h2><div className="mt-4 grid grid-cols-3 gap-2">{Object.entries(THEMES).map(([id,theme])=><button key={id} onClick={()=>onColorThemeChange(id)} className={`rounded-lg border px-3 py-2 text-sm font-semibold ${progress.colorTheme===id?'border-accent bg-accent-subtle text-accent':'border-border'}`}>{theme.name}</button>)}</div></section><BackgroundSettings settings={progress.settings} updateSettings={updateSettings} customBackground={customBackground} onCustomBackgroundChange={onCustomBackgroundChange} effectiveTheme={effectiveTheme}/><SoundToggle/><section className="rounded-xl border border-border bg-bg-secondary p-5"><div className="flex items-center gap-2"><Icon.Clock className="text-accent"/><h2 className="font-serif text-lg font-semibold">Pomodoro hôm nay</h2></div><p className="mt-3 font-serif text-2xl font-semibold text-error">{progress.pomodoroSessions} phiên</p><p className="mt-1 text-sm text-text-muted">Mỗi phiên tập trung kéo dài 25 phút.</p></section><ImportExportPanel progress={progress} onImport={onImport}/></div>}
  </div>;
@@ -1740,7 +1720,7 @@ function MatchingGame({ onComplete }) {
  if (!isPlaying) {
  return (
  <div className="mx-auto max-w-2xl text-center">
- <h1 className="h1-text font-bold">🎮 Word Matching Game</h1>
+ <div className="flex items-center justify-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-lg bg-accent-subtle text-accent"><Icon.Gamepad className="h-5 w-5"/></span><h1 className="h1-text font-bold">Ghép từ</h1></div>
  <p className="mt-2 text-text-muted">Nối chữ Hán và nghĩa tiếng Việt tương ứng.</p>
  <section className="mt-6 rounded-lg border border-border bg-bg-secondary p-6 shadow-sm dark:border-border-strong dark:bg-bg-secondary">
  <label className="text-sm font-bold">Chọn bài để chơi
@@ -1760,7 +1740,7 @@ function MatchingGame({ onComplete }) {
  return (
  <div className="mx-auto max-w-xl text-center animate-fade-slide">
  <Confetti />
- <div className="mx-auto grid h-20 w-20 place-items-center rounded-lg bg-success-subtle display-text dark:bg-success-subtle">🏆</div>
+ <div className="mx-auto grid h-20 w-20 place-items-center rounded-lg bg-success-subtle text-success dark:bg-success-subtle"><Icon.Trophy className="h-9 w-9"/></div>
  <h1 className="mt-5 h1-text font-bold">Hoàn thành xuất sắc!</h1>
  <div className="mt-6 grid grid-cols-3 gap-2">
  <StatBox label="Thời gian" value={`${seconds}s`} tone="sky" />
@@ -1777,11 +1757,11 @@ function MatchingGame({ onComplete }) {
  <div className="mb-6 flex items-center justify-between">
  <h2 className="h2-text font-bold">Bài {bai}</h2>
  <div className="flex gap-4">
- <span className="font-mono text-xl font-bold">⏱️ {(time / 1000).toFixed(1)}s</span>
- <span className="text-xl font-bold text-error">❌ {misses}</span>
+ <span className="inline-flex items-center gap-2 font-mono text-xl font-bold"><Icon.Clock className="h-5 w-5"/>{(time / 1000).toFixed(1)}s</span>
+ <span className="inline-flex items-center gap-2 text-xl font-bold text-error"><Icon.X className="h-5 w-5"/>{misses}</span>
  </div>
  </div>
- <div className="grid grid-cols-2 gap-8">
+ <div className="grid grid-cols-2 gap-3 sm:gap-8">
  <div className="grid gap-3">
  {zhCards.map((card) => {
  const isMatched = matched.includes(card.id);
@@ -1836,14 +1816,14 @@ function DictationScreen({ onComplete }) {
  setIndex((value) => value + 1); setAnswer(''); setResult(null); setReplays(0);
  };
  if (!deck.length) return (
- <div className="mx-auto max-w-2xl"><p className="text-xs font-bold uppercase tracking-widest text-error">Advanced Learning</p><h1 className="mt-1 h1-text font-bold">🎧 Luyện chính tả</h1><p className="mt-2 text-text-muted">Nghe câu tiếng Trung rồi gõ lại chính xác.</p><section className="mt-6 rounded-lg border border-border bg-bg-secondary p-6 shadow-sm dark:border-border-strong dark:bg-bg-secondary"><div className="grid grid-cols-2 gap-4"><label className="text-sm font-bold">Bài<select value={bai} onChange={(event) => setBai(Number(event.target.value))} className="mt-2 w-full rounded-lg border border-border-strong bg-bg-secondary px-3 py-3 dark:border-border-strong">{LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}</select></label><label className="text-sm font-bold">Số câu<select value={count} onChange={(event) => setCount(Number(event.target.value))} className="mt-2 w-full rounded-lg border border-border-strong bg-bg-secondary px-3 py-3 dark:border-border-strong">{[5, 10, 20].map((number) => <option key={number} value={number}>{number} câu</option>)}</select></label></div><p className="mt-4 text-sm text-text-muted">Bài {bai} có {getDictationSentences(bai).length} câu phù hợp.</p><button onClick={start} className="btn-primary mt-5 w-full">Bắt đầu nghe</button></section></div>
+ <div className="mx-auto max-w-2xl"><p className="text-xs font-bold uppercase tracking-widest text-error">Advanced Learning</p><div className="mt-1 flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-lg bg-error-subtle text-error"><Icon.Headphones className="h-5 w-5"/></span><h1 className="h1-text font-bold">Luyện chính tả</h1></div><p className="mt-2 text-text-muted">Nghe câu tiếng Trung rồi gõ lại chính xác.</p><section className="mt-6 rounded-lg border border-border bg-bg-secondary p-5 shadow-sm sm:p-6 dark:border-border-strong dark:bg-bg-secondary"><div className="grid gap-4 sm:grid-cols-2"><label className="text-sm font-bold">Bài<select value={bai} onChange={(event) => setBai(Number(event.target.value))} className="input mt-2 w-full">{LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}</select></label><label className="text-sm font-bold">Số câu<select value={count} onChange={(event) => setCount(Number(event.target.value))} className="input mt-2 w-full">{[5, 10, 20].map((number) => <option key={number} value={number}>{number} câu</option>)}</select></label></div><p className="mt-4 text-sm text-text-muted">Bài {bai} có {getDictationSentences(bai).length} câu phù hợp.</p><button onClick={start} className="btn-primary mt-5 w-full">Bắt đầu nghe</button></section></div>
  );
  if (index >= deck.length) {
  const average = scores.length ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length) : 0;
- return <div className="mx-auto max-w-xl rounded-xl border border-success bg-bg-secondary p-8 text-center shadow-sm"><div className="text-5xl">🎧</div><h1 className="mt-4 h1-text font-bold">Hoàn thành chính tả</h1><p className="mt-2 text-text-muted">Điểm trung bình {average}/100 · {scores.filter((score) => score >= 80).length}/{scores.length} câu đạt</p><button onClick={() => setDeck([])} className="btn-primary mt-6 w-full">Luyện lượt mới</button></div>;
+ return <div className="mx-auto max-w-xl rounded-xl border border-success bg-bg-secondary p-8 text-center shadow-sm"><div className="mx-auto grid h-16 w-16 place-items-center rounded-xl bg-success-subtle text-success"><Icon.Headphones className="h-7 w-7"/></div><h1 className="mt-4 h1-text font-bold">Hoàn thành chính tả</h1><p className="mt-2 text-text-muted">Điểm trung bình {average}/100 · {scores.filter((score) => score >= 80).length}/{scores.length} câu đạt</p><button onClick={() => setDeck([])} className="btn-primary mt-6 w-full">Luyện lượt mới</button></div>;
  }
  return (
- <div className="mx-auto max-w-2xl"><div className="mb-5 flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-error">Chính tả · Bài {bai}</p><h1 className="mt-1 h2-text font-bold">Câu {index + 1}/{deck.length}</h1></div><span className="rounded-lg bg-warning-subtle px-3 py-2 text-sm font-bold text-warning dark:bg-warning-subtle dark:text-warning">Lượt nghe {replays}/3</span></div><ProgressBar value={((index + 1) / deck.length) * 100} /><section className="mt-5 rounded-lg border border-border bg-bg-secondary p-7 shadow-lg dark:border-border-strong dark:bg-bg-secondary"><div className="text-center"><button onClick={play} disabled={replays >= 3} className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-error-subtle h1-text text-white shadow-lg transition hover:scale-105 disabled:opacity-40" aria-label="Phát câu chính tả">🔊</button><p className="mt-3 text-sm text-text-muted">Có thể nghe tối đa 3 lần</p></div><textarea ref={textareaRef} value={answer} onChange={(event) => setAnswer(event.target.value)} disabled={Boolean(result)} rows={3} placeholder="Gõ câu chữ Hán bạn nghe được..." className="mt-6 w-full rounded-lg border border-border-strong bg-bg-secondary px-4 py-3 text-lg dark:border-border-strong" />{!result && <VirtualKeyboard textareaRef={textareaRef} value={answer} onChange={setAnswer} />}{!result ? <button onClick={check} disabled={!answer.trim()} className="btn-primary mt-4 w-full disabled:opacity-40">Kiểm tra</button> : <div className={`mt-5 rounded-lg border p-4 ${result.isCorrect ? 'border-success bg-success-subtle dark:border-success dark:bg-success-subtle/30' : 'border-error bg-error-subtle dark:border-error'}`}><p className="text-xl font-bold">{result.isCorrect ? '✓ Nghe tốt' : 'Cần nghe lại'} · {result.score}/100</p><p className="mt-3 text-lg font-bold">{current.zh}</p><p className="mt-1 text-sm text-success">{current.pinyin}</p><p className="mt-1 text-sm text-text-muted">{current.vi}</p><button onClick={next} className="btn-primary mt-4 w-full">{index === deck.length - 1 ? 'Xem kết quả' : 'Câu tiếp →'}</button></div>}</section></div>
+ <div className="mx-auto max-w-2xl"><div className="mb-5 flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-error">Chính tả · Bài {bai}</p><h1 className="mt-1 h2-text font-bold">Câu {index + 1}/{deck.length}</h1></div><span className="rounded-lg bg-warning-subtle px-3 py-2 text-sm font-bold text-warning dark:bg-warning-subtle dark:text-warning">Lượt nghe {replays}/3</span></div><ProgressBar value={((index + 1) / deck.length) * 100} label="Tiến độ luyện chính tả"/><section className="mt-5 rounded-lg border border-border bg-bg-secondary p-5 shadow-lg sm:p-7 dark:border-border-strong dark:bg-bg-secondary"><div className="text-center"><button onClick={play} disabled={replays >= 3} className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-error text-white shadow-lg transition hover:scale-105 disabled:opacity-40" aria-label="Phát câu chính tả"><Icon.Volume className="h-8 w-8"/></button><p className="mt-3 text-sm text-text-muted">Có thể nghe tối đa 3 lần</p></div><textarea ref={textareaRef} value={answer} onChange={(event) => setAnswer(event.target.value)} disabled={Boolean(result)} rows={3} placeholder="Gõ câu chữ Hán bạn nghe được..." className="input mt-6 w-full text-lg" />{!result && <VirtualKeyboard textareaRef={textareaRef} value={answer} onChange={setAnswer} />}{!result ? <button onClick={check} disabled={!answer.trim()} className="btn-primary mt-4 w-full disabled:opacity-40">Kiểm tra</button> : <div className={`mt-5 rounded-lg border p-4 ${result.isCorrect ? 'border-success bg-success-subtle dark:border-success dark:bg-success-subtle/30' : 'border-error bg-error-subtle dark:border-error'}`}><p className="text-xl font-bold">{result.isCorrect ? '✓ Nghe tốt' : 'Cần nghe lại'} · {result.score}/100</p><p className="mt-3 text-lg font-bold">{current.zh}</p><p className="mt-1 text-sm text-success">{current.pinyin}</p><p className="mt-1 text-sm text-text-muted">{current.vi}</p><button onClick={next} className="btn-primary mt-4 w-full">{index === deck.length - 1 ? 'Xem kết quả' : 'Câu tiếp →'}</button></div>}</section></div>
  );
 }
 
@@ -1870,7 +1850,7 @@ function PronunciationScreen({ onAttempt }) {
  };
  const next = () => { setIndex((value) => (value + 1) % entries.length); setFeedback(null); };
  return (
- <div className="mx-auto max-w-2xl"><div className="flex items-end justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-error">Advanced Learning</p><h1 className="mt-1 h1-text font-bold">🎤 Luyện phát âm</h1></div><select value={bai} onChange={(event) => { setBai(Number(event.target.value)); setIndex(0); setFeedback(null); }} className="input">{LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}</select></div>{!supported && <div className="mt-5 rounded-lg border border-warning bg-warning-subtle p-4 font-semibold text-warning dark:border-warning dark:bg-warning-subtle/30 dark:text-warning">Trình duyệt này chưa hỗ trợ nhận diện giọng nói. Hãy mở app bằng Chrome hoặc Edge.</div>}<section className="mt-6 rounded-xl border border-border bg-bg-secondary p-8 text-center shadow-lg"><p className="text-6xl font-bold">{entry.word_zh}</p><p className="mt-3 text-xl font-bold text-error">{entry.pinyin}</p><p className="mt-2 text-text-muted">{entry.meaning_vi}</p><div className="mt-7 flex items-center justify-center gap-3"><SpeakButton text={entry.word_zh} className="h-12 w-12 text-xl" /><button onClick={record} disabled={!supported || listening} className={`grid h-20 w-20 place-items-center rounded-full h1-text text-white shadow-lg transition ${listening ? 'animate-pulse bg-red-600 ring-8 ring-red-100 dark:ring-red-950' : 'bg-red-500 hover:scale-105'} disabled:opacity-40`} aria-label="Bắt đầu ghi âm">🎤</button></div><p className="mt-3 text-sm font-bold text-text-muted">{listening ? 'Đang nghe... hãy nói rõ từ trên' : 'Bấm micro rồi đọc từ trên'}</p>{feedback && <div className={`mt-6 rounded-lg p-4 text-left ${feedback.score >= 80 ? 'bg-success-subtle' : feedback.score >= 50 ? 'bg-warning-subtle' : 'bg-error-subtle'}`}><div className="flex items-center justify-between"><p className="font-bold">Bạn nói: {feedback.transcript || 'Không nhận diện được'}</p><span className="text-xl font-bold">{feedback.score}/100</span></div>{feedback.error && <p className="mt-2 text-sm text-error dark:text-error">{feedback.error}</p>}<div className="mt-4 flex gap-2"><button onClick={record} className="btn-secondary flex-1">Thử lại</button><button onClick={next} className="btn-primary flex-1">Tiếp →</button></div></div>}</section></div>
+ <div className="mx-auto max-w-2xl"><div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-error">Advanced Learning</p><div className="mt-1 flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-lg bg-error-subtle text-error"><Icon.Mic className="h-5 w-5"/></span><h1 className="h1-text font-bold">Luyện phát âm</h1></div></div><select value={bai} onChange={(event) => { setBai(Number(event.target.value)); setIndex(0); setFeedback(null); }} className="input">{LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}</select></div>{!supported && <div role="alert" className="mt-5 rounded-lg border border-warning bg-warning-subtle p-4 font-semibold text-warning dark:border-warning dark:bg-warning-subtle/30 dark:text-warning">Trình duyệt này chưa hỗ trợ nhận diện giọng nói. Hãy mở app bằng Chrome hoặc Edge.</div>}<section className="mt-6 rounded-xl border border-border bg-bg-secondary p-5 text-center shadow-lg sm:p-8"><p className="font-hanzi text-6xl font-bold">{entry.word_zh}</p><p className="mt-3 text-xl font-bold text-error">{entry.pinyin}</p><p className="mt-2 text-text-muted">{entry.meaning_vi}</p><div className="mt-7 flex items-center justify-center gap-3"><SpeakButton text={entry.word_zh} className="h-12 w-12 text-xl" /><button onClick={record} disabled={!supported || listening} className={`grid h-20 w-20 place-items-center rounded-full text-white shadow-lg transition ${listening ? 'animate-pulse bg-error ring-8 ring-error-subtle' : 'bg-error hover:scale-105'} disabled:opacity-40`} aria-label="Bắt đầu ghi âm"><Icon.Mic className="h-8 w-8"/></button></div><p className="mt-3 text-sm font-bold text-text-muted">{listening ? 'Đang nghe... hãy nói rõ từ trên' : 'Bấm micro rồi đọc từ trên'}</p>{feedback && <div className={`mt-6 rounded-lg p-4 text-left ${feedback.score >= 80 ? 'bg-success-subtle' : feedback.score >= 50 ? 'bg-warning-subtle' : 'bg-error-subtle'}`}><div className="flex items-center justify-between gap-3"><p className="min-w-0 font-bold">Bạn nói: {feedback.transcript || 'Không nhận diện được'}</p><span className="shrink-0 text-xl font-bold">{feedback.score}/100</span></div>{feedback.error && <p className="mt-2 text-sm text-error dark:text-error">{feedback.error}</p>}<div className="mt-4 flex gap-2"><button onClick={record} className="btn-secondary flex-1">Thử lại</button><button onClick={next} className="btn-primary flex-1">Tiếp →</button></div></div>}</section></div>
  );
 }
 
@@ -1904,17 +1884,12 @@ function SentenceMiningScreen({ bookmarks, notes, onCharacter, onStartPlaylist }
  const sentences = getSentencesByBai(bai).filter((sentence) => filter === 'all' || (filter === 'bookmarks' ? bookmarks.includes(sentence.source) : Boolean(notes[sentence.source])));
  const playlist = sentences.map((sentence) => ({ text: sentence.zh, label: sentence.zh, sublabel: sentence.vi }));
  return (
- <div><div className="flex items-end justify-between gap-5"><div><p className="text-xs font-bold uppercase tracking-widest text-error">Advanced Learning</p><h1 className="mt-1 h1-text font-bold">📖 Câu ví dụ</h1><p className="mt-2 text-text-muted">Đọc theo ngữ cảnh và nghe liên tục theo bài.</p></div><button onClick={() => onStartPlaylist(playlist)} disabled={!playlist.length} className="btn-primary flex items-center gap-2 disabled:opacity-40"><Icon.Volume className="h-4 w-4"/>Đọc toàn bộ</button></div><div className="mt-6 flex flex-wrap items-center gap-2 border-b border-border pb-4"><select value={bai} onChange={(event) => setBai(Number(event.target.value))} className="input py-2 font-bold">{LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}</select><button onClick={() => setShowPinyin((value) => !value)} className={`filter-btn ${showPinyin ? 'active' : ''}`}>Pinyin</button><button onClick={() => setShowVi((value) => !value)} className={`filter-btn ${showVi ? 'active' : ''}`}>Tiếng Việt</button>{[['all', 'Tất cả'], ['bookmarks', 'Đã đánh dấu'], ['notes', 'Có ghi chú']].map(([id, label]) => <button key={id} onClick={() => setFilter(id)} className={`filter-btn ${filter === id ? 'active' : ''}`}>{label}</button>)}</div><div className="mt-5 space-y-3">{sentences.map((sentence, index) => <article key={`${sentence.source}-${index}`} className="rounded-lg border border-border bg-bg-secondary p-5 shadow-sm"><div className="flex items-start gap-3"><p className="font-hanzi flex-1 text-xl font-semibold leading-9"><SentenceChineseLine sentence={sentence.zh} entries={entries} onCharacter={onCharacter} /></p><SpeakButton text={sentence.zh} /></div>{showPinyin && sentence.pinyin && <p className="pinyin-text mt-2 text-sm text-success">{sentence.pinyin}</p>}{showVi && sentence.vi && <p className="mt-1 text-sm text-accent-2">{sentence.vi}</p>}</article>)}</div>{!sentences.length && <EmptyState icon="文" title="Không có câu phù hợp" text="Đổi bộ lọc hoặc chọn bài khác để tiếp tục." />}</div>
+ <div><div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-error">Advanced Learning</p><div className="mt-1 flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-lg bg-error-subtle text-error"><Icon.Type className="h-5 w-5"/></span><h1 className="h1-text font-bold">Câu ví dụ</h1></div><p className="mt-2 text-text-muted">Đọc theo ngữ cảnh và nghe liên tục theo bài.</p></div><button onClick={() => onStartPlaylist(playlist)} disabled={!playlist.length} className="btn-primary flex items-center justify-center gap-2 disabled:opacity-40"><Icon.Volume className="h-4 w-4"/>Đọc toàn bộ</button></div><div className="mt-6 flex flex-wrap items-center gap-2 border-b border-border pb-4"><select value={bai} onChange={(event) => setBai(Number(event.target.value))} className="input py-2 font-bold">{LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}</select><button onClick={() => setShowPinyin((value) => !value)} className={`filter-btn ${showPinyin ? 'active' : ''}`}>Pinyin</button><button onClick={() => setShowVi((value) => !value)} className={`filter-btn ${showVi ? 'active' : ''}`}>Tiếng Việt</button>{[['all', 'Tất cả'], ['bookmarks', 'Đã đánh dấu'], ['notes', 'Có ghi chú']].map(([id, label]) => <button key={id} onClick={() => setFilter(id)} className={`filter-btn ${filter === id ? 'active' : ''}`}>{label}</button>)}</div><div className="mt-5 space-y-3">{sentences.map((sentence, index) => <article key={`${sentence.source}-${index}`} className="rounded-lg border border-border bg-bg-secondary p-5 shadow-sm"><div className="flex items-start gap-3"><p className="font-hanzi flex-1 text-xl font-semibold leading-9"><SentenceChineseLine sentence={sentence.zh} entries={entries} onCharacter={onCharacter} /></p><SpeakButton text={sentence.zh} /></div>{showPinyin && sentence.pinyin && <p className="pinyin-text mt-2 text-sm text-success">{sentence.pinyin}</p>}{showVi && sentence.vi && <p className="mt-1 text-sm text-accent-2">{sentence.vi}</p>}</article>)}</div>{!sentences.length && <EmptyState icon="文" title="Không có câu phù hợp" text="Đổi bộ lọc hoặc chọn bài khác để tiếp tục." />}</div>
  );
 }
 
 function CharacterDetailModal({ detail, onClose }) {
- useEffect(() => {
- if (!detail) return undefined;
- const closeOnEscape = (event) => { if (event.key === 'Escape') onClose(); };
- window.addEventListener('keydown', closeOnEscape);
- return () => window.removeEventListener('keydown', closeOnEscape);
- }, [detail, onClose]);
+ const trapRef = useDialogA11y(Boolean(detail), onClose);
  if (!detail) return null;
  const { char, entry } = detail;
  const info = getCharacterInfo(char);
@@ -1922,17 +1897,17 @@ function CharacterDetailModal({ detail, onClose }) {
  const exact = entry || compounds[0];
  const examples = [...new Set(compounds.map((item) => item.example_zh).filter(Boolean))].slice(0, 4);
  return (
- <div className="fixed inset-0 z-[90] flex items-center justify-center bg-slate-950/60 p-6 backdrop-blur-sm" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
- <section className="animate-modal-in max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-xl border border-border bg-bg-secondary p-6 shadow-xl">
+ <div className="modal-backdrop fixed inset-0 z-[90] flex items-center justify-center bg-slate-950/60 p-3 backdrop-blur-sm sm:p-6" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+ <section ref={trapRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="character-detail-title" className="animate-modal-in max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-xl border border-border bg-bg-secondary p-4 shadow-xl sm:p-6">
  <header className="flex items-start justify-between gap-4 border-b border-border pb-5">
- <div className="flex items-center gap-5"><span className="text-7xl font-bold leading-none">{char}</span><div><p className="text-xl font-bold text-error">{exact?.pinyin || 'Chưa có pinyin riêng'}</p><p className="mt-2 font-bold">{entryMeaning(exact || {}) || 'Xem các từ ghép bên dưới'}</p></div><SpeakButton text={char} className="h-10 w-10" /></div>
- <button onClick={onClose} className="grid h-10 w-10 place-items-center rounded-lg bg-bg-tertiary text-xl font-bold " aria-label="Đóng chi tiết chữ Hán">×</button>
+ <div className="flex min-w-0 items-center gap-3 sm:gap-5"><span id="character-detail-title" className="font-hanzi text-6xl font-bold leading-none sm:text-7xl">{char}</span><div className="min-w-0"><p className="text-xl font-bold text-error">{exact?.pinyin || 'Chưa có pinyin riêng'}</p><p className="mt-2 font-bold">{entryMeaning(exact || {}) || 'Xem các từ ghép bên dưới'}</p></div><SpeakButton text={char} className="h-10 w-10" /></div>
+ <button onClick={onClose} className="icon-action grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-bg-tertiary text-text-muted hover:bg-border" aria-label="Đóng chi tiết chữ Hán" data-tooltip="Đóng"><Icon.X /></button>
  </header>
  <div className="mt-5 grid gap-4 lg:grid-cols-2">
  <div className="rounded-lg bg-warning-subtle p-4 dark:bg-warning-subtle/30"><p className="text-xs font-bold uppercase tracking-wider text-warning dark:text-warning">Bộ thủ và số nét</p><p className="mt-2 text-lg font-bold">{info.radical ? `${info.radical} · ${RADICALS[info.radical] || 'bộ thủ'}` : 'Chưa có trong bảng bộ thủ'}</p><p className="mt-1 text-sm text-text-muted">{info.strokes ? `${info.strokes} nét` : 'Số nét chưa được ghi nhận'}</p></div>
  <div className="rounded-lg bg-accent-2-subtle p-4 dark:bg-accent-2-subtle/30"><p className="text-xs font-bold uppercase tracking-wider text-accent-2 dark:text-accent-2">Nghĩa trong bài</p><p className="mt-2 font-bold">{exact?.meaning_vi || exact?.grammar_title_vi || 'Chưa có nghĩa riêng cho một chữ'}</p>{exact?.meaning_en && <p className="mt-1 text-sm text-text-muted">{exact.meaning_en}</p>}</div>
  </div>
- <div className="mt-5"><h3 className="font-bold">Từ ghép chứa “{char}”</h3>{compounds.length ? <div className="mt-3 grid grid-cols-2 gap-2 lg:grid-cols-3">{compounds.map((item) => <div key={item.id} className="rounded-lg border border-border p-3 dark:border-border-strong"><div className="flex items-center justify-between"><span className="text-xl font-bold">{item.word_zh}</span><SpeakButton text={item.word_zh} /></div><p className="text-xs font-bold text-error">{item.pinyin}</p><p className="mt-1 text-xs text-text-muted">{item.meaning_vi}</p></div>)}</div> : <p className="mt-2 text-sm text-text-muted">Chưa có từ ghép khác trong 10 bài.</p>}</div>
+ <div className="mt-5"><h3 className="font-bold">Từ ghép chứa “{char}”</h3>{compounds.length ? <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{compounds.map((item) => <div key={item.id} className="rounded-lg border border-border p-3 dark:border-border-strong"><div className="flex items-center justify-between"><span className="text-xl font-bold">{item.word_zh}</span><SpeakButton text={item.word_zh} /></div><p className="text-xs font-bold text-error">{item.pinyin}</p><p className="mt-1 text-xs text-text-muted">{item.meaning_vi}</p></div>)}</div> : <p className="mt-2 text-sm text-text-muted">Chưa có từ ghép khác trong 10 bài.</p>}</div>
  {examples.length > 0 && <div className="mt-5"><h3 className="font-bold">Câu ví dụ</h3><div className="mt-3 space-y-2">{examples.map((example) => <div key={example} className="flex items-center gap-3 rounded-lg bg-bg-tertiary p-3 bg-bg-primary"><p className="flex-1 font-semibold">{example}</p><SpeakButton text={example} /></div>)}</div></div>}
  </section>
  </div>
@@ -1969,8 +1944,8 @@ function PlaylistFloatingPlayer({ playlist, onClose }) {
  if (!entries.length) return null;
  const move = (direction) => { setIndex((value) => Math.min(entries.length - 1, Math.max(0, value + direction))); setPlaying(true); };
  return (
- <aside className={`animate-toast-in fixed bottom-20 right-5 z-[65] rounded-xl border border-border bg-bg-secondary shadow-lg ${minimized ? 'w-56' : 'w-80'}`}>
- <div className="flex items-center gap-2 border-b border-border p-3"><span className="text-lg" aria-hidden="true">🎵</span><p className="min-w-0 flex-1 truncate text-sm font-bold">Playlist · {index + 1}/{entries.length}</p><button onClick={() => setMinimized((value) => !value)} className="grid h-7 w-7 place-items-center rounded-lg bg-bg-tertiary text-xs hover:bg-border" title={minimized ? 'Mở rộng' : 'Thu nhỏ'} aria-label={minimized ? 'Mở rộng playlist' : 'Thu nhỏ playlist'}>{minimized ? '□' : '−'}</button><button onClick={onClose} className="grid h-7 w-7 place-items-center rounded-lg bg-bg-tertiary font-bold hover:bg-border" aria-label="Đóng playlist">✕</button></div>
+ <aside aria-label="Trình phát playlist" className={`animate-toast-in fixed bottom-20 left-3 right-3 z-[65] rounded-xl border border-border bg-bg-secondary shadow-lg sm:bottom-5 sm:left-auto sm:right-5 ${minimized ? 'sm:w-56' : 'sm:w-80'}`}>
+ <div className="flex items-center gap-2 border-b border-border p-3"><Icon.Volume className="h-4 w-4 shrink-0 text-accent" aria-hidden="true"/><p className="min-w-0 flex-1 truncate text-sm font-bold">Playlist · {index + 1}/{entries.length}</p><button onClick={() => setMinimized((value) => !value)} className="icon-action grid h-9 w-9 place-items-center rounded-lg bg-bg-tertiary text-xs hover:bg-border" data-tooltip={minimized ? 'Mở rộng' : 'Thu nhỏ'} aria-label={minimized ? 'Mở rộng playlist' : 'Thu nhỏ playlist'}>{minimized ? <Icon.Plus /> : <Icon.Minus />}</button><button onClick={onClose} className="icon-action grid h-9 w-9 place-items-center rounded-lg bg-bg-tertiary text-text-muted hover:bg-border" aria-label="Đóng playlist" data-tooltip="Đóng"><Icon.X /></button></div>
  {!minimized && <div className="p-4"><p className="truncate h2-text font-bold">{entries[index]?.label || entries[index]?.text}</p><p className="mt-1 truncate text-sm text-text-muted">{entries[index]?.sublabel}</p><ProgressBar value={((index + 1) / entries.length) * 100} className="mt-4" /><div className="mt-4 flex items-center justify-center gap-2"><button onClick={() => move(-1)} disabled={index === 0} className="grid h-9 w-9 place-items-center rounded-lg bg-bg-tertiary font-bold disabled:opacity-30 hover:bg-border" title="Trước" aria-label="Bài trước">‹</button><button onClick={() => setPlaying((value) => !value)} className="grid h-11 w-11 place-items-center rounded-lg bg-accent text-white hover:bg-accent/90" aria-label={playing ? 'Tạm dừng' : 'Tiếp tục phát'}>{playing ? 'Ⅱ' : '▶'}</button><button onClick={() => move(1)} disabled={index === entries.length - 1 && !loop} className="grid h-9 w-9 place-items-center rounded-lg bg-bg-tertiary font-bold disabled:opacity-30 hover:bg-border" title="Tiếp" aria-label="Bài tiếp theo">›</button></div><div className="mt-4 flex items-center justify-between gap-2"><select value={rate} onChange={(event) => setRate(Number(event.target.value))} className="rounded-lg border border-border bg-bg-tertiary px-2 py-1.5 text-xs font-bold" aria-label="Tốc độ phát"><option value="0.7">0.7x</option><option value="0.85">0.85x</option><option value="1">1.0x</option></select><label className="flex items-center gap-2 text-xs font-bold cursor-pointer"><input type="checkbox" checked={loop} onChange={(event) => setLoop(event.target.checked)} /> Lặp</label></div></div>}
  </aside>
  );
@@ -1993,14 +1968,13 @@ function EmptyState({ title, text, mascot = 'panda', icon, action, secondaryActi
 }
 
 function GlossaryModal({ entry, onClose, onOpenEntry, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter, onEditWord }) {
- const trapRef = useFocusTrap(!!entry);
- useEffect(() => { if (!entry) return undefined; const k = (e) => { if (e.key === "Escape") onClose(); }; window.addEventListener("keydown", k); return () => window.removeEventListener("keydown", k); }, [entry, onClose]);
+ const trapRef = useDialogA11y(Boolean(entry), onClose);
  if (!entry) return null;
  const openRelated = (id) => { const target = ALL_GLOSSARY_ENTRIES.find((item) => item.id === id); if (target) onOpenEntry(target); };
  return (
- <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/55 p-0 sm:items-center sm:p-4" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
- <div className="animate-modal-in max-h-[88vh] w-full max-w-xl overflow-y-auto rounded-t-xl bg-bg-primary p-4 shadow-lg sm:rounded-xl sm:p-6" ref={trapRef} role="dialog" aria-modal="true">
- <div className="mb-4 flex items-center justify-between gap-3"><p className="text-xs font-bold uppercase tracking-wider text-text-muted">Bài {entry.bai} · {entry.type}</p><button onClick={onClose} className="grid h-9 w-9 place-items-center rounded-lg bg-bg-secondary text-lg font-bold shadow-sm dark:bg-bg-secondary" aria-label="Đóng">×</button></div>
+ <div className="modal-backdrop fixed inset-0 z-50 flex items-end justify-center bg-slate-950/55 p-0 sm:items-center sm:p-4" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+ <div className="animate-modal-in max-h-[88vh] w-full max-w-xl overflow-y-auto rounded-t-xl bg-bg-primary p-4 shadow-lg sm:rounded-xl sm:p-6" ref={trapRef} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Chi tiết mục từ">
+ <div className="mb-4 flex items-center justify-between gap-3"><p className="text-xs font-bold uppercase tracking-wider text-text-muted">Bài {entry.bai} · {entry.type}</p><button onClick={onClose} className="icon-action grid h-10 w-10 place-items-center rounded-lg bg-bg-secondary text-text-muted shadow-sm" aria-label="Đóng" data-tooltip="Đóng"><Icon.X /></button></div>
  {entry.type === 'word' && <WordCard entry={entry} onRelated={openRelated} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} onCharacter={onCharacter} onEdit={onEditWord} />}
  {entry.type === 'grammar' && <GrammarCard entry={entry} onRelated={openRelated} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} onCharacter={onCharacter} />}
  {entry.type === 'phrase' && <PhraseCard entry={entry} onRelated={openRelated} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} onCharacter={onCharacter} />}
@@ -2021,15 +1995,16 @@ function AchievementToast({ badge, onClose }) {
  const BadgeIcon = isAchievement ? (PROFILE_BADGE_ICONS[badge.id] || Icon.Star) : null;
  const iconStr = String(badge.icon || '');
  const isError = iconStr === '!';
+ const StatusIcon = iconStr === 'srs' ? Icon.Refresh : iconStr === 'goal' ? Icon.Target : iconStr === '✓' ? Icon.Check : null;
  const iconBg = isAchievement ? 'bg-warning-subtle text-warning' : isError ? 'bg-error-subtle text-error' : 'bg-accent-subtle text-accent';
  return (
   <div className="pointer-events-none fixed right-4 top-20 z-[110] sm:right-6" role="status" aria-live="polite">
   <div className="animate-toast-in pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-xl border border-border bg-bg-secondary p-4 shadow-md">
   <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-lg text-lg ${iconBg}`} aria-hidden="true">
-   {isAchievement ? <BadgeIcon className="h-5 w-5" /> : iconStr}
+   {isAchievement ? <BadgeIcon className="h-5 w-5" /> : StatusIcon ? <StatusIcon className="h-5 w-5"/> : iconStr}
   </span>
   <div className="min-w-0 flex-1">
-   {isAchievement && <p className="text-xs font-bold uppercase tracking-wide text-text-muted">Thành tựu mới 🏆</p>}
+   {isAchievement && <p className="text-xs font-bold uppercase tracking-wide text-text-muted">Thành tựu mới</p>}
    <p className={`font-bold leading-snug ${isAchievement ? 'text-accent' : 'text-text-primary'}`}>{badge.title}</p>
    {badge.description && <p className="mt-0.5 text-sm text-text-secondary">{badge.description}</p>}
   </div>
@@ -2074,7 +2049,7 @@ function BackgroundLayer({ settings, customBackground, effectiveTheme }) {
  return (
  <>
  <div 
- className="pointer-events-none fixed inset-0 z-0 bg-cover bg-center transition-all duration-500"
+ className="pointer-events-none fixed inset-0 z-0 bg-cover bg-center"
  style={{ 
  backgroundImage: `url(${image})`,
  filter: `blur(${settings.backgroundBlur}px)`,
@@ -2082,7 +2057,7 @@ function BackgroundLayer({ settings, customBackground, effectiveTheme }) {
  }}
  />
  <div 
- className="pointer-events-none fixed inset-0 z-[1] bg-bg-primary transition-all duration-300"
+ className="pointer-events-none fixed inset-0 z-[1] bg-bg-primary transition-opacity duration-300"
  style={{ opacity: overlay }}
  />
  </>
@@ -2404,7 +2379,7 @@ export default function App() {
  next.dailyXp[today] += XP_REWARDS.dailyGoal;
  next.weeklyXP[weekKey] += XP_REWARDS.dailyGoal;
  next.studyDays[today].xp += XP_REWARDS.dailyGoal;
- setToast({ icon: '🎉', title: 'Đã đạt mục tiêu hôm nay', description: `Thưởng ${XP_REWARDS.dailyGoal} XP` });
+ setToast({ icon: 'goal', title: 'Đã đạt mục tiêu hôm nay', description: `Thưởng ${XP_REWARDS.dailyGoal} XP` });
  }
 
  const newBadges = evaluateAchievements(next);
@@ -2501,7 +2476,7 @@ export default function App() {
  if (!missing.length) return previous;
  const srs = { ...currentSrs };
  for (const entry of missing) srs[entry.id] = createSrsEntry();
- setToast({ icon: '🧠', title: `Đã thêm ${missing.length} từ vào SRS`, description: `Bài ${bai} đã sẵn sàng để ôn theo lịch.` });
+ setToast({ icon: 'srs', title: `Đã thêm ${missing.length} từ vào SRS`, description: `Bài ${bai} đã sẵn sàng để ôn theo lịch.` });
  return { ...previous, srs };
  });
  };
@@ -2585,13 +2560,13 @@ export default function App() {
  const shownGlossaryEntry = glossaryEntry ? wordOverrides[glossaryEntry.id] || glossaryEntry : null;
 
  return (
- <div className={`relative isolate min-h-screen transition-colors duration-500 ${rootBgClass}`} onPointerDownCapture={(event) => { const button = event.target.closest?.('.btn-primary'); if (!button) return; const box = button.getBoundingClientRect(); button.style.setProperty('--press-x', `${event.clientX - box.left}px`); button.style.setProperty('--press-y', `${event.clientY - box.top}px`); }}>
+ <div className={`relative isolate min-h-screen transition-colors duration-300 ${rootBgClass}`} onPointerDownCapture={(event) => { const button = event.target.closest?.('.btn-primary'); if (!button) return; const box = button.getBoundingClientRect(); button.style.setProperty('--press-x', `${event.clientX - box.left}px`); button.style.setProperty('--press-y', `${event.clientY - box.top}px`); }}>
  <a href="#main-content" className="skip-link">Bỏ qua menu, đến nội dung chính</a>
  <BackgroundLayer settings={progress.settings} customBackground={customBackground} effectiveTheme={effectiveTheme} />
  {screen !== 'quiz' && <Sidebar screen={screen} progress={progress} onNavigate={navigate} mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />}
  <Header progress={progress} themeMode={progress.themeMode} onThemeChange={changeTheme} onSearch={() => setSearchOpen(true)} onNavigate={navigate} onMenu={() => setSidebarOpen(true)} hidden={headerHidden} focused={screen === 'quiz'} />
  {screen !== 'quiz' && <RightPanel progress={progress} onNavigate={navigate} />}
- <div className={`relative z-10 ${screen === 'quiz' ? '' : 'lg:pl-[240px] xl:pr-[320px]'}`}>
+ <div className={`relative z-10 ${screen === 'quiz' ? '' : 'lg:pl-[240px] 2xl:pr-[320px]'}`}>
  {processingJobs.length > 0 && <div className="mx-auto max-w-[864px] px-4 pt-3 lg:px-8"><div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-accent/30 bg-accent-subtle px-3 py-2 text-sm"><span className="font-semibold">{processingJobs.map((job) => `${job.courseName}: ${job.state === 'paused' ? 'tạm dừng' : 'đang xử lý'} ${job.current}/${job.total}`).join(' · ')}</span><button className="font-semibold text-accent" onClick={() => { setTargetCourseId(processingJobs[0].courseId); setScreen('process-document'); }}>Xem tiến độ</button></div></div>}
  <main id="main-content" tabIndex={-1} key={screen} className={`mx-auto min-w-0 animate-fade-slide px-4 pb-24 pt-6 lg:px-8 lg:pb-10 ${screen === 'quiz' ? 'max-w-[720px]' : 'max-w-[864px]'}`}><Suspense fallback={<div aria-label="Đang tải màn hình" className="space-y-3"><div className="h-24 animate-pulse rounded-md bg-bg-tertiary" /><div className="h-48 animate-pulse rounded-md bg-bg-tertiary" /></div>}>{content}</Suspense></main>
  </div>

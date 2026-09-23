@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import ConfirmDialog from '../ConfirmDialog.jsx';
+import useDialogA11y from '../../lib/useDialogA11y.js';
 
 const FIELDS = [
   ['question_vi', 'Câu hỏi tiếng Việt'], ['source_sentence_vi', 'Câu nguồn tiếng Việt'],
@@ -15,6 +16,7 @@ export default function TypingEditorModal({ item, onSave, onClose }) {
   const [discard, setDiscard] = useState(false);
   const update = (key, value) => setDraft((previous) => ({ ...previous, [key]: value }));
   const requestClose = () => { if (busy) return; if (JSON.stringify(draft) !== JSON.stringify(item)) setDiscard(true); else onClose(); };
+  const dialogRef = useDialogA11y(!discard, requestClose);
   const save = async (event) => {
     event.preventDefault();
     if (!draft.question_vi?.trim() || !draft.sample_answer?.trim()) { setError('Cần câu hỏi và đáp án mẫu.'); return; }
@@ -36,7 +38,7 @@ export default function TypingEditorModal({ item, onSave, onClose }) {
     return () => document.removeEventListener('keydown', keydown, true);
   });
   const keywordLanguage = item.type === 'translation_zh_to_vi' ? 'vi' : 'zh';
-  return <><div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/60 p-4" onMouseDown={(event) => { if (event.target === event.currentTarget) requestClose(); }}><section role="dialog" aria-modal="true" aria-label="Sửa câu gõ" className="max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-lg border border-border bg-bg-secondary p-5 shadow-lg"><header className="flex justify-between"><div><h2 className="font-serif text-lg font-semibold">Sửa câu gõ</h2><p className="text-xs text-text-muted">{item.type}</p></div><button type="button" onClick={requestClose} aria-label="Đóng">×</button></header><form onSubmit={save} className="mt-4 space-y-3">
+  return <><div className="modal-backdrop fixed inset-0 z-[120] flex items-center justify-center bg-black/60 p-4" onMouseDown={(event) => { if (event.target === event.currentTarget) requestClose(); }}><section ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Sửa câu gõ" className="animate-modal-in max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-lg border border-border bg-bg-secondary p-5 shadow-lg"><header className="flex items-center justify-between"><div><h2 className="font-serif text-lg font-semibold">Sửa câu gõ</h2><p className="text-xs text-text-muted">{item.type}</p></div><button type="button" onClick={requestClose} className="grid h-10 w-10 place-items-center rounded-lg text-text-muted hover:bg-bg-tertiary" aria-label="Đóng"><svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></header><form onSubmit={save} className="mt-4 space-y-3">
     <label className="block text-sm">Mức độ<select className="input mt-1 w-full" value={draft.level} onChange={(event) => update('level', event.target.value)}>{['recall', 'understand', 'apply', 'synthesize'].map((level) => <option key={level}>{level}</option>)}</select></label>
     {FIELDS.filter(([key]) => draft[key] !== undefined || ['question_vi', 'sample_answer'].includes(key)).map(([key, label]) => <label key={key} className="block text-sm">{label}{['question_vi', 'sample_answer'].includes(key) ? ' *' : ''}<textarea className="input mt-1 w-full" rows={key === 'question_vi' ? 2 : 1} value={draft[key] || ''} onChange={(event) => update(key, event.target.value)} /></label>)}
     {draft.shuffled_parts && <label className="block text-sm">Các phần để sắp xếp (mỗi dòng một phần)<textarea className="input mt-1 w-full" rows={4} value={draft.shuffled_parts.join('\n')} onChange={(event) => update('shuffled_parts', event.target.value.split('\n'))} /></label>}
@@ -45,6 +47,6 @@ export default function TypingEditorModal({ item, onSave, onClose }) {
     <label className="block text-sm">Gợi ý (mỗi dòng một gợi ý)<textarea className="input mt-1 w-full" rows={3} value={(draft.hints || []).join('\n')} onChange={(event) => update('hints', event.target.value.split('\n'))} /></label>
     <label className="block text-sm">Vì sao đúng<textarea className="input mt-1 w-full" rows={3} value={draft.explanation?.why_correct || ''} onChange={(event) => update('explanation', { ...(draft.explanation || {}), why_correct: event.target.value })} /></label>
     <label className="block text-sm">Lỗi thường gặp (mỗi dòng một lỗi)<textarea className="input mt-1 w-full" rows={3} value={(draft.explanation?.common_mistakes || []).join('\n')} onChange={(event) => update('explanation', { ...(draft.explanation || {}), common_mistakes: event.target.value.split('\n') })} /></label>
-    {error && <p role="alert" className="text-sm text-error">{error}</p>}<div className="flex justify-end gap-2"><button type="button" onClick={requestClose} className="btn-secondary">Hủy</button><button disabled={busy} className="btn-primary">Lưu</button></div>
+    {error && <p role="alert" className="text-sm text-error">{error}</p>}<div className="flex justify-end gap-2"><button type="button" onClick={requestClose} className="btn-secondary">Hủy</button><button disabled={busy} aria-busy={busy} className="btn-primary inline-flex min-w-24 items-center justify-center gap-2">{busy && <span className="spinner" aria-hidden="true"/>}{busy ? 'Đang lưu' : 'Lưu'}</button></div>
   </form></section></div>{discard && <ConfirmDialog title="Thay đổi chưa lưu" message="Bỏ các thay đổi đang chỉnh sửa?" confirmLabel="Bỏ thay đổi" danger onConfirm={onClose} onCancel={() => setDiscard(false)} />}</>;
 }

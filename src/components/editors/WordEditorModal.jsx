@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import ConfirmDialog from '../ConfirmDialog.jsx';
+import useDialogA11y from '../../lib/useDialogA11y.js';
 
 const FIELDS = [
   { key: 'word_zh', label: 'Chữ Hán', required: true },
@@ -29,6 +30,7 @@ export default function WordEditorModal({ entry, note = '', onSave, onClose }) {
     if (dirty) setConfirmDiscard(true);
     else onClose();
   };
+  const dialogRef = useDialogA11y(!confirmDiscard, requestClose);
 
   const save = async () => {
     if (saving) return;
@@ -66,11 +68,11 @@ export default function WordEditorModal({ entry, note = '', onSave, onClose }) {
   });
 
   return <>
-    <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/55 p-4" onMouseDown={(event) => { if (event.target === event.currentTarget) requestClose(); }}>
-      <section role="dialog" aria-modal="true" aria-labelledby="word-editor-title" className="flex max-h-[90vh] w-full max-w-xl flex-col overflow-hidden rounded-lg border border-border bg-bg-secondary shadow-lg">
+    <div className="modal-backdrop fixed inset-0 z-[120] flex items-center justify-center bg-black/55 p-4" onMouseDown={(event) => { if (event.target === event.currentTarget) requestClose(); }}>
+      <section ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="word-editor-title" className="animate-modal-in flex max-h-[90vh] w-full max-w-xl flex-col overflow-hidden rounded-lg border border-border bg-bg-secondary shadow-lg">
         <header className="flex items-center justify-between border-b border-border px-5 py-4">
           <h2 id="word-editor-title" className="font-serif text-lg font-semibold">Sửa từ vựng</h2>
-          <button type="button" onClick={requestClose} aria-label="Đóng" className="grid h-8 w-8 place-items-center rounded-lg hover:bg-bg-tertiary">×</button>
+          <button type="button" onClick={requestClose} aria-label="Đóng" className="grid h-10 w-10 place-items-center rounded-lg text-text-muted hover:bg-bg-tertiary"><svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
         </header>
         <form onSubmit={(event) => { event.preventDefault(); save(); }} className="overflow-y-auto px-5 py-4">
           <div className="grid gap-4 sm:grid-cols-2">
@@ -83,7 +85,7 @@ export default function WordEditorModal({ entry, note = '', onSave, onClose }) {
             <label className="sm:col-span-2"><span className="mb-1 block text-sm font-medium">Ghi chú của tôi</span><textarea className="input w-full" rows={3} value={draft.note} onChange={(event) => setDraft((value) => ({ ...value, note: event.target.value }))} /></label>
           </div>
           {error && <p role="alert" className="mt-3 text-sm text-error">{error}</p>}
-          <div className="sticky bottom-0 mt-5 flex justify-end gap-2 bg-bg-secondary py-2"><button type="button" onClick={requestClose} className="btn-secondary">Hủy</button><button type="submit" disabled={saving} className="btn-primary">{saving ? 'Đang lưu...' : 'Lưu thay đổi'}</button></div>
+          <div className="sticky bottom-0 mt-5 flex justify-end gap-2 bg-bg-secondary py-2"><button type="button" onClick={requestClose} className="btn-secondary">Hủy</button><button type="submit" disabled={saving} aria-busy={saving} className="btn-primary inline-flex min-w-32 items-center justify-center gap-2">{saving && <span className="spinner" aria-hidden="true"/>}{saving ? 'Đang lưu' : 'Lưu thay đổi'}</button></div>
         </form>
       </section>
     </div>
