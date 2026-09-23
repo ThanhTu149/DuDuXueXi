@@ -781,9 +781,10 @@ function McqOptions({ question, selected, result, onSelect }) {
         const isCorrectOption = opt.id === question.correct_option;
         
         let stateClass = "border-border bg-bg-secondary hover:border-border-strong hover:bg-bg-tertiary";
+        let animClass = "";
         if (result) {
-          if (isCorrectOption) stateClass = "border-success bg-success-subtle text-success dark:bg-success-subtle dark:text-success";
-          else if (isSelected) stateClass = "border-error bg-error-subtle text-error dark:bg-error-subtle dark:text-error";
+          if (isCorrectOption) { stateClass = "border-success bg-success-subtle text-success dark:bg-success-subtle dark:text-success"; animClass = "animate-correct-pulse"; }
+          else if (isSelected) { stateClass = "border-error bg-error-subtle text-error dark:bg-error-subtle dark:text-error"; animClass = "animate-shake"; }
           else stateClass = "border-border bg-bg-secondary opacity-50";
         } else if (isSelected) {
           stateClass = "border-accent bg-accent-subtle text-accent dark:bg-accent dark:border-accent dark:text-white";
@@ -794,7 +795,7 @@ function McqOptions({ question, selected, result, onSelect }) {
             key={opt.id}
             onClick={() => onSelect(opt.id)}
             disabled={!!result}
-            className={`flex items-center gap-3 rounded-xl border p-4 text-left font-bold transition ${stateClass}`}
+            className={`flex items-center gap-3 rounded-xl border p-4 text-left font-bold transition ${stateClass} ${animClass}`}
           >
             <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg border font-bold ${result ? (isCorrectOption ? 'border-success bg-success text-white' : isSelected ? 'border-error bg-error text-white' : 'border-border bg-bg-tertiary') : (isSelected ? 'border-accent bg-accent text-white dark:border-white' : 'border-border bg-bg-tertiary')}`}>
               {opt.id}
@@ -1051,7 +1052,7 @@ function SRSReviewScreen({ progress, onRate }) {
  <div className="mx-auto grid h-16 w-16 place-items-center rounded-lg bg-violet-100 h1-text dark:bg-violet-950">🧠</div>
  <h2 className="mt-4 h2-text font-bold">Cần ôn hôm nay: {dueEntries.length} từ</h2>
  <p className="mt-2 text-sm text-text-muted">{Object.keys(progress.srs).length} mục đang được theo dõi theo lịch nhớ.</p>
- <button onClick={start} disabled={!dueEntries.length} className="mt-6 w-full rounded-lg bg-accent px-5 py-3 font-bold text-white disabled:cursor-not-allowed disabled:opacity-40 dark:bg-error-subtle dark:text-text-primary">Bắt đầu ôn</button>
+ <button onClick={start} disabled={!dueEntries.length} className="mt-6 w-full rounded-lg bg-accent px-5 py-3 font-bold text-white disabled:cursor-not-allowed disabled:opacity-40">Bắt đầu ôn</button>
  </div>
  );
  }
@@ -1226,13 +1227,13 @@ function ExamScreen({ onRecord, onOpenEntry }) {
  <div className="rounded-lg border border-border bg-bg-secondary p-5 shadow-sm dark:border-border-strong dark:bg-bg-secondary">
  <p className="font-bold">Chọn bài</p>
  <div className="mt-3 grid grid-cols-5 gap-2 sm:grid-cols-10">
- {LESSONS.map((bai) => <button key={bai} onClick={() => toggleBai(bai)} className={`rounded-lg py-2 font-bold ${selectedBais.includes(bai) ? 'bg-error-subtle text-white' : 'bg-bg-tertiary text-text-muted '}`}>{bai}</button>)}
+ {LESSONS.map((bai) => <button key={bai} onClick={() => toggleBai(bai)} className={`rounded-lg py-2 font-bold ${selectedBais.includes(bai) ? 'bg-accent text-white' : 'bg-bg-tertiary text-text-muted'}`}>{bai}</button>)}
  </div>
  <div className="mt-5">
  <p className="font-bold">Số câu</p>
  <div className="mt-3 flex gap-2">{[20, 30, 50].map((value) => <button key={value} onClick={() => setCount(value)} className={`rounded-lg px-5 py-2 font-bold ${count === value ? 'bg-success text-white' : 'bg-bg-tertiary'}`}>{value}</button>)}</div>
  </div>
- <button onClick={start} disabled={!selectedBais.length} className="mt-7 w-full rounded-lg bg-accent px-5 py-3 font-bold text-white disabled:opacity-40 dark:bg-error-subtle dark:text-text-primary">Bắt đầu thi</button>
+ <button onClick={start} disabled={!selectedBais.length} className="btn-primary mt-7 w-full">Bắt đầu thi</button>
  </div>
  </div>
  );
@@ -1245,7 +1246,7 @@ function ExamScreen({ onRecord, onOpenEntry }) {
  <SectionHeading eyebrow="Kết quả" title={`${correct}/${result.details.length} câu đạt`} action={<span className="rounded-lg bg-warning-subtle px-3 py-2 text-sm font-bold text-warning dark:bg-warning-subtle dark:text-warning">{Math.floor(result.seconds / 60)}m {result.seconds % 60}s</span>} />
  <div className="mb-5 grid grid-cols-3 gap-2"><StatBox label="Điểm" value={`${Math.round((correct / result.details.length) * 100)}%`} tone="mint" /><StatBox label="Đúng" value={correct} tone="amber" /><StatBox label="Sai" value={result.details.length - correct} tone="rose" /></div>
  <div className="space-y-3">{result.details.map((item, itemIndex) => <article key={item.question.id} className={`rounded-lg border bg-bg-secondary p-4 dark:bg-bg-secondary ${item.isCorrect ? 'border-success dark:border-success' : 'border-error'}`}><p className="text-xs font-bold text-text-muted">Câu {itemIndex + 1} · Bài {item.question.bai}</p><p className="mt-1 font-bold">{item.question.question_vi}</p><p className="mt-2 text-sm"><strong>Trả lời:</strong> {item.answer}</p><p className="mt-1 text-sm"><strong>Đáp án:</strong> {questionIsMcq(item.question) ? item.question.correct_option : item.question.sample_answer}</p><p className="mt-2 text-sm text-text-muted">{item.question.explanation?.why_correct}</p></article>)}</div>
- <button onClick={() => setPhase('setup')} className="mt-5 w-full rounded-lg bg-accent px-5 py-3 font-bold text-white dark:bg-bg-secondary dark:text-text-primary">Tạo đề mới</button>
+ <button onClick={() => setPhase('setup')} className="btn-primary mt-5 w-full">Tạo đề mới</button>
  </div>
  );
  }
@@ -1272,7 +1273,7 @@ function ExamScreen({ onRecord, onOpenEntry }) {
  )}
  <div className="mt-5 flex gap-2">
  <button onClick={() => { if (index > 0) { const previous = index - 1; setAnswers((items) => ({ ...items, [question.id]: draft })); setIndex(previous); setDraft(answers[questions[previous].id] || ''); } }} disabled={index === 0} className="rounded-lg border border-border-strong bg-bg-secondary px-4 py-3 font-bold disabled:opacity-40 dark:border-border-strong dark:bg-bg-secondary">← Trước</button>
- <button onClick={saveAndMove} disabled={!draft.trim()} className="flex-1 rounded-lg bg-accent px-4 py-3 font-bold text-white disabled:opacity-40 dark:bg-error-subtle dark:text-text-primary">{index === questions.length - 1 ? 'Nộp bài' : 'Câu tiếp →'}</button>
+ <button onClick={saveAndMove} disabled={!draft.trim()} className="flex-1 rounded-lg bg-accent px-4 py-3 font-bold text-white disabled:opacity-40">{index === questions.length - 1 ? 'Nộp bài' : 'Câu tiếp →'}</button>
  </div>
  </section>
  </div>
@@ -1314,10 +1315,10 @@ function BossBattleScreen({ progress, onRecord, onWin }) {
  <div className="mx-auto max-w-2xl">
  <SectionHeading eyebrow="Boss Battle" title="Thử thách tổng hợp" />
  <div className="mb-4 grid grid-cols-2 gap-3">
- <div><div className="mb-1 flex justify-between text-xs font-bold"><span>Người học</span><span>{playerHp} HP</span></div><div className="h-3 overflow-hidden rounded-full bg-border "><div className="h-full bg-success-subtle transition-all" style={{ width: `${playerHp}%` }} /></div></div>
- <div><div className="mb-1 flex justify-between text-xs font-bold"><span>Boss</span><span>{bossHp} HP</span></div><div className="h-3 overflow-hidden rounded-full bg-border "><div className="h-full bg-error-subtle transition-all" style={{ width: `${bossHp}%` }} /></div></div>
+ <div><div className="mb-1 flex justify-between text-xs font-bold"><span>Người học</span><span>{playerHp} HP</span></div><div className="h-3 overflow-hidden rounded-full bg-border "><div className="h-full bg-success transition-all duration-500" style={{ width: `${playerHp}%` }} /></div></div>
+ <div><div className="mb-1 flex justify-between text-xs font-bold"><span>Boss</span><span>{bossHp} HP</span></div><div className="h-3 overflow-hidden rounded-full bg-border "><div className="h-full bg-error transition-all duration-500" style={{ width: `${bossHp}%` }} /></div></div>
  </div>
- <section className="rounded-lg border border-violet-200 bg-bg-secondary p-5 shadow-lg sm:p-7 dark:border-violet-900 dark:bg-bg-secondary">
+ <section className="rounded-lg border border-border bg-bg-secondary p-5 shadow-lg sm:p-7">
  <QuestionPrompt question={question} />
  {questionIsMcq(question) ? <McqOptions question={question} selected={selected} result={result} onSelect={(option) => { setSelected(option); submit(option, { score: option === question.correct_option ? 100 : 0, level: option === question.correct_option ? 'perfect' : 'wrong' }); }} /> : <TypingInput question={question} value={input} onChange={setInput} onCheck={() => submit(input, gradeTyping(input, question))} result={result} />}
  {result && <div className={`mt-5 rounded-lg p-4 ${result.isCorrect ? 'bg-success-subtle dark:bg-success-subtle' : 'bg-error-subtle dark:bg-error-subtle'}`}><p className="font-bold">{result.isCorrect ? 'Đòn đánh chính xác: Boss -10 HP' : 'Boss phản công: bạn -15 HP'}</p><p className="mt-2 text-sm">{question.explanation?.why_correct}</p><button onClick={next} className="mt-4 w-full rounded-lg bg-accent px-4 py-3 font-bold text-white dark:bg-bg-secondary dark:text-text-primary">Tiếp tục</button></div>}
