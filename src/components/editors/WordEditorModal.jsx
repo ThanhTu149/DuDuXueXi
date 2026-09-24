@@ -69,10 +69,10 @@ export default function WordEditorModal({ entry, note = '', onSave, onClose }) {
 
   return <>
     <div className="modal-backdrop fixed inset-0 z-[120] flex items-center justify-center bg-black/55 p-4" onMouseDown={(event) => { if (event.target === event.currentTarget) requestClose(); }}>
-      <section ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="word-editor-title" className="animate-modal-in flex max-h-[90vh] w-full max-w-xl flex-col overflow-hidden rounded-lg border border-border bg-bg-secondary shadow-lg">
+      <section ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="word-editor-title" className="animate-modal-in flex max-h-[90vh] w-full max-w-xl flex-col overflow-hidden rounded-xl border border-border bg-bg-secondary shadow-lg">
         <header className="flex items-center justify-between border-b border-border px-5 py-4">
           <h2 id="word-editor-title" className="font-serif text-lg font-semibold">Sửa từ vựng</h2>
-          <button type="button" onClick={requestClose} aria-label="Đóng" className="grid h-10 w-10 place-items-center rounded-lg text-text-muted hover:bg-bg-tertiary"><svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+          <button type="button" onClick={requestClose} aria-label="Đóng" className="grid h-10 w-10 place-items-center rounded-xl text-text-muted hover:bg-bg-tertiary"><svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
         </header>
         <form onSubmit={(event) => { event.preventDefault(); save(); }} className="overflow-y-auto px-5 py-4">
           <div className="grid gap-4 sm:grid-cols-2">

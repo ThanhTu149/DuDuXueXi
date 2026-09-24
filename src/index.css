@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global: cursor-pointer on all clickable elements */
+button, a, [role="button"], [role="tab"], select, label[for], summary, .nav-item { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+
 @layer base {
   :root {
     color-scheme: light;
@@ -44,7 +48,7 @@
     --success-subtle: #EDF3EE;
     --error: #B85450;
     --error-subtle: #F7EDEC;
-    --warning: #B8860B;
+    --warning: #946800;
     --warning-subtle: #FBF3E0;
 
     /* Typography */
@@ -610,10 +614,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-pulse,
-  .animate-card-reveal,
-  .modal-backdrop,
-  .spinner {
-    animation: none !important;
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
