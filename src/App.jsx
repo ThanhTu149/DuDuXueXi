@@ -1,6 +1,6 @@
 import { lazy, memo, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ALL_GLOSSARY_ENTRIES, ALL_QUESTIONS, GLOSSARY, LESSON_TEXTS, QUIZZES, activateCourseData, applyBuiltInEdits } from './data-loader.js';
-import { BUILT_IN_COURSE_ID, getCourse, getProgress, getSettings, migrateBuiltInCourse, saveProgress, saveSettings } from './lib/db.js';
+import { BUILT_IN_COURSE_ID, getCourse, getProgress, getSettings, migrateBuiltInCourse, saveProgress, saveSettings, subscribeDbChanges, subscribeDbState } from './lib/db.js';
 import { DEFAULT_GEMINI_MODEL, testApiKey } from './lib/geminiClient.js';
 import { updateWordInCourse, updateGrammarInCourse, updateQuestionInCourse } from './lib/courseContent.js';
 import ConfirmDialog from './components/ConfirmDialog.jsx';
@@ -14,6 +14,7 @@ import ContentEditorModal from './components/editors/ContentEditorModal.jsx';
 import TypingEditorModal from './components/editors/TypingEditorModal.jsx';
 import ModelSelector from './components/ModelSelector.jsx';
 import { getActiveProcessingJobs, resumeInterruptedJobs, subscribeProcessingJobs } from './lib/processingJobs.js';
+import { readProgress, writeProgress, subscribeStorageChanges } from './lib/storage.js';
 import useDialogA11y from './lib/useDialogA11y.js';
 
 const LESSONS = Array.from({ length: 10 }, (_, index) => index + 1);
@@ -141,6 +142,17 @@ function writeStorage(key, value) { try { localStorage.setItem(key, JSON.stringi
 function readRawStorage(key, fallback = null) { try { return localStorage.getItem(key) || fallback; } catch { return fallback; } }
 function getAutoTheme() { const hour = new Date().getHours(); return hour >= 6 && hour < 18 ? 'light' : 'dark'; }
 
+const STUDY_TIPS = [
+  'Đọc thành tiếng mỗi từ mới 3 lần — tai và miệng nhớ nhanh hơn mắt.',
+  'Học 20 phút rồi nghỉ 5 phút hiệu quả hơn học liền một tiếng.',
+  'Ôn từ đến hạn trước khi học bài mới: trí nhớ cần được nhắc đúng lúc.',
+  'Viết một câu tiếng Trung bằng từ vừa học để nhớ lâu hơn.',
+  'Sai một câu là thêm một từ vào sổ ôn — đừng bỏ qua nhé.',
+  'Nghe pinyin trước, nhìn chữ Hán sau, rồi tự gõ lại từ đó.',
+  'Mỗi ngày một chút vẫn hơn một tuần rồi học bù cả buổi.',
+];
+function studyTipOfTheDay() { const dayIndex = Math.floor(Date.now() / 86400000) % STUDY_TIPS.length; return STUDY_TIPS[dayIndex]; }
+
 function buildWeeklyXp(studyDays = {}) { return Object.entries(studyDays).reduce((totals, [date, data]) => { const key = getWeekKey(date); totals[key] = (totals[key] || 0) + (Number(data?.xp) || 0); return totals; }, {}); }
 function createSrsEntry() { return { level: 0, nextReview: localDate(), lastReview: null, ease: 2.5, interval: 0 }; }
 function calculateNextReview(srs = {}, rating) { let level = Number(srs.level) || 0; let ease = Number(srs.ease) || 2.5; if (rating === 'forgot') { level = 0; ease = Math.max(1.3, ease - 0.2); } else if (rating === 'hard') { level = Math.max(0, level - 1); ease = Math.max(1.3, ease - 0.15); } else if (rating === 'good') level = Math.min(5, level + 1); else if (rating === 'easy') { level = Math.min(5, level + 2); ease += 0.15; } const interval = SRS_INTERVALS[level]; return { level, ease: Number(ease.toFixed(2)), interval, lastReview: localDate(), nextReview: addDays(localDate(), interval) }; }
@@ -153,7 +165,7 @@ function createInitialProgress() {
   baiProgress: Object.fromEntries(LESSONS.map((bai) => [bai, { completed: false, quizDone: 0, quizCorrect: 0, attemptedIds: [], correctIds: [] }])),
   xp: 0, streak: 0, lastStudyDate: null, accuracy: { correct: 0, total: 0 }, wrongAnswers: [], wrongCounts: {}, unlockedBai: [1], achievements: [], correctStreak: 0, dailyXp: {}, studyDates: [], bossWins: 0,
   studyDays: {}, dailyGoal: 20, todayCount: 0, todayDate: localDate(), bookmarks: [], themeMode: 'auto', colorTheme: 'pastel', pomodoroSessions: 0, pomodoroDate: localDate(), goalRewardDates: [], srs: {}, notes: {}, weeklyXP: {}, wrongAnswersDetailed: [],
-  profile: { name: 'Nguyễn Văn A', headline: 'Học viên Hán ngữ cấp 3', bio: 'Mỗi ngày tiến thêm một chút trên hành trình chinh phục tiếng Trung.', joinedAt: addDays(localDate(), -30) },
+  profile: { name: '', headline: 'Học viên Hán ngữ cấp 3', bio: 'Mỗi ngày tiến thêm một chút trên hành trình chinh phục tiếng Trung.', joinedAt: localDate() },
   settings: { enableBackground: false, background: 'none', overlayOpacity: 88, backgroundBlur: 2 },
   advancedStats: { dictationSessions: 0, dictationAverage: 0, pronunciationAttempts: 0, pronunciationBest: 0 },
  };
@@ -223,16 +235,19 @@ const sounds = {
  click: () => playTone(800, 0.05),
 };
 
+const COLOR_THEME_KEYS = ['pastel', 'rose', 'ocean'];
+// Palette values now live in src/index.css so light/dark variants never fight each
+// other. This function only coordinates attributes; it also cleans up the inline
+// custom properties injected by older versions (which used to break dark mode).
 function applyTheme(themeKey, isDark = false) {
- const theme = THEMES[themeKey];
- if (!theme) return;
  const root = document.documentElement;
- const darkVars = {
-  pastel: { '--accent': '#7BA87D', '--accent-hover': '#8FBB91', '--accent-subtle': '#1F2A20', '--accent-2': '#5A8FB0', '--accent-2-subtle': '#1A242C' },
-  rose: { '--accent': '#E08CA5', '--accent-hover': '#EDA5B8', '--accent-subtle': '#32232B', '--accent-2': '#83B4BE', '--accent-2-subtle': '#1D2D32' },
-  ocean: { '--accent': '#75B7C4', '--accent-hover': '#8BC8D2', '--accent-subtle': '#1C2B30', '--accent-2': '#C8AA7C', '--accent-2-subtle': '#30271D' },
- };
- for (const [key, value] of Object.entries(isDark ? darkVars[themeKey] : theme.vars)) root.style.setProperty(key, value);
+ const safeKey = COLOR_THEME_KEYS.includes(themeKey) ? themeKey : 'pastel';
+ root.dataset.colorTheme = safeKey;
+ root.classList.toggle('dark', Boolean(isDark));
+ root.style.colorScheme = isDark ? 'dark' : 'light';
+ const meta = document.querySelector('meta[name="theme-color"]');
+ if (meta) meta.setAttribute('content', isDark ? '#14161A' : '#FAF9F5');
+ for (const key of ['--accent', '--accent-hover', '--accent-subtle', '--accent-2', '--accent-2-subtle']) root.style.removeProperty(key);
 }
 
 const Icon = {
@@ -345,7 +360,7 @@ function EntryActions({ entry, bookmarks, onToggleBookmark, notes, onSaveNote, o
 function RelatedLinks({ entry, onRelated }) { return entry.related_words?.length ? <div className="mt-4 flex flex-wrap gap-2">{entry.related_words.map((id) => { const related = ALL_GLOSSARY_ENTRIES.find((item) => item.id === id); return <button key={id} onClick={() => onRelated?.(id)} className="rounded-md bg-bg-tertiary px-2 py-1 text-xs font-bold hover:bg-border">{related ? entryTitle(related) : id}</button>; })}</div> : null; }
 
 const WordCard = memo(function WordCard({ entry, onRelated, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter, onEdit, virtual = false }) { return <article className={`card ${virtual ? 'virtual-list-item' : ''}`}><div className="flex items-start justify-between gap-3"><div><h3 className="font-hanzi text-3xl font-bold"><ClickableHanzi text={entry.word_zh} entry={entry} onCharacter={onCharacter} /></h3><p className="pinyin-text mt-1 text-accent">{entry.pinyin}</p></div><EntryActions entry={entry} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} onEdit={onEdit} /></div><p className="mt-4 font-bold">{entry.meaning_vi}</p>{entry.meaning_en && <p className="text-sm text-text-muted">{entry.meaning_en}</p>}{entry.example_zh && <div className="mt-4 rounded-xl bg-bg-tertiary p-3"><p className="font-hanzi font-bold">{entry.example_zh}</p><p className="pinyin-text text-sm text-success">{entry.example_pinyin}</p><p className="text-sm text-text-muted">{entry.example_vi}</p></div>}<RelatedLinks entry={entry} onRelated={onRelated} />{notes[entry.id] && <div className="mt-4 flex gap-2 rounded-xl bg-warning-subtle p-3 text-sm"><Icon.Pen className="mt-0.5 h-4 w-4 shrink-0 text-warning"/><p>{notes[entry.id]}</p></div>}</article>; });
-function GrammarCard({ entry, onRelated, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter }) { return <article className="card"><div className="flex items-start justify-between gap-3"><div><h3 className="font-hanzi text-xl font-bold"><ClickableHanzi text={entry.grammar_title_zh} entry={entry} onCharacter={onCharacter} /></h3><p className="text-accent">{entry.grammar_title_vi}</p></div><EntryActions entry={entry} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} /></div>{entry.structure && <pre className="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-3 text-sm text-emerald-300">{entry.structure}</pre>}<p className="mt-4 text-text-secondary">{entry.explanation_vi}</p>{(entry.examples || []).map((example, index) => <div key={index} className="mt-3 border-l-2 border-warning pl-3"><p className="font-hanzi font-bold">{example.zh}</p><p className="pinyin-text text-sm text-success">{example.pinyin}</p><p className="text-sm text-text-muted">{example.vi}</p></div>)}<RelatedLinks entry={entry} onRelated={onRelated} /></article>; }
+function GrammarCard({ entry, onRelated, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter }) { return <article className="card"><div className="flex items-start justify-between gap-3"><div><h3 className="font-hanzi text-xl font-bold"><ClickableHanzi text={entry.grammar_title_zh} entry={entry} onCharacter={onCharacter} /></h3><p className="text-accent">{entry.grammar_title_vi}</p></div><EntryActions entry={entry} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} /></div>{entry.structure && <pre className="mt-4 overflow-x-auto rounded-xl border border-border bg-bg-tertiary p-3 text-sm text-accent">{entry.structure}</pre>}<p className="mt-4 text-text-secondary">{entry.explanation_vi}</p>{(entry.examples || []).map((example, index) => <div key={index} className="mt-3 border-l-2 border-warning pl-3"><p className="font-hanzi font-bold">{example.zh}</p><p className="pinyin-text text-sm text-success">{example.pinyin}</p><p className="text-sm text-text-muted">{example.vi}</p></div>)}<RelatedLinks entry={entry} onRelated={onRelated} /></article>; }
 function PhraseCard({ entry, onRelated, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter }) { return <article className="card"><div className="flex items-start justify-between gap-3"><div><h3 className="font-hanzi text-2xl font-bold"><ClickableHanzi text={entry.phrase_zh} entry={entry} onCharacter={onCharacter} /></h3><p className="pinyin-text text-accent">{entry.pinyin}</p></div><EntryActions entry={entry} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} /></div><p className="mt-4 font-bold">{entry.meaning_vi}</p><p className="mt-2 text-sm text-text-muted">{entry.usage_note}</p><RelatedLinks entry={entry} onRelated={onRelated} /></article>; }
 
 function VirtualKeyboard({ textareaRef, value, onChange }) { const [open, setOpen] = useState(false); const [query, setQuery] = useState(''); const results = useMemo(() => searchPinyin(query), [query]); const insert = (text) => { const target = textareaRef.current; const start = target?.selectionStart ?? value.length; const end = target?.selectionEnd ?? value.length; onChange(`${value.slice(0, start)}${text}${value.slice(end)}`); requestAnimationFrame(() => { target?.focus(); target?.setSelectionRange(start + text.length, start + text.length); }); }; return <div className="mt-2"><button type="button" onClick={() => setOpen((value) => !value)} className="btn-secondary inline-flex items-center gap-2"><Icon.Type className="h-4 w-4"/>Bàn phím tiếng Trung</button>{open && <div className="mt-2 rounded-xl border border-border bg-bg-tertiary p-3"><input value={query} onChange={(event) => setQuery(event.target.value)} className="input w-full" placeholder="Gõ pinyin không dấu, ví dụ: bianhua" aria-label="Tìm chữ Hán theo pinyin" /><div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">{results.map((item, index) => <button key={`${item.key}-${item.zh}-${index}`} onClick={() => insert(item.zh)} className="rounded-xl bg-bg-secondary p-2 text-left hover:ring-1 hover:ring-accent"><span className="block text-lg font-bold">{item.zh}</span><span className="block truncate text-xs text-text-muted">{item.pinyin} · {item.vi}</span></button>)}</div></div>}</div>; }
@@ -376,27 +391,39 @@ const EXTRA_NAV = [
   { id: 'sentences', icon: <Icon.Type />, label: 'Câu ví dụ' },
 ];
 // --- REDESIGN: APP SHELL ---
-function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMenu, hidden = false, focused = false }) {
+function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMenu, onShortcuts, hidden = false, focused = false }) {
   const accuracy = progress.accuracy.total ? Math.round((progress.accuracy.correct / progress.accuracy.total) * 100) : 0;
   const nextTheme = themeMode === 'light' ? 'dark' : themeMode === 'dark' ? 'auto' : 'light';
+  const themeLabel = themeMode === 'dark' ? 'Tối' : themeMode === 'light' ? 'Sáng' : 'Tự động';
   return (
     <header className={`app-header transition-transform duration-200 ${focused ? '' : 'lg:ml-[240px] xl:mr-[320px]'} ${hidden ? '-translate-y-full' : ''}`}>
-      <div className="mx-auto flex h-16 max-w-[864px] items-center gap-3 px-4 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-[864px] items-center gap-2 px-4 lg:gap-3 lg:px-8">
       {!focused && <button onClick={onMenu} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-border bg-bg-secondary text-text-secondary lg:hidden" aria-label="Mở menu">
         <span className="space-y-1"><span className="block h-px w-4 bg-current"/><span className="block h-px w-4 bg-current"/><span className="block h-px w-4 bg-current"/></span>
       </button>}
-      <button onClick={onSearch} aria-label="Tìm kiếm hoặc mở lệnh" className="flex h-10 min-w-0 flex-1 items-center justify-between rounded-xl border border-border bg-bg-secondary px-3 text-text-muted shadow-xs transition duration-150 hover:border-border-strong focus:border-accent focus:ring-[3px] focus:ring-accent-subtle">
-        <div className="flex items-center gap-2 text-sm">
-          <Icon.Search className="h-4 w-4" />
-          <span className="truncate">Tìm từ vựng, ngữ pháp, câu hỏi...</span>
+      {focused ? (
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <span className="grid h-8 w-8 place-items-center rounded-xl bg-accent-subtle text-base" role="img" aria-label="Trúc">🐼</span>
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold leading-tight">Đang luyện tập</p>
+            <p className="truncate text-[11px] leading-tight text-text-muted">Giữ nhịp tập trung nhé</p>
+          </div>
         </div>
-        <kbd className="hidden rounded border border-border bg-bg-tertiary px-1.5 py-0.5 text-[11px] font-medium sm:block">Ctrl K</kbd>
-      </button>
-      <div className="flex shrink-0 items-center gap-2">
-        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-border bg-bg-secondary px-2.5 text-[13px] font-semibold text-text-secondary transition hover:bg-bg-tertiary sm:flex" title="Xem streak"><Icon.Flame className="h-4 w-4 text-error" />{progress.streak}</button>
-        <button onClick={() => onNavigate('dashboard')} className="flex h-9 items-center gap-1.5 rounded-xl border border-border bg-bg-secondary px-2.5 text-[13px] font-semibold text-text-secondary transition hover:bg-bg-tertiary" title="Xem XP"><Icon.Zap className="h-4 w-4 text-warning" /><span className="hidden sm:inline">{progress.xp} XP</span><span className="sm:hidden">{progress.xp}</span></button>
-        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-border bg-bg-secondary px-2.5 text-[13px] font-semibold text-text-secondary transition hover:bg-bg-tertiary md:flex" title="Xem độ chính xác"><Icon.Target className="h-4 w-4 text-success" />{accuracy}%</button>
-        <button onClick={() => onThemeChange(nextTheme)} className="grid h-9 w-9 place-items-center rounded-xl border border-border bg-bg-secondary text-text-secondary transition hover:bg-bg-tertiary" title={`Giao diện: ${themeMode}`} aria-label="Đổi chế độ sáng tối">{themeMode === 'dark' ? <Icon.Moon className="h-[18px] w-[18px]" /> : <Icon.Sun className="h-[18px] w-[18px]" />}</button>
+      ) : (
+        <button onClick={onSearch} aria-label="Tìm kiếm hoặc mở lệnh" aria-keyshortcuts="Control+K" className="flex h-10 min-w-0 flex-1 items-center justify-between gap-2 rounded-xl border border-border bg-bg-secondary px-3 text-text-muted shadow-xs transition duration-150 hover:border-border-strong focus:border-accent focus:ring-[3px] focus:ring-accent-subtle">
+          <div className="flex min-w-0 items-center gap-2 text-sm">
+            <Icon.Search className="h-4 w-4 shrink-0" />
+            <span className="truncate">Tìm từ vựng, ngữ pháp...</span>
+          </div>
+          <kbd className="hidden shrink-0 rounded border border-border bg-bg-tertiary px-1.5 py-0.5 text-[11px] font-medium sm:block">Ctrl K</kbd>
+        </button>
+      )}
+      <div className="flex shrink-0 items-center gap-1.5">
+        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-border bg-bg-secondary px-2.5 text-[13px] font-semibold text-text-secondary transition hover:bg-bg-tertiary sm:flex" title="Xem chuỗi ngày học" aria-label={`Chuỗi ${progress.streak} ngày`}><Icon.Flame className="h-4 w-4 text-error" /><span className="tabular">{progress.streak}</span></button>
+        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-border bg-bg-secondary px-2.5 text-[13px] font-semibold text-text-secondary transition hover:bg-bg-tertiary sm:flex" title="Xem XP" aria-label={`${progress.xp} điểm XP`}><Icon.Zap className="h-4 w-4 text-warning" /><span className="tabular">{progress.xp} XP</span></button>
+        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-border bg-bg-secondary px-2.5 text-[13px] font-semibold text-text-secondary transition hover:bg-bg-tertiary md:flex" title="Xem độ chính xác" aria-label={`Độ chính xác ${accuracy}%`}><Icon.Target className="h-4 w-4 text-success" /><span className="tabular">{accuracy}%</span></button>
+        <button onClick={onShortcuts} className="hidden h-9 w-9 place-items-center rounded-xl border border-border bg-bg-secondary text-[13px] font-bold text-text-secondary transition hover:bg-bg-tertiary md:grid" title="Phím tắt (Ctrl + /)" aria-label="Xem phím tắt">?</button>
+        <button onClick={() => onThemeChange(nextTheme)} className="grid h-9 w-9 place-items-center rounded-xl border border-border bg-bg-secondary text-text-secondary transition hover:bg-bg-tertiary" title={`Giao diện: ${themeLabel} — bấm để đổi`} aria-label={`Giao diện đang ${themeLabel}, bấm để đổi`}>{themeMode === 'dark' ? <Icon.Moon className="h-[18px] w-[18px]" /> : <Icon.Sun className="h-[18px] w-[18px]" />}</button>
       </div>
       </div>
     </header>
@@ -429,15 +456,17 @@ function Sidebar({ screen, progress, onNavigate, mobileOpen, onClose }) {
           </button>
         ))}</div>
         <section className="mt-6 rounded-xl border border-accent/20 bg-gradient-to-br from-accent-subtle to-accent-2-subtle p-4">
-          <div className="flex items-center gap-2 text-accent"><span className="grid h-8 w-8 place-items-center rounded-xl bg-bg-secondary"><Icon.Star className="h-4 w-4" /></span><h2 className="font-serif text-[15px] font-semibold">DuDu Plus</h2></div>
-          <p className="mt-3 text-sm leading-5 text-text-secondary">Mở khóa 50+ bài học và luyện thi chuyên sâu.</p>
-          <button onClick={() => onNavigate('learn')} className="btn-primary mt-4 w-full">Nâng cấp ngay</button>
+          <div className="flex items-center gap-2 text-accent"><span className="grid h-8 w-8 place-items-center rounded-xl bg-bg-secondary"><Icon.Zap className="h-4 w-4" /></span><h2 className="font-serif text-[15px] font-semibold">Góc học tập</h2></div>
+          <p className="mt-3 text-sm leading-5 text-text-secondary">{studyTipOfTheDay()}</p>
+          <div className="mt-3 flex items-center justify-between text-xs font-semibold text-text-muted"><span>Mục tiêu hôm nay</span><span className="tabular">{progress.todayCount || 0}/{progress.dailyGoal || 20}</span></div>
+          <ProgressBar value={((progress.todayCount || 0) / (progress.dailyGoal || 20)) * 100} label="Mục tiêu hôm nay" className="mt-2 h-1.5" />
+          <button onClick={() => onNavigate('minigame')} className="btn-primary mt-4 w-full">Luyện nhanh 5 phút</button>
         </section>
       </nav>
       <div className="mt-4 border-t border-border pt-4">
         <button onClick={() => onNavigate('dashboard')} className="flex w-full items-center gap-3 rounded-xl p-2 text-left transition hover:bg-bg-tertiary">
           <span className="grid h-9 w-9 place-items-center rounded-full bg-accent-2-subtle text-2xl" role="img" aria-label="Băng">🐧</span>
-          <span className="min-w-0 flex-1"><span className="block truncate text-sm font-semibold">{progress.profile?.name || 'Nguyễn Văn A'}</span><span className="block text-[11px] text-text-muted">Level {Math.max(1, progress.unlockedBai.length)}</span></span>
+          <span className="min-w-0 flex-1"><span className="block truncate text-sm font-semibold">{progress.profile?.name || 'Học viên'}</span><span className="block text-[11px] text-text-muted">Cấp {Math.max(1, Math.floor((progress.xp || 0) / 250) + 1)} · {progress.xp || 0} XP</span></span>
           <Icon.Settings className="h-[18px] w-[18px] text-text-muted" />
         </button>
       </div>
@@ -446,16 +475,17 @@ function Sidebar({ screen, progress, onNavigate, mobileOpen, onClose }) {
   );
 }
 
-function RightPanel({ progress, onNavigate }) {
+function RightPanel({ progress, onNavigate, pomodoro }) {
   const goal = Math.max(1, Number(progress.dailyGoal) || 20);
   const done = Math.max(0, Number(progress.todayCount) || 0);
   const goalPercent = Math.min(100, Math.round((done / goal) * 100));
   const circumference = 2 * Math.PI * 48;
+  const dueCount = getDueEntries(progress.srs || {}).length;
   const lastSeven = Array.from({ length: 7 }, (_, index) => {
     const date = new Date();
     date.setDate(date.getDate() - (6 - index));
     const key = localDate(date);
-    return { key, label: new Intl.DateTimeFormat('vi-VN', { weekday: 'short' }).format(date).replace('Th ', 'T'), active: Boolean(progress.studyDays?.[key]?.questions || progress.studyDays?.[key]?.xp), today: index === 6 };
+    return { key, label: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'][date.getDay()], active: Boolean(progress.studyDays?.[key]?.questions || progress.studyDays?.[key]?.xp), today: index === 6 };
   });
   const monday = new Date();
   monday.setHours(12, 0, 0, 0);
@@ -466,30 +496,86 @@ function RightPanel({ progress, onNavigate }) {
     const key = getWeekKey(date);
     return { key, label: index === 0 ? 'Tuần này' : index === 1 ? 'Tuần trước' : '2 tuần trước', xp: Number(progress.weeklyXP?.[key]) || 0 };
   });
+  const maxWeekXp = Math.max(...weeks.map((week) => week.xp), 1);
   const streakTarget = progress.streak < 3 ? 3 : progress.streak < 7 ? 7 : 10;
   const streakPercent = Math.min(100, Math.round((progress.streak / streakTarget) * 100));
+  const panelClass = 'rounded-xl border border-border bg-bg-primary p-5';
   return (
-    <aside className="fixed inset-y-0 right-0 z-10 hidden w-[320px] overflow-y-auto border-l border-border bg-bg-secondary p-5 xl:block scrollbar-thin">
+    <aside className="fixed inset-y-0 right-0 z-10 hidden w-[320px] overflow-y-auto border-l border-border bg-bg-secondary p-5 xl:block scrollbar-thin" aria-label="Bảng tiến độ">
       <div className="space-y-4">
-        <section className="rounded-xl border border-border bg-bg-primary p-5">
-          <div className="flex items-center gap-2"><Icon.Target className="h-[18px] w-[18px] text-accent"/><h2 className="font-serif text-[17px] font-semibold">Mục tiêu hôm nay</h2></div>
+        <section className={panelClass}>
+          <div className="flex items-center gap-2"><Icon.Target className="h-[18px] w-[18px] text-accent" /><h2 className="font-serif text-[17px] font-semibold">Mục tiêu hôm nay</h2></div>
           <div className="mt-5 flex items-center gap-5">
-            <div className="relative h-[120px] w-[120px] shrink-0"><svg className="h-full w-full -rotate-90" viewBox="0 0 120 120"><circle cx="60" cy="60" r="48" fill="none" stroke="var(--bg-tertiary)" strokeWidth="8"/><circle cx="60" cy="60" r="48" fill="none" stroke="var(--accent)" strokeWidth="8" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={circumference * (1 - goalPercent / 100)} style={{ '--ring-length': circumference }} className="animate-ring-progress"/></svg><span className="absolute inset-0 grid place-items-center font-serif text-2xl font-semibold">{goalPercent}%</span></div>
-            <div><p className="font-serif text-2xl font-semibold">{done} / {goal}</p><p className="mt-1 text-sm text-text-muted">câu hôm nay</p><p className="mt-3 text-sm font-medium text-accent">{goalPercent >= 100 ? 'Đã hoàn thành!' : 'Cố lên, sắp xong rồi!'}</p></div>
+            <div className="relative h-[120px] w-[120px] shrink-0">
+              <svg className="h-full w-full -rotate-90" viewBox="0 0 120 120" role="img" aria-label={`Đã đạt ${goalPercent}% mục tiêu hôm nay`}>
+                <defs>
+                  <linearGradient id="goalRing" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="var(--accent)" />
+                    <stop offset="100%" stopColor="var(--accent-2)" />
+                  </linearGradient>
+                </defs>
+                <circle cx="60" cy="60" r="48" fill="none" stroke="var(--bg-tertiary)" strokeWidth="8" />
+                <circle cx="60" cy="60" r="48" fill="none" stroke="url(#goalRing)" strokeWidth="8" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={circumference * (1 - goalPercent / 100)} style={{ '--ring-length': circumference }} className="animate-ring-progress" />
+              </svg>
+              <span className="absolute inset-0 grid place-items-center font-serif text-2xl font-semibold tabular">{goalPercent}%</span>
+            </div>
+            <div className="min-w-0">
+              <p className="font-serif text-2xl font-semibold tabular">{done} <span className="text-text-muted">/ {goal}</span></p>
+              <p className="mt-1 text-sm text-text-muted">câu hôm nay</p>
+              <p className="mt-3 text-sm font-medium text-accent">{goalPercent >= 100 ? 'Đã hoàn thành!' : goalPercent >= 60 ? 'Sắp chạm mục tiêu rồi!' : done === 0 ? 'Bắt đầu một câu nào!' : 'Cố lên, sắp xong rồi!'}</p>
+            </div>
           </div>
         </section>
-        <section className="rounded-xl border border-border bg-bg-primary p-5">
-          <div className="flex items-center gap-2"><Icon.Flame className="h-[18px] w-[18px] text-error"/><h2 className="font-serif text-[17px] font-semibold">Chuỗi {progress.streak} ngày</h2></div>
-          <div className="mt-5 grid grid-cols-7 gap-2">{lastSeven.map((day) => <div key={day.key} className="text-center"><span className="block text-[10px] font-medium uppercase text-text-muted">{day.label}</span><span title={day.key} className={`mx-auto mt-2 grid h-7 w-7 place-items-center rounded-full border ${day.active ? 'border-accent bg-accent text-white' : day.today ? 'streak-today border-accent text-accent' : 'border-border text-text-muted'}`}>{day.active && <Icon.Check className="h-3.5 w-3.5"/>}</span></div>)}</div>
+
+        <section className="rounded-xl border border-accent/25 bg-accent-subtle p-4">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-widest text-accent">Ôn tập thông minh</p>
+              <p className="mt-1 font-serif text-xl font-semibold">{dueCount > 0 ? `${dueCount} từ đến hạn` : 'Chưa có từ cần ôn'}</p>
+              <p className="mt-1 text-xs text-text-secondary">{dueCount > 0 ? 'Ôn đúng lúc giúp nhớ lâu gấp đôi.' : 'Đọc xong một bài, từ mới sẽ tự vào lịch ôn.'}</p>
+            </div>
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-bg-secondary text-accent"><Icon.Refresh className="h-[18px] w-[18px]" /></span>
+          </div>
+          <button onClick={() => onNavigate('review')} className="btn-primary mt-3 w-full">{dueCount > 0 ? 'Ôn ngay' : 'Xem sổ ôn tập'}</button>
         </section>
-        <section className="rounded-xl border border-border bg-bg-primary p-5">
-          <div className="flex items-center gap-2"><Icon.Trophy className="h-[18px] w-[18px] text-warning"/><h2 className="font-serif text-[17px] font-semibold">Bảng xếp hạng</h2></div>
-          <div className="mt-4 space-y-2">{weeks.map((week, index) => <div key={week.key} className={`grid grid-cols-[28px_1fr_auto] items-center gap-2 rounded-lg px-2 py-2 ${index === 0 ? 'bg-accent-subtle' : ''}`}><span className={`grid h-6 w-6 place-items-center rounded-full text-xs font-bold ${index === 0 ? 'bg-accent text-white' : 'bg-bg-tertiary text-text-muted'}`}>{index + 1}</span><span className="text-sm font-medium">{week.label}</span><span className="text-sm font-semibold">{week.xp} XP</span></div>)}</div>
+
+        {pomodoro && <PomodoroCard pomodoro={pomodoro} />}
+
+        <section className={panelClass}>
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2"><Icon.Flame className="h-[18px] w-[18px] text-error" /><h2 className="font-serif text-[17px] font-semibold">Chuỗi {progress.streak} ngày</h2></div>
+            <span className="text-[11px] font-semibold text-text-muted">7 ngày qua</span>
+          </div>
+          <div className="mt-5 grid grid-cols-7 gap-2">
+            {lastSeven.map((day) => (
+              <div key={day.key} className="text-center">
+                <span className="block text-[10px] font-medium uppercase text-text-muted">{day.label}</span>
+                <span title={day.key} className={`mx-auto mt-2 grid h-7 w-7 place-items-center rounded-full border ${day.active ? 'border-accent bg-accent text-white dark:text-[#14161A]' : day.today ? 'streak-today border-accent text-accent' : 'border-border text-text-muted'}`}>{day.active && <Icon.Check className="h-3.5 w-3.5" />}</span>
+              </div>
+            ))}
+          </div>
         </section>
+
+        <section className={panelClass}>
+          <div className="flex items-center gap-2"><Icon.Trophy className="h-[18px] w-[18px] text-warning" /><h2 className="font-serif text-[17px] font-semibold">Nhịp XP theo tuần</h2></div>
+          <div className="mt-4 space-y-3">
+            {weeks.map((week, index) => (
+              <div key={week.key} className="space-y-1.5">
+                <div className="flex items-baseline justify-between gap-2">
+                  <span className={`text-sm ${index === 0 ? 'font-semibold text-text-primary' : 'font-medium text-text-secondary'}`}>{week.label}</span>
+                  <span className="text-sm font-semibold tabular">{week.xp} XP</span>
+                </div>
+                <ProgressBar value={(week.xp / maxWeekXp) * 100} label={`XP ${week.label}`} className="h-1.5" />
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section className="rounded-xl border border-border bg-gradient-to-br from-warm-subtle to-accent-subtle p-5">
-          <div className="flex items-center gap-2"><Icon.Star className="h-[18px] w-[18px] text-warning"/><h2 className="font-serif text-[17px] font-semibold">Thành tựu sắp tới</h2></div>
+          <div className="flex items-center gap-2"><Icon.Star className="h-[18px] w-[18px] text-warning" /><h2 className="font-serif text-[17px] font-semibold">Thành tựu sắp tới</h2></div>
           <p className="mt-4 text-sm leading-6 text-text-secondary">Còn <strong>{Math.max(0, streakTarget - progress.streak)} ngày</strong> để đạt chuỗi {streakTarget} ngày liên tiếp.</p>
-          <ProgressBar value={streakPercent} className="mt-4"/><div className="mt-2 flex justify-between text-xs font-medium text-text-muted"><span>{progress.streak}/{streakTarget} ngày</span><span>{progress.achievements.length} huy hiệu</span></div>
+          <ProgressBar value={streakPercent} className="mt-4" />
+          <div className="mt-2 flex justify-between text-xs font-medium text-text-muted"><span>{progress.streak}/{streakTarget} ngày</span><span>{progress.achievements.length} huy hiệu</span></div>
           <button onClick={() => onNavigate('dashboard')} className="btn-secondary mt-4 w-full">Xem tất cả</button>
         </section>
       </div>
@@ -535,6 +621,14 @@ function HomeScreen({ progress, onOpenLesson, onNavigate }) {
   const completion = currentProgress.completed ? 100 : Math.round((completedQuestions / totalQuestions) * 100);
   const hour = new Date().getHours();
   const greeting = hour < 11 ? 'Chào buổi sáng' : hour < 18 ? 'Chào buổi chiều' : 'Chào buổi tối';
+  const dailyGoal = Math.max(1, Number(progress.dailyGoal) || 20);
+  const todayCount = Number(progress.todayCount) || 0;
+  const remainingToday = Math.max(0, dailyGoal - todayCount);
+  const heroSubtitle = todayCount === 0
+    ? 'Bắt đầu một bài ngắn hôm nay — chỉ 5 phút cũng đủ giữ chuỗi học.'
+    : remainingToday === 0
+      ? 'Bạn đã chạm mục tiêu hôm nay. Nghỉ một chút hoặc thử thách thêm nhé!'
+      : `Bạn đã hoàn thành ${todayCount} câu hôm nay — thêm ${remainingToday} câu nữa là chạm mục tiêu.`;
   const totalWords = Object.values(GLOSSARY).reduce((sum, lesson) => sum + lesson.entries.filter((entry) => entry.type === 'word').length, 0);
   const totalGrammar = Object.values(GLOSSARY).reduce((sum, lesson) => sum + lesson.entries.filter((entry) => entry.type === 'grammar').length, 0);
   const skillCards = [
@@ -546,19 +640,26 @@ function HomeScreen({ progress, onOpenLesson, onNavigate }) {
   const recentLessons = [...new Set([...unlocked.slice().reverse(), ...LESSONS])].slice(0, 5);
   return (
     <div className="space-y-7">
-      <section className="relative min-h-[240px] overflow-hidden rounded-2xl border border-accent/20 bg-gradient-to-br from-accent-subtle via-bg-secondary to-accent-2-subtle p-6 sm:p-8">
+      <section className="relative min-h-[248px] overflow-hidden rounded-2xl border border-accent/20 bg-gradient-to-br from-accent-subtle via-bg-secondary to-accent-2-subtle p-6 sm:p-8">
+        <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-64 w-64 rounded-full bg-accent-2-subtle blur-2xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 left-1/3 h-48 w-48 rounded-full bg-warm-subtle blur-3xl" />
         <svg aria-hidden="true" viewBox="0 0 800 210" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 bottom-0 h-[72%] w-full opacity-60"><path d="M0 176 112 94l78 58 111-108 98 106 78-63 121 82 89-76 113 83v34H0Z" fill="var(--accent-2-subtle)"/><path d="M0 191 135 128l93 57 108-83 113 80 105-65 106 64 67-34 73 40v23H0Z" fill="var(--accent-subtle)"/><path d="M0 199c130-24 250-13 369-2 148 14 277-16 431-3v16H0Z" fill="var(--bg-secondary)"/></svg>
-        <div className="relative z-10 max-w-[520px]">
+        <div className="relative z-10 max-w-[560px]">
           <p className="text-sm font-semibold text-accent">{greeting},</p>
-          <h1 className="mt-1 font-serif text-[30px] font-bold leading-tight text-text-primary">{progress.profile?.name || 'Nguyễn Văn A'}</h1>
-          <p className="mt-3 max-w-sm text-[15px] leading-6 text-text-secondary">Một bài học nữa để tiến gần hơn tới mục tiêu Hán ngữ của bạn.</p>
-          <div className="mt-6 flex flex-wrap gap-2">
-            <button onClick={() => onOpenLesson(currentBai)} className="btn-primary flex items-center gap-2 px-5 py-2.5">Tiếp tục học<Icon.ChevronRight /></button>
-            <button onClick={() => onNavigate('exam')} className="btn-secondary flex items-center gap-2 bg-bg-secondary"><Icon.Pen />Thi thử</button>
-            <button onClick={() => onNavigate('boss')} className="btn-secondary flex items-center gap-2 bg-bg-secondary"><Icon.Trophy />Boss</button>
+          <h1 className="mt-1 break-words font-serif text-[30px] font-bold leading-tight text-text-primary sm:text-[34px]">{progress.profile?.name ? <>{progress.profile.name} <span className="inline-block align-middle text-[24px]">👋</span></> : <>Hôm nay học gì? <span className="inline-block align-middle text-[24px]">👋</span></>}</h1>
+          <p className="mt-2 max-w-md text-[15px] leading-6 text-text-secondary">{heroSubtitle}</p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            <button onClick={() => onOpenLesson(currentBai)} className="btn-primary flex w-full items-center justify-center gap-2 px-5 py-2.5 sm:w-auto">Tiếp tục học<Icon.ChevronRight /></button>
+            <button onClick={() => onNavigate('exam')} className="btn-secondary flex flex-1 items-center justify-center gap-2 bg-bg-secondary sm:flex-none"><Icon.Pen />Thi thử</button>
+            <button onClick={() => onNavigate('boss')} className="btn-secondary flex flex-1 items-center justify-center gap-2 bg-bg-secondary sm:flex-none"><Icon.Trophy />Boss</button>
+          </div>
+          <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold text-text-secondary">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-bg-secondary/85 px-2.5 py-1"><Icon.Flame className="h-3.5 w-3.5 text-error" /><span className="tabular">{progress.streak} ngày</span></span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-bg-secondary/85 px-2.5 py-1"><Icon.Target className="h-3.5 w-3.5 text-success" /><span className="tabular">{progress.todayCount || 0}/{progress.dailyGoal || 20} câu hôm nay</span></span>
+            <span className="hidden items-center gap-1.5 rounded-full border border-border bg-bg-secondary/85 px-2.5 py-1 sm:inline-flex"><Icon.Zap className="h-3.5 w-3.5 text-warning" /><span className="tabular">{progress.xp} XP</span></span>
           </div>
         </div>
-        <div className="absolute bottom-1 right-5 z-10 hidden md:block"><PandaHeroMascot /></div>
+        <div className="absolute bottom-1 right-4 z-10 hidden md:block"><div className="animate-float"><PandaHeroMascot /></div></div>
       </section>
 
       <section>
@@ -572,7 +673,7 @@ function HomeScreen({ progress, onOpenLesson, onNavigate }) {
 
       <section>
         <HomeSectionHeader title="Kỹ năng" onAction={() => onNavigate('review')} />
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">{skillCards.map((skill, index) => <button key={`${skill.id}-${index}`} style={{animationDelay:`${index*50}ms`}} onClick={() => onNavigate(skill.id)} className="animate-card-reveal group rounded-xl border border-border bg-bg-secondary p-4 text-left shadow-xs transition duration-200 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-sm"><span className={`grid h-10 w-10 place-items-center rounded-full ${skill.tone}`}>{skill.icon}</span><span className="mt-3 block text-[15px] font-semibold">{skill.title}</span><span className="mt-0.5 flex items-center justify-between text-xs text-text-muted">{skill.caption}<Icon.ChevronRight className="h-4 w-4 transition group-hover:translate-x-0.5"/></span></button>)}</div>
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">{skillCards.map((skill, index) => <button key={`${skill.id}-${index}`} style={{animationDelay:`${index*50}ms`}} onClick={() => onNavigate(skill.id)} className="animate-card-reveal group rounded-xl border border-border bg-bg-secondary p-4 text-left shadow-xs transition duration-200 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-sm"><span className={`grid h-10 w-10 place-items-center rounded-full transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110 ${skill.tone}`}>{skill.icon}</span><span className="mt-3 block text-[15px] font-semibold">{skill.title}</span><span className="mt-0.5 flex items-center justify-between text-xs text-text-muted">{skill.caption}<Icon.ChevronRight className="h-4 w-4 transition group-hover:translate-x-0.5"/></span></button>)}</div>
       </section>
 
       <section>
@@ -602,11 +703,17 @@ function ReadingModeTab({ bai, onOpenEntry }) {
  return <div><div className="mb-4 flex gap-2 border-b border-border bg-bg-primary py-3"><span className="filter-btn active">Hán</span><button onClick={() => setShowPinyin((value) => !value)} className={`filter-btn ${showPinyin ? 'active' : ''}`}>Pinyin</button><button onClick={() => setShowVi((value) => !value)} className={`filter-btn ${showVi ? 'active' : ''}`}>Tiếng Việt</button></div><div className="space-y-3">{lines.map((line) => <article key={line.id} className="card"><div className="flex items-start gap-3"><p className="font-hanzi flex-1 text-xl font-medium leading-9">{line.text}</p><SpeakButton text={line.text} /></div>{showPinyin && line.pinyin && <p className="pinyin-text mt-2 text-sm text-success">{line.pinyin}</p>}{showVi && line.vi && <p className="mt-1 text-sm text-accent-2">{line.vi}</p>}</article>)}</div>{!lines.length && <EmptyState icon="文" title="Chưa nhận diện được bài khóa" text="Nội dung OCR chưa có phần 课文 rõ ràng." />}</div>;
 }
 
-function LearnScreen({ bai, unlockedBai, bookmarks, notes, onToggleBookmark, onSaveNote, onLessonRead, onStartQuiz, onOpenEntry, onCharacter, onStartPlaylist, onChangeBai, wordOverrides, onEditWord, onEditGrammar, editorError }) {
+function LearnScreen({ bai, progress, unlockedBai, bookmarks, notes, onToggleBookmark, onSaveNote, onLessonRead, onStartQuiz, onOpenEntry, onCharacter, onStartPlaylist, onChangeBai, wordOverrides, onEditWord, onEditGrammar, editorError }) {
   const [activeTab, setActiveTab] = useState('words');
   const readSentinelRef = useRef(null);
   const lessonData = GLOSSARY[bai];
   if (!lessonData) return null;
+
+  const meta = lessonData.metadata || {};
+  const lessonStat = progress?.baiProgress?.[bai] || {};
+  const quizTotal = QUIZZES[bai]?.questions?.length || 0;
+  const quizDone = Math.min(quizTotal, lessonStat.quizDone || 0);
+  const nextLockedCount = Math.max(0, LESSONS.length - unlockedBai.length);
 
   const words = lessonData.entries.filter((e) => e.type === 'word').map((entry) => wordOverrides[entry.id] || entry);
   const grammar = lessonData.entries.filter((e) => e.type === 'grammar');
@@ -632,22 +739,41 @@ function LearnScreen({ bai, unlockedBai, bookmarks, notes, onToggleBookmark, onS
 
   useEffect(() => { if (activeTab !== 'words' || !readSentinelRef.current) return undefined; const observer = new IntersectionObserver(([item]) => { if (item.isIntersecting) onLessonRead?.(bai); }, { threshold: 0.8 }); observer.observe(readSentinelRef.current); return () => observer.disconnect(); }, [activeTab, bai, onLessonRead]);
 
+  const lessonHeader = (
+    <div className="learn-toolbar bg-bg-primary pt-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <label htmlFor="lesson-select" className="sr-only">Chọn bài học</label>
+            <select id="lesson-select" value={bai} onChange={(event) => onChangeBai(Number(event.target.value))} className="input lesson-select text-sm">
+              {LESSONS.map((lesson) => <option key={lesson} value={lesson} disabled={!unlockedBai.includes(lesson)}>Bài {lesson}{unlockedBai.includes(lesson) ? '' : ' · khóa'}</option>)}
+            </select>
+            {quizTotal > 0 && <span className="rounded-full bg-bg-tertiary px-2.5 py-1 text-xs font-semibold text-text-secondary tabular">{quizDone}/{quizTotal} câu</span>}
+            {lessonStat.completed && <span className="badge badge-success">Đã xong</span>}
+            {!lessonStat.completed && nextLockedCount > 0 && <span className="hidden text-xs text-text-muted sm:inline">còn {nextLockedCount} bài đang khóa</span>}
+          </div>
+          <h2 className="mt-2 break-words font-hanzi text-[22px] font-semibold leading-snug">{meta.title_zh || `Bài ${bai}`}</h2>
+          {meta.title_vi && <p className="mt-0.5 text-sm text-text-muted">{meta.title_vi}</p>}
+        </div>
+        <div className="flex shrink-0 gap-2">
+          <button onClick={() => onStartPlaylist(words.map((entry) => ({ text: entry.word_zh, label: entry.word_zh, sublabel: entry.meaning_vi })))} className="btn-secondary inline-flex flex-1 items-center justify-center gap-2 sm:flex-none"><Icon.Volume className="h-4 w-4" />Playlist</button>
+          <button onClick={() => onStartQuiz(bai)} className="btn-primary inline-flex flex-1 items-center justify-center gap-2 px-4 sm:flex-none sm:px-6"><Icon.Play className="h-4 w-4" />Quiz</button>
+        </div>
+      </div>
+      {lessonTabs}
+    </div>
+  );
+
   let currentEntries = words;
   if (activeTab === 'grammar') currentEntries = grammar;
   if (activeTab === 'phrases') currentEntries = phrases;
 
-  if (activeTab === 'reading') return <div className="mx-auto max-w-3xl pb-24"><div className="learn-toolbar sticky top-16 z-30 bg-bg-primary pt-4"><div className="mb-3 flex items-center justify-between"><h2 className="h2-text">Bài khóa · Bài {bai}</h2><button onClick={() => onStartQuiz(bai)} className="btn-primary">Bắt đầu Quiz</button></div>{lessonTabs}</div><div className="mt-5"><ReadingModeTab bai={bai} onOpenEntry={onOpenEntry} /></div></div>;
+  if (activeTab === 'reading') return <div className="mx-auto max-w-3xl pb-24">{lessonHeader}<div className="mt-5"><ReadingModeTab bai={bai} onOpenEntry={onOpenEntry} /></div></div>;
 
   if (activeTab === 'flashcards') {
     return (
       <div className="mx-auto max-w-3xl pb-24">
-        <div className="learn-toolbar sticky top-16 z-30 bg-bg-primary pt-4">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="h2-text">Bài {bai}</h2>
-            <button onClick={() => onStartQuiz(bai)} className="btn-primary px-6">Bắt đầu Quiz</button>
-          </div>
-          {lessonTabs}
-        </div>
+        {lessonHeader}
         <div className="mt-6">
           <FlashcardMode entries={[...words, ...grammar, ...phrases]} title={`Bài ${bai}`} />
         </div>
@@ -657,13 +783,7 @@ function LearnScreen({ bai, unlockedBai, bookmarks, notes, onToggleBookmark, onS
 
   return (
     <div className="mx-auto max-w-3xl pb-24">
-      <div className="learn-toolbar sticky top-16 z-30 bg-bg-primary pt-4">
-        <div className="mb-4 flex items-center justify-between">
-          <div><select value={bai} onChange={(event) => onChangeBai(Number(event.target.value))} className="input py-1.5 text-sm">{LESSONS.map((lesson) => <option key={lesson} value={lesson} disabled={!unlockedBai.includes(lesson)}>Bài {lesson}{unlockedBai.includes(lesson) ? '' : ' · khóa'}</option>)}</select><h2 className="mt-2 h2-text">{lessonData.metadata.title_zh}</h2><p className="text-sm text-text-muted">{lessonData.metadata.title_vi}</p></div>
-          <div className="flex gap-2"><button onClick={() => onStartPlaylist(words.map((entry) => ({ text: entry.word_zh, label: entry.word_zh, sublabel: entry.meaning_vi })))} className="btn-secondary flex items-center gap-2"><Icon.Volume className="h-4 w-4"/>Playlist</button><button onClick={() => onStartQuiz(bai)} className="btn-primary px-6">Bắt đầu Quiz</button></div>
-        </div>
-        {lessonTabs}
-      </div>
+      {lessonHeader}
 
       {editorError && <p role="alert" className="mt-4 rounded-xl bg-error-subtle p-3 text-sm text-error">{editorError}</p>}
       <div className="mt-6 space-y-4">{currentEntries.map((entry) => entry.type === 'word' ? <WordCard key={entry.id} entry={entry} virtual={currentEntries.length > 100} onRelated={(id) => onOpenEntry(ALL_GLOSSARY_ENTRIES.find((item) => item.id === id))} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} onCharacter={onCharacter} onEdit={onEditWord} /> : entry.type === 'grammar' ? <div key={entry.id}><GrammarCard entry={entry} onRelated={(id) => onOpenEntry(ALL_GLOSSARY_ENTRIES.find((item) => item.id === id))} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} onCharacter={onCharacter} />{onEditGrammar && <button onClick={() => onEditGrammar(entry)} className="mt-1 text-xs text-accent">Sửa ngữ pháp</button>}</div> : <PhraseCard key={entry.id} entry={entry} onRelated={(id) => onOpenEntry(ALL_GLOSSARY_ENTRIES.find((item) => item.id === id))} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} onCharacter={onCharacter} />)}</div>
@@ -882,7 +1002,7 @@ function FeedbackPanel({ question, result, userAnswer, onNext, onOpenEntry, onEd
   );
 }
 
-function QuizScreen({ session, progress, onAnswer, onFinish, onExit, onOpenEntry, onEditQuestion }) {
+function QuizScreen({ session, progress, onAnswer, onFinish, onExit, onOpenEntry, onEditQuestion, onPracticeWrong }) {
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState('');
   const [userInput, setUserInput] = useState('');
@@ -892,6 +1012,7 @@ function QuizScreen({ session, progress, onAnswer, onFinish, onExit, onOpenEntry
   const questions = session.questions;
   const question = questions[index];
   const accuracy = progress.accuracy.total ? Math.round((progress.accuracy.correct / progress.accuracy.total) * 100) : 0;
+  const combo = Number(progress.correctStreak) || 0;
 
   const submit = (answer, grading) => {
     const isCorrect = questionIsMcq(question) ? grading.score === 100 : grading.score >= 70;
@@ -951,8 +1072,10 @@ function QuizScreen({ session, progress, onAnswer, onFinish, onExit, onOpenEntry
   if (index >= questions.length) {
     const correct = summary.filter((item) => item.isCorrect).length;
     const average = summary.length ? Math.round(summary.reduce((sum, item) => sum + item.score, 0) / summary.length) : 0;
+    const wrongIds = summary.flatMap((item, itemIndex) => item.isCorrect ? [] : [questions[itemIndex]?.id]).filter(Boolean);
     const isPerfect = correct === questions.length;
     const isGood = correct / questions.length >= 0.7;
+    const retry = () => { setIndex(0); setSelected(''); setUserInput(''); setResult(null); setSummary([]); window.scrollTo({ top: 0, behavior: 'smooth' }); };
     return (
       <div className="mx-auto max-w-xl text-center">
         {(isPerfect || isGood) && <Confetti />}
@@ -969,7 +1092,11 @@ function QuizScreen({ session, progress, onAnswer, onFinish, onExit, onOpenEntry
           <StatBox label="Cần ôn" value={questions.length - correct} tone="rose" />
           <StatBox label="TB điểm" value={average} tone="amber" />
         </div>
-        <button onClick={onExit} className="btn-primary mt-6 w-full">Về lộ trình</button>
+        <div className="mt-6 flex flex-col gap-2 sm:flex-row">
+          <button onClick={onExit} className="btn-primary flex-1">Về lộ trình</button>
+          <button onClick={retry} className="btn-secondary flex-1">Làm lại lượt này</button>
+          {wrongIds.length > 0 && onPracticeWrong && <button onClick={() => onPracticeWrong(wrongIds)} className="btn-secondary flex-1">Luyện {wrongIds.length} câu sai</button>}
+        </div>
       </div>
     );
   }
@@ -978,9 +1105,17 @@ function QuizScreen({ session, progress, onAnswer, onFinish, onExit, onOpenEntry
     <div className="mx-auto max-w-2xl">
       <div className="mb-5 flex items-center gap-3">
         <button onClick={onExit} className="icon-action grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-border-strong bg-bg-secondary text-text-muted" aria-label="Thoát quiz" data-tooltip="Thoát quiz"><Icon.X /></button>
-        <div className="flex-1">
-          <div className="mb-2 flex justify-between text-xs font-bold text-text-muted"><span>Câu {index + 1}/{questions.length}</span><span>{accuracy}% chính xác</span></div>
-          <ProgressBar value={((index + 1) / questions.length) * 100} />
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
+          <div className="flex items-center justify-between gap-2 text-xs font-bold text-text-muted">
+            <span>Câu {index + 1}/{questions.length}</span>
+            <div className="flex items-center gap-2">
+              {combo >= 2 && <span className="inline-flex items-center gap-1 rounded-full bg-warning-subtle px-2 py-0.5 text-[11px] font-bold text-warning"><Icon.Flame className="h-3 w-3" />Chuỗi {combo}</span>}
+              <span className="tabular">{accuracy}% chính xác</span>
+            </div>
+          </div>
+          <div className="flex gap-1" role="progressbar" aria-label={`Tiến độ câu ${index + 1} trên ${questions.length}`} aria-valuemin={0} aria-valuemax={questions.length} aria-valuenow={index + (result ? 1 : 0)}>
+            {questions.map((item, itemIndex) => <span key={item.id || itemIndex} className={`h-1.5 flex-1 rounded-full transition-colors ${itemIndex < index || (itemIndex === index && result) ? 'bg-accent' : itemIndex === index ? 'bg-accent-subtle' : 'bg-bg-tertiary'}`} />)}
+          </div>
         </div>
       </div>
       <section className="card">
@@ -992,12 +1127,18 @@ function QuizScreen({ session, progress, onAnswer, onFinish, onExit, onOpenEntry
         )}
         {result && <FeedbackPanel question={question} result={result} userAnswer={questionIsMcq(question) ? selected : userInput} onNext={next} onOpenEntry={onOpenEntry} onEditQuestion={onEditQuestion} nextLabel={index === questions.length - 1 ? 'Xem kết quả' : 'Tiếp'} />}
       </section>
+      <p className="mt-4 hidden text-center text-xs text-text-muted sm:block">
+        {questionIsMcq(question)
+          ? <>Phím tắt: <kbd className="rounded border border-border bg-bg-secondary px-1.5 py-0.5 font-bold">1</kbd>–<kbd className="rounded border border-border bg-bg-secondary px-1.5 py-0.5 font-bold">4</kbd> chọn đáp án</>
+          : <>Nhấn <kbd className="rounded border border-border bg-bg-secondary px-1.5 py-0.5 font-bold">Enter</kbd> để kiểm tra</>}
+        {result && <> · <kbd className="rounded border border-border bg-bg-secondary px-1.5 py-0.5 font-bold">Enter</kbd> cho câu tiếp theo</>}
+      </p>
     </div>
   );
 }
-function WrongAnswerBook({ progress, onPractice, onOpenEntry }) {
+function WrongAnswerBook({ progress, onPractice, onOpenEntry, onNavigate }) {
  const wrong = progress.wrongAnswers;
- if (!wrong.length) return <EmptyState icon="✓" title="Sổ tay đang sạch" text="Các câu chưa đạt sẽ tự xuất hiện tại đây." />;
+ if (!wrong.length) return <EmptyState icon="✓" title="Sổ tay đang sạch" text="Các câu chưa đạt sẽ tự xuất hiện tại đây. Làm quiz để Trúc theo dõi giúp bạn nhé." action={onNavigate ? <button onClick={() => onNavigate('quiz')} className="btn-primary">Luyện quiz ngay</button> : null} />;
  return (
  <div>
  <div className="mb-4 flex items-center justify-between gap-3">
@@ -1110,7 +1251,7 @@ function SRSReviewScreen({ progress, onRate }) {
  <div role="button" tabIndex={0} onClick={() => setFlipped((value) => !value)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') setFlipped((value) => !value); }} className="relative mt-4 flex min-h-80 flex-col items-center justify-center rounded-xl border border-border bg-bg-secondary p-7 text-center shadow-lg">
  <span className="absolute left-4 top-4 text-xs font-bold uppercase tracking-wider text-text-muted">{flipped ? 'Mặt nghĩa' : 'Mặt chữ'}</span>
  <SpeakButton text={isWord ? entry.word_zh : entry.examples?.[0]?.zh || entry.grammar_title_zh} className="absolute right-4 top-4" />
- {!flipped ? <><span className="display-text font-bold">{entryTitle(entry)}</span>{entry.pinyin && <span className="mt-4 text-xl font-bold text-error">{entry.pinyin}</span>}<span className="mt-6 text-sm font-bold text-text-muted">Chạm để xem nghĩa</span></> : <><span className="h2-text font-bold">{entryMeaning(entry)}</span>{isWord && <><span className="mt-2 text-text-muted">{entry.meaning_en}</span><span className="mt-6 font-bold">{entry.example_zh}</span><span className="mt-1 text-sm text-success">{entry.example_pinyin}</span><span className="mt-1 text-sm text-text-muted">{entry.example_vi}</span></>}{!isWord && entry.structure && <span className="mt-5 rounded-xl bg-slate-950 px-4 py-3 font-mono text-sm font-bold text-success">{entry.structure}</span>}</>}
+ {!flipped ? <><span className="display-text font-bold">{entryTitle(entry)}</span>{entry.pinyin && <span className="mt-4 text-xl font-bold text-accent-2">{entry.pinyin}</span>}<span className="mt-6 text-sm font-bold text-text-muted">Chạm để xem nghĩa</span></> : <><span className="h2-text font-bold">{entryMeaning(entry)}</span>{isWord && <><span className="mt-2 text-text-muted">{entry.meaning_en}</span><span className="mt-6 font-bold">{entry.example_zh}</span><span className="mt-1 text-sm text-success">{entry.example_pinyin}</span><span className="mt-1 text-sm text-text-muted">{entry.example_vi}</span></>}{!isWord && entry.structure && <span className="mt-5 rounded-xl border border-border bg-bg-tertiary px-4 py-3 font-mono text-sm font-bold text-success">{entry.structure}</span>}</>}
  </div>
  {flipped && <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">{SRS_RATINGS.map((rating) => <button key={rating.id} onClick={() => rate(rating.id)} className={`rounded-lg px-3 py-3 font-bold transition hover:-translate-y-0.5 ${rating.tone}`}><kbd className="mr-2 rounded border border-current/30 px-1.5 py-0.5 text-[10px] opacity-70">{rating.shortcut}</kbd>{rating.label}</button>)}</div>}
  </div>
@@ -1173,28 +1314,29 @@ function WeakTopicsScreen({ progress, onPractice, onOpenEntry }) {
  );
 }
 
-function ReviewScreen({ progress, onPracticeWrong, onOpenEntry, onToggleBookmark, onSaveNote, onRateSrs }) {
+function ReviewScreen({ progress, onPracticeWrong, onOpenEntry, onToggleBookmark, onSaveNote, onRateSrs, onNavigate }) {
  const [tab, setTab] = useState('wrong');
  const learnedBais = progress.unlockedBai;
  const learnedEntries = learnedBais.flatMap((bai) => GLOSSARY[bai].entries);
  const grammar = learnedEntries.filter((entry) => entry.type === 'grammar');
+ const dueSrs = getDueEntries(progress.srs).length;
  const tabs = [
- { id: 'wrong', label: `Câu sai ${progress.wrongAnswers.length}` },
+ { id: 'wrong', label: 'Câu sai', count: progress.wrongAnswers.length },
  { id: 'flashcards', label: 'Từ vựng' },
  { id: 'grammar', label: 'Ngữ pháp' },
- { id: 'bookmarks', label: `Đánh dấu ${progress.bookmarks.length}` },
- { id: 'srs', label: `SRS ${getDueEntries(progress.srs).length}` },
- { id: 'notes', label: `Ghi chú ${Object.keys(progress.notes || {}).length}` },
+ { id: 'bookmarks', label: 'Đánh dấu', count: progress.bookmarks.length },
+ { id: 'srs', label: 'SRS', count: dueSrs },
+ { id: 'notes', label: 'Ghi chú', count: Object.keys(progress.notes || {}).length },
  { id: 'weak', label: 'Điểm yếu' },
  ];
  return (
  <div>
  <SectionHeading eyebrow="Ôn tập thông minh" title="Nội dung cần củng cố" />
- <div className="flex items-center gap-3 "><Mascot type="penguin" size="md" /><p className="text-sm font-bold text-text-primary"></p></div>
- <div role="tablist" aria-label="Các mục ôn tập" className="scrollbar-thin mb-6 flex gap-2 overflow-x-auto border-b border-border pb-3">
- {tabs.map((item) => <button key={item.id} role="tab" aria-selected={tab === item.id} onClick={() => setTab(item.id)} className={`filter-btn whitespace-nowrap ${tab === item.id ? 'active' : ''}`}>{item.label}</button>)}
+ <p className="-mt-3 mb-5 flex items-center gap-2 text-sm text-text-muted"><Mascot type="penguin" size="sm" className="text-xl" /> Ôn theo lịch nhớ, sổ câu sai và ghi chú của riêng bạn.</p>
+ <div role="tablist" aria-label="Các mục ôn tập" className="tabs-container scrollbar-thin mb-6">
+ {tabs.map((item, index) => <button key={item.id} type="button" role="tab" aria-selected={tab === item.id} tabIndex={tab === item.id ? 0 : -1} onClick={() => setTab(item.id)} onKeyDown={(event) => { if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return; event.preventDefault(); const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length; setTab(tabs[next].id); event.currentTarget.parentElement.querySelectorAll('[role="tab"]')[next]?.focus(); }} className={`tab ${tab === item.id ? 'active' : ''}`}>{item.label}{Number.isFinite(item.count) && <span className="tab-count">{item.count}</span>}</button>)}
  </div>
- {tab === 'wrong' && <WrongAnswerBook progress={progress} onPractice={onPracticeWrong} onOpenEntry={onOpenEntry} />}
+ {tab === 'wrong' && <WrongAnswerBook progress={progress} onPractice={onPracticeWrong} onOpenEntry={onOpenEntry} onNavigate={onNavigate} />}
  {tab === 'flashcards' && <FlashcardMode entries={learnedEntries} title="Từ vựng đã mở khóa" />}
  {tab === 'grammar' && <div className="space-y-3">{grammar.map((entry) => <GrammarCard key={entry.id} entry={entry} onRelated={(id) => { const related = ALL_GLOSSARY_ENTRIES.find((item) => item.id === id); if (related) onOpenEntry(related); }} bookmarks={progress.bookmarks} onToggleBookmark={onToggleBookmark} notes={progress.notes} onSaveNote={onSaveNote} />)}</div>}
  {tab === 'bookmarks' && <BookmarksPanel progress={progress} onToggleBookmark={onToggleBookmark} onOpenEntry={onOpenEntry} onSaveNote={onSaveNote} />}
@@ -1401,15 +1543,15 @@ function ImportExportPanel({ progress, onImport }) {
  );
 }
 
-function PomodoroTimer({ sessionsToday, onSessionComplete }) {
- const callbackRef = useRef(onSessionComplete);
- callbackRef.current = onSessionComplete;
- const [open, setOpen] = useState(false);
+const POMODORO_WORK = 25 * 60;
+const POMODORO_BREAK = 5 * 60;
+
+function usePomodoro(onCompleteRef) {
  const [timer, setTimer] = useState(() => {
  const saved = readStorage('dudu-pomodoro-v1', null);
  return saved && ['work', 'break'].includes(saved.mode)
- ? { isRunning: false, mode: saved.mode, timeLeft: Number(saved.timeLeft) || 25 * 60 }
- : { isRunning: false, mode: 'work', timeLeft: 25 * 60 };
+ ? { isRunning: false, mode: saved.mode, timeLeft: Number(saved.timeLeft) || POMODORO_WORK }
+ : { isRunning: false, mode: 'work', timeLeft: POMODORO_WORK };
  });
 
  useEffect(() => writeStorage('dudu-pomodoro-v1', timer), [timer]);
@@ -1420,32 +1562,67 @@ function PomodoroTimer({ sessionsToday, onSessionComplete }) {
  if (previous.timeLeft > 1) return { ...previous, timeLeft: previous.timeLeft - 1 };
  const completedWork = previous.mode === 'work';
  const nextMode = completedWork ? 'break' : 'work';
- if (completedWork) callbackRef.current?.();
+ if (completedWork) onCompleteRef.current?.();
  if ('Notification' in window && Notification.permission === 'granted') {
  new Notification(completedWork ? 'Đến giờ nghỉ 5 phút' : 'Sẵn sàng học tiếp');
  }
- return { isRunning: completedWork, mode: nextMode, timeLeft: nextMode === 'work' ? 25 * 60 : 5 * 60 };
+ return { isRunning: completedWork, mode: nextMode, timeLeft: nextMode === 'work' ? POMODORO_WORK : POMODORO_BREAK };
  });
  }, 1000);
  return () => clearInterval(interval);
- }, [timer.isRunning]);
+ }, [timer.isRunning, onCompleteRef]);
 
- const duration = timer.mode === 'work' ? 25 * 60 : 5 * 60;
+ const duration = timer.mode === 'work' ? POMODORO_WORK : POMODORO_BREAK;
  const percent = ((duration - timer.timeLeft) / duration) * 100;
  const minutes = String(Math.floor(timer.timeLeft / 60)).padStart(2, '0');
  const seconds = String(timer.timeLeft % 60).padStart(2, '0');
- const reset = () => setTimer({ isRunning: false, mode: timer.mode, timeLeft: duration });
+ const toggle = () => setTimer((previous) => ({ ...previous, isRunning: !previous.isRunning }));
+ const reset = () => setTimer((previous) => ({ isRunning: false, mode: previous.mode, timeLeft: duration }));
+ const switchMode = () => setTimer((previous) => {
+ const mode = previous.mode === 'work' ? 'break' : 'work';
+ return { isRunning: false, mode, timeLeft: mode === 'work' ? POMODORO_WORK : POMODORO_BREAK };
+ });
+ return { ...timer, duration, percent, minutes, seconds, toggle, reset, switchMode };
+}
+
+function PomodoroCard({ pomodoro, compact = false }) {
+ const label = pomodoro.mode === 'work' ? 'Phiên học' : 'Giờ nghỉ';
  return (
- <div className="fixed bottom-20 right-4 z-40 flex flex-col items-end lg:bottom-5 xl:right-[336px]">
- {open && (
- <div className="mb-3 w-[min(20rem,calc(100vw-2rem))] rounded-xl border border-border bg-bg-secondary p-4 shadow-lg">
- <div className="flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-wider text-error">{timer.mode === 'work' ? 'Phiên tập trung' : 'Giờ nghỉ'}</p><p className="mt-1 display-text font-bold tabular-nums">{minutes}:{seconds}</p></div><button onClick={() => setOpen(false)} className="grid h-8 w-8 place-items-center rounded-xl bg-bg-tertiary font-bold ">×</button></div>
- <ProgressBar value={percent} className="mt-4" />
- <p className="mt-3 flex items-center gap-2 text-sm font-bold text-text-muted"><Icon.Clock className="h-4 w-4"/>{sessionsToday} phiên hôm nay</p>
- <div className="mt-4 grid grid-cols-2 gap-2"><button onClick={() => setTimer((previous) => ({ ...previous, isRunning: !previous.isRunning }))} className="btn-primary">{timer.isRunning ? 'Tạm dừng' : 'Bắt đầu'}</button><button onClick={reset} className="btn-secondary">Đặt lại</button></div>
+ <div className={compact ? 'rounded-xl border border-border bg-bg-secondary p-4 shadow-lg' : 'rounded-xl border border-border bg-bg-primary p-4'}>
+  <div className="flex items-center justify-between gap-2">
+   <div className="flex items-center gap-2">
+    <Icon.Clock className={`h-[18px] w-[18px] ${pomodoro.mode === 'work' ? 'text-accent-2' : 'text-success'}`} />
+    <h2 className="font-serif text-[17px] font-semibold">{label}</h2>
+   </div>
+   <button type="button" onClick={pomodoro.switchMode} className="rounded-full bg-bg-tertiary px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-text-muted hover:text-accent">{pomodoro.mode === 'work' ? '5 phút nghỉ' : '25 phút học'}</button>
+  </div>
+  <div className="mt-3 flex items-center justify-between gap-3">
+   <p className="font-serif text-[26px] font-semibold leading-none tabular">{pomodoro.minutes}:{pomodoro.seconds}</p>
+   <div className="flex gap-2">
+    <button type="button" onClick={pomodoro.toggle} className="btn-primary px-4">{pomodoro.isRunning ? 'Tạm dừng' : 'Bắt đầu'}</button>
+    <button type="button" onClick={pomodoro.reset} className="icon-action grid h-9 w-9 place-items-center rounded-md border border-border bg-bg-secondary text-text-muted" aria-label="Đặt lại Pomodoro" data-tooltip="Đặt lại"><Icon.Refresh className="h-4 w-4" /></button>
+   </div>
+  </div>
+  <ProgressBar value={pomodoro.percent} label="Tiến độ Pomodoro" className="mt-3 h-1.5" />
  </div>
- )}
- <button onClick={() => setOpen((value) => !value)} className="grid h-12 w-12 place-items-center rounded-xl bg-error text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-md" aria-label="Mở bộ hẹn giờ Pomodoro" title="Pomodoro"><Icon.Clock className="h-5 w-5"/></button>
+ );
+}
+
+function PomodoroDock({ pomodoro, sessionsToday }) {
+ const [open, setOpen] = useState(false);
+ const running = pomodoro.isRunning;
+ return (
+ <div className="fixed bottom-20 right-4 z-40 xl:hidden">
+  {open && (
+   <div className="mb-2 w-[min(19rem,calc(100vw-2rem))]">
+    <PomodoroCard pomodoro={pomodoro} compact />
+    <p className="mt-1 text-right text-[11px] font-semibold text-text-muted">{sessionsToday} phiên hôm nay</p>
+   </div>
+  )}
+  <button type="button" onClick={() => setOpen((value) => !value)} aria-label={open ? 'Đóng bộ hẹn giờ Pomodoro' : 'Mở bộ hẹn giờ Pomodoro'} aria-expanded={open} className={`ml-auto flex h-11 items-center gap-2 rounded-full border border-border bg-bg-secondary px-3 shadow-lg transition ${running ? 'text-accent' : 'text-text-secondary'}`}>
+   <Icon.Clock className="h-4 w-4" />
+   <span className="text-xs font-bold tabular">{pomodoro.minutes}:{pomodoro.seconds}</span>
+  </button>
  </div>
  );
 }
@@ -1499,7 +1676,7 @@ function BackgroundSettings({ settings, updateSettings, customBackground, onCust
  if (!settings) return null;
  const selectedImage = settings.background === 'custom'
   ? customBackground
-  : settings.background !== 'none' ? `/backgrounds/${settings.background}.jpg` : null;
+  : settings.background !== 'none' ? `/backgrounds/${settings.background}.webp` : null;
  const backgroundEnabled = settings.enableBackground && settings.background !== 'none' && (settings.background !== 'custom' || Boolean(customBackground));
  const previewOverlay = Math.min(0.96, (Math.max(88, Number(settings.overlayOpacity) || 88) + (effectiveTheme === 'dark' ? 4 : 0)) / 100);
 
@@ -1541,7 +1718,7 @@ function BackgroundSettings({ settings, updateSettings, customBackground, onCust
   {customBackground ? <div className="grid grid-cols-[128px_1fr] gap-4 rounded-xl border border-border bg-bg-tertiary p-3"><img src={customBackground} alt="Ảnh nền tùy chỉnh" className="h-20 w-32 rounded-md object-cover"/><div className="flex flex-col justify-center"><p className="text-sm font-semibold">Ảnh nền tùy chỉnh</p><div className="mt-2 flex gap-2"><button type="button" onClick={() => fileInputRef.current?.click()} className="btn-secondary">Đổi ảnh</button><button type="button" onClick={removeCustom} className="btn-ghost text-error">Xóa</button></div></div></div> : <button type="button" onClick={() => fileInputRef.current?.click()} className="btn-secondary flex w-full items-center justify-center gap-2"><Icon.Upload className="h-4 w-4"/>Tải ảnh lên</button>}
   {error && <p role="alert" className="rounded-md bg-error-subtle px-3 py-2 text-sm font-semibold text-error">{error}</p>}
   {backgroundEnabled && <>
-   <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">{BACKGROUNDS.map((bg) => <button key={bg.id} type="button" onClick={() => updateSettings({ background: bg.id, enableBackground: bg.id !== 'none' })} className={`relative aspect-video overflow-hidden rounded-xl border-2 transition ${settings.background === bg.id ? 'border-accent ring-2 ring-accent-subtle' : 'border-border hover:border-border-strong'}`}>{bg.id !== 'none' ? <img src={`/backgrounds/${bg.id}.jpg`} className="h-full w-full object-cover" alt={bg.name}/> : <span className="block h-full w-full bg-bg-primary"/>}<span className="absolute inset-x-0 bottom-0 bg-black/65 p-1 text-xs text-white">{bg.name}</span></button>)}{customBackground && <button type="button" onClick={() => updateSettings({ background: 'custom' })} className={`relative aspect-video overflow-hidden rounded-xl border-2 transition ${settings.background === 'custom' ? 'border-accent ring-2 ring-accent-subtle' : 'border-border hover:border-border-strong'}`}><img src={customBackground} className="h-full w-full object-cover" alt="Tùy chỉnh"/><span className="absolute inset-x-0 bottom-0 bg-black/65 p-1 text-xs text-white">Tùy chỉnh</span></button>}</div>
+   <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">{BACKGROUNDS.map((bg) => <button key={bg.id} type="button" onClick={() => updateSettings({ background: bg.id, enableBackground: bg.id !== 'none' })} className={`relative aspect-video overflow-hidden rounded-xl border-2 transition ${settings.background === bg.id ? 'border-accent ring-2 ring-accent-subtle' : 'border-border hover:border-border-strong'}`}>{bg.id !== 'none' ? <img src={`/backgrounds/${bg.id}.webp`} className="h-full w-full object-cover" alt={bg.name}/> : <span className="block h-full w-full bg-bg-primary"/>}<span className="absolute inset-x-0 bottom-0 bg-black/65 p-1 text-xs text-white">{bg.name}</span></button>)}{customBackground && <button type="button" onClick={() => updateSettings({ background: 'custom' })} className={`relative aspect-video overflow-hidden rounded-xl border-2 transition ${settings.background === 'custom' ? 'border-accent ring-2 ring-accent-subtle' : 'border-border hover:border-border-strong'}`}><img src={customBackground} className="h-full w-full object-cover" alt="Tùy chỉnh"/><span className="absolute inset-x-0 bottom-0 bg-black/65 p-1 text-xs text-white">Tùy chỉnh</span></button>}</div>
    <div><label className="flex justify-between text-sm"><span className="font-bold">Độ đậm lớp phủ</span><span>{settings.overlayOpacity}%</span></label><input type="range" min="88" max="96" value={settings.overlayOpacity} onChange={(event) => updateSettings({ overlayOpacity: Number(event.target.value) })} className="mt-2 w-full accent-[var(--accent)]"/><p className="mt-1 text-xs text-text-muted">Tối thiểu 88% để chữ luôn rõ trên ảnh.</p></div>
    <div><label className="flex justify-between text-sm"><span className="font-bold">Độ nhòe ảnh</span><span>{settings.backgroundBlur}px</span></label><input type="range" min="0" max="10" value={settings.backgroundBlur} onChange={(event) => updateSettings({ backgroundBlur: Number(event.target.value) })} className="mt-2 w-full accent-[var(--accent)]"/></div>
    <div className="rounded-xl border border-border bg-bg-tertiary p-4"><p className="mb-2 text-sm font-bold">Xem trước</p><div className="relative h-24 overflow-hidden rounded-xl border border-border-strong">{selectedImage && <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${selectedImage})`, filter: `blur(${settings.backgroundBlur}px)`, transform: settings.backgroundBlur > 0 ? 'scale(1.05)' : 'scale(1)' }}/>}<div className="absolute inset-0 bg-bg-primary transition-opacity" style={{ opacity: previewOverlay }}/><div className="relative flex h-full items-center justify-center"><span className="font-hanzi text-lg font-bold text-text-primary">你好 · Xin chào</span></div></div></div>
@@ -1643,8 +1820,9 @@ function Dashboard({ progress, onImport, onThemeChange, onColorThemeChange, onCh
  useEffect(() => setDraft(progress.profile), [progress.profile]);
  const accuracy = progress.accuracy.total ? Math.round((progress.accuracy.correct / progress.accuracy.total) * 100) : 0;
  const completedCount = LESSONS.filter((bai) => progress.baiProgress[bai]?.completed).length;
- const joinedDays = Math.max(1, Math.round((new Date(`${localDate()}T12:00:00`) - new Date(`${progress.profile.joinedAt}T12:00:00`)) / 86400000));
- const lastSeven = Array.from({ length: 7 }, (_, offset) => { const date = new Date(); date.setDate(date.getDate() - (6 - offset)); const key = localDate(date); return { key, label: new Intl.DateTimeFormat('vi-VN', { weekday: 'short' }).format(date), value: progress.studyDays[key]?.xp ?? progress.dailyXp[key] ?? 0 }; });
+ const joinedDays = Math.max(1, Math.round((new Date(`${localDate()}T12:00:00`) - new Date(`${progress.profile.joinedAt || localDate()}T12:00:00`)) / 86400000));
+ const joinedLabel = joinedDays <= 1 ? 'Bắt đầu hôm nay' : `Đồng hành ${joinedDays} ngày`;
+ const lastSeven = Array.from({ length: 7 }, (_, offset) => { const date = new Date(); date.setDate(date.getDate() - (6 - offset)); const key = localDate(date); return { key, label: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'][date.getDay()], value: progress.studyDays[key]?.xp ?? progress.dailyXp[key] ?? 0 }; });
  const maxXp = Math.max(...lastSeven.map((item) => item.value), 10);
  const recentStudy = Object.entries(progress.studyDays || {}).sort(([a], [b]) => b.localeCompare(a)).slice(0, 5);
  const dueSrs = getDueEntries(progress.srs).length;
@@ -1655,14 +1833,14 @@ function Dashboard({ progress, onImport, onThemeChange, onColorThemeChange, onCh
   { label: 'Phát âm', value: progress.advancedStats?.pronunciationBest || 0, tone: 'bg-warm' },
  ];
  const achievementProgress = (id) => ({ first_lesson: completedCount ? 100 : 0, streak_3: Math.min(100, progress.streak / 3 * 100), streak_7: Math.min(100, progress.streak / 7 * 100), combo_10: Math.min(100, progress.correctStreak / 10 * 100), clean_book: progress.accuracy.total && !progress.wrongAnswers.length ? 100 : 0, all_lessons: LESSONS.length ? completedCount / LESSONS.length * 100 : 0, accuracy_90: progress.accuracy.total >= 50 ? Math.min(100, accuracy / 90 * 100) : Math.min(99, progress.accuracy.total * 2), boss_first: progress.bossWins ? 100 : 0 }[id] || 0);
- const saveProfile = () => { onUpdateProfile({ name: draft.name.trim() || 'Nguyễn Văn A', headline: draft.headline.trim() || 'Học viên Hán ngữ', bio: draft.bio.trim() }); setEditing(false); };
+ const saveProfile = () => { onUpdateProfile({ name: draft.name.trim() || 'Học viên', headline: draft.headline.trim() || 'Học viên Hán ngữ', bio: draft.bio.trim() }); setEditing(false); };
  const tabs = [['overview', 'Tổng quan'], ['achievements', 'Thành tích'], ['activity', 'Hoạt động'], ['settings', 'Cài đặt']];
  return <div className="space-y-5">
   <section className="overflow-hidden rounded-xl border border-border bg-bg-secondary shadow-xs">
    <div className="relative h-[200px] overflow-hidden"><ProfileCoverArt/></div>
    <div className="relative px-6 pb-6">
     <div className="-mt-[60px] flex items-end justify-between gap-4"><div className="h-[120px] w-[120px] overflow-hidden rounded-full border-4 border-bg-secondary bg-bg-secondary shadow-md transition duration-200 hover:rotate-[3deg]"><PenguinProfileAvatar className="h-full w-full"/></div><button onClick={() => { setTab('overview'); setEditing(true); }} className="btn-secondary mb-2 flex items-center gap-2"><Icon.Pen/>Chỉnh sửa</button></div>
-    <h1 className="mt-3 font-serif text-[28px] font-bold">{progress.profile.name}</h1><p className="text-[15px] text-text-secondary">{progress.profile.headline}</p><p className="mt-1 text-sm text-text-muted">Đang học {progress.unlockedBai.length}/{LESSONS.length} bài · Tham gia {joinedDays} ngày trước</p>
+    <h1 className="mt-3 font-serif text-[28px] font-bold">{progress.profile.name || 'Học viên'}</h1><p className="text-[15px] text-text-secondary">{progress.profile.headline}</p><p className="mt-1 text-sm text-text-muted">Đang học {progress.unlockedBai.length}/{LESSONS.length} bài · {joinedLabel}</p>
     <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-semibold text-text-secondary">{[[`${progress.xp} XP`, 'XP'], [`${progress.streak} ngày`, 'streak'], [`${accuracy}%`, 'accuracy'], [`${progress.accuracy.total} câu`, 'questions']].map(([value, key], index) => <span key={key} className="flex items-center gap-3">{index > 0 && <span className="text-border-strong">·</span>}{value}</span>)}</div>
    </div>
   </section>
@@ -1678,7 +1856,7 @@ function Dashboard({ progress, onImport, onThemeChange, onColorThemeChange, onCh
    </div>
    <div className="space-y-4">
     <section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Bạn đã xem</h2><div className="mt-4 space-y-3">{[[Icon.Bookmark, 'Từ đã lưu', progress.bookmarks.length], [Icon.Pen, 'Ghi chú', Object.keys(progress.notes || {}).length], [Icon.Refresh, 'SRS đến hạn', dueSrs]].map(([ItemIcon,label,value]) => <div key={label} className="flex items-center gap-3"><span className="grid h-9 w-9 place-items-center rounded-xl bg-bg-tertiary text-accent"><ItemIcon/></span><span className="flex-1 text-sm text-text-secondary">{label}</span><strong className="font-serif text-lg">{value}</strong></div>)}</div></section>
-    <section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Badges</h2><div className="mt-4 grid grid-cols-4 gap-2">{ACHIEVEMENTS.slice(0,4).map((badge) => { const BadgeIcon=PROFILE_BADGE_ICONS[badge.id] || Icon.Star; const unlocked=progress.achievements.includes(badge.id); return <span key={badge.id} title={badge.title} className={`grid aspect-square place-items-center rounded-xl border ${unlocked ? 'border-warning bg-warning-subtle text-warning' : 'border-border bg-bg-tertiary text-text-muted opacity-45'}`}><BadgeIcon/></span>; })}</div><button onClick={() => setTab('achievements')} className="btn-ghost mt-3 w-full text-accent">Xem thành tích</button></section>
+    <section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Huy hiệu</h2><div className="mt-4 grid grid-cols-4 gap-2">{ACHIEVEMENTS.slice(0,4).map((badge) => { const BadgeIcon=PROFILE_BADGE_ICONS[badge.id] || Icon.Star; const unlocked=progress.achievements.includes(badge.id); return <span key={badge.id} title={badge.title} className={`grid aspect-square place-items-center rounded-xl border ${unlocked ? 'border-warning bg-warning-subtle text-warning' : 'border-border bg-bg-tertiary text-text-muted opacity-45'}`}><BadgeIcon/></span>; })}</div><button onClick={() => setTab('achievements')} className="btn-ghost mt-3 w-full text-accent">Xem thành tích</button></section>
     <section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Lịch sử học</h2><div className="mt-3 space-y-3">{recentStudy.length ? recentStudy.map(([date,data]) => <div key={date} className="flex items-center gap-3 text-sm"><span className="grid h-8 w-8 place-items-center rounded-xl bg-accent-subtle text-accent"><Icon.Calendar/></span><span className="flex-1 text-text-secondary">{new Intl.DateTimeFormat('vi-VN',{day:'2-digit',month:'2-digit'}).format(new Date(`${date}T12:00:00`))}</span><strong>{data.questions || 0} câu</strong></div>) : <p className="text-sm text-text-muted">Chưa có phiên học được ghi nhận.</p>}</div></section>
    </div>
   </div>}
@@ -1752,14 +1930,15 @@ function MatchingGame({ onComplete }) {
  return (
  <div className="mx-auto max-w-2xl text-center">
  <div className="flex items-center justify-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl bg-accent-subtle text-accent"><Icon.Gamepad className="h-5 w-5"/></span><h1 className="h1-text font-bold">Ghép từ</h1></div>
- <p className="mt-2 text-text-muted">Nối chữ Hán và nghĩa tiếng Việt tương ứng.</p>
+ <p className="mt-2 text-text-muted">Nối chữ Hán và nghĩa tiếng Việt tương ứng — nhanh và ít lỗi để điểm cao.</p>
  <section className="mt-6 rounded-xl border border-border bg-bg-secondary p-6 shadow-sm">
- <label className="text-sm font-bold">Chọn bài để chơi
- <select value={bai} onChange={(e) => setBai(Number(e.target.value))} className="mt-2 w-full rounded-xl border border-border-strong bg-bg-secondary px-3 py-3">
+ <div className="flex items-center gap-3 rounded-xl bg-bg-tertiary p-3 text-left"><Mascot type="panda" size="sm" /><div><p className="text-sm font-semibold">Trúc gợi ý</p><p className="text-xs text-text-muted">8 cặp mỗi lượt · mỗi lỗi sai trừ 50 điểm · chạm 2 thẻ để ghép.</p></div></div>
+ <label className="mt-5 block text-left text-sm font-bold">Chọn bài để chơi
+ <select value={bai} onChange={(e) => setBai(Number(e.target.value))} className="input mt-2 w-full">
  {LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}
  </select>
  </label>
- <button onClick={start} className="mt-5 w-full rounded-xl bg-success px-5 py-3 font-bold text-white hover:bg-success-subtle">Bắt đầu chơi</button>
+ <button onClick={start} className="btn-primary mt-5 w-full py-3">Bắt đầu chơi</button>
  </section>
  </div>
  );
@@ -1847,14 +2026,14 @@ function DictationScreen({ onComplete }) {
  setIndex((value) => value + 1); setAnswer(''); setResult(null); setReplays(0);
  };
  if (!deck.length) return (
- <div className="mx-auto max-w-2xl"><p className="text-xs font-bold uppercase tracking-widest text-error">Advanced Learning</p><div className="mt-1 flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl bg-error-subtle text-error"><Icon.Headphones className="h-5 w-5"/></span><h1 className="h1-text font-bold">Luyện chính tả</h1></div><p className="mt-2 text-text-muted">Nghe câu tiếng Trung rồi gõ lại chính xác.</p><section className="mt-6 rounded-xl border border-border bg-bg-secondary p-5 shadow-sm sm:p-6"><div className="grid gap-4 sm:grid-cols-2"><label className="text-sm font-bold">Bài<select value={bai} onChange={(event) => setBai(Number(event.target.value))} className="input mt-2 w-full">{LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}</select></label><label className="text-sm font-bold">Số câu<select value={count} onChange={(event) => setCount(Number(event.target.value))} className="input mt-2 w-full">{[5, 10, 20].map((number) => <option key={number} value={number}>{number} câu</option>)}</select></label></div><p className="mt-4 text-sm text-text-muted">Bài {bai} có {getDictationSentences(bai).length} câu phù hợp.</p><button onClick={start} className="btn-primary mt-5 w-full">Bắt đầu nghe</button></section></div>
+ <div className="mx-auto max-w-2xl"><p className="text-xs font-bold uppercase tracking-widest text-accent-2">Luyện nâng cao</p><div className="mt-1 flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl bg-accent-2-subtle text-accent-2"><Icon.Headphones className="h-5 w-5"/></span><h1 className="h1-text font-bold">Luyện chính tả</h1></div><p className="mt-2 text-text-muted">Nghe câu tiếng Trung rồi gõ lại chính xác.</p><section className="mt-6 rounded-xl border border-border bg-bg-secondary p-5 shadow-sm sm:p-6"><div className="grid gap-4 sm:grid-cols-2"><label className="text-sm font-bold">Bài<select value={bai} onChange={(event) => setBai(Number(event.target.value))} className="input mt-2 w-full">{LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}</select></label><label className="text-sm font-bold">Số câu<select value={count} onChange={(event) => setCount(Number(event.target.value))} className="input mt-2 w-full">{[5, 10, 20].map((number) => <option key={number} value={number}>{number} câu</option>)}</select></label></div><p className="mt-4 text-sm text-text-muted">Bài {bai} có {getDictationSentences(bai).length} câu phù hợp.</p><button onClick={start} className="btn-primary mt-5 w-full">Bắt đầu nghe</button></section></div>
  );
  if (index >= deck.length) {
  const average = scores.length ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length) : 0;
  return <div className="mx-auto max-w-xl rounded-xl border border-success bg-bg-secondary p-8 text-center shadow-sm"><div className="mx-auto grid h-16 w-16 place-items-center rounded-xl bg-success-subtle text-success"><Icon.Headphones className="h-7 w-7"/></div><h1 className="mt-4 h1-text font-bold">Hoàn thành chính tả</h1><p className="mt-2 text-text-muted">Điểm trung bình {average}/100 · {scores.filter((score) => score >= 80).length}/{scores.length} câu đạt</p><button onClick={() => setDeck([])} className="btn-primary mt-6 w-full">Luyện lượt mới</button></div>;
  }
  return (
- <div className="mx-auto max-w-2xl"><div className="mb-5 flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-error">Chính tả · Bài {bai}</p><h1 className="mt-1 h2-text font-bold">Câu {index + 1}/{deck.length}</h1></div><span className="rounded-xl bg-warning-subtle px-3 py-2 text-sm font-bold text-warning">Lượt nghe {replays}/3</span></div><ProgressBar value={((index + 1) / deck.length) * 100} label="Tiến độ luyện chính tả"/><section className="mt-5 rounded-xl border border-border bg-bg-secondary p-5 shadow-lg sm:p-7"><div className="text-center"><button onClick={play} disabled={replays >= 3} className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-error text-white shadow-lg transition hover:scale-105 disabled:opacity-40" aria-label="Phát câu chính tả"><Icon.Volume className="h-8 w-8"/></button><p className="mt-3 text-sm text-text-muted">Có thể nghe tối đa 3 lần</p></div><textarea ref={textareaRef} value={answer} onChange={(event) => setAnswer(event.target.value)} disabled={Boolean(result)} rows={3} placeholder="Gõ câu chữ Hán bạn nghe được..." className="input mt-6 w-full text-lg" />{!result && <VirtualKeyboard textareaRef={textareaRef} value={answer} onChange={setAnswer} />}{!result ? <button onClick={check} disabled={!answer.trim()} className="btn-primary mt-4 w-full disabled:opacity-40">Kiểm tra</button> : <div className={`mt-5 rounded-xl border p-4 ${result.isCorrect ? 'border-success bg-success-subtle' : 'border-error bg-error-subtle'}`}><p className="text-xl font-bold">{result.isCorrect ? '✓ Nghe tốt' : 'Cần nghe lại'} · {result.score}/100</p><p className="mt-3 text-lg font-bold">{current.zh}</p><p className="mt-1 text-sm text-success">{current.pinyin}</p><p className="mt-1 text-sm text-text-muted">{current.vi}</p><button onClick={next} className="btn-primary mt-4 w-full">{index === deck.length - 1 ? 'Xem kết quả' : 'Câu tiếp →'}</button></div>}</section></div>
+ <div className="mx-auto max-w-2xl"><div className="mb-5 flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-accent-2">Chính tả · Bài {bai}</p><h1 className="mt-1 h2-text font-bold">Câu {index + 1}/{deck.length}</h1></div><span className="rounded-xl bg-warning-subtle px-3 py-2 text-sm font-bold text-warning">Lượt nghe {replays}/3</span></div><ProgressBar value={((index + 1) / deck.length) * 100} label="Tiến độ luyện chính tả"/><section className="mt-5 rounded-xl border border-border bg-bg-secondary p-5 shadow-lg sm:p-7"><div className="text-center"><button onClick={play} disabled={replays >= 3} className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-error text-white shadow-lg transition hover:scale-105 disabled:opacity-40" aria-label="Phát câu chính tả"><Icon.Volume className="h-8 w-8"/></button><p className="mt-3 text-sm text-text-muted">Có thể nghe tối đa 3 lần</p></div><textarea ref={textareaRef} value={answer} onChange={(event) => setAnswer(event.target.value)} disabled={Boolean(result)} rows={3} placeholder="Gõ câu chữ Hán bạn nghe được..." className="input mt-6 w-full text-lg" />{!result && <VirtualKeyboard textareaRef={textareaRef} value={answer} onChange={setAnswer} />}{!result ? <button onClick={check} disabled={!answer.trim()} className="btn-primary mt-4 w-full disabled:opacity-40">Kiểm tra</button> : <div className={`mt-5 rounded-xl border p-4 ${result.isCorrect ? 'border-success bg-success-subtle' : 'border-error bg-error-subtle'}`}><p className="text-xl font-bold">{result.isCorrect ? '✓ Nghe tốt' : 'Cần nghe lại'} · {result.score}/100</p><p className="mt-3 text-lg font-bold">{current.zh}</p><p className="mt-1 text-sm text-success">{current.pinyin}</p><p className="mt-1 text-sm text-text-muted">{current.vi}</p><button onClick={next} className="btn-primary mt-4 w-full">{index === deck.length - 1 ? 'Xem kết quả' : 'Câu tiếp →'}</button></div>}</section></div>
  );
 }
 
@@ -1881,7 +2060,7 @@ function PronunciationScreen({ onAttempt }) {
  };
  const next = () => { setIndex((value) => (value + 1) % entries.length); setFeedback(null); };
  return (
- <div className="mx-auto max-w-2xl"><div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-error">Advanced Learning</p><div className="mt-1 flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl bg-error-subtle text-error"><Icon.Mic className="h-5 w-5"/></span><h1 className="h1-text font-bold">Luyện phát âm</h1></div></div><select value={bai} onChange={(event) => { setBai(Number(event.target.value)); setIndex(0); setFeedback(null); }} className="input">{LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}</select></div>{!supported && <div role="alert" className="mt-5 rounded-xl border border-warning bg-warning-subtle p-4 font-semibold text-warning">Trình duyệt này chưa hỗ trợ nhận diện giọng nói. Hãy mở app bằng Chrome hoặc Edge.</div>}<section className="mt-6 rounded-xl border border-border bg-bg-secondary p-5 text-center shadow-lg sm:p-8"><p className="font-hanzi text-6xl font-bold">{entry.word_zh}</p><p className="mt-3 text-xl font-bold text-error">{entry.pinyin}</p><p className="mt-2 text-text-muted">{entry.meaning_vi}</p><div className="mt-7 flex items-center justify-center gap-3"><SpeakButton text={entry.word_zh} className="h-12 w-12 text-xl" /><button onClick={record} disabled={!supported || listening} className={`grid h-20 w-20 place-items-center rounded-full text-white shadow-lg transition ${listening ? 'animate-pulse bg-error ring-8 ring-error-subtle' : 'bg-error hover:scale-105'} disabled:opacity-40`} aria-label="Bắt đầu ghi âm"><Icon.Mic className="h-8 w-8"/></button></div><p className="mt-3 text-sm font-bold text-text-muted">{listening ? 'Đang nghe... hãy nói rõ từ trên' : 'Bấm micro rồi đọc từ trên'}</p>{feedback && <div className={`mt-6 rounded-xl p-4 text-left ${feedback.score >= 80 ? 'bg-success-subtle' : feedback.score >= 50 ? 'bg-warning-subtle' : 'bg-error-subtle'}`}><div className="flex items-center justify-between gap-3"><p className="min-w-0 font-bold">Bạn nói: {feedback.transcript || 'Không nhận diện được'}</p><span className="shrink-0 text-xl font-bold">{feedback.score}/100</span></div>{feedback.error && <p className="mt-2 text-sm text-error">{feedback.error}</p>}<div className="mt-4 flex gap-2"><button onClick={record} className="btn-secondary flex-1">Thử lại</button><button onClick={next} className="btn-primary flex-1">Tiếp →</button></div></div>}</section></div>
+ <div className="mx-auto max-w-2xl"><div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-accent-2">Luyện nâng cao</p><div className="mt-1 flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl bg-accent-2-subtle text-accent-2"><Icon.Mic className="h-5 w-5"/></span><h1 className="h1-text font-bold">Luyện phát âm</h1></div></div><select value={bai} onChange={(event) => { setBai(Number(event.target.value)); setIndex(0); setFeedback(null); }} className="input">{LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}</select></div>{!supported && <div role="alert" className="mt-5 rounded-xl border border-warning bg-warning-subtle p-4 font-semibold text-warning">Trình duyệt này chưa hỗ trợ nhận diện giọng nói. Hãy mở app bằng Chrome hoặc Edge.</div>}<section className="mt-6 rounded-xl border border-border bg-bg-secondary p-5 text-center shadow-lg sm:p-8"><p className="font-hanzi text-6xl font-bold">{entry.word_zh}</p><p className="mt-3 text-xl font-bold text-accent-2">{entry.pinyin}</p><p className="mt-2 text-text-muted">{entry.meaning_vi}</p><div className="mt-7 flex items-center justify-center gap-3"><SpeakButton text={entry.word_zh} className="h-12 w-12 text-xl" /><button onClick={record} disabled={!supported || listening} className={`grid h-20 w-20 place-items-center rounded-full text-white shadow-lg transition ${listening ? 'animate-pulse bg-error ring-8 ring-error-subtle' : 'bg-error hover:scale-105'} disabled:opacity-40`} aria-label="Bắt đầu ghi âm"><Icon.Mic className="h-8 w-8"/></button></div><p className="mt-3 text-sm font-bold text-text-muted">{listening ? 'Đang nghe... hãy nói rõ từ trên' : 'Bấm micro rồi đọc từ trên'}</p>{feedback && <div className={`mt-6 rounded-xl p-4 text-left ${feedback.score >= 80 ? 'bg-success-subtle' : feedback.score >= 50 ? 'bg-warning-subtle' : 'bg-error-subtle'}`}><div className="flex items-center justify-between gap-3"><p className="min-w-0 font-bold">Bạn nói: {feedback.transcript || 'Không nhận diện được'}</p><span className="shrink-0 text-xl font-bold">{feedback.score}/100</span></div>{feedback.error && <p className="mt-2 text-sm text-error">{feedback.error}</p>}<div className="mt-4 flex gap-2"><button onClick={record} className="btn-secondary flex-1">Thử lại</button><button onClick={next} className="btn-primary flex-1">Tiếp →</button></div></div>}</section></div>
  );
 }
 
@@ -1893,7 +2072,7 @@ function SentenceChineseLine({ sentence, entries, onCharacter }) {
  const match = terms.find((entry) => sentence.startsWith(entry.word_zh, cursor));
  if (match) {
  nodes.push(
- <span key={`${cursor}-${match.id}`} className="rounded bg-error-subtle px-0.5 font-bold text-error underline decoration-rose-200 decoration-2 underline-offset-4">
+ <span key={`${cursor}-${match.id}`} className="rounded bg-warning-subtle px-0.5 font-bold underline decoration-warning/60 decoration-2 underline-offset-4">
  <ClickableHanzi text={match.word_zh} entry={match} onCharacter={onCharacter} />
  </span>
  );
@@ -1915,7 +2094,7 @@ function SentenceMiningScreen({ bookmarks, notes, onCharacter, onStartPlaylist }
  const sentences = getSentencesByBai(bai).filter((sentence) => filter === 'all' || (filter === 'bookmarks' ? bookmarks.includes(sentence.source) : Boolean(notes[sentence.source])));
  const playlist = sentences.map((sentence) => ({ text: sentence.zh, label: sentence.zh, sublabel: sentence.vi }));
  return (
- <div><div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-error">Advanced Learning</p><div className="mt-1 flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl bg-error-subtle text-error"><Icon.Type className="h-5 w-5"/></span><h1 className="h1-text font-bold">Câu ví dụ</h1></div><p className="mt-2 text-text-muted">Đọc theo ngữ cảnh và nghe liên tục theo bài.</p></div><button onClick={() => onStartPlaylist(playlist)} disabled={!playlist.length} className="btn-primary flex items-center justify-center gap-2 disabled:opacity-40"><Icon.Volume className="h-4 w-4"/>Đọc toàn bộ</button></div><div className="mt-6 flex flex-wrap items-center gap-2 border-b border-border pb-4"><select value={bai} onChange={(event) => setBai(Number(event.target.value))} className="input py-2 font-bold">{LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}</select><button onClick={() => setShowPinyin((value) => !value)} className={`filter-btn ${showPinyin ? 'active' : ''}`}>Pinyin</button><button onClick={() => setShowVi((value) => !value)} className={`filter-btn ${showVi ? 'active' : ''}`}>Tiếng Việt</button>{[['all', 'Tất cả'], ['bookmarks', 'Đã đánh dấu'], ['notes', 'Có ghi chú']].map(([id, label]) => <button key={id} onClick={() => setFilter(id)} className={`filter-btn ${filter === id ? 'active' : ''}`}>{label}</button>)}</div><div className="mt-5 space-y-3">{sentences.map((sentence, index) => <article key={`${sentence.source}-${index}`} className="rounded-xl border border-border bg-bg-secondary p-5 shadow-sm"><div className="flex items-start gap-3"><p className="font-hanzi flex-1 text-xl font-semibold leading-9"><SentenceChineseLine sentence={sentence.zh} entries={entries} onCharacter={onCharacter} /></p><SpeakButton text={sentence.zh} /></div>{showPinyin && sentence.pinyin && <p className="pinyin-text mt-2 text-sm text-success">{sentence.pinyin}</p>}{showVi && sentence.vi && <p className="mt-1 text-sm text-accent-2">{sentence.vi}</p>}</article>)}</div>{!sentences.length && <EmptyState icon="文" title="Không có câu phù hợp" text="Đổi bộ lọc hoặc chọn bài khác để tiếp tục." />}</div>
+ <div><div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-accent-2">Luyện nâng cao</p><div className="mt-1 flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl bg-accent-2-subtle text-accent-2"><Icon.Type className="h-5 w-5"/></span><h1 className="h1-text font-bold">Câu ví dụ</h1></div><p className="mt-2 text-text-muted">Đọc theo ngữ cảnh và nghe liên tục theo bài.</p></div><button onClick={() => onStartPlaylist(playlist)} disabled={!playlist.length} className="btn-primary flex items-center justify-center gap-2 disabled:opacity-40"><Icon.Volume className="h-4 w-4"/>Đọc toàn bộ</button></div><div className="mt-6 flex flex-wrap items-center gap-2 border-b border-border pb-4"><select value={bai} onChange={(event) => setBai(Number(event.target.value))} className="input py-2 font-bold">{LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}</select><button onClick={() => setShowPinyin((value) => !value)} className={`filter-btn ${showPinyin ? 'active' : ''}`}>Pinyin</button><button onClick={() => setShowVi((value) => !value)} className={`filter-btn ${showVi ? 'active' : ''}`}>Tiếng Việt</button>{[['all', 'Tất cả'], ['bookmarks', 'Đã đánh dấu'], ['notes', 'Có ghi chú']].map(([id, label]) => <button key={id} onClick={() => setFilter(id)} className={`filter-btn ${filter === id ? 'active' : ''}`}>{label}</button>)}</div><div className="mt-5 space-y-3">{sentences.map((sentence, index) => <article key={`${sentence.source}-${index}`} className="rounded-xl border border-border bg-bg-secondary p-5 shadow-sm"><div className="flex items-start gap-3"><p className="font-hanzi flex-1 text-xl font-semibold leading-9"><SentenceChineseLine sentence={sentence.zh} entries={entries} onCharacter={onCharacter} /></p><SpeakButton text={sentence.zh} /></div>{showPinyin && sentence.pinyin && <p className="pinyin-text mt-2 text-sm text-success">{sentence.pinyin}</p>}{showVi && sentence.vi && <p className="mt-1 text-sm text-accent-2">{sentence.vi}</p>}</article>)}</div>{!sentences.length && <EmptyState icon="文" title="Không có câu phù hợp" text="Đổi bộ lọc hoặc chọn bài khác để tiếp tục." />}</div>
  );
 }
 
@@ -1931,7 +2110,7 @@ function CharacterDetailModal({ detail, onClose }) {
  <div className="modal-backdrop fixed inset-0 z-[90] flex items-center justify-center bg-slate-950/60 p-3 backdrop-blur-sm sm:p-6" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
  <section ref={trapRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="character-detail-title" className="animate-modal-in max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-xl border border-border bg-bg-secondary p-4 shadow-xl sm:p-6">
  <header className="flex items-start justify-between gap-4 border-b border-border pb-5">
- <div className="flex min-w-0 items-center gap-3 sm:gap-5"><span id="character-detail-title" className="font-hanzi text-6xl font-bold leading-none sm:text-7xl">{char}</span><div className="min-w-0"><p className="text-xl font-bold text-error">{exact?.pinyin || 'Chưa có pinyin riêng'}</p><p className="mt-2 font-bold">{entryMeaning(exact || {}) || 'Xem các từ ghép bên dưới'}</p></div><SpeakButton text={char} className="h-10 w-10" /></div>
+ <div className="flex min-w-0 items-center gap-3 sm:gap-5"><span id="character-detail-title" className="font-hanzi text-6xl font-bold leading-none sm:text-7xl">{char}</span><div className="min-w-0"><p className="text-xl font-bold text-accent-2">{exact?.pinyin || 'Chưa có pinyin riêng'}</p><p className="mt-2 font-bold">{entryMeaning(exact || {}) || 'Xem các từ ghép bên dưới'}</p></div><SpeakButton text={char} className="h-10 w-10" /></div>
  <button onClick={onClose} className="icon-action grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-bg-tertiary text-text-muted hover:bg-border" aria-label="Đóng chi tiết chữ Hán" data-tooltip="Đóng"><Icon.X /></button>
  </header>
  <div className="mt-5 grid gap-4 lg:grid-cols-2">
@@ -1988,13 +2167,13 @@ function StatBox({ label, value, tone }) {
 }
 
 function EmptyState({ title, text, mascot = 'panda', icon, action, secondaryAction }) {
- return <div className="animate-fade-slide px-4 py-16 text-center">
-   <div className="mx-auto grid h-20 w-20 place-items-center rounded-xl bg-accent-subtle text-4xl">
-     {icon ? <span aria-hidden="true">{icon}</span> : <Mascot type={mascot} size="md" />}
+ return <div className="animate-fade-slide px-4 py-14 text-center">
+   <div className="relative mx-auto grid h-24 w-24 place-items-center rounded-2xl bg-gradient-to-br from-accent-subtle to-accent-2-subtle shadow-xs">
+     {icon ? <span aria-hidden="true" className="font-hanzi text-[34px] leading-none text-accent">{icon}</span> : <span className="animate-float"><Mascot type={mascot} size="lg" /></span>}
    </div>
    <h2 className="mt-5 font-serif text-xl font-semibold text-text-primary">{title}</h2>
-   <p className="mx-auto mt-2 max-w-sm text-sm text-text-secondary leading-relaxed">{text}</p>
-   {(action || secondaryAction) && <div className="mt-6 flex justify-center gap-3">{action}{secondaryAction}</div>}
+   <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-text-secondary">{text}</p>
+   {(action || secondaryAction) && <div className="mt-6 flex flex-wrap justify-center gap-3">{action}{secondaryAction}</div>}
  </div>;
 }
 
@@ -2073,7 +2252,7 @@ function Confetti() {
 
 function BackgroundLayer({ settings, customBackground, effectiveTheme }) {
  if (!settings || !settings.enableBackground || settings.background === 'none') return null;
- const image = settings.background === 'custom' ? customBackground : `/backgrounds/${settings.background}.jpg`;
+ const image = settings.background === 'custom' ? customBackground : `/backgrounds/${settings.background}.webp`;
  if (!image) return null;
  const overlay = Math.min(0.96, (Math.max(88, Number(settings.overlayOpacity) || 88) + (effectiveTheme === 'dark' ? 4 : 0)) / 100);
  
@@ -2114,8 +2293,12 @@ function evaluateAchievements(progress) {
 export default function App() {
  const [screen, setScreen] = useState('home');
  const [currentBai, setCurrentBai] = useState(1);
+ // Read once, outside the state initializer, so the "progress was corrupt"
+ // diagnostic can be surfaced as a toast after the first render.
+ const bootProgressRef = useRef(null);
+ if (bootProgressRef.current === null) bootProgressRef.current = readProgress();
  const [progress, setProgress] = useState(() => {
- const saved = readStorage('dudu-progress-v1', null);
+ const saved = bootProgressRef.current?.progress || null;
  const merged = mergeProgress(saved);
  if (!saved?.themeMode) merged.themeMode = readStorage('dudu-theme-mode', readStorage('dudu-dark', false) ? 'dark' : 'auto');
  return rolloverDailyProgress(merged);
@@ -2143,8 +2326,14 @@ export default function App() {
  const [libraryRefresh, setLibraryRefresh] = useState(0);
  const [processingJobs, setProcessingJobs] = useState(() => getActiveProcessingJobs());
  const [headerHidden, setHeaderHidden] = useState(false);
+ const [online, setOnline] = useState(() => (typeof navigator === 'undefined' ? true : navigator.onLine !== false));
  const progressRef = useRef(progress);
  const goKeyRef = useRef(0);
+ const pomodoroCompleteRef = useRef(() => {});
+ const pomodoro = usePomodoro(pomodoroCompleteRef);
+ const remoteAppliedAtRef = useRef('');
+ const activeCourseRef = useRef(activeCourse);
+ activeCourseRef.current = activeCourse;
  progressRef.current = progress;
 
  useEffect(() => {
@@ -2159,7 +2348,7 @@ export default function App() {
     applyBuiltInEdits(course);
     LESSONS.splice(0, LESSONS.length, ...Array.from({ length: count }, (_, index) => index + 1));
     PINYIN_INDEX = buildPinyinIndex();
-    const saved = course.id === BUILT_IN_COURSE_ID ? readStorage('dudu-progress-v1', null) : await getProgress(course.id);
+    const saved = course.id === BUILT_IN_COURSE_ID ? readProgress().progress : await getProgress(course.id);
     if (!active) return;
     setProgress(progressForCourse(saved, course));
     setActiveCourseId(course.id);
@@ -2176,6 +2365,46 @@ export default function App() {
    if (['completed', 'error', 'cancelled'].includes(snapshot.state)) setLibraryRefresh((value) => value + 1);
  }), []);
 
+ // Tell the user when the saved progress blob was corrupt instead of silently
+ // resetting the whole learning history.
+ useEffect(() => {
+   const boot = bootProgressRef.current;
+   if (boot?.corrupt) {
+     setToast({ icon: '!', title: 'Tiến độ cũ bị hỏng', description: boot.error?.userMessage || 'Dữ liệu tiến độ không đọc được nên đã bắt đầu lại từ mặc định.' });
+   }
+ }, []);
+
+ // Another tab edited the library / settings / courses in IndexedDB.
+ useEffect(() => subscribeDbChanges(() => setLibraryRefresh((value) => value + 1)), []);
+ useEffect(() => subscribeDbState((event) => {
+   if (event?.type === 'version-change' || event?.type === 'blocked') {
+     setWordEditorError(event.message || 'Dữ liệu đang được mở ở tab khác. Hãy đóng bớt tab rồi thử lại.');
+   }
+ }), []);
+
+ // Another tab saved progress: adopt the fresher copy exactly once and skip the
+ // echo write so two open tabs never ping-pong updates forever.
+ useEffect(() => subscribeStorageChanges(() => {
+   const incoming = readProgress();
+   if (!incoming.ok || !incoming.progress) return;
+   const incomingAt = Date.parse(incoming.progress._savedAt || '') || 0;
+   const currentAt = Date.parse(progressRef.current._savedAt || '') || 0;
+   if (incomingAt <= currentAt) return;
+   remoteAppliedAtRef.current = incoming.progress._savedAt;
+   setProgress(progressForCourse(incoming.progress, activeCourseRef.current));
+ }), []);
+
+ useEffect(() => {
+   const goOnline = () => setOnline(true);
+   const goOffline = () => setOnline(false);
+   window.addEventListener('online', goOnline);
+   window.addEventListener('offline', goOffline);
+   return () => {
+     window.removeEventListener('online', goOnline);
+     window.removeEventListener('offline', goOffline);
+   };
+ }, []);
+
  useEffect(() => {
    let previous = window.scrollY;
    const onScroll = () => {
@@ -2188,25 +2417,29 @@ export default function App() {
  }, []);
 
  useEffect(() => {
- const applyTheme = () => {
+ const syncTheme = () => {
  const nextTheme = progress.themeMode === 'auto' ? getAutoTheme() : progress.themeMode;
  setEffectiveTheme(nextTheme);
- document.documentElement.classList.toggle('dark', nextTheme === 'dark');
+ applyTheme(progress.colorTheme || 'pastel', nextTheme === 'dark');
  };
- applyTheme();
+ syncTheme();
  writeStorage('dudu-theme-mode', progress.themeMode);
  if (progress.themeMode !== 'auto') return undefined;
- const interval = setInterval(applyTheme, 30 * 60 * 1000);
+ const interval = setInterval(syncTheme, 30 * 60 * 1000);
  return () => clearInterval(interval);
- }, [progress.themeMode]);
-
- useEffect(() => {
- applyTheme(progress.colorTheme || 'pastel', effectiveTheme === 'dark');
- }, [progress.colorTheme, effectiveTheme]);
+ }, [progress.themeMode, progress.colorTheme]);
 
  useEffect(() => {
    if (!courseReady) return undefined;
-   if (activeCourseId === BUILT_IN_COURSE_ID) writeStorage('dudu-progress-v1', progress);
+   // Skip the echo save when this state came from another tab (prevents ping-pong).
+   if (remoteAppliedAtRef.current && progress._savedAt === remoteAppliedAtRef.current) {
+     remoteAppliedAtRef.current = '';
+     return undefined;
+   }
+   if (activeCourseId === BUILT_IN_COURSE_ID) {
+     const result = writeProgress(progress);
+     if (!result.ok) setWordEditorError(`Không lưu được tiến độ: ${result.error?.userMessage || 'lỗi không xác định'}`);
+   }
    const timer = setTimeout(() => saveProgress(activeCourseId, progress).catch((error) => setWordEditorError(`Không lưu được tiến độ: ${error.message}`)), 400);
    return () => clearTimeout(timer);
  }, [progress, activeCourseId, courseReady]);
@@ -2216,7 +2449,7 @@ export default function App() {
      if (courseReady && await getCourse(activeCourseId)) await saveProgress(activeCourseId, progressRef.current);
      const course = await getCourse(courseId);
      if (!course) throw new Error('Không tìm thấy khóa học.');
-     const saved = course.id === BUILT_IN_COURSE_ID ? readStorage('dudu-progress-v1', null) : await getProgress(course.id);
+     const saved = course.id === BUILT_IN_COURSE_ID ? readProgress().progress : await getProgress(course.id);
      const count = activateCourseData(course);
      applyBuiltInEdits(course);
      LESSONS.splice(0, LESSONS.length, ...Array.from({ length: count }, (_, index) => index + 1));
@@ -2525,9 +2758,11 @@ export default function App() {
  const today = updateStudyDate(next);
  next.pomodoroSessions += 1;
  next.studyDays[today] = next.studyDays[today] || { xp: 0, questions: 0 };
+ setToast({ icon: '✓', title: 'Hoàn thành một phiên tập trung', description: 'Nghỉ 5 phút rồi quay lại nhé — bạn đang giữ nhịp rất tốt.' });
  return next;
  });
  };
+ pomodoroCompleteRef.current = completePomodoro;
  const updateSettings = (updates) => setProgress((previous) => ({ ...previous, settings: { ...previous.settings, ...updates } }));
  const updateCustomBackground = (value) => {
   try {
@@ -2575,9 +2810,9 @@ export default function App() {
  else if (screen === 'review-generated') content = <ReviewGeneratedScreen key={targetCourseId} courseId={targetCourseId} onBack={() => setScreen('library')} onRetry={() => setScreen('process-document')} onCommitted={(id) => { setLibraryRefresh((value) => value + 1); selectCourse(id); }} />;
  else if (!LESSONS.length && screen !== 'dashboard') content = <div className="rounded-md border border-border bg-bg-secondary p-8 text-center"><h1 className="font-serif text-xl font-semibold">{activeCourse?.name || 'Khóa học'} chưa có bài học</h1><p className="mt-2 text-sm text-text-secondary">Nhập tài liệu để bắt đầu tạo nội dung.</p><button onClick={() => { setTargetCourseId(activeCourseId); setScreen('import-document'); }} className="btn-primary mt-5">Nhập tài liệu</button></div>;
  else if (screen === 'home') content = <HomeScreen progress={progress} onOpenLesson={(bai) => { setCurrentBai(bai); setScreen('learn'); }} onNavigate={navigate} onChangeGoal={changeDailyGoal} />;
- else if (screen === 'learn') content = <LearnScreen bai={currentBai} unlockedBai={progress.unlockedBai} bookmarks={progress.bookmarks} notes={progress.notes} onToggleBookmark={toggleBookmark} onSaveNote={saveNote} onLessonRead={addLessonToSrs} onStartQuiz={startLessonQuiz} onOpenEntry={setGlossaryEntry} onCharacter={openCharacter} onStartPlaylist={startPlaylist} onChangeBai={setCurrentBai} wordOverrides={wordOverrides} onEditWord={wordEditorReady ? setEditingWord : null} onEditGrammar={wordEditorReady ? setEditingContent : null} editorError={wordEditorError} />;
- else if (screen === 'quiz') content = quizSession ? <QuizScreen key={quizSession.id} session={quizSession} progress={progress} onAnswer={recordAnswer} onFinish={() => {}} onExit={() => setScreen('home')} onOpenEntry={setGlossaryEntry} onEditQuestion={wordEditorReady ? setEditingContent : null} /> : <EmptyState icon="✓" title="Chọn một bài để luyện" text="Chọn bài học trong Lộ trình để bắt đầu." />;
- else if (screen === 'review') content = <ReviewScreen progress={progress} onPracticeWrong={startWrongReview} onOpenEntry={setGlossaryEntry} onToggleBookmark={toggleBookmark} onSaveNote={saveNote} onRateSrs={rateSrs} />;
+ else if (screen === 'learn') content = <LearnScreen bai={currentBai} progress={progress} unlockedBai={progress.unlockedBai} bookmarks={progress.bookmarks} notes={progress.notes} onToggleBookmark={toggleBookmark} onSaveNote={saveNote} onLessonRead={addLessonToSrs} onStartQuiz={startLessonQuiz} onOpenEntry={setGlossaryEntry} onCharacter={openCharacter} onStartPlaylist={startPlaylist} onChangeBai={setCurrentBai} wordOverrides={wordOverrides} onEditWord={wordEditorReady ? setEditingWord : null} onEditGrammar={wordEditorReady ? setEditingContent : null} editorError={wordEditorError} />;
+ else if (screen === 'quiz') content = quizSession ? <QuizScreen key={quizSession.id} session={quizSession} progress={progress} onAnswer={recordAnswer} onFinish={() => {}} onExit={() => setScreen('home')} onOpenEntry={setGlossaryEntry} onEditQuestion={wordEditorReady ? setEditingContent : null} onPracticeWrong={startWrongReview} /> : <EmptyState icon="✓" title="Chọn một bài để luyện" text="Chọn bài học trong Lộ trình để bắt đầu." />;
+ else if (screen === 'review') content = <ReviewScreen progress={progress} onPracticeWrong={startWrongReview} onOpenEntry={setGlossaryEntry} onToggleBookmark={toggleBookmark} onSaveNote={saveNote} onRateSrs={rateSrs} onNavigate={navigate} />;
  else if (screen === 'exam') content = <ExamScreen onRecord={recordAnswer} onOpenEntry={setGlossaryEntry} />;
  else if (screen === 'boss') content = <BossBattleScreen progress={progress} onRecord={recordAnswer} onWin={recordBossWin} />;
  else if (screen === 'minigame') content = <MatchingGame onComplete={() => {}} />;
@@ -2593,10 +2828,11 @@ export default function App() {
  return (
  <div className={`relative isolate min-h-screen transition-colors duration-300 ${rootBgClass}`} onPointerDownCapture={(event) => { const button = event.target.closest?.('.btn-primary'); if (!button) return; const box = button.getBoundingClientRect(); button.style.setProperty('--press-x', `${event.clientX - box.left}px`); button.style.setProperty('--press-y', `${event.clientY - box.top}px`); }}>
  <a href="#main-content" className="skip-link">Bỏ qua menu, đến nội dung chính</a>
+ {!online && <div role="status" className="fixed inset-x-0 top-0 z-[120] bg-warning-subtle px-4 py-1.5 text-center text-xs font-semibold text-warning">Mất kết nối mạng — bài học đã tải vẫn dùng được, tính năng tạo nội dung bằng AI sẽ tạm chờ.</div>}
  <BackgroundLayer settings={progress.settings} customBackground={customBackground} effectiveTheme={effectiveTheme} />
  {screen !== 'quiz' && <Sidebar screen={screen} progress={progress} onNavigate={navigate} mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />}
- <Header progress={progress} themeMode={progress.themeMode} onThemeChange={changeTheme} onSearch={() => setSearchOpen(true)} onNavigate={navigate} onMenu={() => setSidebarOpen(true)} hidden={headerHidden} focused={screen === 'quiz'} />
- {screen !== 'quiz' && <RightPanel progress={progress} onNavigate={navigate} />}
+ <Header progress={progress} themeMode={progress.themeMode} onThemeChange={changeTheme} onSearch={() => setSearchOpen(true)} onNavigate={navigate} onMenu={() => setSidebarOpen(true)} onShortcuts={() => setShortcutsOpen(true)} hidden={headerHidden} focused={screen === 'quiz'} />
+ {screen !== 'quiz' && <RightPanel progress={progress} onNavigate={navigate} pomodoro={pomodoro} />}
  <div className={`relative z-10 ${screen === 'quiz' ? '' : 'lg:pl-[240px] xl:pr-[320px]'}`}>
  {processingJobs.length > 0 && <div className="mx-auto max-w-[864px] px-4 pt-3 lg:px-8"><div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-accent/30 bg-accent-subtle px-3 py-2 text-sm"><span className="font-semibold">{processingJobs.map((job) => `${job.courseName}: ${job.state === 'paused' ? 'tạm dừng' : 'đang xử lý'} ${job.current}/${job.total}`).join(' · ')}</span><button className="font-semibold text-accent" onClick={() => { setTargetCourseId(processingJobs[0].courseId); setScreen('process-document'); }}>Xem tiến độ</button></div></div>}
  <main id="main-content" tabIndex={-1} key={screen} className={`mx-auto min-w-0 animate-fade-slide px-4 pb-24 pt-6 lg:px-8 lg:pb-10 ${screen === 'quiz' ? 'max-w-[720px]' : 'max-w-[864px]'}`}><Suspense fallback={<div aria-label="Đang tải màn hình" className="space-y-3"><div className="h-24 animate-pulse rounded-md bg-bg-tertiary" /><div className="h-48 animate-pulse rounded-md bg-bg-tertiary" /></div>}>{content}</Suspense></main>
@@ -2610,10 +2846,7 @@ export default function App() {
  <AchievementToast badge={toast} onClose={() => setToast(null)} />
  <GlobalCourseSearch isOpen={searchOpen} onClose={() => setSearchOpen(false)} onSelect={selectSearchResult} onCommand={runPaletteCommand} activeCourseId={activeCourseId} />
  <KeyboardShortcutsModal isOpen={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
- <div className="fixed bottom-4 right-4 z-50 hidden lg:block opacity-50 hover:opacity-100 transition">
- <kbd className="rounded bg-slate-800 px-2 py-1 text-xs font-bold text-white shadow-sm">?</kbd>
- </div>
- <PomodoroTimer sessionsToday={progress.pomodoroSessions} onSessionComplete={completePomodoro} />
+ <PomodoroDock pomodoro={pomodoro} sessionsToday={progress.pomodoroSessions} />
  </div>
  );
 }

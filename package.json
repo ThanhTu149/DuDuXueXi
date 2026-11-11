@@ -16,7 +16,15 @@
     "test:processing": "node scripts/test-processing.mjs",
     "test:background-processing": "node scripts/test-background-processing.mjs",
     "test:layout": "node scripts/test-layout.mjs",
-    "test:ux": "node scripts/test-ux-static.mjs"
+    "test:ux": "node scripts/test-ux-static.mjs",
+    "test:visual": "node scripts/screenshot-audit.mjs",
+    "test:storage": "node scripts/test-storage-resilience.mjs",
+    "test:processing-jobs": "node scripts/test-processing-jobs.mjs",
+    "test:db-schema": "node scripts/test-db-schema.mjs",
+    "test:gemini-retry": "node scripts/test-gemini-retry.mjs",
+    "test:backup": "node scripts/test-backup-validation.mjs",
+    "test:pwa": "node scripts/test-pwa.mjs",
+    "test:pwa-e2e": "node scripts/test-pwa-e2e.mjs"
   },
   "dependencies": {
     "puppeteer": "^25.11.0",

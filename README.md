@@ -36,18 +36,49 @@ Trong Thư viện có thể đổi tên, nhân bản, ghép, xóa và xuất/nh�
 ## Kiểm thử
 
 ```bash
+# Dữ liệu, pipeline AI, tiến độ, sao lưu, PWA (node thuần, deterministic)
 npm run test:db
 npm run test:extractors
 npm run test:gemini
+npm run test:gemini-retry
 npm run test:word-editor
 npm run test:content-editor
 npm run test:processing
+npm run test:processing-jobs
 npm run test:background-processing
-npm run test:course-flow
+npm run test:storage
+npm run test:db-schema
+npm run test:backup
+npm run test:pwa
+npm run test:ux
+
+# Cần Chrome (Puppeteer): layout + audit ảnh chụp mọi màn hình
 npm run test:layout
+npm run test:visual   # build trước: ghi ảnh vào test-artifacts/audit
+npm run test:pwa-e2e  # build trước: nạp lại trang khi offline, phải render từ cache
+npm run test:course-flow
 ```
 
-Các kiểm thử Gemini dùng phản hồi giả lập, không gọi API thật.
+Các kiểm thử Gemini dùng phản hồi giả lập, không gọi API thật. `test:visual` chụp 63 ảnh (desktop / mobile / dark mode / 3 bảng màu) và báo lỗi console, tràn ngang, màn hình trống hoặc token sáng sai trong dark mode.
+
+## Bền bỉ dữ liệu và offline (PWA)
+
+- **Tiến độ có version + kiểm tra hợp lệ**: JSON hỏng không còn âm thầm reset; app hiện toast "Tiến độ cũ bị hỏng" và đi tiếp với dữ liệu mặc định.
+- **Lưu trữ an toàn**: mọi lần ghi localStorage đều trả về kết quả; khi đầy bộ nhớ (quota) app báo cách xử lý thay vì mất dữ liệu.
+- **Đồng bộ nhiều tab**: mở app ở 2 tab không ghi đè lẫn nhau (BroadcastChannel + so sánh `_savedAt`); thay đổi thư viện/cài đặt ở tab này tự làm mới tab kia.
+- **IndexedDB schema v3** với thang nâng cấp an toàn, lỗi giao dịch có mã lỗi rõ ràng, xử lý trường hợp DB bị tab khác nâng cấp.
+- **Pipeline Gemini** có timeout, `AbortSignal`, backoff + jitter cho 429/5xx (tôn trọng `Retry-After`), phân loại lỗi mạng/quota/auth thành câu tiếng Việt dễ hiểu; job xử lý lưu checkpoint và tiếp tục sau khi F5.
+- **PWA**: `manifest.webmanifest` + service worker cache app shell và các chunk bài học; mất mạng vẫn học được, có banner "Mất kết nối mạng".
+- **Sao lưu `.dudu`** được kiểm tra schema + checksum trước khi nhập, chặn prototype pollution.
+- **Error Boundary toàn cục**: lỗi render không còn màn hình trắng — có nút tải lại, thử khôi phục giao diện và xoá dữ liệu cục bộ (kèm xác nhận).
+
+## Giao diện
+
+- Giao diện `Sáng` / `Tối` / `Tự động` (06:00–18:00) và 3 bảng màu `Học thuật` / `Hoa đào` / `Biển xanh`; mọi bảng màu đều có biến thể tối riêng nên không còn card trắng trong dark mode.
+- Typography: Lora cho tiêu đề, Inter cho nội dung, font Hán tự riêng cho chữ Trung; tab bar cuộn ngang, toolbar bài học tự xếp lại trên điện thoại.
+- Motion có kiểm soát (`prefers-reduced-motion`), micro-interaction khi trả lời đúng/sai, XP bay lên, confetti khi hoàn hảo, skeleton shimmer khi tải.
+- Ảnh nền chuyển sang WebP (2.8 MB → 880 KB) và preconnect font.
+- Phím tắt: `Ctrl/Cmd+K` mở tìm kiếm/lệnh nhanh, `1–4` chọn đáp án, `Enter` kiểm tra/tiếp tục, `Ctrl+/` xem toàn bộ phím tắt.
 
 ## Quick Wins Phase 1
 

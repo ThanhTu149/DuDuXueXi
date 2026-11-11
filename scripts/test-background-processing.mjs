@@ -35,6 +35,9 @@ try {
   await page.waitForFunction(() => [...document.querySelectorAll('main article h2')].some((heading) => heading.textContent === 'Kiểm thử chạy nền'));
   await page.evaluate(() => [...document.querySelectorAll('main article')].find((article) => article.querySelector('h2')?.textContent === 'Kiểm thử chạy nền')?.querySelector('button.btn-primary')?.click());
   await page.waitForFunction(() => document.querySelector('main')?.textContent.includes('Sinh bài học từ tài liệu'));
+  // The screen shows a loading skeleton until the stored document is read; wait
+  // for the real start button so the click cannot land on a not-yet-ready UI.
+  await page.waitForFunction(() => [...document.querySelectorAll('main button')].some((button) => button.textContent.trim() === 'Bắt đầu xử lý'));
   await page.evaluate(() => [...document.querySelectorAll('main button')].find((button) => button.textContent.trim() === 'Bắt đầu xử lý')?.click());
   await page.waitForFunction(async () => Boolean((await (await import('/src/lib/db.js')).getRawDocument('background-document'))?.generated?.[0]?.output));
   await page.evaluate(() => [...document.querySelectorAll('main button')].find((button) => button.textContent.trim() === '← Thư viện')?.click());

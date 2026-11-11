@@ -1,6 +1,6 @@
 import { getRawDocument, patchRawDocument, getCourse, saveCourse } from './db.js';
 import { buildChapterPrompt, CHAPTER_SCHEMA } from './promptBuilder.js';
-import { callGemini, DEFAULT_GEMINI_MODEL } from './geminiClient.js';
+import { callGemini, DEFAULT_GEMINI_MODEL, GeminiError } from './geminiClient.js';
 import { ApiQueue } from './queue.js';
 import { mergeChunkOutputs } from './contentMerger.js';
 
@@ -26,10 +26,12 @@ export async function processRawDocument({ rawDocumentId, apiKey, model = DEFAUL
     report('calling-ai', stats().processed, `Gemini đang xử lý đoạn ${chunk.index + 1}/${total}`);
     try {
       let attempt = 0;
-      const output = await queue.add(() => {
+      // Queue truyền AbortSignal của request hiện tại để cancel() dừng được fetch
+      // đang bay (kể cả khi tiến trình bị huỷ từ UI).
+      const output = await queue.add((attemptSignal) => {
         attempt += 1;
         const prompt = buildChapterPrompt(chunk, { customInstruction }) + (attempt > 1 ? '\nCHỈ TRẢ VỀ JSON HỢP LỆ, không thêm markdown hoặc lời giải thích ngoài JSON.' : '');
-        return callGemini({ apiKey, model, prompt, schema: CHAPTER_SCHEMA, signal, timeoutMs: 30000 });
+        return callGemini({ apiKey, model, prompt, schema: CHAPTER_SCHEMA, signal: attemptSignal || signal, timeoutMs: 30000 });
       }, {
         signal,
         onWait: (delay) => report('waiting', stats().processed, `Chờ ${Math.ceil(delay / 1000)} giây để tránh giới hạn Gemini`),
@@ -38,6 +40,7 @@ export async function processRawDocument({ rawDocumentId, apiKey, model = DEFAUL
       generated[chunk.index] = { chunkIndex: chunk.index, output };
     } catch (error) {
       if (error.name === 'AbortError') throw error;
+      if (error instanceof GeminiError && ['auth', 'invalid-request'].includes(error.code)) throw error;
       if (/API key|không có quyền|Model Gemini|Không kết nối/i.test(error.message)) throw error;
       generated[chunk.index] = { chunkIndex: chunk.index, error: error.message };
     }

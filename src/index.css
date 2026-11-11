@@ -2,36 +2,106 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global: cursor-pointer on all clickable elements */
+/* =============================================================================
+   DuDu Hán Ngữ — Design System
+   -----------------------------------------------------------------------------
+   Direction: warm "giấy" (paper) light theme, deep green accent, generous
+   whitespace, one editorial serif (Lora) for display/headings, Inter for UI,
+   Vietnamese-safe glyph fallbacks, calm motion. Clean ("sạch") + lively
+   ("sinh động") without gaming/neon effects.
+
+   Layer map
+     1. tokens        — palette (light + dark + color themes), type, shape, motion
+     2. base          — elements, focus, selection, scrollbars
+     3. components    — buttons, inputs, cards, badges, tabs, nav, flip cards
+     4. utilities     — typographic helpers (display-text, h1/h2/h3, hanzi…)
+     5. overrides     — dark-mode fixes for hardcoded Tailwind colors, misc
+     6. animations    — keyframes + animate-* (reduced-motion guarded)
+     7. responsive    — mobile toolbar stacking, safe-area, tap targets
+   ============================================================================= */
+
+/* ---- Global interaction defaults (unlayered: always wins) ------------------ */
 button, a, [role="button"], [role="tab"], select, label[for], summary, .nav-item { cursor: pointer; }
 button:disabled { cursor: not-allowed; }
+html { -webkit-tap-highlight-color: transparent; }
 
 @layer base {
+  /* ===========================================================================
+     1a. Palette-independent tokens
+     =========================================================================== */
   :root {
     color-scheme: light;
-    
-    /* Backgrounds */
+
+    /* -- Typography ------------------------------------------------------- */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+    /* Display serif: Lora for Latin/Vietnamese, then CJK-safe sans fallbacks so
+       Chinese glyphs never fall back to a random system serif. */
+    --font-serif: 'Lora', Georgia, 'Times New Roman', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans SC', serif;
+    --font-display: var(--font-serif);
+    --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    --font-hanzi: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans SC', sans-serif;
+
+    /* Fluid display/heading scale (Vietnamese diacritics need a little air) */
+    --text-display: clamp(28px, 1.6vw + 22px, 36px);
+    --text-h1: clamp(22px, 0.8vw + 19px, 26px);
+    --text-h2: clamp(17px, 0.4vw + 15px, 19px);
+    --leading-display: 1.14;
+    --leading-heading: 1.3;
+
+    /* -- Shape ------------------------------------------------------------ */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-2xl: 20px;
+    --radius-3xl: 24px;
+    --radius-full: 9999px;
+
+    /* -- Elevation (light) ------------------------------------------------ */
+    --shadow-xs: 0 1px 2px rgba(28, 31, 38, 0.05);
+    --shadow-sm: 0 2px 8px rgba(28, 31, 38, 0.07);
+    --shadow-md: 0 6px 18px rgba(28, 31, 38, 0.09);
+    --shadow-lg: 0 16px 40px rgba(28, 31, 38, 0.12);
+    --shadow-xl: 0 28px 64px rgba(28, 31, 38, 0.16);
+
+    /* -- Motion ----------------------------------------------------------- */
+    --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --dur-fast: 150ms;
+    --dur-base: 220ms;
+    --dur-slow: 340ms;
+
+    /* -- Layout ----------------------------------------------------------- */
+    --tap-target: 44px;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --header-h: 64px;
+
+    /* -- Palette: "pastel" / Học thuật (DEFAULT, no data attribute needed) -- */
     --bg-primary: #FAF9F5;
     --bg-secondary: #FFFFFF;
     --bg-tertiary: #F2EFE8;
 
-    /* Text */
     --text-primary: #1C1F26;
     --text-secondary: #4A4F57;
     --text-muted: #646A73;
 
-    /* Borders */
     --border: #E5E2DA;
     --border-strong: #C9C5BA;
 
-    /* Accents */
     --accent: #3F6B43;
-    --accent-hover: #4A7549;
+    --accent-hover: #315837;
     --accent-subtle: #EEF4EC;
-
     --accent-2: #3A6B8C;
     --accent-2-hover: #2C5670;
     --accent-2-subtle: #ECF1F5;
+
+    /* RGB triplets mirror the solid colors above so Tailwind opacity modifiers
+       (bg-accent/90, border-accent/20, …) resolve correctly in every theme. */
+    --accent-rgb: 63 107 67;
+    --accent-2-rgb: 58 107 140;
+    --success-rgb: 63 110 79;
+    --error-rgb: 184 84 80;
+    --warning-rgb: 138 98 0;
 
     --warm: #C68B3E;
     --warm-subtle: #FBF3E5;
@@ -43,38 +113,26 @@ button:disabled { cursor: not-allowed; }
     --accent-blue: #4A7FA8;
     --accent-blue-subtle: #EBF1F5;
 
-    /* Status */
-    --success: #4A7C59;
+    --success: #3F6E4F;
     --success-subtle: #EDF3EE;
     --error: #B85450;
     --error-subtle: #F7EDEC;
-    --warning: #946800;
+    --warning: #8A6200;
     --warning-subtle: #FBF3E0;
 
-    /* Typography */
-    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
-    --font-serif: var(--font-sans);
-    --font-display: 'Lora', Georgia, 'Times New Roman', serif;
-    --font-mono: 'JetBrains Mono', 'SFMono-Regular', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-    --font-hanzi: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans SC', sans-serif;
-
-    /* Border Radius */
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-xl: 16px;
-    --radius-full: 9999px;
-
-    /* Shadows */
-    --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-sm: 0 2px 6px rgba(0,0,0,0.07);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-    --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+    /* Text/icon color that sits ON solid accent/success/error surfaces */
+    --on-accent: #FFFFFF;
+    --accent-glow: rgba(63, 107, 67, 0.22);
+    --shadow-focus: 0 0 0 3px var(--accent-glow);
   }
 
+  /* ===========================================================================
+     1b. Dark palette — "pastel" (default). Every surface is dark; accent
+     "subtle" tints are dark surfaces so gradients/backgrounds never flash white.
+     =========================================================================== */
   .dark {
     color-scheme: dark;
-    
+
     --bg-primary: #14161A;
     --bg-secondary: #1C1F24;
     --bg-tertiary: #242830;
@@ -86,13 +144,18 @@ button:disabled { cursor: not-allowed; }
     --border: #2A2F38;
     --border-strong: #3F4550;
 
-    --accent: #89B68A;
+    --accent: #7BA87D;
     --accent-hover: #8FBB91;
     --accent-subtle: #1F2A20;
-
     --accent-2: #5A8FB0;
     --accent-2-hover: #6EA3C2;
     --accent-2-subtle: #1A242C;
+
+    --accent-rgb: 123 168 125;
+    --accent-2-rgb: 90 143 176;
+    --success-rgb: 127 176 138;
+    --error-rgb: 224 133 129;
+    --warning-rgb: 224 176 64;
 
     --warm: #D9A557;
     --warm-subtle: #2A2115;
@@ -104,30 +167,113 @@ button:disabled { cursor: not-allowed; }
     --accent-blue: #6D9DBF;
     --accent-blue-subtle: #1C2932;
 
-    --success: #6E9A75;
+    --success: #7FB08A;
     --success-subtle: #1A2620;
-    --error: #D8716D;
+    --error: #E08581;
     --error-subtle: #2A1A1A;
     --warning: #E0B040;
     --warning-subtle: #2A2115;
+
+    --on-accent: #14161A;
+    --accent-glow: rgba(123, 168, 125, 0.3);
+
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.42);
+    --shadow-md: 0 8px 22px rgba(0, 0, 0, 0.48);
+    --shadow-lg: 0 18px 44px rgba(0, 0, 0, 0.55);
+    --shadow-xl: 0 30px 70px rgba(0, 0, 0, 0.6);
   }
 
+  /* ===========================================================================
+     1c. Color themes — accent families only. Backgrounds/text stay shared so
+     both modes stay readable. Base (:root/.dark) IS "pastel"; these blocks
+     override only the accents, in BOTH light and dark.
+     =========================================================================== */
+
+  /* -- Hoa đào / rose --------------------------------------------------- */
+  :root[data-color-theme="rose"] {
+    --accent: #A04561;
+    --accent-hover: #873750;
+    --accent-subtle: #F9EDF1;
+    --accent-2: #426C7A;
+    --accent-2-hover: #345764;
+    --accent-2-subtle: #EDF3F5;
+    --accent-rgb: 160 69 97;
+    --accent-2-rgb: 66 108 122;
+    --accent-glow: rgba(160, 69, 97, 0.22);
+  }
+  .dark[data-color-theme="rose"] {
+    --accent: #E08CA5;
+    --accent-hover: #EDA5B8;
+    --accent-subtle: #32232B;
+    --accent-2: #83B4BE;
+    --accent-2-hover: #99C4CC;
+    --accent-2-subtle: #1D2D32;
+    --accent-rgb: 224 140 165;
+    --accent-2-rgb: 131 180 190;
+    --accent-glow: rgba(224, 140, 165, 0.28);
+  }
+
+  /* -- Biển xanh / ocean ------------------------------------------------ */
+  :root[data-color-theme="ocean"] {
+    --accent: #286776;
+    --accent-hover: #205463;
+    --accent-subtle: #EAF3F5;
+    --accent-2: #775A37;
+    --accent-2-hover: #634A2C;
+    --accent-2-subtle: #F5F0EA;
+    --accent-rgb: 40 103 118;
+    --accent-2-rgb: 119 90 55;
+    --accent-glow: rgba(40, 103, 118, 0.22);
+  }
+  .dark[data-color-theme="ocean"] {
+    --accent: #75B7C4;
+    --accent-hover: #8BC8D2;
+    --accent-subtle: #1C2B30;
+    --accent-2: #C8AA7C;
+    --accent-2-hover: #D8BC92;
+    --accent-2-subtle: #30271D;
+    --accent-rgb: 117 183 196;
+    --accent-2-rgb: 200 170 124;
+    --accent-glow: rgba(117, 183, 196, 0.28);
+  }
+
+  /* ===========================================================================
+     2. Base elements
+     =========================================================================== */
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
-    @apply m-0 min-w-[320px] antialiased transition-colors duration-200;
+    @apply m-0 min-w-[320px] antialiased;
     background: var(--bg-primary);
     color: var(--text-primary);
     font-family: var(--font-sans);
     font-size: 15px;
     line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
     font-feature-settings: 'cv11', 'ss01', 'case';
     font-variant-numeric: tabular-nums;
+    overflow-x: clip;
+    transition: background-color var(--dur-base) ease, color var(--dur-base) ease;
+    -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+  }
+
+  /* Headings default to the editorial serif; utility classes still win
+     (h3-text = sans, font-hanzi = CJK, …). */
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.018em;
+    line-height: var(--leading-heading);
+    text-wrap: balance;
+  }
+  h5, h6 {
+    font-family: var(--font-sans);
+    letter-spacing: -0.01em;
   }
 
   button,
@@ -141,6 +287,34 @@ button:disabled { cursor: not-allowed; }
   button:disabled { cursor: not-allowed; opacity: 0.5; }
   button { user-select: none; }
 
+  img { max-width: 100%; }
+
+  /* -- Selection --------------------------------------------------------- */
+  ::selection {
+    background: var(--accent-subtle);
+    color: var(--text-primary);
+  }
+  .dark ::selection {
+    background: color-mix(in srgb, var(--accent) 34%, transparent);
+    color: var(--text-primary);
+  }
+
+  /* -- Scrollbars -------------------------------------------------------- */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border-strong);
+    border: 2px solid transparent;
+    border-radius: var(--radius-full);
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background-color: var(--text-muted); }
+
+  /* -- Focus visibility -------------------------------------------------- */
   button:focus-visible,
   input:focus-visible,
   textarea:focus-visible,
@@ -152,47 +326,111 @@ button:disabled { cursor: not-allowed; }
 }
 
 @layer components {
+  /* ===========================================================================
+     3a. Shell: header, learn toolbar, tab bar
+     =========================================================================== */
   .app-header {
     position: sticky;
     top: 0;
     z-index: 50;
     border-bottom: 1px solid var(--border);
     background: var(--bg-secondary);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: color-mix(in srgb, var(--bg-secondary) 88%, transparent);
+    backdrop-filter: blur(14px) saturate(1.4);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
   }
 
   .learn-toolbar {
-    box-shadow: 0 8px 12px -12px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 10px 14px -14px rgba(28, 31, 38, 0.28);
   }
 
-  .tabs-container {
+  /* Optional wrappers the Lead can add to the lesson header row */
+  .learn-toolbar-header {
     display: flex;
-    gap: 32px;
-    overflow-x: auto;
-    border-bottom: 1px solid var(--border);
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-width: 0;
   }
+  .toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .input.lesson-select {
+    width: 208px;
+    padding: 9px 34px 9px 16px;
+    border-radius: var(--radius-full);
+  }
+
+  /* -- Tab bar: works for 2–7 tabs, scrolls on small screens ------------ */
+  .tabs-container {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 2px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-bottom: 1px solid var(--border);
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .tabs-container::-webkit-scrollbar { display: none; }
+
   .tab {
     position: relative;
     flex: 0 0 auto;
-    appearance: none;
-    -webkit-appearance: none;
-    margin-bottom: -1px;
-    padding: 12px 0;
+    margin: 0;
+    padding: 12px 12px 13px;
     border: 0;
-    border-bottom: 2px solid transparent;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
     background: transparent;
     color: var(--text-secondary);
     font: 500 14px/1.4 var(--font-sans);
-    cursor: pointer;
-    transition: color 0.15s ease, border-color 0.15s ease;
+    white-space: nowrap;
+    scroll-snap-align: start;
+    scroll-margin-inline: 8px;
+    transition: color var(--dur-fast) ease, background-color var(--dur-fast) ease;
   }
-  .tab:hover { color: var(--text-primary); }
-  .tab.active {
-    border-bottom-color: var(--accent);
+  .tab:hover {
+    background: var(--bg-tertiary);
     color: var(--text-primary);
-    font-weight: 600;
   }
+  /* Animated underline indicator (pure CSS, transitions on activation) */
+  .tab::after {
+    content: '';
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+    opacity: 0;
+    transform: scaleX(0.4);
+    transition: opacity var(--dur-base) var(--ease-out-soft), transform var(--dur-base) var(--ease-out-soft);
+  }
+  .tab.active {
+    color: var(--text-primary);
+  }
+  .tab.active::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  .tab:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+
   .tab-count {
     display: inline-flex;
     min-width: 20px;
@@ -201,34 +439,43 @@ button:disabled { cursor: not-allowed; }
     justify-content: center;
     margin-left: 6px;
     padding: 0 6px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     background: var(--bg-tertiary);
     color: var(--text-muted);
     font: 500 11px/1 var(--font-sans);
     font-feature-settings: 'tnum';
+    vertical-align: middle;
+    transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease;
   }
   .tab.active .tab-count {
     background: var(--accent-subtle);
     color: var(--accent);
   }
 
+  /* -- Filter chips (segmented rows: Review, reading toggles, sentence) -- */
   .filter-btn {
     appearance: none;
     -webkit-appearance: none;
-    padding: 7px 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 7px 13px;
     border: 1px solid transparent;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-full);
     background: transparent;
     color: var(--text-secondary);
     font: 500 13px/1.4 var(--font-sans);
-    cursor: pointer;
-    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+    white-space: nowrap;
+    transition: color var(--dur-fast) ease, background-color var(--dur-fast) ease,
+      border-color var(--dur-fast) ease, transform var(--dur-fast) ease;
   }
   .filter-btn:hover {
     border-color: var(--border);
     background: var(--bg-tertiary);
     color: var(--text-primary);
   }
+  .filter-btn:active { transform: scale(0.97); }
   .filter-btn.active {
     border-color: var(--accent);
     background: var(--accent-subtle);
@@ -239,10 +486,10 @@ button:disabled { cursor: not-allowed; }
     outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
-  .dark .filter-btn { background: transparent; color: var(--text-secondary); }
-  .dark .filter-btn:hover { background: var(--bg-tertiary); color: var(--text-primary); }
-  .dark .filter-btn.active { border-color: var(--accent); background: var(--accent-subtle); color: var(--accent); }
 
+  /* ===========================================================================
+     3b. Flip cards (SRS / flashcards)
+     =========================================================================== */
   .flip-card {
     display: block;
     width: 100%;
@@ -263,7 +510,7 @@ button:disabled { cursor: not-allowed; }
     height: 100%;
     transform-style: preserve-3d;
     -webkit-transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.6s var(--ease-out-soft);
   }
   .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
   .flip-card-face {
@@ -278,7 +525,7 @@ button:disabled { cursor: not-allowed; }
     overflow: auto;
     padding: 40px;
     border: 1px solid var(--border-strong);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-2xl);
     background: var(--bg-secondary);
     box-shadow: var(--shadow-md);
     backface-visibility: hidden;
@@ -286,17 +533,25 @@ button:disabled { cursor: not-allowed; }
   }
   .flip-card-back { transform: rotateY(180deg); }
 
-  /* Button Patterns */
+  /* ===========================================================================
+     3c. Buttons
+     =========================================================================== */
   .btn-primary {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     overflow: hidden;
-    padding: 8px 16px;
+    padding: 9px 18px;
     background: var(--accent);
-    color: #FFFFFF;
+    color: var(--on-accent);
     border: 1px solid var(--accent);
     border-radius: var(--radius-md);
-    font: 500 14px/1.4 var(--font-sans);
-    transition: background-color 0.16s ease, border-color 0.16s ease, transform 0.16s ease, box-shadow 0.16s ease;
+    font: 600 14px/1.4 var(--font-sans);
+    letter-spacing: 0.005em;
+    transition: background-color var(--dur-fast) ease, border-color var(--dur-fast) ease,
+      transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease, filter var(--dur-fast) ease;
   }
   .btn-primary:hover:not(:disabled) {
     background: var(--accent-hover);
@@ -304,19 +559,35 @@ button:disabled { cursor: not-allowed; }
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
   }
-  .btn-primary:active:not(:disabled) { transform: scale(0.98); }
-  .dark .btn-primary, .dark .bg-accent.text-white { color: #14161A; }
-  .btn-primary::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at var(--press-x, 50%) var(--press-y, 50%), rgba(255,255,255,.24), transparent 65%); opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+  .btn-primary:active:not(:disabled) {
+    transform: translateY(0) scale(0.985);
+    box-shadow: var(--shadow-xs);
+  }
+  /* Pointer-pressure glow (App.jsx sets --press-x/--press-y) */
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--press-x, 50%) var(--press-y, 50%), rgba(255, 255, 255, 0.24), transparent 65%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
   .btn-primary:active::before { opacity: 1; }
 
   .btn-secondary {
-    padding: 8px 16px;
-    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 16px;
+    background: var(--bg-secondary);
     color: var(--text-primary);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     font: 500 14px/1.4 var(--font-sans);
-    transition: all 0.15s ease;
+    transition: background-color var(--dur-fast) ease, border-color var(--dur-fast) ease,
+      transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
   }
   .btn-secondary:hover:not(:disabled) {
     background: var(--bg-tertiary);
@@ -324,50 +595,81 @@ button:disabled { cursor: not-allowed; }
     transform: translateY(-1px);
     box-shadow: var(--shadow-xs);
   }
-  .btn-secondary:active:not(:disabled), .btn-ghost:active:not(:disabled) { transform: scale(0.98); }
+  .btn-secondary:active:not(:disabled),
+  .btn-ghost:active:not(:disabled) { transform: scale(0.98); }
 
   .btn-ghost {
-    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 7px 12px;
     background: transparent;
     color: var(--text-secondary);
-    border: none;
+    border: 1px solid transparent;
     border-radius: var(--radius-md);
     font: 500 13px/1.4 var(--font-sans);
-    transition: all 0.15s ease;
+    transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease,
+      border-color var(--dur-fast) ease;
   }
-  .btn-ghost:hover {
+  .btn-ghost:hover:not(:disabled) {
     background: var(--bg-tertiary);
+    border-color: var(--border);
     color: var(--text-primary);
   }
 
-  /* Input Pattern */
+  /* ===========================================================================
+     3d. Inputs
+     =========================================================================== */
   .input {
-    padding: 12px;
+    min-height: 42px;
+    padding: 11px 12px;
     background: var(--bg-secondary);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     font: 400 14px/1.5 var(--font-sans);
     color: var(--text-primary);
-    transition: border-color 0.15s, box-shadow 0.15s;
+    transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease,
+      background-color var(--dur-fast) ease;
   }
+  .input:hover:not(:disabled) { border-color: var(--border-strong); }
   .input:focus {
     outline: none;
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-subtle);
+    box-shadow: 0 0 0 3px var(--accent-glow);
   }
-  .input::placeholder {
-    color: var(--text-muted);
+  .input::placeholder { color: var(--text-muted); opacity: 1; }
+  .input:disabled { opacity: 0.6; cursor: not-allowed; }
+  textarea.input { min-height: 96px; }
+  .input[type="checkbox"], .input[type="radio"] { min-height: 0; }
+
+  /* Custom select chevron (native arrow is inconsistent across platforms) */
+  select.input {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 36px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23646A73' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px 16px;
+  }
+  .dark select.input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23989EA8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E");
   }
 
-  /* Badge Pattern */
+  /* ===========================================================================
+     3e. Badges
+     =========================================================================== */
   .badge {
     display: inline-flex;
     align-items: center;
-    padding: 2px 8px;
+    gap: 4px;
+    padding: 3px 8px;
     border-radius: var(--radius-full);
-    font: 500 11px/1 var(--font-sans);
+    font: 600 11px/1 var(--font-sans);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    white-space: nowrap;
   }
   .badge-success { background: var(--success-subtle); color: var(--success); }
   .badge-accent  { background: var(--accent-subtle);  color: var(--accent); }
@@ -375,57 +677,65 @@ button:disabled { cursor: not-allowed; }
   .badge-warm    { background: var(--warm-subtle);    color: var(--warm); }
   .badge-muted   { background: var(--bg-tertiary);    color: var(--text-muted); }
 
-  /* Card Pattern */
+  /* ===========================================================================
+     3f. Cards
+     =========================================================================== */
   .card {
     background: var(--bg-secondary);
     border: 1px solid var(--border);
     border-radius: var(--radius-xl);
-    padding: 16px 20px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    padding: 18px 20px;
+    box-shadow: var(--shadow-xs);
+    transition: transform var(--dur-base) var(--ease-out-soft), box-shadow var(--dur-base) ease,
+      border-color var(--dur-base) ease;
   }
-  .card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-    border-color: var(--border-strong);
+  @media (hover: hover) and (pointer: fine) {
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+      border-color: var(--border-strong);
+    }
   }
   .card-lg {
-    border-radius: var(--radius-xl);
-    padding: 24px 32px;
+    border-radius: var(--radius-2xl);
+    padding: 28px 32px;
   }
 
-  /* Divider */
+  /* ===========================================================================
+     3g. Misc primitives
+     =========================================================================== */
   .divider {
     border: none;
     border-top: 1px solid var(--border);
     margin: 0;
   }
 
-  /* Nav Item */
   .nav-item {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 8px 12px;
+    gap: 11px;
+    padding: 9px 12px;
     border-left: 2px solid transparent;
     border-radius: var(--radius-md);
     font: 500 14px/1.4 var(--font-sans);
     color: var(--text-secondary);
     width: 100%;
     text-align: left;
-    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease,
+      border-color var(--dur-fast) ease, transform var(--dur-fast) ease;
   }
   .nav-item:hover {
     background: var(--bg-tertiary);
     color: var(--text-primary);
   }
+  .nav-item:active { transform: scale(0.99); }
   .nav-item.active {
     background: var(--accent-subtle);
     color: var(--accent);
     font-weight: 600;
     border-left-color: var(--accent);
-    padding-left: 12px;
   }
-
   .nav-item svg {
     width: 18px;
     height: 18px;
@@ -443,66 +753,161 @@ button:disabled { cursor: not-allowed; }
   }
 }
 
-.skip-link { position: fixed; z-index: 200; top: -64px; left: 16px; border-radius: 8px; background: var(--accent); color: white; padding: 8px 16px; font-weight: 600; }
-.skip-link:focus { top: 8px; }
-.virtual-list-item { content-visibility: auto; contain-intrinsic-size: auto 160px; }
-.tabular { font-variant-numeric: tabular-nums; }
-.caption { text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
-.icon-action { position: relative; }
-.icon-action:hover::after, .icon-action:focus-visible::after { content: attr(data-tooltip); position: absolute; z-index: 60; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); white-space: nowrap; border-radius: 4px; padding: 4px 8px; background: #1C1F26; color: #fff; font-size: 12px; font-weight: 500; pointer-events: none; }
-.rounded-2xl, .rounded-3xl { border-radius: var(--radius-xl); }
-
-@media (max-width: 767px) {
-  .btn-primary, .btn-secondary, .btn-ghost, .nav-item, .icon-action { min-height: 44px; }
-  .icon-action { min-width: 44px; }
-}
-
+/* ===========================================================================
+   4. Typographic utilities (same class names as before, upgraded type)
+   =========================================================================== */
 @layer utilities {
   .scrollbar-thin {
     scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
+    scrollbar-color: var(--border-strong) transparent;
   }
   .display-text {
-    font-family: var(--font-serif);
-    font-size: 32px;
-    font-weight: 700;
-    letter-spacing: 0;
-  }
-  .brand-font { font-family: var(--font-display); }
-  .pinyin-text { font-family: var(--font-mono); font-weight: 400; }
-  .h1-text {
-    font-family: var(--font-serif);
-    font-size: 24px;
+    font-family: var(--font-display);
+    font-size: var(--text-display);
     font-weight: 600;
-    letter-spacing: 0;
+    line-height: var(--leading-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .brand-font {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+  .pinyin-text {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .h1-text {
+    font-family: var(--font-display);
+    font-size: var(--text-h1);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
   }
   .h2-text {
-    font-family: var(--font-serif);
-    font-size: 18px;
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
     font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
   }
   .h3-text {
     font-family: var(--font-sans);
     font-size: 16px;
     font-weight: 600;
+    letter-spacing: -0.01em;
   }
   .hanzi-large {
     font-family: var(--font-hanzi);
     font-size: 48px;
     font-weight: 500;
+    line-height: 1.2;
   }
   .hanzi-med {
     font-family: var(--font-hanzi);
     font-size: 28px;
     font-weight: 500;
+    line-height: 1.3;
   }
   .hanzi-small {
     font-family: var(--font-hanzi);
     font-size: 20px;
     font-weight: 500;
+    line-height: 1.4;
   }
 }
 
+/* ===========================================================================
+   5. Misc unlayered helpers + dark-mode compatibility
+   =========================================================================== */
+
+/* Skip link: must be readable on the accent surface in BOTH modes */
+.skip-link {
+  position: fixed;
+  z-index: 200;
+  top: -64px;
+  left: 16px;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 10px 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top var(--dur-fast) ease;
+}
+.skip-link:focus { top: 8px; }
+
+.virtual-list-item { content-visibility: auto; contain-intrinsic-size: auto 160px; }
+.tabular { font-variant-numeric: tabular-nums; }
+.caption { text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+
+/* CJK glyphs must not inherit the Latin display tracking (they are full-width) */
+.font-hanzi,
+.hanzi-large,
+.hanzi-med,
+.hanzi-small { letter-spacing: 0; }
+
+.icon-action { position: relative; }
+.icon-action:hover::after,
+.icon-action:focus-visible::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  z-index: 60;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  border-radius: var(--radius-sm);
+  padding: 5px 8px;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-size: 12px;
+  font-weight: 500;
+  pointer-events: none;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Placeholder hook kept for backwards compatibility */
+.typing-placeholder::placeholder { position: relative; }
+
+/* Token colors are plain CSS vars, so Tailwind cannot alpha-ify them. These
+   documented overrides cover the alpha-modified tokens actually used in the app
+   (translucent chips on the hero, kbd borders inside colored buttons). */
+.bg-bg-secondary\/85 {
+  background-color: var(--bg-secondary);
+  background-color: color-mix(in srgb, var(--bg-secondary) 85%, transparent);
+}
+.border-current\/30 {
+  border-color: currentColor;
+  border-color: color-mix(in srgb, currentColor 30%, transparent);
+}
+.flip-card-front { transform: rotateY(0deg); }
+
+/* Inverse text on solid status surfaces: in dark mode those colors are light,
+   so white text would fail contrast. --on-accent is dark ink there. */
+.dark .bg-accent.text-white,
+.dark .bg-accent-2.text-white,
+.dark .bg-success.text-white,
+.dark .bg-error.text-white,
+.dark .bg-warning.text-white,
+.dark .bg-warm.text-white,
+.dark .bg-accent.text-white:hover { color: var(--on-accent); }
+
+/* Accent-tinted rings become invisible on dark surfaces → use the glow token */
+.dark .ring-accent-subtle { --tw-ring-color: var(--accent-glow); }
+.dark .focus\:ring-accent-subtle:focus { --tw-ring-color: var(--accent-glow); }
+
+/* Mobile viewport height fix (browser chrome) */
+.min-h-screen { min-height: 100vh; min-height: 100dvh; }
+
+/* Code/structure blocks stay dark in both modes by design */
+pre, code, kbd { font-variant-ligatures: none; }
+
+/* ===========================================================================
+   6. Motion system — every animation is opacity/transform only (compositor
+   friendly) and is neutralised by the reduced-motion block at the end.
+   =========================================================================== */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   10%  { transform: translateX(-7px); }
@@ -514,30 +919,30 @@ button:disabled { cursor: not-allowed; }
 .animate-shake { animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
 
 @keyframes correct-pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(74, 124, 89, 0.45); transform: scale(1); }
-  40%  { box-shadow: 0 0 0 8px rgba(74, 124, 89, 0); transform: scale(1.015); }
-  100% { box-shadow: 0 0 0 0 rgba(74, 124, 89, 0); transform: scale(1); }
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--success) 45%, transparent); transform: scale(1); }
+  40%  { box-shadow: 0 0 0 8px color-mix(in srgb, var(--success) 0%, transparent); transform: scale(1.015); }
+  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--success) 0%, transparent); transform: scale(1); }
 }
 .animate-correct-pulse { animation: correct-pulse 0.5s ease-out forwards; }
 
 @keyframes modal-in {
-  from { opacity: 0; transform: scale(0.95) translateY(6px); }
-  to   { opacity: 1; transform: scale(1)    translateY(0);   }
+  from { opacity: 0; transform: scale(0.96) translateY(6px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
 }
-.animate-modal-in { animation: modal-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-modal-in { animation: modal-in var(--dur-base) var(--ease-out-soft) forwards; }
 
 @keyframes backdrop-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-.modal-backdrop { animation: backdrop-in 0.15s ease-out both; }
+.modal-backdrop { animation: backdrop-in 0.16s ease-out both; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
 @keyframes xp-float {
-  0%   { opacity: 1; transform: translateY(0)    scale(1);   }
-  60%  { opacity: 1; transform: translateY(-28px) scale(1.1); }
-  100% { opacity: 0; transform: translateY(-44px) scale(0.9); }
+  0%   { opacity: 1; transform: translateY(0)     scale(1); }
+  60%  { opacity: 1; transform: translateY(-28px) scale(1.08); }
+  100% { opacity: 0; transform: translateY(-44px) scale(0.92); }
 }
 .animate-xp-float { animation: xp-float 0.9s ease-out forwards; pointer-events: none; }
 
@@ -545,78 +950,185 @@ button:disabled { cursor: not-allowed; }
   from { opacity: 0; transform: translateX(110%); }
   to   { opacity: 1; transform: translateX(0); }
 }
-.animate-toast-in { animation: toast-slide-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-toast-in { animation: toast-slide-in 0.25s var(--ease-out-soft) forwards; }
 
 @keyframes pulse-green {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(74, 124, 89, 0.4); }
-  50% { box-shadow: 0 0 0 10px rgba(74, 124, 89, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--success) 40%, transparent); }
+  50% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--success) 0%, transparent); }
 }
 .animate-pulse-green { animation: pulse-green 0.3s ease-out; }
 
 @keyframes fade-slide {
-  0% { opacity: 0; transform: translateY(20px); }
+  0% { opacity: 0; transform: translateY(14px); }
   100% { opacity: 1; transform: translateY(0); }
 }
-.animate-fade-slide { animation: fade-slide 0.3s ease-out forwards; }
+.animate-fade-slide { animation: fade-slide var(--dur-slow) var(--ease-out-soft) both; }
 
 @keyframes ring-progress {
   from { stroke-dashoffset: var(--ring-length); }
 }
-.animate-ring-progress { animation: ring-progress 0.6s ease-out; }
+.animate-ring-progress { animation: ring-progress 0.6s var(--ease-out-soft); }
 
 @keyframes streak-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(92, 138, 94, 0.12); }
-  50% { box-shadow: 0 0 0 5px rgba(92, 138, 94, 0.18); }
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 14%, transparent); }
+  50% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 20%, transparent); }
 }
-.streak-today { animation: streak-pulse 2s ease-in-out infinite; }
+.streak-today { animation: streak-pulse 2.2s ease-in-out infinite; }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-@keyframes typing-blink {
-  0%, 100% { border-right-color: transparent; }
-  50% { border-right-color: currentColor; }
-}
-.typing-placeholder::placeholder {
-  position: relative;
-}
-
-/* Batch 2 additions */
-/* Better skeleton shimmer - gradient sweep instead of simple pulse */
+/* Skeleton shimmer (also drives legacy .animate-pulse skeletons) */
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
-.animate-pulse {
-  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-secondary) 50%, var(--bg-tertiary) 75%) !important;
-  background-size: 200% 100% !important;
-  animation: shimmer 1.5s ease-in-out infinite !important;
+/* Unlayered → wins over Tailwind's .animate-pulse and .bg-* utilities without
+   !important. Solid-state buttons that reuse .animate-pulse (e.g. the recording
+   mic) are excluded so they keep their real background. */
+.animate-pulse:not(.bg-accent):not(.bg-accent-2):not(.bg-success):not(.bg-error):not(.bg-warning):not(.bg-warm) {
+  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-secondary) 50%, var(--bg-tertiary) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
 }
 
-/* Card reveal slide-up for SRS and list items */
 @keyframes card-reveal {
-  from { opacity: 0; transform: translateY(10px) scale(0.98); }
-  to   { opacity: 1; transform: translateY(0)   scale(1); }
+  from { opacity: 0; transform: translateY(10px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
 }
-.animate-card-reveal { animation: card-reveal 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-card-reveal { animation: card-reveal 0.28s var(--ease-out-soft) forwards; }
 
+/* ---- New tasteful additions ---------------------------------------------- */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-float { animation: float-y 5.5s ease-in-out infinite; }
+
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.8); }
+  60% { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.animate-pop-in { animation: pop-in 0.32s var(--ease-spring) both; }
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in { animation: fade-in var(--dur-base) ease-out both; }
+
+.animate-slide-up { animation: fade-slide var(--dur-slow) var(--ease-out-soft) both; }
+
+/* Stagger helpers: pair with animate-card-reveal / animate-fade-slide */
+.stagger-1 { animation-delay: 40ms; }
+.stagger-2 { animation-delay: 80ms; }
+.stagger-3 { animation-delay: 120ms; }
+.stagger-4 { animation-delay: 160ms; }
+.stagger-5 { animation-delay: 200ms; }
+.stagger-6 { animation-delay: 240ms; }
+.stagger-7 { animation-delay: 280ms; }
+.stagger-8 { animation-delay: 320ms; }
+
+/* Applies staggered delays to direct children that animate themselves */
+.stagger-children > :nth-child(1) { animation-delay: 30ms; }
+.stagger-children > :nth-child(2) { animation-delay: 60ms; }
+.stagger-children > :nth-child(3) { animation-delay: 90ms; }
+.stagger-children > :nth-child(4) { animation-delay: 120ms; }
+.stagger-children > :nth-child(5) { animation-delay: 150ms; }
+.stagger-children > :nth-child(6) { animation-delay: 180ms; }
+.stagger-children > :nth-child(n+7) { animation-delay: 210ms; }
+
+/* Press/hover micro-interaction helper */
+.press-scale { transition: transform var(--dur-fast) ease; }
+.press-scale:active { transform: scale(0.98); }
+
+/* ===========================================================================
+   7. Responsive craft, tap targets and safe areas
+   =========================================================================== */
+
+/* Touch: guarantee 44px targets (WCAG 2.5.5) */
+@media (max-width: 767px) {
+  .btn-primary, .btn-secondary, .btn-ghost, .nav-item, .icon-action,
+  .filter-btn, .tab, .input {
+    min-height: var(--tap-target);
+  }
+  .icon-action { min-width: var(--tap-target); }
+  .input.lesson-select { min-height: var(--tap-target); }
+}
+
+/* Phone: stack the lesson toolbar header so it never overflows the viewport.
+   Works with the current markup (`.learn-toolbar > div:first-child`) and with
+   the optional `.learn-toolbar-header` / `.toolbar-actions` wrappers. */
 @media (max-width: 639px) {
   .card, .card-lg { padding: 16px; }
   .display-text { font-size: 28px; }
   .hanzi-large { font-size: 40px; }
-  .tabs-container { gap: 24px; }
+  .tabs-container { gap: 0; }
+  .tab { padding-left: 10px; padding-right: 10px; }
+  .input.lesson-select { width: 100%; }
+  .flip-card { height: 320px; }
+  .flip-card-face { padding: 24px; }
+
+  .learn-toolbar > div:first-child:not(.tabs-container),
+  .learn-toolbar-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .learn-toolbar > div:first-child:not(.tabs-container) > div:last-child,
+  .toolbar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+  }
+  .learn-toolbar > div:first-child:not(.tabs-container) > div:last-child > button,
+  .toolbar-actions > button,
+  .toolbar-actions > .btn-primary,
+  .toolbar-actions > .btn-secondary {
+    flex: 1 1 auto;
+  }
+  .learn-toolbar > div:first-child:not(.tabs-container) > button { width: 100%; }
 }
 
+/* Horizontal scroll affordance for tab strips on small screens */
+@media (max-width: 639px) {
+  [role="tablist"] {
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: 4px;
+    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent 100%);
+  }
+  [role="tablist"] > * { scroll-snap-align: start; }
+}
+
+/* Mobile bottom navigation: respect the home-indicator safe area */
+@media (max-width: 1023px) {
+  nav[aria-label="Điều hướng nhanh"] {
+    padding-bottom: calc(0.375rem + var(--safe-bottom));
+  }
+  #main-content {
+    padding-bottom: calc(6rem + var(--safe-bottom));
+  }
+}
+@media (max-width: 639px) {
+  aside[aria-label="Trình phát playlist"] {
+    bottom: calc(5rem + var(--safe-bottom));
+  }
+}
+
+/* Ultra-narrow phones: keep paddings from eating the content column */
+@media (max-width: 359px) {
+  body { font-size: 14.5px; }
+  .card, .card-lg { padding: 14px; }
+}
+
+/* ===========================================================================
+   8. Reduced motion — one authoritative block (must stay last)
+   =========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }

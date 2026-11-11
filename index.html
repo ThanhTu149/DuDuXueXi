@@ -2,19 +2,76 @@
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#5C8A5E" />
-    <meta name="description" content="Ứng dụng học Hán ngữ tương tác cho người Việt" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap&subset=vietnamese,latin,latin-ext" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Theme color: single tag, updated at runtime by bootTheme()/applyTheme()
+         in main.jsx (light #FAF9F5, dark #14161A). A single tag avoids
+         media-query and in-app-toggle conflicts. -->
+    <meta name="theme-color" content="#FAF9F5" />
+
+    <!-- SEO / app metadata -->
     <title>DuDu Hán Ngữ</title>
+    <meta
+      name="description"
+      content="DuDu Hán Ngữ — ứng dụng học Hán ngữ tương tác cho người Việt: 10 bài học từ vựng, ngữ pháp, mẫu câu, quiz, ôn tập ngắt quãng (SRS), luyện nghe – nói – viết và trò chơi ghi nhớ."
+    />
+    <meta
+      name="keywords"
+      content="học tiếng Trung, Hán ngữ, từ vựng tiếng Trung, ngữ pháp tiếng Trung, luyện nghe tiếng Trung, HSK, flashcard tiếng Trung, SRS, DuDu Hán Ngữ"
+    />
+    <meta name="author" content="DuDu Hán Ngữ" />
+    <meta name="application-name" content="DuDu Hán Ngữ" />
+    <meta name="robots" content="index, follow" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- iOS / browser install surface -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="DuDu Hán Ngữ" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DuDu Hán Ngữ" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:title" content="DuDu Hán Ngữ — Học Hán ngữ mỗi ngày" />
+    <meta
+      property="og:description"
+      content="Học từ vựng, ngữ pháp và luyện nghe – nói – viết tiếng Trung theo lộ trình 10 bài, có ôn tập SRS và trò chơi ghi nhớ. Giao diện tiếng Việt, dễ dùng trên điện thoại."
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="DuDu Hán Ngữ — Học Hán ngữ mỗi ngày" />
+    <meta
+      name="twitter:description"
+      content="Ứng dụng học Hán ngữ tương tác cho người Việt: từ vựng, ngữ pháp, quiz, SRS và luyện nghe – nói – viết."
+    />
+
+    <!-- Fonts: preconnect early, swap in to avoid invisible text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap&subset=vietnamese,latin,latin-ext"
+      rel="stylesheet"
+    />
+
+    <!-- App icons -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>"
+    />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <div style="margin: 12vh auto; max-width: 34rem; padding: 24px; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; line-height: 1.6; color: #1C1F26; background: #FAF9F5; border-radius: 16px; text-align: center;">
+        <p style="font-size: 28px; margin: 0 0 8px;">📖 DuDu Hán Ngữ</p>
+        <p style="margin: 0;">Ứng dụng cần bật JavaScript để hoạt động. Vui lòng bật JavaScript trong trình duyệt rồi tải lại trang.</p>
+      </div>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
-
