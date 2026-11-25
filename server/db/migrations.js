@@ -145,4 +145,19 @@ export const MIGRATIONS = [
       CREATE INDEX IF NOT EXISTS idx_users_leaderboard ON users(show_on_leaderboard, role);
     `,
   },
+  {
+    version: 3,
+    name: 'ai_daily_usage_quota',
+    sql: `
+      CREATE TABLE IF NOT EXISTS ai_daily_usage (
+        user_id INTEGER NOT NULL,
+        usage_date TEXT NOT NULL,
+        request_count INTEGER NOT NULL DEFAULT 0,
+        char_count INTEGER NOT NULL DEFAULT 0,
+        updated_at TEXT NOT NULL,
+        PRIMARY KEY (user_id, usage_date),
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+      );
+    `,
+  },
 ];

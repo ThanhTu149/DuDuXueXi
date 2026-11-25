@@ -1,9 +1,9 @@
 import { randomUUID } from 'node:crypto';
 import {
   generateSessionToken,
-  hashPassword,
+  hashPasswordAsync,
   hashToken,
-  verifyPassword,
+  verifyPasswordAsync,
 } from '../lib/crypto.js';
 import {
   ApiError,
@@ -176,7 +176,7 @@ export function registerAuthRoutes(router, { db, config, authLimiter, onLeaderbo
 
     const now = new Date().toISOString();
     const userId = `user-${randomUUID()}`;
-    const { hash, salt } = hashPassword(password);
+    const { hash, salt } = await hashPasswordAsync(password);
 
     db.prepare(`
       INSERT INTO users (
@@ -229,7 +229,7 @@ export function registerAuthRoutes(router, { db, config, authLimiter, onLeaderbo
       WHERE (username_lower = ? OR email_lower = ?) AND role != 'system'
     `).get(identifier, identifier);
 
-    if (!row || !verifyPassword(password, row.password_hash, row.password_salt)) {
+    if (!row || !(await verifyPasswordAsync(password, row.password_hash, row.password_salt))) {
       throw new ApiError(401, 'invalid_credentials', 'Tên đăng nhập hoặc mật khẩu không đúng.');
     }
 
@@ -288,11 +288,11 @@ export function registerAuthRoutes(router, { db, config, authLimiter, onLeaderbo
     }
 
     const row = db.prepare('SELECT password_hash, password_salt FROM users WHERE id = ?').get(user.id);
-    if (!verifyPassword(currentPassword, row?.password_hash, row?.password_salt)) {
+    if (!(await verifyPasswordAsync(currentPassword, row?.password_hash, row?.password_salt))) {
       throw new ApiError(400, 'wrong_password', 'Mật khẩu hiện tại chưa chính xác.');
     }
 
-    const { hash, salt } = hashPassword(newPassword);
+    const { hash, salt } = await hashPasswordAsync(newPassword);
     const now = new Date().toISOString();
     db.prepare('UPDATE users SET password_hash = ?, password_salt = ?, updated_at = ? WHERE id = ?').run(hash, salt, now, user.id);
     // Thu hồi các phiên đăng nhập khác để bảo mật
@@ -379,7 +379,7 @@ export function registerAuthRoutes(router, { db, config, authLimiter, onLeaderbo
     const body = await readJsonBody(req);
     const password = String(body.password || '');
     const row = db.prepare('SELECT password_hash, password_salt FROM users WHERE id = ?').get(user.id);
-    if (!verifyPassword(password, row?.password_hash, row?.password_salt)) {
+    if (!(await verifyPasswordAsync(password, row?.password_hash, row?.password_salt))) {
       throw new ApiError(400, 'wrong_password', 'Mật khẩu xác nhận chưa chính xác.');
     }
     db.prepare('DELETE FROM users WHERE id = ?').run(user.id);

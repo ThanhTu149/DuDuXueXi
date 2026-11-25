@@ -75,9 +75,11 @@ export function createConfig(overrides = {}) {
     geminiApiKey: (env.GEMINI_API_KEY || '').trim() || null,
     corsOrigin: (env.CORS_ORIGIN || '').trim() || null,
     trustProxy: env.TRUST_PROXY === 'true',
-    cookieSecure: env.COOKIE_SECURE === 'true' || (nodeEnv === 'production' && env.COOKIE_SECURE !== 'false' && Boolean(env.FORCE_HTTPS)),
+    cookieSecure: env.COOKIE_SECURE === 'true' || (nodeEnv === 'production' && env.COOKIE_SECURE !== 'false'),
     rateLimitDisabled: env.DUDU_DISABLE_RATE_LIMIT === 'true',
     quietLogs: env.DUDU_QUIET_LOGS === 'true' || dbPath === ':memory:',
     maxCoursesPerUser: Math.max(5, Number(env.MAX_COURSES_PER_USER || 50)),
+    serverAiDailyRequests: Math.max(1, Number(env.SERVER_AI_DAILY_LIMIT || 30)),
+    serverAiDailyChars: Math.max(1000, Number(env.SERVER_AI_DAILY_CHARS || 120_000)),
   };
 }

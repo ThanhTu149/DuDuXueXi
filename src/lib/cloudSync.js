@@ -12,6 +12,7 @@
 
 import {
   BUILT_IN_COURSE_ID,
+  clearAllProgress,
   deleteCourse,
   getAllCourses,
   getCourse,
@@ -294,6 +295,8 @@ export async function syncAllWithCloud({ onCloudDataApplied } = {}) {
       const previousOwnerId = readLocalValue(CLOUD_OWNER_KEY, null);
       const switchedAccount = Boolean(previousOwnerId && boot.user?.id && previousOwnerId !== boot.user.id);
       if (switchedAccount) {
+        for (const timer of progressTimers.values()) clearTimeout(timer);
+        progressTimers.clear();
         const oldLocalCourses = await getAllCourses();
         for (const item of oldLocalCourses) {
           if (item.id !== BUILT_IN_COURSE_ID && item.type !== 'built-in') {
@@ -301,7 +304,12 @@ export async function syncAllWithCloud({ onCloudDataApplied } = {}) {
           }
         }
         clearProgress();
+        await clearAllProgress().catch(() => {});
         await saveSettings({ geminiApiKey: null, activeCourseId: BUILT_IN_COURSE_ID, recentCourseIds: [] }).catch(() => {});
+        pending.progressIds = [];
+        pending.courseIds = [];
+        pending.deletedCourseIds = [];
+        pending.settingsDirty = false;
         writePendingQueue({ progressIds: [], courseIds: [], deletedCourseIds: [], settingsDirty: false });
       }
       if (boot.user?.id) {
@@ -355,9 +363,11 @@ export async function syncAllWithCloud({ onCloudDataApplied } = {}) {
       const appliedProgressMap = {};
       for (const courseId of allCourseIds) {
         const cloudProg = boot.progressByCourse?.[courseId] || null;
-        const localProg = courseId === BUILT_IN_COURSE_ID
-          ? (readProgress().progress || await getProgress(courseId))
-          : await getProgress(courseId);
+        const localProg = switchedAccount
+          ? null
+          : (courseId === BUILT_IN_COURSE_ID
+            ? (readProgress().progress || await getProgress(courseId))
+            : await getProgress(courseId));
 
         if (!cloudProg && !localProg) continue;
 
@@ -438,6 +448,7 @@ export async function syncAllWithCloud({ onCloudDataApplied } = {}) {
         settings: boot.settings,
         progressByCourse: appliedProgressMap,
         courses: boot.courses || [],
+        switchedAccount,
       });
 
       return boot;
@@ -501,6 +512,7 @@ export async function signOutAccount({ wipeLocal = false } = {}) {
       }
     }
     clearProgress();
+    await clearAllProgress().catch(() => {});
     await saveSettings({ activeCourseId: BUILT_IN_COURSE_ID, recentCourseIds: [], geminiApiKey: null }).catch(() => {});
     removeLocalValue(CLOUD_OWNER_KEY);
   }

@@ -126,6 +126,69 @@ export function mergeServerProgress(existing, incoming) {
   return merged;
 }
 
+export function enforcePlausibleXp(finalProgress, existingProgress = null, verifiedEventXp = 0) {
+  if (!isPlainObject(finalProgress)) return finalProgress;
+  const baiProgress = isPlainObject(finalProgress.baiProgress) ? finalProgress.baiProgress : {};
+  let totalQuestionCredit = 0;
+  let completedLessons = 0;
+  let bossWinsFromLessons = 0;
+  for (const entry of Object.values(baiProgress)) {
+    if (!isPlainObject(entry)) continue;
+    const accTotal = Math.max(0, Math.floor(Number(entry?.accuracy?.total) || 0));
+    const attemptedLen = Array.isArray(entry.attemptedIds) ? entry.attemptedIds.length : 0;
+    const correctLen = Array.isArray(entry.correctIds) ? entry.correctIds.length : 0;
+    const firstLen = Array.isArray(entry.firstAttemptCorrectIds) ? entry.firstAttemptCorrectIds.length : 0;
+    totalQuestionCredit += Math.max(accTotal, attemptedLen, correctLen, firstLen);
+    if (entry.completed) completedLessons += 1;
+    if (entry.bossWon) bossWinsFromLessons += 1;
+  }
+
+  const globalAccTotal = Math.max(0, Math.floor(Number(finalProgress?.accuracy?.total) || 0));
+  const effectiveQuestions = Math.max(totalQuestionCredit, globalAccTotal);
+  const unlockedCount = Array.isArray(finalProgress.unlockedBai) ? finalProgress.unlockedBai.length : 0;
+  const studyDaysCount = Array.isArray(finalProgress.studyDays)
+    ? finalProgress.studyDays.length
+    : (isPlainObject(finalProgress.studyDays) ? Object.keys(finalProgress.studyDays).length : 0);
+  const srsReps = isPlainObject(finalProgress.srs)
+    ? Object.values(finalProgress.srs).reduce((sum, item) => sum + Math.max(0, Math.floor(Number(item?.reps) || 0)), 0)
+    : 0;
+  const pomodoroCount = Math.max(
+    0,
+    Math.floor(Number(finalProgress.pomodoroCount ?? finalProgress.pomodoroSessions) || 0),
+  );
+  const bossWins = Math.max(
+    bossWinsFromLessons,
+    Math.max(0, Math.floor(Number(finalProgress.bossWins) || 0)),
+  );
+  const existingXp = Math.max(0, Math.floor(Number(existingProgress?.xp) || 0));
+  const eventXp = Math.max(0, Math.floor(Number(verifiedEventXp) || 0));
+
+  const activityCeiling = Math.min(
+    500_000,
+    effectiveQuestions * 25
+    + completedLessons * 60
+    + Math.max(unlockedCount, 1) * 30
+    + Math.max(studyDaysCount, Math.floor(Number(finalProgress.streak) || 0) > 0 ? 1 : 0) * 50
+    + bossWins * 50
+    + srsReps * 20
+    + pomodoroCount * 30
+    + eventXp
+    + 100,
+  );
+  const maxAllowedXp = Math.max(existingXp, activityCeiling);
+  const rawXp = Math.max(0, Math.floor(Number(finalProgress.xp) || 0));
+  finalProgress.xp = Math.min(rawXp, maxAllowedXp);
+
+  if (isPlainObject(finalProgress.weeklyXP)) {
+    const clampedWeekly = {};
+    for (const [wk, val] of Object.entries(finalProgress.weeklyXP)) {
+      clampedWeekly[wk] = Math.min(25_000, finalProgress.xp, Math.max(0, Math.floor(Number(val) || 0)));
+    }
+    finalProgress.weeklyXP = clampedWeekly;
+  }
+  return finalProgress;
+}
+
 export function extractProgressMetrics(progress) {
   const xp = Math.max(0, Math.floor(Number(progress?.xp) || 0));
   const streak = Math.max(0, Math.floor(Number(progress?.streak) || 0));
@@ -293,10 +356,17 @@ export function registerSyncRoutes(router, { db, config, onLeaderboardInvalidate
       ? sanitizeDeep(incoming)
       : mergeServerProgress(existing, incoming);
 
+    const verifiedRow = db.prepare(`
+      SELECT COALESCE(SUM(xp_earned), 0) AS total
+      FROM study_events
+      WHERE user_id = ? AND course_id = ?
+    `).get(user.id, courseId);
+    enforcePlausibleXp(finalProgress, existing, Number(verifiedRow?.total) || 0);
+
     const now = new Date().toISOString();
     const metrics = extractProgressMetrics(finalProgress);
     const weekKey = getIsoWeekKey();
-    const currentWeekXp = Math.max(0, Math.floor(Number(metrics.weeklyXP?.[weekKey]) || 0));
+    const currentWeekXp = Math.min(25_000, metrics.xp, Math.max(0, Math.floor(Number(metrics.weeklyXP?.[weekKey]) || 0)));
     const nextVersion = (Number(existingRow?.version) || 0) + 1;
     const clientSavedAt = typeof finalProgress._savedAt === 'string' ? finalProgress._savedAt : now;
 

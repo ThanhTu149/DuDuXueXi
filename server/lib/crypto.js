@@ -1,20 +1,42 @@
-import { createCipheriv, createDecipheriv, createHash, randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
+import { createCipheriv, createDecipheriv, createHash, randomBytes, scrypt, scryptSync, timingSafeEqual } from 'node:crypto';
+import { promisify } from 'node:util';
 
+const scryptAsync = promisify(scrypt);
 const SCRYPT_KEYLEN = 64;
 const SCRYPT_OPTIONS = { N: 16384, r: 8, p: 1 };
 
-/** Băm mật khẩu bằng scrypt + salt ngẫu nhiên 16 byte. */
+/** Băm mật khẩu đồng bộ (dùng cho CLI/seed). */
 export function hashPassword(password) {
   const salt = randomBytes(16).toString('hex');
   const derived = scryptSync(String(password), salt, SCRYPT_KEYLEN, SCRYPT_OPTIONS).toString('hex');
   return { hash: derived, salt };
 }
 
-/** So khớp mật khẩu theo thời gian hằng (chống timing attack). */
+/** So khớp mật khẩu đồng bộ theo thời gian hằng. */
 export function verifyPassword(password, storedHash, salt) {
   if (!password || !storedHash || !salt) return false;
   try {
     const derived = scryptSync(String(password), String(salt), SCRYPT_KEYLEN, SCRYPT_OPTIONS);
+    const expected = Buffer.from(String(storedHash), 'hex');
+    if (derived.length !== expected.length) return false;
+    return timingSafeEqual(derived, expected);
+  } catch {
+    return false;
+  }
+}
+
+/** Băm mật khẩu bất đồng bộ trên libuv threadpool để không block event loop HTTP. */
+export async function hashPasswordAsync(password) {
+  const salt = randomBytes(16).toString('hex');
+  const derived = (await scryptAsync(String(password), salt, SCRYPT_KEYLEN, SCRYPT_OPTIONS)).toString('hex');
+  return { hash: derived, salt };
+}
+
+/** So khớp mật khẩu bất đồng bộ theo thời gian hằng (chống timing attack & nghẽn event loop). */
+export async function verifyPasswordAsync(password, storedHash, salt) {
+  if (!password || !storedHash || !salt) return false;
+  try {
+    const derived = await scryptAsync(String(password), String(salt), SCRYPT_KEYLEN, SCRYPT_OPTIONS);
     const expected = Buffer.from(String(storedHash), 'hex');
     if (derived.length !== expected.length) return false;
     return timingSafeEqual(derived, expected);

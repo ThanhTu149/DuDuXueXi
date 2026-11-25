@@ -502,9 +502,88 @@ export function mergeProgressData(base, incoming) {
   const newer = secondAt >= firstAt ? second : first;
   const older = newer === second ? first : second;
   const merged = { ...older, ...newer };
+
   for (const field of ['achievements', 'goalRewardDates', 'bookmarks', 'studyDates']) {
-    const values = [...(Array.isArray(older[field]) ? older[field] : []), ...(Array.isArray(newer[field]) ? newer[field] : [])];
+    const values = [
+      ...(Array.isArray(older[field]) ? older[field] : []),
+      ...(Array.isArray(newer[field]) ? newer[field] : []),
+    ];
     merged[field] = [...new Set(values)];
+  }
+
+  if (Array.isArray(older.unlockedBai) || Array.isArray(newer.unlockedBai)) {
+    merged.unlockedBai = [...new Set([
+      ...(Array.isArray(older.unlockedBai) ? older.unlockedBai : []),
+      ...(Array.isArray(newer.unlockedBai) ? newer.unlockedBai : []),
+    ])].sort((a, b) => Number(a) - Number(b));
+  }
+
+  if (isPlainObject(older.baiProgress) || isPlainObject(newer.baiProgress)) {
+    const keys = new Set([
+      ...Object.keys(isPlainObject(older.baiProgress) ? older.baiProgress : {}),
+      ...Object.keys(isPlainObject(newer.baiProgress) ? newer.baiProgress : {}),
+    ]);
+    const bp = {};
+    for (const key of keys) {
+      const o = older.baiProgress?.[key] || {};
+      const n = newer.baiProgress?.[key] || {};
+      const attemptedIds = [...new Set([...(Array.isArray(o.attemptedIds) ? o.attemptedIds : []), ...(Array.isArray(n.attemptedIds) ? n.attemptedIds : [])])];
+      const correctIds = [...new Set([...(Array.isArray(o.correctIds) ? o.correctIds : []), ...(Array.isArray(n.correctIds) ? n.correctIds : [])])];
+      const firstAttemptCorrectIds = [...new Set([...(Array.isArray(o.firstAttemptCorrectIds) ? o.firstAttemptCorrectIds : []), ...(Array.isArray(n.firstAttemptCorrectIds) ? n.firstAttemptCorrectIds : [])])];
+      bp[key] = {
+        ...o,
+        ...n,
+        completed: Boolean(o.completed || n.completed),
+        attemptedIds,
+        correctIds,
+        firstAttemptCorrectIds,
+        quizDone: Math.max(Number(o.quizDone) || 0, Number(n.quizDone) || 0, attemptedIds.length),
+        quizCorrect: Math.max(Number(o.quizCorrect) || 0, Number(n.quizCorrect) || 0, correctIds.length),
+      };
+    }
+    merged.baiProgress = bp;
+  }
+
+  if (isPlainObject(older.studyDays) || isPlainObject(newer.studyDays)) {
+    const days = { ...(isPlainObject(older.studyDays) ? older.studyDays : {}) };
+    for (const [date, val] of Object.entries(isPlainObject(newer.studyDays) ? newer.studyDays : {})) {
+      const prev = days[date] || { xp: 0, questions: 0 };
+      days[date] = {
+        xp: Math.max(Number(prev.xp) || 0, Number(val?.xp) || 0),
+        questions: Math.max(Number(prev.questions) || 0, Number(val?.questions) || 0),
+      };
+    }
+    merged.studyDays = days;
+  }
+
+  if (isPlainObject(older.weeklyXP) || isPlainObject(newer.weeklyXP)) {
+    const weeks = { ...(isPlainObject(older.weeklyXP) ? older.weeklyXP : {}) };
+    for (const [week, xp] of Object.entries(isPlainObject(newer.weeklyXP) ? newer.weeklyXP : {})) {
+      weeks[week] = Math.max(Number(weeks[week]) || 0, Number(xp) || 0);
+    }
+    merged.weeklyXP = weeks;
+  }
+
+  if (isPlainObject(older.srs) || isPlainObject(newer.srs)) {
+    const srs = { ...(isPlainObject(older.srs) ? older.srs : {}) };
+    for (const [id, entry] of Object.entries(isPlainObject(newer.srs) ? newer.srs : {})) {
+      const prev = srs[id];
+      if (!prev || String(entry?.lastReview || '') >= String(prev?.lastReview || '')) {
+        srs[id] = entry;
+      }
+    }
+    merged.srs = srs;
+  }
+
+  if (isPlainObject(older.notes) || isPlainObject(newer.notes)) {
+    merged.notes = {
+      ...(isPlainObject(older.notes) ? older.notes : {}),
+      ...(isPlainObject(newer.notes) ? newer.notes : {}),
+    };
+  }
+
+  if (older.xp !== undefined || newer.xp !== undefined) {
+    merged.xp = Math.max(Number(older.xp) || 0, Number(newer.xp) || 0);
   }
   return merged;
 }

@@ -3,8 +3,15 @@
  *   node scripts/test-api.mjs
  */
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { DatabaseSync } from 'node:sqlite';
 import { createApp } from '../server/app.js';
+import { createConfig } from '../server/config.js';
+import { getIsoWeekKey } from '../server/db/database.js';
 import { isPristineProgress, mergeLocalAndCloudProgress } from '../src/lib/cloudSync.js';
+import { backupSqliteDatabase } from './backup-db.mjs';
 
 class TestClient {
   constructor(baseUrl) {
@@ -45,16 +52,6 @@ class TestClient {
   }
 }
 
-function getIsoWeekKey(value = new Date()) {
-  const date = new Date(value);
-  date.setHours(0, 0, 0, 0);
-  date.setDate(date.getDate() + 3 - ((date.getDay() + 6) % 7));
-  const year = date.getFullYear();
-  const weekOne = new Date(year, 0, 4);
-  const week = 1 + Math.round(((date - weekOne) / 86400000 - 3 + ((weekOne.getDay() + 6) % 7)) / 7);
-  return `${year}-W${String(week).padStart(2, '0')}`;
-}
-
 const app = createApp({
   configOverrides: {
     DUDU_DB_PATH: ':memory:',
@@ -73,15 +70,19 @@ try {
   const aliceDevice2 = new TestClient(baseUrl);
   const bob = new TestClient(baseUrl);
 
-  // 1. Health + schema v2 + security headers + seeded official community courses + guest session check
-  const health = await alice.req('/api/health');
+  // 1. Health + schema v3 + security headers + X-Request-Id + seeded official community courses + guest session check
+  const health = await alice.req('/api/health', { headers: { 'X-Request-Id': 'req-trace-12345678' } });
   assert.equal(health.status, 200);
   assert.equal(health.data.ok, true);
-  assert.equal(health.data.schemaVersion, 2);
+  assert.equal(health.data.schemaVersion, 3);
+  assert.equal(health.headers.get('x-request-id'), 'req-trace-12345678');
   assert.ok(health.data.stats.communityCourses >= 2);
   assert.match(health.headers.get('content-security-policy') || '', /default-src 'self'/);
   assert.equal(health.headers.get('x-content-type-options'), 'nosniff');
   assert.ok(health.headers.get('permissions-policy'));
+
+  const autoReqIdHealth = await alice.req('/api/health');
+  assert.ok(autoReqIdHealth.headers.get('x-request-id'));
 
   // Community pagination check (no chapters_json overhead)
   const pagedComm = await alice.req('/api/community/courses?limit=1&offset=0');
@@ -485,7 +486,113 @@ try {
   assert.deepEqual(mergedBoth.bookmarks.sort(), ['bai01_w001', 'bai01_w002']);
   assert.deepEqual(mergedBoth.achievements.sort(), ['first_lesson', 'streak_3']);
 
-  console.log('Full-Stack API OK: health, auth/scrypt/sessions, AES-256-GCM key, progress merge, analytics, leaderboard/privacy, course ownership, community publish/clone, AI proxy/tutor, rate limit.');
+  // 11. Hardening checks: prod cookieSecure, XP cheat clamp, server AI daily quota vs BYOK, SQLite online backup
+  const prodCfg = createConfig({ DUDU_DB_PATH: ':memory:', NODE_ENV: 'production', COOKIE_SECURE: '' });
+  assert.equal(prodCfg.cookieSecure, true, 'NODE_ENV=production phải tự bật cookieSecure mặc định');
+  const prodHttpOverride = createConfig({ DUDU_DB_PATH: ':memory:', NODE_ENV: 'production', COOKIE_SECURE: 'false' });
+  assert.equal(prodHttpOverride.cookieSecure, false, 'COOKIE_SECURE=false cho phép chạy HTTP preview cục bộ');
+  assert.equal(prodCfg.serverAiDailyRequests, 30);
+
+  // 11b. Server-side XP cheat clamp
+  const cheater = new TestClient(baseUrl);
+  assert.equal((await cheater.req('/api/auth/register', { method: 'POST', body: { username: 'cheater_u', password: 'password123' } })).status, 201);
+  const currentWk = getIsoWeekKey();
+  const cheatRes = await cheater.req('/api/progress/hanngu-tap2', {
+    method: 'PUT',
+    body: {
+      mode: 'replace',
+      progress: {
+        xp: 999999,
+        weeklyXP: { [currentWk]: 999999 },
+        accuracy: { correct: 0, total: 0 },
+        unlockedBai: [1],
+      },
+    },
+  });
+  assert.equal(cheatRes.status, 200);
+  assert.ok(cheatRes.data.progress.xp <= 500, `XP gian lận phải bị chặn trần, nhận ${cheatRes.data.progress.xp}`);
+  assert.ok(cheatRes.data.progress.weeklyXP[currentWk] <= cheatRes.data.progress.xp);
+
+  // 11c. Server shared AI daily quota vs personal BYOK pass-through
+  const aiQuotaApp = createApp({
+    configOverrides: {
+      DUDU_DB_PATH: ':memory:',
+      DUDU_DISABLE_RATE_LIMIT: 'true',
+      GEMINI_API_KEY: 'server-shared-test-key-1234567890',
+      SERVER_AI_DAILY_LIMIT: '2',
+      SERVER_AI_DAILY_CHARS: '5000',
+    },
+    serveStatic: false,
+    seed: false,
+  });
+  const aiAddr = await aiQuotaApp.listen(0, '127.0.0.1');
+  const origFetch = globalThis.fetch;
+  try {
+    globalThis.fetch = async (url, options) => {
+      if (String(url).startsWith('https://generativelanguage.googleapis.com/')) {
+        return new Response(
+          JSON.stringify({ candidates: [{ content: { parts: [{ text: 'Ni hao! Day la phan hoi gia lap.' }] } }] }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+      }
+      return origFetch(url, options);
+    };
+
+    const aiClient = new TestClient(`http://127.0.0.1:${aiAddr.port}`);
+    assert.equal((await aiClient.req('/api/auth/register', { method: 'POST', body: { username: 'ai_quota_u', password: 'password123' } })).status, 201);
+    const statusBefore = await aiClient.req('/api/ai/status');
+    assert.equal(statusBefore.data.source, 'server');
+    assert.equal(statusBefore.data.dailyQuota.remainingRequests, 2);
+
+    assert.equal((await aiClient.req('/api/ai/tutor', { method: 'POST', body: { message: 'Cau 1' } })).status, 200);
+    assert.equal((await aiClient.req('/api/ai/tutor', { method: 'POST', body: { message: 'Cau 2' } })).status, 200);
+    const blockedRes = await aiClient.req('/api/ai/tutor', { method: 'POST', body: { message: 'Cau 3' } });
+    assert.equal(blockedRes.status, 429);
+    assert.equal(blockedRes.data.error.code, 'server_ai_quota_exceeded');
+
+    assert.equal((await aiClient.req('/api/settings/gemini-key', {
+      method: 'PUT',
+      body: { apiKey: 'AIzaSyUserPersonalKeyTest1234567890' },
+    })).status, 200);
+    const statusByok = await aiClient.req('/api/ai/status');
+    assert.equal(statusByok.data.source, 'user');
+    assert.equal(statusByok.data.dailyQuota, null);
+    assert.equal((await aiClient.req('/api/ai/tutor', { method: 'POST', body: { message: 'BYOK pass' } })).status, 200);
+  } finally {
+    globalThis.fetch = origFetch;
+    await aiQuotaApp.close();
+  }
+
+  // 11d. SQLite online WAL backup & integrity_check verification
+  const backupTmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dudu-backup-test-'));
+  const fileDbPath = path.join(backupTmpDir, 'source.sqlite');
+  const fileApp = createApp({
+    configOverrides: { DUDU_DB_PATH: fileDbPath, DUDU_DISABLE_RATE_LIMIT: 'true' },
+    serveStatic: false,
+    seed: false,
+  });
+  const fileAddr = await fileApp.listen(0, '127.0.0.1');
+  try {
+    const fClient = new TestClient(`http://127.0.0.1:${fileAddr.port}`);
+    assert.equal((await fClient.req('/api/auth/register', { method: 'POST', body: { username: 'backup_u', password: 'password123' } })).status, 201);
+    const backup = backupSqliteDatabase(fileDbPath, path.join(backupTmpDir, 'out'));
+    assert.ok(backup.sizeBytes > 0);
+    assert.equal(fs.existsSync(backup.path), true);
+    const verifyDb = new DatabaseSync(backup.path, { readOnly: true });
+    try {
+      const check = verifyDb.prepare('PRAGMA integrity_check;').get();
+      assert.equal(check.integrity_check, 'ok');
+      const userRow = verifyDb.prepare('SELECT username FROM users WHERE username = ?').get('backup_u');
+      assert.equal(userRow?.username, 'backup_u');
+    } finally {
+      verifyDb.close();
+    }
+  } finally {
+    await fileApp.close();
+    fs.rmSync(backupTmpDir, { recursive: true, force: true });
+  }
+
+  console.log('Full-Stack API OK: health/req-id, auth/scrypt/sessions, AES-256-GCM key, progress merge & XP bounds, analytics, leaderboard/privacy, course ownership, community publish/clone, AI proxy/quota/BYOK, rate limit, SQLite online backup.');
 } finally {
   await app.close();
 }

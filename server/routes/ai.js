@@ -102,15 +102,66 @@ function buildTutorSystemPrompt(lessonContext) {
   return parts.join('\n');
 }
 
+function getTodayUtcDateKey() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+export function getServerAiUsage(db, config, userId) {
+  const usageDate = getTodayUtcDateKey();
+  const row = userId
+    ? db.prepare('SELECT request_count, char_count FROM ai_daily_usage WHERE user_id = ? AND usage_date = ?').get(userId, usageDate)
+    : null;
+  const usedRequests = Number(row?.request_count || 0);
+  const usedChars = Number(row?.char_count || 0);
+  const maxRequests = config.serverAiDailyRequests || 30;
+  const maxChars = config.serverAiDailyChars || 120_000;
+  return {
+    usageDate,
+    usedRequests,
+    maxRequests,
+    remainingRequests: Math.max(0, maxRequests - usedRequests),
+    usedChars,
+    maxChars,
+    remainingChars: Math.max(0, maxChars - usedChars),
+  };
+}
+
+export function consumeServerAiQuota(db, config, userId, chars = 0) {
+  const safeChars = Math.max(0, Math.floor(Number(chars) || 0));
+  const quota = getServerAiUsage(db, config, userId);
+  if (quota.usedRequests + 1 > quota.maxRequests || quota.usedChars + safeChars > quota.maxChars) {
+    throw new ApiError(
+      429,
+      'server_ai_quota_exceeded',
+      `Đã hết hạn mức AI dùng chung trong ngày (${quota.maxRequests} lượt / ${quota.maxChars.toLocaleString('en-US')} ký tự). Hãy nhập Gemini API key cá nhân trong Hồ sơ > Cài đặt.`,
+    );
+  }
+  const now = new Date().toISOString();
+  db.prepare(`
+    INSERT INTO ai_daily_usage (user_id, usage_date, request_count, char_count, updated_at)
+    VALUES (?, ?, 1, ?, ?)
+    ON CONFLICT(user_id, usage_date) DO UPDATE SET
+      request_count = ai_daily_usage.request_count + 1,
+      char_count = ai_daily_usage.char_count + excluded.char_count,
+      updated_at = excluded.updated_at
+  `).run(userId, quota.usageDate, safeChars, now);
+  return getServerAiUsage(db, config, userId);
+}
+
 export function registerAiRoutes(router, { db, config, aiLimiter }) {
   // Kiểm tra trạng thái AI proxy
   router.get('/api/ai/status', async (req, res, ctx) => {
-    const resolved = resolveEffectiveGeminiKey(db, config, ctx.auth?.user?.id || null);
+    const userId = ctx.auth?.user?.id || null;
+    const resolved = resolveEffectiveGeminiKey(db, config, userId);
+    const dailyQuota = userId && resolved.source === 'server'
+      ? getServerAiUsage(db, config, userId)
+      : null;
     sendJson(res, 200, {
       ok: true,
       available: Boolean(resolved.key),
       source: resolved.source,
       serverKeyAvailable: Boolean(config.geminiApiKey),
+      dailyQuota,
     });
   });
 
@@ -206,6 +257,9 @@ export function registerAiRoutes(router, { db, config, aiLimiter }) {
     if (!resolved.key) {
       throw new ApiError(400, 'gemini_key_missing', 'Chưa có Gemini API key. Hãy cấu hình trong Hồ sơ > Cài đặt.');
     }
+    if (resolved.source === 'server') {
+      consumeServerAiQuota(db, config, user.id, prompt.length);
+    }
 
     const generationConfig = {
       responseMimeType: 'application/json',
@@ -287,6 +341,9 @@ export function registerAiRoutes(router, { db, config, aiLimiter }) {
     const resolved = resolveEffectiveGeminiKey(db, config, user.id);
     if (!resolved.key) {
       throw new ApiError(400, 'gemini_key_missing', 'Chưa có Gemini API key. Hãy vào Hồ sơ > Cài đặt để thêm API key cho Gia sư AI.');
+    }
+    if (resolved.source === 'server') {
+      consumeServerAiQuota(db, config, user.id, message.length);
     }
 
     const recent = db.prepare(`

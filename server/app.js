@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { createServer } from 'node:http';
 import { createConfig } from './config.js';
 import { openDatabase } from './db/database.js';
@@ -84,6 +85,9 @@ export function createApp({ configOverrides = {}, serveStatic = true, seed = tru
 
   async function handleRequest(req, res) {
     const startMs = Date.now();
+    const incomingReqId = typeof req.headers['x-request-id'] === 'string' ? req.headers['x-request-id'].trim() : '';
+    const reqId = /^[A-Za-z0-9._-]{8,64}$/.test(incomingReqId) ? incomingReqId : randomUUID();
+    res.setHeader('X-Request-Id', reqId);
     applySecurityHeaders(req, res);
 
     if (req.method === 'OPTIONS') {
@@ -106,6 +110,7 @@ export function createApp({ configOverrides = {}, serveStatic = true, seed = tru
         sendJson(res, 404, { ok: false, error: { code: 'not_found', message: 'Không tìm thấy API endpoint này.' } }, {}, req);
         return;
       }
+      let reqUserId = null;
       try {
         // Kiểm tra CSRF cho mọi mutation request dùng cookie
         assertCsrfSafe(req, config);
@@ -113,6 +118,7 @@ export function createApp({ configOverrides = {}, serveStatic = true, seed = tru
         generalLimiter.check(`api:${getClientIp(req, { trustProxy: config.trustProxy })}`, res);
 
         const auth = resolveSession(req, db, config);
+        reqUserId = auth?.user?.id || null;
         const ctx = {
           params: matched.params,
           query: url.searchParams,
@@ -120,6 +126,7 @@ export function createApp({ configOverrides = {}, serveStatic = true, seed = tru
           auth,
           config,
           db,
+          reqId,
         };
         await matched.route.handler(req, res, ctx);
       } catch (error) {
@@ -133,7 +140,7 @@ export function createApp({ configOverrides = {}, serveStatic = true, seed = tru
             },
           }, {}, req);
         } else {
-          console.error('[DuDu API Error]', req.method, url.pathname, error);
+          console.error('[DuDu API Error]', reqId, req.method, url.pathname, error);
           sendJson(res, 500, {
             ok: false,
             error: {
@@ -145,7 +152,20 @@ export function createApp({ configOverrides = {}, serveStatic = true, seed = tru
       } finally {
         if (!config.quietLogs) {
           const duration = Date.now() - startMs;
-          console.log(`[API] ${req.method} ${url.pathname} ${res.statusCode} ${duration}ms`);
+          if (config.isProd) {
+            console.log(JSON.stringify({
+              level: res.statusCode >= 500 ? 'error' : 'info',
+              time: new Date().toISOString(),
+              reqId,
+              method: req.method,
+              path: url.pathname,
+              status: res.statusCode,
+              durationMs: duration,
+              ...(reqUserId ? { userId: reqUserId } : {}),
+            }));
+          } else {
+            console.log(`[API] ${reqId.slice(0, 8)} ${req.method} ${url.pathname} ${res.statusCode} ${duration}ms`);
+          }
         }
       }
       return;

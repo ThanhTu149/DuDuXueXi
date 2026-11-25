@@ -50,13 +50,14 @@ try {
   await page1.goto(baseUrl, { waitUntil: 'networkidle0' });
   await page1.waitForFunction(() => document.querySelector('main')?.textContent.includes('Tiếp tục học'));
 
-  // Mở modal đăng nhập/đăng ký từ Header
-  await page1.waitForFunction(() => [...document.querySelectorAll('header button')].some((b) => b.textContent.includes('Đăng nhập')));
-  await page1.evaluate(() => [...document.querySelectorAll('header button')].find((b) => b.textContent.includes('Đăng nhập'))?.click());
+  // Mở modal đăng nhập/đăng ký từ Sidebar
+  await page1.waitForFunction(() => [...document.querySelectorAll('aside button')].some((b) => b.textContent.includes('Đăng nhập')));
+  await page1.evaluate(() => [...document.querySelectorAll('aside button')].find((b) => b.textContent.includes('Đăng nhập'))?.click());
   await page1.waitForSelector('[role="dialog"][aria-labelledby="auth-modal-title"]');
 
   // Chuyển sang tab Tạo tài khoản
   await clickButton(page1, 'Tạo tài khoản');
+  await page1.waitForSelector('input[name="username"]');
   await page1.type('input[name="username"]', 'minhthu99');
   await page1.type('input[name="displayName"]', 'Minh Thư');
   await page1.type('input[name="email"]', 'minhthu@dudu.vn');
@@ -64,9 +65,9 @@ try {
   await page1.type('input[name="confirmPassword"]', 'secret123');
   await clickButton(page1, 'Tạo tài khoản và đồng bộ');
 
-  // Đợi đóng modal và header hiện tên người dùng
+  // Đợi đóng modal và sidebar hiện tên người dùng
   await page1.waitForFunction(() => !document.querySelector('[role="dialog"][aria-labelledby="auth-modal-title"]'));
-  await page1.waitForFunction(() => document.querySelector('header')?.textContent.includes('Minh Thư'));
+  await page1.waitForFunction(() => document.querySelector('aside')?.textContent.includes('Minh Thư'));
 
   // Làm 1 câu quiz để kiếm XP (và kích hoạt đồng bộ tiến độ lên SQLite)
   await clickButton(page1, 'Quiz');
@@ -117,8 +118,8 @@ try {
 
   await page2.setViewport({ width: 1440, height: 900 });
   await page2.goto(baseUrl, { waitUntil: 'networkidle0' });
-  await page2.waitForFunction(() => [...document.querySelectorAll('header button')].some((b) => b.textContent.includes('Đăng nhập')));
-  await page2.evaluate(() => [...document.querySelectorAll('header button')].find((b) => b.textContent.includes('Đăng nhập'))?.click());
+  await page2.waitForFunction(() => [...document.querySelectorAll('aside button')].some((b) => b.textContent.includes('Đăng nhập')));
+  await page2.evaluate(() => [...document.querySelectorAll('aside button')].find((b) => b.textContent.includes('Đăng nhập'))?.click());
   await page2.waitForSelector('input[name="identifier"]');
   await page2.type('input[name="identifier"]', 'minhthu99');
   await page2.type('input[name="password"]', 'secret123');
@@ -128,7 +129,7 @@ try {
   });
 
   // Kiểm tra tên + XP từ Thiết bị 1 tự động khôi phục trên Thiết bị 2
-  await page2.waitForFunction(() => document.querySelector('header')?.textContent.includes('Minh Thư'));
+  await page2.waitForFunction(() => document.querySelector('aside')?.textContent.includes('Minh Thư'));
   await page2.waitForFunction(
     (expectedXp) => document.querySelector('header')?.textContent.includes(`${expectedXp} XP`),
     { timeout: 10000 },
@@ -149,17 +150,18 @@ try {
   await clickButton(page2, 'Cài đặt');
   await page2.waitForFunction(() => [...document.querySelectorAll('main button')].some((b) => b.textContent.trim() === 'Đăng xuất'));
   await clickButton(page2, 'Đăng xuất');
-  await page2.waitForFunction(() => [...document.querySelectorAll('header button')].some((b) => b.textContent.includes('Đăng nhập')));
+  await page2.waitForFunction(() => [...document.querySelectorAll('aside button')].some((b) => b.textContent.includes('Đăng nhập')));
 
-  await page2.evaluate(() => [...document.querySelectorAll('header button')].find((b) => b.textContent.includes('Đăng nhập'))?.click());
+  await page2.evaluate(() => [...document.querySelectorAll('aside button')].find((b) => b.textContent.includes('Đăng nhập'))?.click());
   await page2.waitForSelector('[role="dialog"][aria-labelledby="auth-modal-title"]');
   await clickButton(page2, 'Tạo tài khoản');
+  await page2.waitForSelector('input[name="username"]');
   await page2.type('input[name="username"]', 'an_le_new');
   await page2.type('input[name="displayName"]', 'An Lê');
   await page2.type('input[name="password"]', 'secret123');
   await page2.type('input[name="confirmPassword"]', 'secret123');
   await clickButton(page2, 'Tạo tài khoản và đồng bộ');
-  await page2.waitForFunction(() => document.querySelector('header')?.textContent.includes('An Lê'));
+  await page2.waitForFunction(() => document.querySelector('aside')?.textContent.includes('An Lê'));
   await new Promise((r) => setTimeout(r, 800));
 
   // Tài khoản mới An Lê trên máy dùng chung KHÔNG ĐƯỢC thừa hưởng khóa học riêng hay XP của Minh Thư!

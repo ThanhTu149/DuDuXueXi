@@ -52,9 +52,14 @@ export default function useDialogA11y(isOpen, onClose) {
     };
 
     dialog.addEventListener('keydown', onKeyDown);
-    requestAnimationFrame(() => (focusable()[0] || dialog).focus());
+    const rafId = requestAnimationFrame(() => {
+      if (!dialog.contains(document.activeElement)) {
+        (dialog.querySelector('[autofocus]') || focusable()[0] || dialog).focus();
+      }
+    });
 
     return () => {
+      cancelAnimationFrame(rafId);
       dialog.removeEventListener('keydown', onKeyDown);
       document.body.style.overflow = previousOverflow;
       if (previouslyFocused instanceof HTMLElement) requestAnimationFrame(() => previouslyFocused.focus());

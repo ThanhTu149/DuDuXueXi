@@ -425,6 +425,15 @@ export function saveProgress(courseId, progress) {
   ));
 }
 
+export function clearAllProgress() {
+  return writeAndNotify({ type: 'progress-cleared', store: 'progress' }, () => (
+    transact(['progress'], 'readwrite', (tx, setResult) => {
+      tx.objectStore('progress').clear();
+      setResult(true);
+    }, { store: 'progress', operation: 'clear' })
+  ));
+}
+
 /* ------------------------------------------------------------------ */
 /* Raw documents                                                      */
 /* ------------------------------------------------------------------ */

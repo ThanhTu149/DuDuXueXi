@@ -202,6 +202,7 @@ try {
   if (problems.length) {
     console.log(`\n${problems.length} problem(s):`);
     for (const problem of problems) console.log(` - ${problem}`);
+    process.exitCode = 1;
   } else {
     console.log('No console errors, overflow or empty screens detected.');
   }

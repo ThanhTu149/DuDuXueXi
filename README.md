@@ -3,9 +3,9 @@
 [![CI](https://github.com/ThanhTu149/DuDuXueXi/actions/workflows/ci.yml/badge.svg)](https://github.com/ThanhTu149/DuDuXueXi/actions/workflows/ci.yml)
 ![Node.js >=22.5](https://img.shields.io/badge/node-%3E%3D22.5-3F6B43?style=flat-square&logo=node.js&logoColor=white)
 [![License: MIT](https://img.shields.io/badge/license-MIT-3A6B8C?style=flat-square)](LICENSE)
-![Offline-First PWA](https://img.shields.io/badge/PWA-Offline--First-C68B3E?style=flat-square)
+![PWA Cache Offline](https://img.shields.io/badge/PWA-Cache%20Offline-C68B3E?style=flat-square)
 
-Ứng dụng web học tiếng Trung full-stack cho sinh viên Việt Nam, xây bằng **React + Vite + Tailwind CSS** ở frontend (hỗ trợ **Offline-First PWA**) và **Node.js + SQLite (`node:sqlite`)** ở backend.
+Ứng dụng web học tiếng Trung full-stack cho sinh viên Việt Nam, xây bằng **React + Vite + Tailwind CSS** ở frontend (hỗ trợ học ngoại tuyến **PWA cache sau lần tải đầu tiên**) và **Node.js + SQLite (`node:sqlite`)** ở backend.
 
 Mười bài giáo trình có sẵn được nạp từ `data/`; khóa học tự tạo, tiến độ học, SRS, ghi chú và hội thoại Gia sư AI được lưu cục bộ trên trình duyệt **và tự động đồng bộ hai chiều lên máy chủ SQLite** khi đăng nhập.
 
@@ -21,7 +21,7 @@ Mười bài giáo trình có sẵn được nạp từ `data/`; khóa học t�
 - **Kho khóa học Cộng đồng**: chia sẻ khóa học tự tạo kèm thẻ chủ đề & mã chia sẻ, tìm kiếm, xem trước bài học và nhân bản 1 chạm về thư viện cá nhân (kèm 2 khóa học mẫu chính thức).
 - **Bảng xếp hạng thực tế**: xếp hạng XP theo tuần (ISO week) và tổng XP mọi thời đại giữa các học viên, có tuỳ chọn ẩn/hiện riêng tư.
 - **Gia sư Trúc AI**: trò chuyện hỏi đáp ngữ pháp, sửa câu tiếng Trung và tạo ví dụ theo đúng ngữ cảnh bài đang mở, lưu lịch sử bền vững trong SQLite.
-- **Bảo mật Gemini API Key phía máy chủ**: hỗ trợ biến môi trường `GEMINI_API_KEY` dùng chung hoặc mã hoá key cá nhân bằng **AES-256-GCM** trên server, gọi Gemini qua `/api/ai/*` proxy.
+- **Bảo mật & Vận hành Production**: hỗ trợ biến môi trường `GEMINI_API_KEY` dùng chung (giới hạn quota ngày `SERVER_AI_DAILY_LIMIT` / `SERVER_AI_DAILY_CHARS`) hoặc mã hoá key cá nhân bằng **AES-256-GCM** trên server, tự động bật `COOKIE_SECURE` khi `NODE_ENV=production`, chặn gian lận XP bất thường phía server, log JSON kèm `X-Request-Id` và lệnh sao lưu nóng `npm run db:backup`.
 
 Xem chi tiết kiến trúc và toàn bộ REST API tại [docs/FULLSTACK.md](docs/FULLSTACK.md).
 
@@ -65,7 +65,13 @@ Trong Thư viện có thể đổi tên, nhân bản, ghép, xóa và xuất/nh�
 ## Kiểm thử
 
 ```bash
-# Backend Full-Stack API, SQLite, Auth, Sync, Community, Leaderboard, AI Proxy (deterministic)
+# Chạy toàn bộ 10 bộ kiểm thử Node thuần (gồm test:api, test:pedagogy, storage, backup, PWA, WCAG AA)
+npm test
+
+# Kiểm thử sư phạm (chấm câu 4 chế độ gõ, SM-2 EF & leech, Mastery Gate, chính tả)
+npm run test:pedagogy
+
+# Backend Full-Stack API, SQLite, Auth, Sync, Community, Leaderboard, AI Proxy, XP bounds, Backup
 npm run test:api
 
 # Dữ liệu, pipeline AI, tiến độ, sao lưu, PWA (node thuần, deterministic)
@@ -84,10 +90,13 @@ npm run test:backup
 npm run test:pwa
 npm run test:ux
 
+# Sao lưu trực tuyến SQLite + PRAGMA integrity_check
+npm run db:backup
+
 # Cần Chrome (Puppeteer): full-stack e2e + layout + audit ảnh chụp mọi màn hình
 npm run test:fullstack  # build trước: e2e đăng ký, đồng bộ 2 thiết bị, cộng đồng, xếp hạng, Gia sư AI
 npm run test:layout
-npm run test:visual     # build trước: ghi ảnh vào test-artifacts/audit
+npm run test:visual     # build trước: ghi ảnh vào test-artifacts/audit (exit 1 nếu có lỗi)
 npm run test:pwa-e2e    # build trước: nạp lại trang khi offline, phải render từ cache
 npm run test:course-flow
 ```
@@ -114,7 +123,7 @@ Các kiểm thử Gemini dùng phản hồi giả lập, không gọi API thật
 - Motion có kiểm soát (`prefers-reduced-motion`), micro-interaction khi trả lời đúng/sai, XP bay lên, confetti khi hoàn hảo, skeleton shimmer khi tải.
 - Toàn bộ ảnh Hero, thumbnail bài học 3D và hình nền đều nén chuẩn **WebP** siêu nhẹ kèm `loading="lazy"` và `preconnect` font.
 - Phím tắt: `Ctrl/Cmd+K` mở tìm kiếm/lệnh nhanh, `1–4` chọn đáp án, `Enter` kiểm tra/tiếp tục, `Ctrl+/` xem toàn bộ phím tắt.
-- **GitHub Actions CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) tự động chạy 9 bộ kiểm thử Node thuần (API, SQLite, đồng bộ, xử lý AI, lưu trữ, sao lưu, PWA, tương phản WCAG AA) + `npm run build` cho mỗi commit và PR vào `main`.
+- **GitHub Actions CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) tự động chạy `npm test` (10 bộ kiểm thử Node thuần gồm `test:pedagogy`, `test:api`, SQLite, đồng bộ, xử lý AI, lưu trữ, sao lưu, PWA, tương phản WCAG AA) + `npm run build` cho mỗi commit và PR vào `main`.
 
 ## Quick Wins Phase 1
 
@@ -130,7 +139,7 @@ Web Speech API và thông báo Pomodoro phụ thuộc vào khả năng và quy�
 
 ## Core Features Phase 2
 
-- SRS theo lịch nhớ SM-2 đơn giản với bốn mức đánh giá; từ được thêm tự động khi đọc hết bài hoặc trả lời quiz sai.
+- SRS theo thuật toán **SM-2** (`I(n) = round(I(n-1) × EF)`, có *ease factor* điều chỉnh theo 4 mức đánh giá, *learning steps*, tự tạm ẩn thẻ *leech* sau 8 lần quên kèm nút khôi phục, giới hạn mặc định 15 thẻ mới/ngày; nạp tự động cho từ vựng, ngữ pháp và mẫu câu) & cổng mở bài **Mastery Gate** (`>= 80%` chính xác).
 - Chế độ `Bài khóa` đọc trực tiếp 10 file OCR, hỗ trợ ẩn/hiện pinyin và tiếng Việt, phát âm và mở nhanh từ trong glossary.
 - Ghi chú cá nhân cho từng từ vựng, ngữ pháp và mẫu câu; tổng hợp trong tab `Notes` của màn hình Ôn tập.
 - Phân tích bài, nội dung, tag và dạng câu hay sai; có thể tạo lượt luyện riêng từ `Weak Topics`.

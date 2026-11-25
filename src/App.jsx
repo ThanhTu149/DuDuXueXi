@@ -19,7 +19,23 @@ import AuthModal from './components/AuthModal.jsx';
 import AccountSyncPanel from './components/AccountSyncPanel.jsx';
 import CloudAnalyticsCard from './components/CloudAnalyticsCard.jsx';
 import { getActiveProcessingJobs, resumeInterruptedJobs, subscribeProcessingJobs } from './lib/processingJobs.js';
-import { readProgress, writeProgress, subscribeStorageChanges } from './lib/storage.js';
+import { readProgress, writeProgress, mergeProgressData, subscribeStorageChanges } from './lib/storage.js';
+import {
+  DEFAULT_DAILY_NEW_CARDS,
+  LEECH_THRESHOLD,
+  MASTERY_THRESHOLD,
+  SRS_ELIGIBLE_TYPES,
+  calculateNextReview,
+  calculateSimilarity,
+  createSrsEntry,
+  evaluateLessonMastery,
+  getDueEntries,
+  getSuspendedEntries,
+  gradeDictation,
+  gradeTyping,
+  normalizeText,
+  unsuspendSrsEntry,
+} from './lib/pedagogy.js';
 import {
   getCloudState,
   initCloudSession,
@@ -53,7 +69,6 @@ const XP_REWARDS = {
  dailyGoal: 25,
 };
 
-const SRS_INTERVALS = [0, 1, 3, 7, 14, 30];
 const SRS_RATINGS = [
  { id: 'forgot', shortcut: '1', label: 'Quên', tone: 'bg-error-subtle text-error' },
  { id: 'hard', shortcut: '2', label: 'Khó', tone: 'bg-warning-subtle text-warning' },
@@ -113,36 +128,8 @@ const THEMES = {
  ocean: { name: 'Biển xanh', vars: { '--accent': '#286776', '--accent-hover': '#205463', '--accent-subtle': '#EAF3F5', '--accent-2': '#775A37', '--accent-2-subtle': '#F5F0EA' } },
 };
 
-function normalizeText(value = '') {
- return String(value).trim().toLowerCase().replace(/[，。？！、；：“”‘’（）《》〈〉]/g, '').replace(/[.,?!;:"'()\[\]{}]/g, '').replace(/\s+/g, '');
-}
-
 function normalizePinyin(value = '') {
  return String(value).toLowerCase().replace(/u:/g, 'ü').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ü/g, 'v').replace(/[^a-zv]/g, '');
-}
-
-function levenshtein(a, b) {
- const matrix = Array.from({ length: b.length + 1 }, (_, row) => Array.from({ length: a.length + 1 }, (_, column) => row === 0 ? column : column === 0 ? row : 0));
- for (let row = 1; row <= b.length; row += 1) for (let column = 1; column <= a.length; column += 1) matrix[row][column] = Math.min(matrix[row - 1][column] + 1, matrix[row][column - 1] + 1, matrix[row - 1][column - 1] + (b[row - 1] === a[column - 1] ? 0 : 1));
- return matrix[b.length][a.length];
-}
-
-function calculateSimilarity(a, b) {
- const left = normalizeText(a); const right = normalizeText(b); const longest = Math.max(left.length, right.length, 1);
- return Math.max(0, Math.round((1 - levenshtein(left, right) / longest) * 100));
-}
-
-function gradeTyping(userAnswer, question) {
- const user = normalizeText(userAnswer); const sample = normalizeText(question.sample_answer); const required = question.keywords_required || [];
- const found = required.filter((keyword) => user.includes(normalizeText(keyword.zh || keyword.vi || '')));
- if (!user) return { score: 0, level: 'wrong', found };
- if (user === sample || (question.alternative_answers || []).some((answer) => user === normalizeText(answer))) return { score: 100, level: 'perfect', found };
- const similarity = calculateSimilarity(user, sample);
- if (similarity >= 85) return { score: similarity, level: 'close', found };
- const ratio = required.length ? found.length / required.length : 0;
- if (ratio === 1) return { score: 75, level: 'kw_full', found };
- if (ratio >= 0.5) return { score: Math.round(ratio * 60), level: 'kw_partial', found };
- return { score: 0, level: 'wrong', found };
 }
 
 function shuffleArray(items) {
@@ -172,15 +159,12 @@ const STUDY_TIPS = [
 function studyTipOfTheDay() { const dayIndex = Math.floor(Date.now() / 86400000) % STUDY_TIPS.length; return STUDY_TIPS[dayIndex]; }
 
 function buildWeeklyXp(studyDays = {}) { return Object.entries(studyDays).reduce((totals, [date, data]) => { const key = getWeekKey(date); totals[key] = (totals[key] || 0) + (Number(data?.xp) || 0); return totals; }, {}); }
-function createSrsEntry() { return { level: 0, nextReview: localDate(), lastReview: null, ease: 2.5, interval: 0 }; }
-function calculateNextReview(srs = {}, rating) { let level = Number(srs.level) || 0; let ease = Number(srs.ease) || 2.5; if (rating === 'forgot') { level = 0; ease = Math.max(1.3, ease - 0.2); } else if (rating === 'hard') { level = Math.max(0, level - 1); ease = Math.max(1.3, ease - 0.15); } else if (rating === 'good') level = Math.min(5, level + 1); else if (rating === 'easy') { level = Math.min(5, level + 2); ease += 0.15; } const interval = SRS_INTERVALS[level]; return { level, ease: Number(ease.toFixed(2)), interval, lastReview: localDate(), nextReview: addDays(localDate(), interval) }; }
-function getDueEntries(srs = {}) { return Object.entries(srs).filter(([, data]) => data?.nextReview <= localDate()).map(([id, data]) => { const entry = ALL_GLOSSARY_ENTRIES.find((item) => item.id === id); return entry ? { ...entry, srs: data } : null; }).filter(Boolean); }
 function entryTitle(entry = {}) { return entry.word_zh || entry.grammar_title_zh || entry.phrase_zh || entry.id || ''; }
 function entryMeaning(entry = {}) { return entry.meaning_vi || entry.grammar_title_vi || entry.explanation_vi || entry.usage_note || ''; }
 
 function createInitialProgress() {
  return {
-  baiProgress: Object.fromEntries(LESSONS.map((bai) => [bai, { completed: false, quizDone: 0, quizCorrect: 0, attemptedIds: [], correctIds: [] }])),
+  baiProgress: Object.fromEntries(LESSONS.map((bai) => [bai, { completed: false, quizDone: 0, quizCorrect: 0, attemptedIds: [], correctIds: [], firstAttemptCorrectIds: [] }])),
   xp: 0, streak: 0, lastStudyDate: null, accuracy: { correct: 0, total: 0 }, wrongAnswers: [], wrongCounts: {}, unlockedBai: [1], achievements: [], correctStreak: 0, dailyXp: {}, studyDates: [], bossWins: 0,
   studyDays: {}, dailyGoal: 20, todayCount: 0, todayDate: localDate(), bookmarks: [], themeMode: 'auto', colorTheme: 'pastel', pomodoroSessions: 0, pomodoroDate: localDate(), goalRewardDates: [], srs: {}, notes: {}, weeklyXP: {}, wrongAnswersDetailed: [],
   profile: { name: '', headline: 'Học viên Hán ngữ cấp 3', bio: 'Mỗi ngày tiến thêm một chút trên hành trình chinh phục tiếng Trung.', joinedAt: localDate() },
@@ -193,6 +177,30 @@ function mergeProgress(saved) {
  const initial = createInitialProgress(); if (!saved || typeof saved !== 'object') return initial;
  const studyDays = saved.studyDays || Object.fromEntries([...(saved.studyDates || []), ...Object.keys(saved.dailyXp || {})].map((date) => [date, { xp: saved.dailyXp?.[date] || 0, questions: 0 }]));
  return { ...initial, ...saved, studyDays, profile: { ...initial.profile, ...(saved.profile || {}) }, settings: { ...initial.settings, ...(saved.settings || {}), overlayOpacity: Math.min(96, Math.max(88, Number(saved.settings?.overlayOpacity) || 88)) }, advancedStats: { ...initial.advancedStats, ...(saved.advancedStats || {}) }, bookmarks: Array.isArray(saved.bookmarks) ? saved.bookmarks : [], achievements: Array.isArray(saved.achievements) ? saved.achievements : [], goalRewardDates: Array.isArray(saved.goalRewardDates) ? saved.goalRewardDates : [], wrongAnswers: Array.isArray(saved.wrongAnswers) ? saved.wrongAnswers : [], wrongAnswersDetailed: Array.isArray(saved.wrongAnswersDetailed) ? saved.wrongAnswersDetailed : [], srs: saved.srs || {}, notes: saved.notes || {}, weeklyXP: Object.keys(saved.weeklyXP || {}).length ? saved.weeklyXP : buildWeeklyXp(studyDays), accuracy: { ...initial.accuracy, ...(saved.accuracy || {}) }, baiProgress: Object.fromEntries(LESSONS.map((bai) => [bai, { ...initial.baiProgress[bai], ...(saved.baiProgress?.[bai] || {}) }])) };
+}
+
+function cloneProgressForUpdate(previous, baiKey = null) {
+ const base = mergeProgress(previous);
+ const next = {
+  ...base,
+  accuracy: { ...base.accuracy },
+  wrongCounts: { ...base.wrongCounts },
+  dailyXp: { ...base.dailyXp },
+  weeklyXP: { ...base.weeklyXP },
+  studyDays: { ...base.studyDays },
+  srs: { ...base.srs },
+  baiProgress: { ...base.baiProgress },
+ };
+ if (baiKey !== null && baiKey !== undefined) {
+  const lesson = next.baiProgress[baiKey] || { completed: false, quizDone: 0, quizCorrect: 0, attemptedIds: [], correctIds: [], firstAttemptCorrectIds: [] };
+  next.baiProgress[baiKey] = {
+   ...lesson,
+   attemptedIds: [...(lesson.attemptedIds || [])],
+   correctIds: [...(lesson.correctIds || [])],
+   firstAttemptCorrectIds: [...(lesson.firstAttemptCorrectIds || [])],
+  };
+ }
+ return next;
 }
 
 function rolloverDailyProgress(progress) { const next = progress; const today = localDate(); if (next.todayDate !== today) { next.todayDate = today; next.todayCount = 0; } if (next.pomodoroDate !== today) { next.pomodoroDate = today; next.pomodoroSessions = 0; } return next; }
@@ -384,14 +392,77 @@ function BookmarkButton({ entryId, bookmarks = [], onToggle }) { const active = 
 
 function NoteEditor({ entryId, note = '', onSave }) { const [open, setOpen] = useState(false); const [draft, setDraft] = useState(note); const close = useCallback(() => setOpen(false), []); const trapRef = useDialogA11y(open, close); useEffect(() => { if (open) setDraft(note); }, [open, note]); return <><button type="button" onClick={(event) => { event.stopPropagation(); setOpen(true); }} className={`icon-action grid h-8 w-8 place-items-center rounded-md ${note ? 'bg-warning-subtle text-warning' : 'bg-bg-tertiary text-text-muted'}`} aria-label="Ghi chú" data-tooltip="Ghi chú"><Icon.Pen className="h-4 w-4" /></button>{open && <div className="modal-backdrop fixed inset-0 z-[110] flex items-center justify-center bg-black/50 p-4 sm:p-6" onMouseDown={(event) => { if (event.target === event.currentTarget) close(); }}><section ref={trapRef} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Ghi chú cá nhân" className="animate-modal-in w-full max-w-lg rounded-xl bg-bg-secondary p-5 shadow-lg"><div className="flex items-center justify-between"><h2 className="text-lg font-bold">Ghi chú cá nhân</h2><button onClick={close} aria-label="Đóng ghi chú" className="icon-action grid h-10 w-10 place-items-center rounded-md bg-bg-tertiary text-text-muted hover:bg-border" data-tooltip="Đóng"><Icon.X /></button></div><textarea autoFocus value={draft} onChange={(event) => setDraft(event.target.value)} rows={6} className="input mt-4 w-full" placeholder="Viết cách nhớ hoặc lưu ý riêng..." /><div className="mt-4 flex gap-2"><button onClick={() => { onSave?.(entryId, ''); close(); }} className="btn-secondary">Xóa</button><button onClick={() => { onSave?.(entryId, draft.trim()); close(); }} className="btn-primary ml-auto">Lưu</button></div></section></div>}</>; }
 
-function ClickableHanzi({ text = '', entry, onCharacter }) { return <>{[...text].map((char, index) => /[\u3400-\u9fff]/.test(char) ? <button key={`${char}-${index}`} onClick={(event) => { event.stopPropagation(); onCharacter?.(char, entry); }} className="rounded px-0.5 hover:bg-warning-subtle hover:text-warning" title={`Xem chữ ${char}`}>{char}</button> : <span key={`${char}-${index}`}>{char}</span>)}</>; }
+function ClickableHanzi({ text = '', entry, onCharacter }) {
+  const chars = [...text];
+  const firstHanziIndex = chars.findIndex((char) => /[\u3400-\u9fff]/.test(char));
+  const onHanziKeyDown = (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    const buttons = [...(event.currentTarget.parentElement?.querySelectorAll('button[data-hanzi-char]') || [])];
+    const currentIndex = buttons.indexOf(event.currentTarget);
+    if (currentIndex < 0 || buttons.length <= 1) return;
+    event.preventDefault();
+    const nextIndex = (currentIndex + (event.key === 'ArrowRight' ? 1 : -1) + buttons.length) % buttons.length;
+    buttons[nextIndex]?.focus();
+  };
+  return (
+    <span lang="zh-Hans" className="inline">
+      {chars.map((char, index) => /[\u3400-\u9fff]/.test(char) ? (
+        <button
+          key={`${char}-${index}`}
+          type="button"
+          data-hanzi-char="1"
+          tabIndex={index === firstHanziIndex ? 0 : -1}
+          onKeyDown={onHanziKeyDown}
+          onClick={(event) => { event.stopPropagation(); onCharacter?.(char, entry); }}
+          className="rounded px-0.5 hover:bg-warning-subtle hover:text-warning"
+          title={`Xem chữ ${char}`}
+        >
+          {char}
+        </button>
+      ) : (
+        <span key={`${char}-${index}`}>{char}</span>
+      ))}
+    </span>
+  );
+}
 
 function EntryActions({ entry, bookmarks, onToggleBookmark, notes, onSaveNote, onEdit }) { return <div className="flex items-center gap-2"><SpeakButton text={entryTitle(entry)} /><NoteEditor entryId={entry.id} note={notes[entry.id]} onSave={onSaveNote} /><BookmarkButton entryId={entry.id} bookmarks={bookmarks} onToggle={onToggleBookmark} />{onEdit && <button type="button" onClick={() => onEdit(entry)} className="grid h-8 w-8 place-items-center rounded-md bg-bg-tertiary text-text-muted hover:text-accent" title="Sửa từ vựng" aria-label={`Sửa từ vựng ${entry.word_zh}`}><Icon.Pen className="h-4 w-4" /></button>}</div>; }
 function RelatedLinks({ entry, onRelated }) { return entry.related_words?.length ? <div className="mt-4 flex flex-wrap gap-2">{entry.related_words.map((id) => { const related = ALL_GLOSSARY_ENTRIES.find((item) => item.id === id); return <button key={id} onClick={() => onRelated?.(id)} className="rounded-md bg-bg-tertiary px-2 py-1 text-xs font-bold hover:bg-border">{related ? entryTitle(related) : id}</button>; })}</div> : null; }
 
-const WordCard = memo(function WordCard({ entry, onRelated, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter, onEdit, virtual = false }) { return <article className={`card ${virtual ? 'virtual-list-item' : ''}`}><div className="flex items-start justify-between gap-3"><div><h3 className="font-hanzi text-3xl font-bold"><ClickableHanzi text={entry.word_zh} entry={entry} onCharacter={onCharacter} /></h3><p className="pinyin-text mt-1 text-accent">{entry.pinyin}</p></div><EntryActions entry={entry} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} onEdit={onEdit} /></div><p className="mt-4 font-bold">{entry.meaning_vi}</p>{entry.meaning_en && <p className="text-sm text-text-muted">{entry.meaning_en}</p>}{entry.example_zh && <div className="mt-4 rounded-xl bg-bg-tertiary p-3"><p className="font-hanzi font-bold">{entry.example_zh}</p><p className="pinyin-text text-sm text-success">{entry.example_pinyin}</p><p className="text-sm text-text-muted">{entry.example_vi}</p></div>}<RelatedLinks entry={entry} onRelated={onRelated} />{notes[entry.id] && <div className="mt-4 flex gap-2 rounded-xl bg-warning-subtle p-3 text-sm"><Icon.Pen className="mt-0.5 h-4 w-4 shrink-0 text-warning"/><p>{notes[entry.id]}</p></div>}</article>; });
-function GrammarCard({ entry, onRelated, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter }) { return <article className="card"><div className="flex items-start justify-between gap-3"><div><h3 className="font-hanzi text-xl font-bold"><ClickableHanzi text={entry.grammar_title_zh} entry={entry} onCharacter={onCharacter} /></h3><p className="text-accent">{entry.grammar_title_vi}</p></div><EntryActions entry={entry} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} /></div>{entry.structure && <pre className="mt-4 overflow-x-auto rounded-xl border border-border bg-bg-tertiary p-3 text-sm text-accent">{entry.structure}</pre>}<p className="mt-4 text-text-secondary">{entry.explanation_vi}</p>{(entry.examples || []).map((example, index) => <div key={index} className="mt-3 border-l-2 border-warning pl-3"><p className="font-hanzi font-bold">{example.zh}</p><p className="pinyin-text text-sm text-success">{example.pinyin}</p><p className="text-sm text-text-muted">{example.vi}</p></div>)}<RelatedLinks entry={entry} onRelated={onRelated} /></article>; }
-function PhraseCard({ entry, onRelated, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter }) { return <article className="card"><div className="flex items-start justify-between gap-3"><div><h3 className="font-hanzi text-2xl font-bold"><ClickableHanzi text={entry.phrase_zh} entry={entry} onCharacter={onCharacter} /></h3><p className="pinyin-text text-accent">{entry.pinyin}</p></div><EntryActions entry={entry} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} /></div><p className="mt-4 font-bold">{entry.meaning_vi}</p><p className="mt-2 text-sm text-text-muted">{entry.usage_note}</p><RelatedLinks entry={entry} onRelated={onRelated} /></article>; }
+const WordCard = memo(function WordCard({ entry, onRelated, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter, onEdit, virtual = false }) {
+  const needsOcrCheck = entry.confidence === 'medium' || entry.confidence === 'low';
+  const isAiExample = entry.example_source === 'ai_inferred';
+  return (
+    <article className={`card ${virtual ? 'virtual-list-item' : ''}`}>
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h3 className="font-hanzi text-3xl font-bold" lang="zh-Hans"><ClickableHanzi text={entry.word_zh} entry={entry} onCharacter={onCharacter} /></h3>
+          <p className="pinyin-text mt-1 text-accent" lang="zh-Latn">{entry.pinyin}</p>
+        </div>
+        <EntryActions entry={entry} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} onEdit={onEdit} />
+      </div>
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        <p className="font-bold">{entry.meaning_vi}</p>
+        {needsOcrCheck && <span className="rounded-full bg-warning-subtle px-2 py-0.5 text-[10px] font-semibold text-warning">Cần đối chiếu OCR</span>}
+      </div>
+      {entry.meaning_en && <p className="text-sm text-text-muted">{entry.meaning_en}</p>}
+      {entry.example_zh && (
+        <div className="mt-4 rounded-xl bg-bg-tertiary p-3">
+          <div className="flex items-start justify-between gap-2">
+            <p className="font-hanzi font-bold" lang="zh-Hans">{entry.example_zh}</p>
+            {isAiExample && <span className="shrink-0 rounded-full bg-surface px-2 py-0.5 text-[10px] font-medium text-text-muted">Ví dụ AI</span>}
+          </div>
+          <p className="pinyin-text text-sm text-success" lang="zh-Latn">{entry.example_pinyin}</p>
+          <p className="text-sm text-text-muted">{entry.example_vi}</p>
+        </div>
+      )}
+      <RelatedLinks entry={entry} onRelated={onRelated} />
+      {notes[entry.id] && <div className="mt-4 flex gap-2 rounded-xl bg-warning-subtle p-3 text-sm"><Icon.Pen className="mt-0.5 h-4 w-4 shrink-0 text-warning"/><p>{notes[entry.id]}</p></div>}
+    </article>
+  );
+});
+function GrammarCard({ entry, onRelated, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter }) { return <article className="card"><div className="flex items-start justify-between gap-3"><div><h3 className="font-hanzi text-xl font-bold" lang="zh-Hans"><ClickableHanzi text={entry.grammar_title_zh} entry={entry} onCharacter={onCharacter} /></h3><p className="text-accent">{entry.grammar_title_vi}</p></div><EntryActions entry={entry} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} /></div>{entry.structure && <pre className="mt-4 overflow-x-auto rounded-xl border border-border bg-bg-tertiary p-3 text-sm text-accent" lang="zh-Hans">{entry.structure}</pre>}<p className="mt-4 text-text-secondary">{entry.explanation_vi}</p>{(entry.examples || []).map((example, index) => <div key={index} className="mt-3 border-l-2 border-warning pl-3"><p className="font-hanzi font-bold" lang="zh-Hans">{example.zh}</p><p className="pinyin-text text-sm text-success" lang="zh-Latn">{example.pinyin}</p><p className="text-sm text-text-muted">{example.vi}</p></div>)}<RelatedLinks entry={entry} onRelated={onRelated} /></article>; }
+function PhraseCard({ entry, onRelated, bookmarks = [], onToggleBookmark, notes = {}, onSaveNote, onCharacter }) { return <article className="card"><div className="flex items-start justify-between gap-3"><div><h3 className="font-hanzi text-2xl font-bold" lang="zh-Hans"><ClickableHanzi text={entry.phrase_zh} entry={entry} onCharacter={onCharacter} /></h3><p className="pinyin-text text-accent" lang="zh-Latn">{entry.pinyin}</p></div><EntryActions entry={entry} bookmarks={bookmarks} onToggleBookmark={onToggleBookmark} notes={notes} onSaveNote={onSaveNote} /></div><p className="mt-4 font-bold">{entry.meaning_vi}</p><p className="mt-2 text-sm text-text-muted">{entry.usage_note}</p><RelatedLinks entry={entry} onRelated={onRelated} /></article>; }
 
 function VirtualKeyboard({ textareaRef, value, onChange }) { const [open, setOpen] = useState(false); const [query, setQuery] = useState(''); const results = useMemo(() => searchPinyin(query), [query]); const insert = (text) => { const target = textareaRef.current; const start = target?.selectionStart ?? value.length; const end = target?.selectionEnd ?? value.length; onChange(`${value.slice(0, start)}${text}${value.slice(end)}`); requestAnimationFrame(() => { target?.focus(); target?.setSelectionRange(start + text.length, start + text.length); }); }; return <div className="mt-2"><button type="button" onClick={() => setOpen((value) => !value)} className="btn-secondary inline-flex items-center gap-2"><Icon.Type className="h-4 w-4"/>Bàn phím tiếng Trung</button>{open && <div className="mt-2 rounded-xl border border-border bg-bg-tertiary p-3"><input value={query} onChange={(event) => setQuery(event.target.value)} className="input w-full" placeholder="Gõ pinyin không dấu, ví dụ: bianhua" aria-label="Tìm chữ Hán theo pinyin" /><div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">{results.map((item, index) => <button key={`${item.key}-${item.zh}-${index}`} onClick={() => insert(item.zh)} className="rounded-xl bg-bg-secondary p-2 text-left hover:ring-1 hover:ring-accent"><span className="block text-lg font-bold">{item.zh}</span><span className="block truncate text-xs text-text-muted">{item.pinyin} · {item.vi}</span></button>)}</div></div>}</div>; }
 
@@ -543,7 +614,7 @@ function RightPanel({ progress, onNavigate, pomodoro, showStackedBelowXl = false
   const done = Math.max(0, Number(progress.todayCount) || 0);
   const goalPercent = Math.min(100, Math.round((done / goal) * 100));
   const circumference = 2 * Math.PI * 38;
-  const dueCount = getDueEntries(progress.srs || {}).length;
+  const dueCount = getDueEntries(progress.srs || {}, ALL_GLOSSARY_ENTRIES).length;
   const lastSeven = Array.from({ length: 7 }, (_, index) => {
     const date = new Date();
     date.setDate(date.getDate() - (6 - index));
@@ -806,7 +877,7 @@ function HomeScreen({ progress, courseName = 'Hán Ngữ Tập 2', onOpenLesson,
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-text-muted tabular-nums">Bài {currentBai} · {completedQuestions}/{totalQuestions} câu</p>
-              <h3 className="mt-0.5 truncate font-hanzi text-lg font-semibold text-text-primary sm:text-[20px]">{currentGlossary?.metadata?.title_zh || `Bài ${currentBai}`}</h3>
+              <h3 className="mt-0.5 truncate font-hanzi text-lg font-semibold text-text-primary sm:text-[20px]" lang="zh-Hans">{currentGlossary?.metadata?.title_zh || `Bài ${currentBai}`}</h3>
               <p className="truncate text-sm text-text-secondary">{currentGlossary?.metadata?.title_vi || 'Tiếp tục hành trình học tập'}</p>
               <div className="mt-3 flex items-center gap-3">
                 <ProgressBar value={completion} className="h-2 flex-1" />
@@ -881,7 +952,7 @@ function HomeScreen({ progress, courseName = 'Hán Ngữ Tập 2', onOpenLesson,
                     {item.completed ? 'Đã xong' : isUnlocked ? 'Đang học' : 'Đã khóa'}
                   </span>
                 </span>
-                <span className="mt-0.5 block truncate font-hanzi text-[16px] font-medium text-text-primary">{metadata.title_zh || `Bài ${bai}`}</span>
+                <span className="mt-0.5 block truncate font-hanzi text-[16px] font-medium text-text-primary" lang="zh-Hans">{metadata.title_zh || `Bài ${bai}`}</span>
                 <span className="block truncate text-xs text-text-muted">{metadata.title_vi || `${quizTotal} câu hỏi`}</span>
               </span>
               <span className="col-span-2 grid grid-cols-[auto_1fr_auto] items-center gap-3 text-right sm:col-span-1 sm:block sm:w-24">
@@ -899,13 +970,30 @@ function HomeScreen({ progress, courseName = 'Hán Ngữ Tập 2', onOpenLesson,
 
 
 
-function extractReadingLines(raw = '') { const lines = raw.replace(/\r/g, '').split('\n'); const start = Math.max(0, lines.findIndex((line) => line.includes('课文')) + 1); const end = lines.findIndex((line, index) => index > start && line.includes('生词')); return lines.slice(start, end > start ? end : lines.length).map((line) => line.replace(/\s+/g, ' ').trim()).filter((line) => line && /[\u3400-\u9fff]/.test(line) && !/^(=====|TRANG|[~+\-=]+)$/.test(line)); }
+function extractReadingLines(raw = '') {
+  const lines = raw.replace(/\r/g, '').split('\n');
+  const start = Math.max(0, lines.findIndex((line) => line.includes('课文')) + 1);
+  const end = lines.findIndex((line, index) => index > start && line.includes('生词'));
+  return lines
+    .slice(start, end > start ? end : lines.length)
+    .map((line) => line.replace(/\s+/g, ' ').trim())
+    .filter((line) => {
+      if (!line || !/[\u3400-\u9fff]/.test(line)) return false;
+      if (/^(=====|TRANG|[~+\-=]+)$/.test(line)) return false;
+      if (/(kewen|text\s*-\s*bai|cecece|eeee)/i.test(line)) return false;
+      if (/^[A-Za-z\u3400-\u9fff]{1,4}\s*[:：]\s*$/.test(line)) return false;
+      const cjkCount = (line.match(/[\u3400-\u9fff]/g) || []).length;
+      const latinJunkCount = (line.match(/[A-Za-z]/g) || []).length;
+      if (cjkCount <= 1 && latinJunkCount >= 3) return false;
+      return true;
+    });
+}
 
 function ReadingModeTab({ bai, onOpenEntry }) {
  const [showPinyin, setShowPinyin] = useState(true); const [showVi, setShowVi] = useState(true); const entries = GLOSSARY[bai]?.entries || [];
  const examples = useMemo(() => getSentencesByBai(bai), [bai]);
  const lines = useMemo(() => extractReadingLines(LESSON_TEXTS[bai]).map((text, index) => { const match = examples.find((item) => normalizeText(text).includes(normalizeText(item.zh))); const words = entries.filter((entry) => entry.word_zh && text.includes(entry.word_zh)); return { id: `${bai}-${index}`, text, pinyin: match?.pinyin || words.map((entry) => `${entry.word_zh} ${entry.pinyin}`).join(' · '), vi: match?.vi || words.map((entry) => `${entry.word_zh}: ${entry.meaning_vi}`).join(' · ') }; }), [bai, entries, examples]);
- return <div><div className="mb-4 flex gap-2 border-b border-border bg-bg-primary py-3"><span className="filter-btn active">Hán</span><button onClick={() => setShowPinyin((value) => !value)} className={`filter-btn ${showPinyin ? 'active' : ''}`}>Pinyin</button><button onClick={() => setShowVi((value) => !value)} className={`filter-btn ${showVi ? 'active' : ''}`}>Tiếng Việt</button></div><div className="space-y-3">{lines.map((line) => <article key={line.id} className="card"><div className="flex items-start gap-3"><p className="font-hanzi flex-1 text-xl font-medium leading-9">{line.text}</p><SpeakButton text={line.text} /></div>{showPinyin && line.pinyin && <p className="pinyin-text mt-2 text-sm text-success">{line.pinyin}</p>}{showVi && line.vi && <p className="mt-1 text-sm text-accent-2">{line.vi}</p>}</article>)}</div>{!lines.length && <EmptyState icon="文" title="Chưa nhận diện được bài khóa" text="Nội dung OCR chưa có phần 课文 rõ ràng." />}</div>;
+ return <div><div className="mb-4 flex gap-2 border-b border-border bg-bg-primary py-3"><span className="filter-btn active">Hán</span><button onClick={() => setShowPinyin((value) => !value)} className={`filter-btn ${showPinyin ? 'active' : ''}`}>Pinyin</button><button onClick={() => setShowVi((value) => !value)} className={`filter-btn ${showVi ? 'active' : ''}`}>Tiếng Việt</button></div><div className="space-y-3">{lines.map((line) => <article key={line.id} className="card"><div className="flex items-start gap-3"><p className="font-hanzi flex-1 text-xl font-medium leading-9" lang="zh-Hans">{line.text}</p><SpeakButton text={line.text} /></div>{showPinyin && line.pinyin && <p className="pinyin-text mt-2 text-sm text-success" lang="zh-Latn">{line.pinyin}</p>}{showVi && line.vi && <p className="mt-1 text-sm text-accent-2">{line.vi}</p>}</article>)}</div>{!lines.length && <EmptyState icon="文" title="Chưa nhận diện được bài khóa" text="Nội dung OCR chưa có phần 课文 rõ ràng." />}</div>;
 }
 
 function LearnScreen({ bai, progress, unlockedBai, bookmarks, notes, onToggleBookmark, onSaveNote, onLessonRead, onStartQuiz, onOpenEntry, onCharacter, onStartPlaylist, onChangeBai, wordOverrides, onEditWord, onEditGrammar, editorError }) {
@@ -1175,7 +1263,7 @@ function FeedbackPanel({ question, result, userAnswer, onNext, onOpenEntry, onEd
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="text-2xl" aria-hidden="true">{isCorrect ? '🐼' : '🐧'}</span>
-            <h3 role="status" aria-live="assertive" className={`text-xl font-bold ${isCorrect ? 'text-success' : 'text-error'}`}>
+            <h3 role="status" aria-live="polite" className={`text-xl font-bold ${isCorrect ? 'text-success' : 'text-error'}`}>
               {isCorrect ? 'Chính xác!' : 'Chưa chính xác'}
               {!questionIsMcq(question) && <span className="ml-2 text-base">· {result.score}/100</span>}
             </h3>
@@ -1191,8 +1279,16 @@ function FeedbackPanel({ question, result, userAnswer, onNext, onOpenEntry, onEd
 
           {!isCorrect && (
             <div className="mt-3">
+              {!questionIsMcq(question) && result.orderIssue && (
+                <p className="mb-1.5 text-xs font-semibold text-warning">Lưu ý: Trật tự từ chưa đúng cấu trúc câu.</p>
+              )}
+              {!questionIsMcq(question) && result.missingKeywords?.length > 0 && (
+                <p className="mb-2 text-xs text-text-secondary">
+                  <strong>Ý chính còn thiếu:</strong> {result.missingKeywords.join(' · ')}
+                </p>
+              )}
               <p className="text-sm font-bold text-text-muted">Đáp án đúng:</p>
-              <p className="text-lg font-bold text-text-primary mt-1">
+              <p className="text-lg font-bold text-text-primary mt-1" lang={question.type === 'translation_zh_to_vi' ? undefined : 'zh-Hans'}>
                 {question.options?.find(o => o.id === question.correct_option)?.text || question.sample_answer}
               </p>
             </div>
@@ -1406,8 +1502,9 @@ function BookmarksPanel({ progress, onToggleBookmark, onOpenEntry, onSaveNote })
  );
 }
 
-function SRSReviewScreen({ progress, onRate }) {
- const dueEntries = useMemo(() => getDueEntries(progress.srs), [progress.srs]);
+function SRSReviewScreen({ progress, onRate, onUnsuspend }) {
+ const dueEntries = useMemo(() => getDueEntries(progress.srs, ALL_GLOSSARY_ENTRIES), [progress.srs]);
+ const suspendedEntries = useMemo(() => getSuspendedEntries(progress.srs, ALL_GLOSSARY_ENTRIES), [progress.srs]);
  const [phase, setPhase] = useState('intro');
  const [deck, setDeck] = useState([]);
  const [index, setIndex] = useState(0);
@@ -1435,11 +1532,30 @@ function SRSReviewScreen({ progress, onRate }) {
  }, [phase, flipped, index]);
  if (phase === 'intro') {
  return (
- <div className="rounded-xl border border-border bg-bg-secondary p-6 text-center shadow-sm">
- <div className="mx-auto grid h-16 w-16 place-items-center rounded-xl bg-accent-subtle text-accent"><Icon.Refresh className="h-7 w-7" /></div>
- <h2 className="mt-4 h2-text font-bold">Cần ôn hôm nay: {dueEntries.length} từ</h2>
- <p className="mt-2 text-sm text-text-muted">{Object.keys(progress.srs).length} mục đang được theo dõi theo lịch nhớ.</p>
- <button onClick={start} disabled={!dueEntries.length} className="btn-primary mt-6 w-full">Bắt đầu ôn</button>
+ <div className="space-y-4">
+  <div className="rounded-xl border border-border bg-bg-secondary p-6 text-center shadow-sm">
+  <div className="mx-auto grid h-16 w-16 place-items-center rounded-xl bg-accent-subtle text-accent"><Icon.Refresh className="h-7 w-7" /></div>
+  <h2 className="mt-4 h2-text font-bold">Cần ôn hôm nay: {dueEntries.length} mục</h2>
+  <p className="mt-2 text-sm text-text-muted">{Object.keys(progress.srs).length} mục đang theo dõi (SM-2) · Tối đa {DEFAULT_DAILY_NEW_CARDS} thẻ mới/ngày (từ vựng, ngữ pháp & mẫu câu).</p>
+  <button onClick={start} disabled={!dueEntries.length} className="btn-primary mt-6 w-full">Bắt đầu ôn</button>
+  </div>
+  {suspendedEntries.length > 0 && (
+   <section className="rounded-xl border border-warning/40 bg-warning-subtle/50 p-4">
+    <h3 className="text-sm font-bold text-text-primary">Thẻ khó đã tạm ẩn (Leech ≥ {LEECH_THRESHOLD} lần quên)</h3>
+    <p className="mt-0.5 text-xs text-text-muted">Các mục quên nhiều lần được tạm dừng để tránh quá tải. Bạn có thể khôi phục khi sẵn sàng.</p>
+    <div className="mt-3 space-y-2">
+     {suspendedEntries.map((item) => (
+      <div key={item.id} className="flex items-center justify-between gap-3 rounded-xl border border-border/70 bg-bg-secondary px-3 py-2">
+       <div className="min-w-0">
+        <p className="truncate font-hanzi font-semibold" lang="zh-Hans">{entryTitle(item)}</p>
+        <p className="truncate text-xs text-text-muted">{entryMeaning(item)}</p>
+       </div>
+       <button type="button" onClick={() => onUnsuspend?.(item.id)} className="btn-soft shrink-0 rounded-full px-3 py-1 text-xs">Khôi phục</button>
+      </div>
+     ))}
+    </div>
+   </section>
+  )}
  </div>
  );
  }
@@ -1450,21 +1566,23 @@ function SRSReviewScreen({ progress, onRate }) {
  <div className="rounded-xl border border-success bg-bg-secondary p-6 text-center shadow-sm">
  <div className="mx-auto grid h-16 w-16 place-items-center rounded-xl bg-success-subtle h1-text">✓</div>
  <h2 className="mt-4 h2-text font-bold">Hoàn thành lượt ôn</h2>
- <p className="mt-2 text-text-muted">Đã ôn {ratings.length} từ, {remembered} từ nhớ tốt, {retry} từ cần ôn lại.</p>
+ <p className="mt-2 text-text-muted">Đã ôn {ratings.length} mục, {remembered} mục nhớ tốt, {retry} mục cần ôn lại.</p>
  <button onClick={() => setPhase('intro')} className="btn-primary mt-6 w-full">Xem lịch ôn</button>
  </div>
  );
  }
  const entry = deck[index];
  const isWord = entry.type === 'word';
+ const reps = entry.srs.repetitions ?? entry.srs.level ?? 0;
+ const ease = Number(entry.srs.ease || 2.5).toFixed(2);
  return (
  <div>
- <div className="mb-3 flex items-center justify-between text-sm font-bold text-text-muted"><span>Thẻ {index + 1}/{deck.length}</span><span>Mức {entry.srs.level}/5 · {entry.srs.interval} ngày</span></div>
+ <div className="mb-3 flex items-center justify-between text-sm font-bold text-text-muted"><span>Thẻ {index + 1}/{deck.length}</span><span className="tabular-nums">Lần {reps} · EF {ease} · {entry.srs.interval} ngày</span></div>
  <ProgressBar value={((index + 1) / deck.length) * 100} />
  <div role="button" tabIndex={0} onClick={() => setFlipped((value) => !value)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') setFlipped((value) => !value); }} className="relative mt-4 flex min-h-80 flex-col items-center justify-center rounded-xl border border-border bg-bg-secondary p-7 text-center shadow-lg">
  <span className="absolute left-4 top-4 text-xs font-bold uppercase tracking-wider text-text-muted">{flipped ? 'Mặt nghĩa' : 'Mặt chữ'}</span>
- <SpeakButton text={isWord ? entry.word_zh : entry.examples?.[0]?.zh || entry.grammar_title_zh} className="absolute right-4 top-4" />
- {!flipped ? <><span className="display-text font-bold">{entryTitle(entry)}</span>{entry.pinyin && <span className="mt-4 text-xl font-bold text-accent-2">{entry.pinyin}</span>}<span className="mt-6 text-sm font-bold text-text-muted">Chạm để xem nghĩa</span></> : <><span className="h2-text font-bold">{entryMeaning(entry)}</span>{isWord && <><span className="mt-2 text-text-muted">{entry.meaning_en}</span><span className="mt-6 font-bold">{entry.example_zh}</span><span className="mt-1 text-sm text-success">{entry.example_pinyin}</span><span className="mt-1 text-sm text-text-muted">{entry.example_vi}</span></>}{!isWord && entry.structure && <span className="mt-5 rounded-xl border border-border bg-bg-tertiary px-4 py-3 font-mono text-sm font-bold text-success">{entry.structure}</span>}</>}
+ <SpeakButton text={isWord ? entry.word_zh : entry.examples?.[0]?.zh || entry.grammar_title_zh || entry.phrase_zh} className="absolute right-4 top-4" />
+ {!flipped ? <><span className="display-text font-bold" lang="zh-Hans">{entryTitle(entry)}</span>{entry.pinyin && <span className="pinyin-text mt-4 text-xl font-bold text-accent-2" lang="zh-Latn">{entry.pinyin}</span>}<span className="mt-6 text-sm font-bold text-text-muted">Chạm để xem nghĩa</span></> : <><span className="h2-text font-bold">{entryMeaning(entry)}</span>{isWord && <><span className="mt-2 text-text-muted">{entry.meaning_en}</span><span className="mt-6 font-bold" lang="zh-Hans">{entry.example_zh}</span><span className="pinyin-text mt-1 text-sm text-success" lang="zh-Latn">{entry.example_pinyin}</span><span className="mt-1 text-sm text-text-muted">{entry.example_vi}</span></>}{!isWord && entry.structure && <span className="mt-5 rounded-xl border border-border bg-bg-tertiary px-4 py-3 font-mono text-sm font-bold text-success" lang="zh-Hans">{entry.structure}</span>}{!isWord && entry.examples?.[0]?.zh && <><span className="mt-5 font-bold" lang="zh-Hans">{entry.examples[0].zh}</span><span className="pinyin-text mt-1 text-sm text-success" lang="zh-Latn">{entry.examples[0].pinyin}</span><span className="mt-1 text-sm text-text-muted">{entry.examples[0].vi}</span></>}</>}
  </div>
  {flipped && <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">{SRS_RATINGS.map((rating) => <button key={rating.id} onClick={() => rate(rating.id)} className={`rounded-lg px-3 py-3 font-bold transition hover:-translate-y-0.5 ${rating.tone}`}><kbd className="mr-2 rounded border border-current/30 px-1.5 py-0.5 text-[10px] opacity-70">{rating.shortcut}</kbd>{rating.label}</button>)}</div>}
  </div>
@@ -1527,12 +1645,12 @@ function WeakTopicsScreen({ progress, onPractice, onOpenEntry }) {
  );
 }
 
-function ReviewScreen({ progress, onPracticeWrong, onOpenEntry, onToggleBookmark, onSaveNote, onRateSrs, onNavigate }) {
+function ReviewScreen({ progress, onPracticeWrong, onOpenEntry, onToggleBookmark, onSaveNote, onRateSrs, onUnsuspendSrs, onNavigate }) {
  const [tab, setTab] = useState('wrong');
  const learnedBais = progress.unlockedBai;
  const learnedEntries = learnedBais.flatMap((bai) => GLOSSARY[bai].entries);
  const grammar = learnedEntries.filter((entry) => entry.type === 'grammar');
- const dueSrs = getDueEntries(progress.srs).length;
+ const dueSrs = getDueEntries(progress.srs, ALL_GLOSSARY_ENTRIES).length;
  const tabs = [
  { id: 'wrong', label: 'Câu sai', count: progress.wrongAnswers.length },
  { id: 'flashcards', label: 'Từ vựng' },
@@ -1553,7 +1671,7 @@ function ReviewScreen({ progress, onPracticeWrong, onOpenEntry, onToggleBookmark
  {tab === 'flashcards' && <FlashcardMode entries={learnedEntries} title="Từ vựng đã mở khóa" />}
  {tab === 'grammar' && <div className="space-y-3">{grammar.map((entry) => <GrammarCard key={entry.id} entry={entry} onRelated={(id) => { const related = ALL_GLOSSARY_ENTRIES.find((item) => item.id === id); if (related) onOpenEntry(related); }} bookmarks={progress.bookmarks} onToggleBookmark={onToggleBookmark} notes={progress.notes} onSaveNote={onSaveNote} />)}</div>}
  {tab === 'bookmarks' && <BookmarksPanel progress={progress} onToggleBookmark={onToggleBookmark} onOpenEntry={onOpenEntry} onSaveNote={onSaveNote} />}
- {tab === 'srs' && <SRSReviewScreen progress={progress} onRate={onRateSrs} />}
+ {tab === 'srs' && <SRSReviewScreen progress={progress} onRate={onRateSrs} onUnsuspend={onUnsuspendSrs} />}
  {tab === 'notes' && <NotesPanel progress={progress} onSaveNote={onSaveNote} onOpenEntry={onOpenEntry} />}
  {tab === 'weak' && <WeakTopicsScreen progress={progress} onPractice={onPracticeWrong} onOpenEntry={onOpenEntry} />}
  </div>
@@ -2088,7 +2206,7 @@ function Dashboard({ progress, onImport, onThemeChange, onColorThemeChange, onCh
  const lastSeven = Array.from({ length: 7 }, (_, offset) => { const date = new Date(); date.setDate(date.getDate() - (6 - offset)); const key = localDate(date); return { key, label: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'][date.getDay()], value: progress.studyDays[key]?.xp ?? progress.dailyXp[key] ?? 0 }; });
  const maxXp = Math.max(...lastSeven.map((item) => item.value), 10);
  const recentStudy = Object.entries(progress.studyDays || {}).sort(([a], [b]) => b.localeCompare(a)).slice(0, 5);
- const dueSrs = getDueEntries(progress.srs).length;
+ const dueSrs = getDueEntries(progress.srs, ALL_GLOSSARY_ENTRIES).length;
  const skills = [
   { label: 'Từ vựng', value: Math.min(100, Math.round((Object.keys(progress.srs || {}).length / Math.max(1, ALL_GLOSSARY_ENTRIES.filter((entry) => entry.type === 'word').length)) * 100)), tone: 'bg-accent' },
   { label: 'Ngữ pháp', value: accuracy, tone: 'bg-[var(--accent-purple)]' },
@@ -2284,11 +2402,17 @@ function DictationScreen({ onComplete }) {
  const [result, setResult] = useState(null);
  const [replays, setReplays] = useState(0);
  const [scores, setScores] = useState([]);
+ const [passedCount, setPassedCount] = useState(0);
  const textareaRef = useRef(null);
- const start = () => { setDeck(shuffleArray(getDictationSentences(bai)).slice(0, count)); setIndex(0); setAnswer(''); setResult(null); setReplays(0); setScores([]); };
+ const start = () => { setDeck(shuffleArray(getDictationSentences(bai)).slice(0, count)); setIndex(0); setAnswer(''); setResult(null); setReplays(0); setScores([]); setPassedCount(0); };
  const current = deck[index];
  const play = () => { if (current && replays < 3) { speak(current.zh); setReplays((value) => value + 1); } };
- const check = () => { const score = calculateSimilarity(answer, current.zh); setResult({ score, isCorrect: score >= 80 }); setScores((items) => [...items, score]); };
+ const check = () => {
+  const graded = gradeDictation(answer, current.zh);
+  setResult(graded);
+  setScores((items) => [...items, graded.score]);
+  if (graded.isCorrect) setPassedCount((c) => c + 1);
+ };
  const next = () => {
  if (index >= deck.length - 1) { onComplete?.(scores); setIndex(deck.length); return; }
  setIndex((value) => value + 1); setAnswer(''); setResult(null); setReplays(0);
@@ -2298,10 +2422,10 @@ function DictationScreen({ onComplete }) {
  );
  if (index >= deck.length) {
  const average = scores.length ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length) : 0;
- return <div className="mx-auto max-w-xl rounded-xl border border-success bg-bg-secondary p-8 text-center shadow-sm"><div className="mx-auto grid h-16 w-16 place-items-center rounded-xl bg-success-subtle text-success"><Icon.Headphones className="h-7 w-7"/></div><h1 className="mt-4 h1-text font-bold">Hoàn thành chính tả</h1><p className="mt-2 text-text-muted">Điểm trung bình {average}/100 · {scores.filter((score) => score >= 80).length}/{scores.length} câu đạt</p><button onClick={() => setDeck([])} className="btn-primary mt-6 w-full">Luyện lượt mới</button></div>;
+ return <div className="mx-auto max-w-xl rounded-xl border border-success bg-bg-secondary p-8 text-center shadow-sm"><div className="mx-auto grid h-16 w-16 place-items-center rounded-xl bg-success-subtle text-success"><Icon.Headphones className="h-7 w-7"/></div><h1 className="mt-4 h1-text font-bold">Hoàn thành chính tả</h1><p className="mt-2 text-text-muted">Điểm trung bình {average}/100 · {passedCount}/{scores.length} câu đạt</p><button onClick={() => setDeck([])} className="btn-primary mt-6 w-full">Luyện lượt mới</button></div>;
  }
  return (
- <div className="mx-auto max-w-2xl"><div className="mb-5 flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-accent-2">Chính tả · Bài {bai}</p><h1 className="mt-1 h2-text font-bold">Câu {index + 1}/{deck.length}</h1></div><span className="rounded-xl bg-warning-subtle px-3 py-2 text-sm font-bold text-warning">Lượt nghe {replays}/3</span></div><ProgressBar value={((index + 1) / deck.length) * 100} label="Tiến độ luyện chính tả"/><section className="mt-5 rounded-xl border border-border bg-bg-secondary p-5 shadow-lg sm:p-7"><div className="text-center"><button onClick={play} disabled={replays >= 3} className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-error text-white shadow-lg transition hover:scale-105 disabled:opacity-40" aria-label="Phát câu chính tả"><Icon.Volume className="h-8 w-8"/></button><p className="mt-3 text-sm text-text-muted">Có thể nghe tối đa 3 lần</p></div><textarea ref={textareaRef} value={answer} onChange={(event) => setAnswer(event.target.value)} disabled={Boolean(result)} rows={3} placeholder="Gõ câu chữ Hán bạn nghe được..." className="input mt-6 w-full text-lg" />{!result && <VirtualKeyboard textareaRef={textareaRef} value={answer} onChange={setAnswer} />}{!result ? <button onClick={check} disabled={!answer.trim()} className="btn-primary mt-4 w-full disabled:opacity-40">Kiểm tra</button> : <div className={`mt-5 rounded-xl border p-4 ${result.isCorrect ? 'border-success bg-success-subtle' : 'border-error bg-error-subtle'}`}><p className="text-xl font-bold">{result.isCorrect ? '✓ Nghe tốt' : 'Cần nghe lại'} · {result.score}/100</p><p className="mt-3 text-lg font-bold">{current.zh}</p><p className="mt-1 text-sm text-success">{current.pinyin}</p><p className="mt-1 text-sm text-text-muted">{current.vi}</p><button onClick={next} className="btn-primary mt-4 w-full">{index === deck.length - 1 ? 'Xem kết quả' : 'Câu tiếp →'}</button></div>}</section></div>
+ <div className="mx-auto max-w-2xl"><div className="mb-5 flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-accent-2">Chính tả · Bài {bai}</p><h1 className="mt-1 h2-text font-bold">Câu {index + 1}/{deck.length}</h1></div><span className="rounded-xl bg-warning-subtle px-3 py-2 text-sm font-bold text-warning">Lượt nghe {replays}/3</span></div><ProgressBar value={((index + 1) / deck.length) * 100} label="Tiến độ luyện chính tả"/><section className="mt-5 rounded-xl border border-border bg-bg-secondary p-5 shadow-lg sm:p-7"><div className="text-center"><button onClick={play} disabled={replays >= 3} className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-error text-white shadow-lg transition hover:scale-105 disabled:opacity-40" aria-label="Phát câu chính tả"><Icon.Volume className="h-8 w-8"/></button><p className="mt-3 text-sm text-text-muted">Có thể nghe tối đa 3 lần</p></div><textarea ref={textareaRef} lang="zh-Hans" value={answer} onChange={(event) => setAnswer(event.target.value)} disabled={Boolean(result)} rows={3} placeholder="Gõ câu chữ Hán bạn nghe được..." className="input mt-6 w-full text-lg" />{!result && <VirtualKeyboard textareaRef={textareaRef} value={answer} onChange={setAnswer} />}{!result ? <button onClick={check} disabled={!answer.trim()} className="btn-primary mt-4 w-full disabled:opacity-40">Kiểm tra</button> : <div className={`mt-5 rounded-xl border p-4 ${result.isCorrect ? 'border-success bg-success-subtle' : 'border-error bg-error-subtle'}`}><p className="text-xl font-bold">{result.isCorrect ? '✓ Nghe chuẩn' : 'Cần nghe lại'} · {result.score}/100</p>{result.diff?.length > 0 && <p className="mt-2 font-hanzi text-lg leading-8" lang="zh-Hans">{result.diff.map((d, i) => d.status === 'match' ? <span key={i}>{d.char}</span> : d.status === 'wrong' ? <span key={i} className="rounded bg-error-subtle px-0.5 text-error underline decoration-error decoration-wavy" title={`Đúng là: ${d.expected}`}>{d.char}</span> : d.status === 'missing' ? <span key={i} className="rounded bg-warning-subtle px-0.5 text-warning underline decoration-dashed" title="Thiếu ký tự">[{d.expected}]</span> : <span key={i} className="rounded bg-error-subtle px-0.5 text-error line-through" title="Dư ký tự">{d.char}</span>)}</p>}<p className="mt-3 font-hanzi text-lg font-bold" lang="zh-Hans">{current.zh}</p><p className="pinyin-text mt-1 text-sm text-success" lang="zh-Latn">{current.pinyin}</p><p className="mt-1 text-sm text-text-muted">{current.vi}</p><button onClick={next} className="btn-primary mt-4 w-full">{index === deck.length - 1 ? 'Xem kết quả' : 'Câu tiếp →'}</button></div>}</section></div>
  );
 }
 
@@ -2329,7 +2453,7 @@ function PronunciationScreen({ onAttempt }) {
  };
  const next = () => { setIndex((value) => (value + 1) % entries.length); setFeedback(null); };
  return (
- <div className="mx-auto max-w-2xl"><div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-accent-2">Luyện nâng cao</p><div className="mt-1 flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl bg-accent-2-subtle text-accent-2"><Icon.Mic className="h-5 w-5"/></span><h1 className="h1-text font-bold">Luyện phát âm</h1></div></div><select value={bai} onChange={(event) => { setBai(Number(event.target.value)); setIndex(0); setFeedback(null); }} className="input">{LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}</select></div>{!supported && <div role="alert" className="mt-5 rounded-xl border border-warning bg-warning-subtle p-4 font-semibold text-warning">Trình duyệt này chưa hỗ trợ nhận diện giọng nói. Hãy mở app bằng Chrome hoặc Edge.</div>}<section className="mt-6 rounded-xl border border-border bg-bg-secondary p-5 text-center shadow-lg sm:p-8"><p className="font-hanzi text-6xl font-bold">{entry.word_zh}</p><p className="mt-3 text-xl font-bold text-accent-2">{entry.pinyin}</p><p className="mt-2 text-text-muted">{entry.meaning_vi}</p><div className="mt-7 flex items-center justify-center gap-3"><SpeakButton text={entry.word_zh} className="h-12 w-12 text-xl" /><button onClick={record} disabled={!supported || listening} className={`grid h-20 w-20 place-items-center rounded-full text-white shadow-lg transition ${listening ? 'animate-pulse bg-error ring-8 ring-error-subtle' : 'bg-error hover:scale-105'} disabled:opacity-40`} aria-label="Bắt đầu ghi âm"><Icon.Mic className="h-8 w-8"/></button></div><p className="mt-3 text-sm font-bold text-text-muted">{listening ? 'Đang nghe... hãy nói rõ từ trên' : 'Bấm micro rồi đọc từ trên'}</p>{feedback && <div className={`mt-6 rounded-xl p-4 text-left ${feedback.score >= 80 ? 'bg-success-subtle' : feedback.score >= 50 ? 'bg-warning-subtle' : 'bg-error-subtle'}`}><div className="flex items-center justify-between gap-3"><p className="min-w-0 font-bold">Bạn nói: {feedback.transcript || 'Không nhận diện được'}</p><span className="shrink-0 text-xl font-bold">{feedback.score}/100</span></div>{feedback.error && <p className="mt-2 text-sm text-error">{feedback.error}</p>}<div className="mt-4 flex gap-2"><button onClick={record} className="btn-secondary flex-1">Thử lại</button><button onClick={next} className="btn-primary flex-1">Tiếp →</button></div></div>}</section></div>
+ <div className="mx-auto max-w-2xl"><div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-accent-2">Luyện nâng cao</p><div className="mt-1 flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl bg-accent-2-subtle text-accent-2"><Icon.Mic className="h-5 w-5"/></span><h1 className="h1-text font-bold">Luyện phát âm</h1></div></div><select value={bai} onChange={(event) => { setBai(Number(event.target.value)); setIndex(0); setFeedback(null); }} className="input">{LESSONS.map((lesson) => <option key={lesson} value={lesson}>Bài {lesson}</option>)}</select></div>{!supported && <div role="alert" className="mt-5 rounded-xl border border-warning bg-warning-subtle p-4 font-semibold text-warning">Trình duyệt này chưa hỗ trợ nhận diện giọng nói. Hãy mở app bằng Chrome hoặc Edge.</div>}<section className="mt-6 rounded-xl border border-border bg-bg-secondary p-5 text-center shadow-lg sm:p-8"><p className="font-hanzi text-6xl font-bold" lang="zh-Hans">{entry.word_zh}</p><p className="pinyin-text mt-3 text-xl font-bold text-accent-2" lang="zh-Latn">{entry.pinyin}</p><p className="mt-2 text-text-muted">{entry.meaning_vi}</p><div className="mt-7 flex items-center justify-center gap-3"><SpeakButton text={entry.word_zh} className="h-12 w-12 text-xl" /><button onClick={record} disabled={!supported || listening} className={`grid h-20 w-20 place-items-center rounded-full text-white shadow-lg transition ${listening ? 'animate-pulse bg-error ring-8 ring-error-subtle' : 'bg-error hover:scale-105'} disabled:opacity-40`} aria-label="Bắt đầu ghi âm"><Icon.Mic className="h-8 w-8"/></button></div><p className="mt-3 text-sm font-bold text-text-muted">{listening ? 'Đang nghe... hãy nói rõ từ trên' : 'Bấm micro rồi đọc từ trên'}</p>{feedback && <div className={`mt-6 rounded-xl p-4 text-left ${feedback.score >= 80 ? 'bg-success-subtle' : feedback.score >= 50 ? 'bg-warning-subtle' : 'bg-error-subtle'}`}><div className="flex items-center justify-between gap-3"><p className="min-w-0 font-bold">Bạn nói: {feedback.transcript || 'Không nhận diện được'}</p><span className="shrink-0 text-xl font-bold">{feedback.score}/100</span></div>{feedback.error && <p className="mt-2 text-sm text-error">{feedback.error}</p>}<div className="mt-4 flex gap-2"><button onClick={record} className="btn-secondary flex-1">Thử lại</button><button onClick={next} className="btn-primary flex-1">Tiếp →</button></div></div>}</section></div>
  );
 }
 
@@ -2655,12 +2779,39 @@ export default function App() {
  const screenRef = useRef(screen);
  const currentBaiRef = useRef(currentBai);
  const dashboardTabRef = useRef(dashboardTab);
+ const mainRef = useRef(null);
+ const mountedScreenRef = useRef(false);
  activeCourseRef.current = activeCourse;
  activeCourseIdRef.current = activeCourseId;
  progressRef.current = progress;
  screenRef.current = screen;
  currentBaiRef.current = currentBai;
  dashboardTabRef.current = dashboardTab;
+
+ useEffect(() => {
+   const titles = {
+     home: 'DuDu Hán Ngữ — Học Hán ngữ mỗi ngày',
+     library: 'Thư viện — DuDu Hán Ngữ',
+     learn: `Bài ${currentBai} · Học — DuDu Hán Ngữ`,
+     quiz: `Bài ${currentBai} · Quiz — DuDu Hán Ngữ`,
+     review: 'Ôn tập SRS — DuDu Hán Ngữ',
+     dashboard: 'Hồ sơ & Cài đặt — DuDu Hán Ngữ',
+     community: 'Cộng đồng — DuDu Hán Ngữ',
+     tutor: 'Gia sư AI — DuDu Hán Ngữ',
+     exam: 'Thi thử — DuDu Hán Ngữ',
+     boss: 'Boss Battle — DuDu Hán Ngữ',
+     minigame: 'Ghép từ — DuDu Hán Ngữ',
+     dictation: 'Chính tả — DuDu Hán Ngữ',
+     pronunciation: 'Phát âm — DuDu Hán Ngữ',
+     sentences: 'Câu ví dụ — DuDu Hán Ngữ',
+   };
+   document.title = titles[screen] || 'DuDu Hán Ngữ';
+   if (!mountedScreenRef.current) {
+     mountedScreenRef.current = true;
+     return;
+   }
+   mainRef.current?.focus({ preventScroll: true });
+ }, [screen, currentBai]);
 
  useEffect(() => {
    if (!courseReady || !LESSONS.length) return;
@@ -2730,6 +2881,14 @@ export default function App() {
        merged.profile = { ...merged.profile, name: payload.user.displayName, headline: payload.user.headline || merged.profile.headline, bio: payload.user.bio || merged.profile.bio };
      }
      setProgress(merged);
+   } else if (payload.switchedAccount) {
+     const fresh = progressForCourse(createInitialProgress(), activeCourseRef.current);
+     if (payload.user?.displayName) {
+       fresh.profile = { ...fresh.profile, name: payload.user.displayName, headline: payload.user.headline || fresh.profile.headline, bio: payload.user.bio || fresh.profile.bio };
+     }
+     fresh._savedAt = new Date().toISOString();
+     remoteAppliedAtRef.current = fresh._savedAt;
+     setProgress(fresh);
    } else if (payload.user?.displayName) {
      setProgress((prev) => (!prev.profile?.name ? { ...prev, profile: { ...prev.profile, name: payload.user.displayName, headline: payload.user.headline || prev.profile.headline, bio: payload.user.bio || prev.profile.bio } } : prev));
    }
@@ -2790,8 +2949,8 @@ export default function App() {
    }
  }), []);
 
- // Another tab saved progress: adopt the fresher copy exactly once and skip the
- // echo write so two open tabs never ping-pong updates forever.
+ // Another tab saved progress: merge rather than blindly overwrite so
+ // concurrent tabs never drop bookmarks, achievements, or lesson attempts.
  useEffect(() => subscribeStorageChanges(() => {
    const incoming = readProgress();
    if (!incoming.ok || !incoming.progress) return;
@@ -2799,7 +2958,8 @@ export default function App() {
    const currentAt = Date.parse(progressRef.current._savedAt || '') || 0;
    if (incomingAt <= currentAt) return;
    remoteAppliedAtRef.current = incoming.progress._savedAt;
-   setProgress(progressForCourse(incoming.progress, activeCourseRef.current));
+   const merged = mergeProgressData(progressRef.current, incoming.progress);
+   setProgress(progressForCourse(merged, activeCourseRef.current));
  }), []);
 
  useEffect(() => {
@@ -3000,7 +3160,7 @@ export default function App() {
  const approxXp = isTypingQuestion ? (result.score >= 80 ? XP_REWARDS.typingHigh : result.score >= 60 ? XP_REWARDS.typingMid : 0) : (result.isCorrect ? XP_REWARDS.mcq : 0);
  trackStudyEvent({ eventType: 'quiz_answer', courseId: activeCourseId, bai: question.bai, questionId: question.id, isCorrect: result.isCorrect, xpEarned: approxXp, meta: { mode, type: question.type } });
  setProgress((previous) => {
- const next = mergeProgress(JSON.parse(JSON.stringify(previous)));
+ const next = cloneProgressForUpdate(previous, mode === 'lesson' ? question.bai : null);
  const today = updateStudyDate(next);
  const wasWrong = next.wrongAnswers.some((item) => item.questionId === question.id);
  const isTyping = TYPING_TYPES.has(question.type);
@@ -3028,22 +3188,33 @@ export default function App() {
  }].slice(-1000);
  for (const entryId of question.related_glossary || []) {
  const entry = ALL_GLOSSARY_ENTRIES.find((item) => item.id === entryId);
- if (entry?.type === 'word') next.srs[entryId] = createSrsEntry();
+ if (entry && SRS_ELIGIBLE_TYPES.has(entry.type)) {
+ next.srs[entryId] = previous.srs?.[entryId]
+   ? calculateNextReview(previous.srs[entryId], 'forgot', { fuzzSeed: entryId })
+   : createSrsEntry();
+ }
  }
  }
 
  if (mode === 'lesson') {
  const lesson = next.baiProgress[question.bai];
- lesson.attemptedIds = [...new Set([...lesson.attemptedIds, question.id])];
+ const wasAlreadyAttempted = lesson.attemptedIds.includes(question.id);
+ lesson.attemptedIds = wasAlreadyAttempted ? lesson.attemptedIds : [...lesson.attemptedIds, question.id];
+ if (!wasAlreadyAttempted && result.isCorrect && !lesson.firstAttemptCorrectIds.includes(question.id)) {
+  lesson.firstAttemptCorrectIds = [...lesson.firstAttemptCorrectIds, question.id];
+ }
  lesson.correctIds = result.isCorrect
  ? [...new Set([...lesson.correctIds, question.id])]
  : lesson.correctIds.filter((id) => id !== question.id);
  lesson.quizDone = lesson.attemptedIds.length;
  lesson.quizCorrect = lesson.correctIds.length;
- if (!lesson.completed && lesson.quizDone >= QUIZZES[question.bai].questions.length) {
- lesson.completed = true;
- earned += XP_REWARDS.lesson;
- if (question.bai < LESSONS.length) next.unlockedBai = [...new Set([...next.unlockedBai, question.bai + 1])].sort((a, b) => a - b);
+ const mastery = evaluateLessonMastery(lesson, QUIZZES[question.bai].questions.length);
+ if (!lesson.completed && mastery.passed) {
+  lesson.completed = true;
+  earned += XP_REWARDS.lesson;
+  if (question.bai < LESSONS.length) next.unlockedBai = [...new Set([...next.unlockedBai, question.bai + 1])].sort((a, b) => a - b);
+ } else if (!lesson.completed && mastery.attempted >= mastery.totalQuestions && !wasAlreadyAttempted) {
+  setToast({ icon: '!', title: `Đạt ${mastery.accuracyPercent}% — chưa mở khóa bài tiếp`, description: `Cần đạt ≥ ${mastery.requiredPercent}% để hoàn thành & mở khóa bài tiếp theo.` });
  }
  }
 
@@ -3075,7 +3246,7 @@ export default function App() {
  const recordBossWin = () => {
  trackStudyEvent({ eventType: 'boss_win', courseId: activeCourseId, xpEarned: XP_REWARDS.boss });
  setProgress((previous) => {
- const next = mergeProgress(JSON.parse(JSON.stringify(previous)));
+ const next = cloneProgressForUpdate(previous);
  const today = updateStudyDate(next);
  next.bossWins += 1;
  next.xp += XP_REWARDS.boss;
@@ -3157,13 +3328,13 @@ export default function App() {
  };
  const addLessonToSrs = (bai) => {
  setProgress((previous) => {
- const words = GLOSSARY[bai].entries.filter((entry) => entry.type === 'word');
+ const eligible = GLOSSARY[bai].entries.filter((entry) => SRS_ELIGIBLE_TYPES.has(entry.type));
  const currentSrs = previous.srs || {};
- const missing = words.filter((entry) => !currentSrs[entry.id]);
+ const missing = eligible.filter((entry) => !currentSrs[entry.id]);
  if (!missing.length) return previous;
  const srs = { ...currentSrs };
  for (const entry of missing) srs[entry.id] = createSrsEntry();
- setToast({ icon: 'srs', title: `Đã thêm ${missing.length} từ vào SRS`, description: `Bài ${bai} đã sẵn sàng để ôn theo lịch.` });
+ setToast({ icon: 'srs', title: `Đã thêm ${missing.length} mục vào SRS`, description: `Bài ${bai} (từ vựng, ngữ pháp & mẫu câu) đã sẵn sàng để ôn.` });
  return { ...previous, srs };
  });
  };
@@ -3171,8 +3342,14 @@ export default function App() {
  trackStudyEvent({ eventType: 'srs_review', courseId: activeCourseId, meta: { entryId, rating } });
  setProgress((previous) => ({
  ...previous,
- srs: { ...(previous.srs || {}), [entryId]: calculateNextReview(previous.srs?.[entryId], rating) },
+ srs: { ...(previous.srs || {}), [entryId]: calculateNextReview(previous.srs?.[entryId], rating, { fuzzSeed: entryId }) },
  }));
+ };
+ const unsuspendSrs = (entryId) => {
+ setProgress((previous) => {
+  if (!previous.srs?.[entryId]) return previous;
+  return { ...previous, srs: { ...previous.srs, [entryId]: unsuspendSrsEntry(previous.srs[entryId]) } };
+ });
  };
  const importProgress = (imported) => {
  setProgress(rolloverDailyProgress(mergeProgress(imported)));
@@ -3181,7 +3358,7 @@ export default function App() {
  const completePomodoro = () => {
  trackStudyEvent({ eventType: 'pomodoro_complete', courseId: activeCourseId });
  setProgress((previous) => {
- const next = rolloverDailyProgress(mergeProgress(JSON.parse(JSON.stringify(previous))));
+ const next = rolloverDailyProgress(cloneProgressForUpdate(previous));
  const today = updateStudyDate(next);
  next.pomodoroSessions += 1;
  next.studyDays[today] = next.studyDays[today] || { xp: 0, questions: 0 };
@@ -3254,7 +3431,7 @@ export default function App() {
  else if (screen === 'home') content = <HomeScreen progress={progress} courseName={activeCourse?.name || 'Hán Ngữ Tập 2'} onOpenLesson={(bai) => { setCurrentBai(bai); setScreen('learn'); }} onNavigate={navigate} onChangeGoal={changeDailyGoal} />;
  else if (screen === 'learn') content = <LearnScreen bai={currentBai} progress={progress} unlockedBai={progress.unlockedBai} bookmarks={progress.bookmarks} notes={progress.notes} onToggleBookmark={toggleBookmark} onSaveNote={saveNote} onLessonRead={addLessonToSrs} onStartQuiz={startLessonQuiz} onOpenEntry={setGlossaryEntry} onCharacter={openCharacter} onStartPlaylist={startPlaylist} onChangeBai={setCurrentBai} wordOverrides={wordOverrides} onEditWord={wordEditorReady ? setEditingWord : null} onEditGrammar={wordEditorReady ? setEditingContent : null} editorError={wordEditorError} />;
  else if (screen === 'quiz') content = quizSession ? <QuizScreen key={quizSession.id} session={quizSession} progress={progress} onAnswer={recordAnswer} onFinish={() => {}} onExit={() => setScreen('home')} onOpenEntry={setGlossaryEntry} onEditQuestion={wordEditorReady ? setEditingContent : null} onPracticeWrong={startWrongReview} /> : <EmptyState icon="✓" title="Chọn một bài để luyện" text="Chọn bài học trong Lộ trình để bắt đầu." />;
- else if (screen === 'review') content = <ReviewScreen progress={progress} onPracticeWrong={startWrongReview} onOpenEntry={setGlossaryEntry} onToggleBookmark={toggleBookmark} onSaveNote={saveNote} onRateSrs={rateSrs} onNavigate={navigate} />;
+ else if (screen === 'review') content = <ReviewScreen progress={progress} onPracticeWrong={startWrongReview} onOpenEntry={setGlossaryEntry} onToggleBookmark={toggleBookmark} onSaveNote={saveNote} onRateSrs={rateSrs} onUnsuspendSrs={unsuspendSrs} onNavigate={navigate} />;
  else if (screen === 'exam') content = <ExamScreen onRecord={recordAnswer} onOpenEntry={setGlossaryEntry} />;
  else if (screen === 'boss') content = <BossBattleScreen progress={progress} onRecord={recordAnswer} onWin={recordBossWin} />;
  else if (screen === 'minigame') content = <MatchingGame onComplete={() => {}} />;
@@ -3278,7 +3455,7 @@ export default function App() {
   <div className={screen === 'quiz' ? '' : 'mx-auto max-w-[1280px] xl:grid xl:min-h-[calc(100vh-4rem)] xl:grid-cols-[minmax(0,1fr)_316px] xl:gap-7 xl:px-8'}>
    <div className="min-w-0">
     {processingJobs.length > 0 && <div className="mx-auto max-w-[840px] px-4 pt-3 sm:px-6 lg:px-8 xl:max-w-none xl:px-0"><div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-accent/30 bg-accent-subtle px-4 py-2.5 text-sm shadow-xs"><span className="font-semibold">{processingJobs.map((job) => `${job.courseName}: ${job.state === 'paused' ? 'tạm dừng' : 'đang xử lý'} ${job.current}/${job.total}`).join(' · ')}</span><button className="font-semibold text-accent" onClick={() => { setTargetCourseId(processingJobs[0].courseId); setScreen('process-document'); }}>Xem tiến độ</button></div></div>}
-    <main id="main-content" tabIndex={-1} key={screen} className={`mx-auto min-w-0 animate-fade-slide px-4 pt-6 sm:px-6 lg:px-8 ${screen === 'home' ? 'pb-6 xl:pb-12' : 'pb-24 lg:pb-12'} ${screen === 'quiz' ? 'max-w-[720px]' : 'max-w-[840px] xl:max-w-none xl:px-0'}`}><Suspense fallback={<div aria-label="Đang tải màn hình" className="space-y-3"><div className="h-24 animate-pulse rounded-2xl bg-bg-tertiary" /><div className="h-48 animate-pulse rounded-2xl bg-bg-tertiary" /></div>}>{content}</Suspense></main>
+    <main id="main-content" ref={mainRef} tabIndex={-1} key={screen} className={`mx-auto min-w-0 animate-fade-slide px-4 pt-6 sm:px-6 lg:px-8 ${screen === 'home' ? 'pb-6 xl:pb-12' : 'pb-24 lg:pb-12'} ${screen === 'quiz' ? 'max-w-[720px]' : 'max-w-[840px] xl:max-w-none xl:px-0'}`}><Suspense fallback={<div aria-label="Đang tải màn hình" className="space-y-3"><div className="h-24 animate-pulse rounded-2xl bg-bg-tertiary" /><div className="h-48 animate-pulse rounded-2xl bg-bg-tertiary" /></div>}>{content}</Suspense></main>
    </div>
    {screen !== 'quiz' && <RightPanel progress={progress} onNavigate={navigate} pomodoro={pomodoro} showStackedBelowXl={screen === 'home'} />}
   </div>
