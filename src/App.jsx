@@ -442,7 +442,7 @@ function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMe
           </div>
         </div>
       ) : (
-        <button onClick={onSearch} aria-label="Tìm kiếm hoặc mở lệnh" aria-keyshortcuts="Control+K" className="flex h-9 w-full max-w-[440px] min-w-0 items-center justify-between gap-2 rounded-xl border border-border/70 bg-surface/90 px-3 text-text-muted shadow-xs transition-colors duration-150 hover:border-border-strong hover:bg-surface focus:border-accent focus:ring-[3px] focus:ring-accent-subtle">
+        <button onClick={onSearch} aria-label="Tìm kiếm hoặc mở lệnh" aria-keyshortcuts="Control+K" className="flex h-9 w-full max-w-[440px] min-w-0 items-center justify-between gap-2 rounded-xl border border-border/70 bg-surface/90 px-3 text-text-muted shadow-xs transition-[border-color,background-color,box-shadow,transform] duration-200 ease-out hover:border-border-strong hover:bg-surface active:scale-[0.99] focus-visible:border-accent">
           <div className="flex min-w-0 items-center gap-2 text-sm">
             <Icon.Search className="h-4 w-4 shrink-0 text-text-muted" />
             <span className="truncate">Tìm từ vựng, ngữ pháp...</span>
@@ -452,10 +452,10 @@ function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMe
       )}
       </div>
       <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-full border border-border/65 bg-surface px-3 text-[13px] font-semibold text-text-secondary shadow-xs transition-colors hover:bg-subtle sm:flex" title="Xem chuỗi ngày học" aria-label={`Chuỗi ${progress.streak} ngày`}><Icon.Flame className="h-4 w-4 text-error" /><span className="tabular-nums">{progress.streak}</span></button>
-        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-full border border-border/65 bg-surface px-3 text-[13px] font-semibold text-text-secondary shadow-xs transition-colors hover:bg-subtle sm:flex" title="Xem XP" aria-label={`${progress.xp} điểm XP`}><Icon.Zap className="h-4 w-4 text-warning" /><span className="tabular-nums">{progress.xp} XP</span></button>
-        <button onClick={onShortcuts} className="hidden h-9 w-9 place-items-center rounded-xl border border-border/65 bg-surface text-[13px] font-semibold text-text-secondary shadow-xs transition-colors hover:bg-subtle md:grid" title="Phím tắt (Ctrl + /)" aria-label="Xem phím tắt">?</button>
-        <button onClick={() => onThemeChange(nextTheme)} className="grid h-9 w-9 place-items-center rounded-xl border border-border/65 bg-surface text-text-secondary shadow-xs transition-colors hover:bg-subtle" title={`Giao diện: ${themeLabel} — bấm để đổi`} aria-label={`Giao diện đang ${themeLabel}, bấm để đổi`}>{themeMode === 'dark' ? <Icon.Moon className="h-[18px] w-[18px]" /> : <Icon.Sun className="h-[18px] w-[18px]" />}</button>
+        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-full border border-border/65 bg-surface px-3 text-[13px] font-semibold text-text-secondary shadow-xs transition-[background-color,border-color,transform] duration-200 ease-out hover:border-border-strong hover:bg-subtle active:scale-[0.98] sm:flex" title="Xem chuỗi ngày học" aria-label={`Chuỗi ${progress.streak} ngày`}><Icon.Flame className="h-4 w-4 text-error" /><span className="tabular-nums">{progress.streak}</span></button>
+        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-full border border-border/65 bg-surface px-3 text-[13px] font-semibold text-text-secondary shadow-xs transition-[background-color,border-color,transform] duration-200 ease-out hover:border-border-strong hover:bg-subtle active:scale-[0.98] sm:flex" title="Xem XP" aria-label={`${progress.xp} điểm XP`}><Icon.Zap className="h-4 w-4 text-warning" /><span className="tabular-nums">{progress.xp} XP</span></button>
+        <button onClick={onShortcuts} className="hidden h-9 w-9 place-items-center rounded-xl border border-border/65 bg-surface text-[13px] font-semibold text-text-secondary shadow-xs transition-[background-color,border-color,transform] duration-200 ease-out hover:border-border-strong hover:bg-subtle active:scale-[0.98] md:grid" title="Phím tắt (Ctrl + /)" aria-label="Xem phím tắt">?</button>
+        <button onClick={() => onThemeChange(nextTheme)} className="grid h-9 w-9 place-items-center rounded-xl border border-border/65 bg-surface text-text-secondary shadow-xs transition-[background-color,border-color,transform] duration-200 ease-out hover:border-border-strong hover:bg-subtle active:scale-[0.98]" title={`Giao diện: ${themeLabel} — bấm để đổi`} aria-label={`Giao diện đang ${themeLabel}, bấm để đổi`}>{themeMode === 'dark' ? <Icon.Moon className="h-[18px] w-[18px]" /> : <Icon.Sun className="h-[18px] w-[18px]" />}</button>
       </div>
       </div>
     </header>
@@ -524,7 +524,7 @@ function Sidebar({ screen, progress, onNavigate, mobileOpen, onClose, cloud = nu
             <span>Đăng nhập đồng bộ</span>
           </button>
         )}
-        <button onClick={() => onNavigate('dashboard')} className="flex w-full min-w-0 items-center gap-2.5 rounded-xl p-2 text-left transition-colors hover:bg-subtle">
+        <button onClick={() => onNavigate('dashboard')} className="flex w-full min-w-0 items-center gap-2.5 rounded-xl p-2 text-left transition-[background-color,transform] duration-200 ease-out hover:bg-subtle active:scale-[0.98]">
           <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent-2-subtle text-xl" role="img" aria-label="Băng">🐧</span>
           <span className="min-w-0 flex-1">
             <span className="block truncate text-sm font-semibold text-text-primary">{cloud?.user?.displayName || progress.profile?.name || 'Học viên'}</span>
@@ -538,7 +538,7 @@ function Sidebar({ screen, progress, onNavigate, mobileOpen, onClose, cloud = nu
   );
 }
 
-function RightPanel({ progress, onNavigate, pomodoro }) {
+function RightPanel({ progress, onNavigate, pomodoro, showStackedBelowXl = false }) {
   const goal = Math.max(1, Number(progress.dailyGoal) || 20);
   const done = Math.max(0, Number(progress.todayCount) || 0);
   const goalPercent = Math.min(100, Math.round((done / goal) * 100));
@@ -555,10 +555,13 @@ function RightPanel({ progress, onNavigate, pomodoro }) {
   monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
   const thisWeekXp = Number(progress.weeklyXP?.[getWeekKey(monday)]) || 0;
   const streakTarget = progress.streak < 3 ? 3 : progress.streak < 7 ? 7 : 10;
-  const panelClass = 'rounded-2xl border border-border/70 bg-surface p-4 shadow-xs';
+  const panelClass = 'rounded-2xl border border-border/70 bg-surface p-4 shadow-xs transition-[border-color,box-shadow] duration-200 ease-out hover:border-border-strong';
+  const asideClass = showStackedBelowXl
+    ? 'mx-auto w-full max-w-[840px] px-4 pb-24 pt-2 sm:px-6 lg:px-8 lg:pb-12 xl:mx-0 xl:w-[320px] xl:max-w-none xl:shrink-0 xl:border-l xl:border-border/65 xl:bg-surface/40 xl:px-4 xl:pb-20 xl:pt-5'
+    : 'hidden w-[320px] shrink-0 border-l border-border/65 bg-surface/40 px-4 pb-20 pt-5 xl:block';
   return (
-    <aside className="hidden w-[320px] shrink-0 border-l border-border/65 bg-surface/40 px-4 pb-20 pt-5 xl:block" aria-label="Bảng tiến độ">
-      <div className="space-y-4">
+    <aside className={asideClass} aria-label="Bảng tiến độ">
+      <div className={showStackedBelowXl ? 'grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-1' : 'space-y-4'}>
         <section className={panelClass}>
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
@@ -604,36 +607,38 @@ function RightPanel({ progress, onNavigate, pomodoro }) {
               {lastSeven.map((day) => (
                 <div key={day.key} className="text-center">
                   <span className="block text-[10px] font-medium uppercase text-text-muted">{day.label}</span>
-                  <span title={day.key} className={`mx-auto mt-1.5 grid h-7 w-7 place-items-center rounded-full border ${day.active ? 'border-accent bg-accent text-white dark:text-[#14161A]' : day.today ? 'streak-today border-accent text-accent' : 'border-border/70 text-text-muted'}`}>{day.active && <Icon.Check className="h-3.5 w-3.5" />}</span>
+                  <span title={day.key} className={`mx-auto mt-1.5 grid h-7 w-7 place-items-center rounded-full border ${day.active ? 'border-accent bg-accent text-[var(--on-accent)]' : day.today ? 'streak-today border-accent text-accent' : 'border-border/70 text-text-muted'}`}>{day.active && <Icon.Check className="h-3.5 w-3.5" />}</span>
                 </div>
               ))}
             </div>
             <div className="mt-3.5 flex items-center justify-between border-t border-border/50 pt-2.5 text-[11px] text-text-muted">
               <span className="truncate tabular-nums">{progress.achievements.length} huy hiệu · mốc {streakTarget} ngày</span>
-              <button type="button" onClick={() => onNavigate('dashboard')} className="shrink-0 font-semibold text-accent transition-colors hover:text-accent-hover">Chi tiết →</button>
+              <button type="button" onClick={() => onNavigate('dashboard')} className="shrink-0 rounded-md px-1 py-0.5 font-semibold text-accent transition-colors duration-200 hover:text-accent-hover active:scale-[0.98]">Chi tiết →</button>
             </div>
           </div>
         </section>
 
-        <section className={dueCount > 0 ? 'rounded-2xl border border-accent/20 bg-accent-subtle/75 p-4 shadow-xs' : panelClass}>
-          <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              <p className={`text-[11px] font-semibold uppercase tracking-wider ${dueCount > 0 ? 'text-accent' : 'text-text-muted'}`}>Ôn tập thông minh</p>
-              <p className="mt-1 font-sans text-base font-semibold leading-snug text-text-primary tabular-nums">{dueCount > 0 ? `${dueCount} từ đến hạn` : 'Chưa có từ cần ôn'}</p>
-              <p className="mt-1 text-xs leading-relaxed text-text-secondary">{dueCount > 0 ? 'Ôn đúng lúc giúp nhớ lâu gấp đôi.' : 'Đọc xong một bài, từ mới sẽ tự vào lịch ôn.'}</p>
+        <div className="space-y-4">
+          <section className={dueCount > 0 ? 'rounded-2xl border border-accent/20 bg-accent-subtle/75 p-4 shadow-xs transition-[border-color,box-shadow] duration-200 ease-out hover:border-accent/35' : panelClass}>
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className={`text-[11px] font-semibold uppercase tracking-wider ${dueCount > 0 ? 'text-accent' : 'text-text-muted'}`}>Ôn tập thông minh</p>
+                <p className="mt-1 font-sans text-base font-semibold leading-snug text-text-primary tabular-nums">{dueCount > 0 ? `${dueCount} từ đến hạn` : 'Chưa có từ cần ôn'}</p>
+                <p className="mt-1 text-xs leading-relaxed text-text-secondary">{dueCount > 0 ? 'Ôn đúng lúc giúp nhớ lâu gấp đôi.' : 'Đọc xong một bài, từ mới sẽ tự vào lịch ôn.'}</p>
+              </div>
+              <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-xl ${dueCount > 0 ? 'bg-surface text-accent shadow-xs' : 'bg-subtle text-text-muted'}`}><Icon.Refresh className="h-4 w-4" /></span>
             </div>
-            <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-xl ${dueCount > 0 ? 'bg-surface text-accent shadow-xs' : 'bg-subtle text-text-muted'}`}><Icon.Refresh className="h-4 w-4" /></span>
-          </div>
-          <button
-            type="button"
-            onClick={() => onNavigate('review')}
-            className={`${dueCount > 0 ? 'btn-soft' : 'btn-outline'} mt-3.5 w-full py-2 text-xs`}
-          >
-            {dueCount > 0 ? 'Ôn ngay' : 'Xem sổ ôn tập'}
-          </button>
-        </section>
+            <button
+              type="button"
+              onClick={() => onNavigate('review')}
+              className={`${dueCount > 0 ? 'btn-soft' : 'btn-outline'} mt-3.5 w-full py-2 text-xs`}
+            >
+              {dueCount > 0 ? 'Ôn ngay' : 'Xem sổ ôn tập'}
+            </button>
+          </section>
 
-        {pomodoro && <PomodoroCard pomodoro={pomodoro} />}
+          {pomodoro && <PomodoroCard pomodoro={pomodoro} />}
+        </div>
       </div>
     </aside>
   );
@@ -663,7 +668,7 @@ function PandaHeroMascot() {
 }
 
 function HomeSectionHeader({ title, onAction }) {
-  return <div className="mb-3 flex items-center justify-between"><h2 className="font-serif text-[18px] font-semibold text-text-primary">{title}</h2><button onClick={onAction} className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-accent transition-colors hover:bg-accent-subtle hover:text-accent-hover">Xem tất cả<Icon.ChevronRight className="h-3.5 w-3.5" /></button></div>;
+  return <div className="mb-3 flex items-center justify-between"><h2 className="font-serif text-[18px] font-semibold text-text-primary">{title}</h2><button onClick={onAction} className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-accent transition-[background-color,color,transform] duration-200 ease-out hover:bg-accent-subtle hover:text-accent-hover active:scale-[0.98]">Xem tất cả<Icon.ChevronRight className="h-3.5 w-3.5" /></button></div>;
 }
 
 function HomeScreen({ progress, onOpenLesson, onNavigate }) {
@@ -715,7 +720,7 @@ function HomeScreen({ progress, onOpenLesson, onNavigate }) {
         <HomeSectionHeader title="Tiếp tục học" onAction={() => onNavigate('learn')} />
         <article
           onClick={() => onOpenLesson(currentBai)}
-          className="group grid cursor-pointer items-center gap-4 rounded-2xl border border-border/70 bg-surface p-4 shadow-xs transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-accent/35 hover:shadow-md sm:grid-cols-[56px_1fr_auto] sm:p-5"
+          className="group grid cursor-pointer items-center gap-4 rounded-2xl border border-border/70 bg-surface p-4 shadow-xs transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/35 hover:shadow-md active:scale-[0.99] sm:grid-cols-[56px_1fr_auto] sm:p-5"
         >
           <div className="grid h-14 w-14 place-items-center rounded-xl bg-accent-subtle font-sans text-xl font-bold text-accent tabular-nums">{String(currentBai).padStart(2, '0')}</div>
           <div className="min-w-0">
@@ -1669,13 +1674,13 @@ function usePomodoro(onCompleteRef) {
 function PomodoroCard({ pomodoro, compact = false }) {
  const label = pomodoro.mode === 'work' ? 'Phiên học' : 'Giờ nghỉ';
  return (
- <section className={compact ? 'rounded-2xl border border-border/70 bg-surface p-4 shadow-lg' : 'rounded-2xl border border-border/70 bg-surface p-4 shadow-xs'}>
+ <section className={compact ? 'rounded-2xl border border-border/70 bg-surface p-4 shadow-lg' : 'rounded-2xl border border-border/70 bg-surface p-4 shadow-xs transition-[border-color,box-shadow] duration-200 ease-out hover:border-border-strong'}>
   <div className="flex items-center justify-between gap-2">
    <div className="flex items-center gap-2">
     <Icon.Clock className={`h-4 w-4 shrink-0 ${pomodoro.mode === 'work' ? 'text-accent-2' : 'text-success'}`} />
     <h2 className="font-serif text-[15px] font-semibold text-text-primary">{label}</h2>
    </div>
-   <button type="button" onClick={pomodoro.switchMode} className="rounded-full bg-subtle px-2.5 py-0.5 text-[11px] font-medium text-text-muted transition-colors hover:bg-accent-subtle hover:text-accent">
+   <button type="button" onClick={pomodoro.switchMode} className="rounded-full bg-subtle px-2.5 py-0.5 text-[11px] font-medium text-text-muted transition-[background-color,color,transform] duration-200 ease-out hover:bg-accent-subtle hover:text-accent active:scale-[0.98]">
     {pomodoro.mode === 'work' ? '5 phút nghỉ' : '25 phút học'}
    </button>
   </div>
@@ -3036,9 +3041,9 @@ export default function App() {
   <div className={screen === 'quiz' ? '' : 'xl:grid xl:min-h-[calc(100vh-4rem)] xl:grid-cols-[minmax(0,1fr)_320px]'}>
    <div className="min-w-0">
     {processingJobs.length > 0 && <div className="mx-auto max-w-[840px] px-4 pt-3 sm:px-6 lg:px-8"><div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-accent/30 bg-accent-subtle px-3 py-2 text-sm"><span className="font-semibold">{processingJobs.map((job) => `${job.courseName}: ${job.state === 'paused' ? 'tạm dừng' : 'đang xử lý'} ${job.current}/${job.total}`).join(' · ')}</span><button className="font-semibold text-accent" onClick={() => { setTargetCourseId(processingJobs[0].courseId); setScreen('process-document'); }}>Xem tiến độ</button></div></div>}
-    <main id="main-content" tabIndex={-1} key={screen} className={`mx-auto min-w-0 animate-fade-slide px-4 pb-24 pt-6 sm:px-6 lg:px-8 lg:pb-12 ${screen === 'quiz' ? 'max-w-[720px]' : 'max-w-[840px]'}`}><Suspense fallback={<div aria-label="Đang tải màn hình" className="space-y-3"><div className="h-24 animate-pulse rounded-md bg-bg-tertiary" /><div className="h-48 animate-pulse rounded-md bg-bg-tertiary" /></div>}>{content}</Suspense></main>
+    <main id="main-content" tabIndex={-1} key={screen} className={`mx-auto min-w-0 animate-fade-slide px-4 pt-6 sm:px-6 lg:px-8 ${screen === 'home' ? 'pb-6 xl:pb-12' : 'pb-24 lg:pb-12'} ${screen === 'quiz' ? 'max-w-[720px]' : 'max-w-[840px]'}`}><Suspense fallback={<div aria-label="Đang tải màn hình" className="space-y-3"><div className="h-24 animate-pulse rounded-md bg-bg-tertiary" /><div className="h-48 animate-pulse rounded-md bg-bg-tertiary" /></div>}>{content}</Suspense></main>
    </div>
-   {screen !== 'quiz' && <RightPanel progress={progress} onNavigate={navigate} pomodoro={pomodoro} />}
+   {screen !== 'quiz' && <RightPanel progress={progress} onNavigate={navigate} pomodoro={pomodoro} showStackedBelowXl={screen === 'home'} />}
   </div>
  </div>
  {screen !== 'quiz' && <BottomNav screen={screen} onNavigate={navigate} />}

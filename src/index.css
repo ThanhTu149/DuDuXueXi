@@ -339,12 +339,14 @@ html { -webkit-tap-highlight-color: transparent; }
   ::-webkit-scrollbar-thumb:hover { background-color: var(--text-muted); }
 
   /* -- Focus visibility -------------------------------------------------- */
+  a:focus-visible,
   button:focus-visible,
+  [role="button"]:focus-visible,
   input:focus-visible,
   textarea:focus-visible,
   select:focus-visible {
     @apply outline-none ring-2 ring-offset-2;
-    --tw-ring-color: var(--accent);
+    --tw-ring-color: rgb(var(--accent-rgb) / 0.45);
     --tw-ring-offset-color: var(--bg-primary);
   }
 }
@@ -783,14 +785,14 @@ html { -webkit-tap-highlight-color: transparent; }
     color: var(--text-secondary);
     width: 100%;
     text-align: left;
-    transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease,
-      transform var(--dur-fast) ease;
+    transition: background-color 200ms var(--ease-out-soft), color 200ms var(--ease-out-soft),
+      transform 180ms var(--ease-out-soft);
   }
   .nav-item:hover {
     background: var(--bg-tertiary);
     color: var(--text-primary);
   }
-  .nav-item:active { transform: scale(0.985); }
+  .nav-item:active { transform: scale(0.98); }
   .nav-item.active {
     background: rgb(var(--accent-rgb) / 0.11);
     color: var(--accent);
