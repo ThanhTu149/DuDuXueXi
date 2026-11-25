@@ -337,7 +337,7 @@ function Mascot({ type = 'panda', size = 'md', className = '' }) {
   );
 }
 
-function ProgressBar({ value, className = '', label = 'Tiến độ' }) { const safe = Math.min(100, Math.max(0, Number(value) || 0)); return <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={safe} className={`h-2 overflow-hidden rounded-full bg-bg-tertiary ${className}`}><div className="h-full origin-left rounded-full bg-accent transition-transform duration-300" style={{ transform: `scaleX(${safe / 100})` }} /></div>; }
+function ProgressBar({ value, className = '', label = 'Tiến độ' }) { const safe = Math.min(100, Math.max(0, Number(value) || 0)); const heightClass = /\bh-/.test(className) ? '' : 'h-2'; return <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={safe} className={`${heightClass} overflow-hidden rounded-full bg-subtle ${className}`}><div className="h-full origin-left rounded-full bg-accent transition-transform duration-300" style={{ transform: `scaleX(${safe / 100})` }} /></div>; }
 
 function SpeakButton({ text, lang = 'zh-CN', className = '' }) {
  const [speaking, setSpeaking] = useState(false);
@@ -632,7 +632,7 @@ function RightPanel({ progress, onNavigate, pomodoro }) {
 
 function PandaHeroMascot() {
   return (
-    <svg viewBox="0 0 210 190" className="h-[144px] w-[158px] drop-shadow-md" role="img" aria-label="Trúc đang chào">
+    <svg viewBox="0 0 210 190" className="h-[132px] w-[146px] drop-shadow-md" role="img" aria-label="Trúc đang chào">
       <ellipse cx="107" cy="174" rx="68" ry="10" fill="var(--accent-2)" opacity=".14" />
       <circle cx="69" cy="50" r="25" fill="#252932" />
       <circle cx="143" cy="48" r="25" fill="#252932" />
@@ -654,7 +654,7 @@ function PandaHeroMascot() {
 }
 
 function HomeSectionHeader({ title, onAction }) {
-  return <div className="mb-3.5 flex items-center justify-between"><h2 className="font-serif text-[18px] font-semibold">{title}</h2><button onClick={onAction} className="flex items-center gap-1 text-sm font-medium text-accent transition hover:text-accent-hover">Xem tất cả<Icon.ChevronRight className="h-4 w-4" /></button></div>;
+  return <div className="mb-3 flex items-center justify-between"><h2 className="font-serif text-[18px] font-semibold text-text-primary">{title}</h2><button onClick={onAction} className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-accent transition-colors hover:bg-accent-subtle hover:text-accent-hover">Xem tất cả<Icon.ChevronRight className="h-3.5 w-3.5" /></button></div>;
 }
 
 function HomeScreen({ progress, onOpenLesson, onNavigate }) {
@@ -686,34 +686,66 @@ function HomeScreen({ progress, onOpenLesson, onNavigate }) {
   ];
   const recentLessons = [...new Set([...unlocked.slice().reverse(), ...LESSONS])].slice(0, 5);
   return (
-    <div className="space-y-7">
-      <section className="relative overflow-hidden rounded-2xl border border-accent/15 bg-gradient-to-br from-accent-subtle/85 via-bg-secondary to-accent-2-subtle/75 px-6 py-5 shadow-sm sm:px-8 sm:py-6">
-        <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-56 w-56 rounded-full bg-accent-2-subtle blur-2xl" />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 left-1/3 h-44 w-44 rounded-full bg-warm-subtle blur-3xl" />
-        <svg aria-hidden="true" viewBox="0 0 800 210" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 bottom-0 h-[68%] w-full opacity-55"><path d="M0 176 112 94l78 58 111-108 98 106 78-63 121 82 89-76 113 83v34H0Z" fill="var(--accent-2-subtle)"/><path d="M0 191 135 128l93 57 108-83 113 80 105-65 106 64 67-34 73 40v23H0Z" fill="var(--accent-subtle)"/><path d="M0 199c130-24 250-13 369-2 148 14 277-16 431-3v16H0Z" fill="var(--bg-secondary)"/></svg>
-        <div className="relative z-10 max-w-[520px]">
+    <div className="space-y-6">
+      <section className="relative overflow-hidden rounded-2xl border border-accent/15 bg-gradient-to-br from-accent-subtle/80 via-surface to-accent-2-subtle/70 p-5 shadow-xs sm:px-6 sm:py-5">
+        <div aria-hidden="true" className="pointer-events-none absolute -right-14 -top-20 h-48 w-48 rounded-full bg-accent-2-subtle blur-2xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-16 left-1/3 h-36 w-36 rounded-full bg-warm-subtle blur-3xl" />
+        <svg aria-hidden="true" viewBox="0 0 800 210" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 bottom-0 h-[62%] w-full opacity-50"><path d="M0 176 112 94l78 58 111-108 98 106 78-63 121 82 89-76 113 83v34H0Z" fill="var(--accent-2-subtle)"/><path d="M0 191 135 128l93 57 108-83 113 80 105-65 106 64 67-34 73 40v23H0Z" fill="var(--accent-subtle)"/><path d="M0 199c130-24 250-13 369-2 148 14 277-16 431-3v16H0Z" fill="var(--bg-secondary)"/></svg>
+        <div className="relative z-10 max-w-[490px] md:pr-4">
           <p className="text-xs font-semibold uppercase tracking-wider text-accent">{greeting},</p>
-          <h1 className="mt-1 break-words font-serif text-[28px] font-bold leading-tight text-text-primary sm:text-[32px]">{progress.profile?.name ? <>{progress.profile.name} <span className="inline-block align-middle text-[22px]">👋</span></> : <>Hôm nay học gì? <span className="inline-block align-middle text-[22px]">👋</span></>}</h1>
-          <p className="mt-1.5 max-w-md text-[14.5px] leading-6 text-text-secondary">{heroSubtitle}</p>
+          <h1 className="mt-1 break-words font-serif text-[26px] font-bold leading-tight text-text-primary sm:text-[30px]">{progress.profile?.name ? <>{progress.profile.name} <span className="inline-block align-middle text-[20px]">👋</span></> : <>Hôm nay học gì? <span className="inline-block align-middle text-[20px]">👋</span></>}</h1>
+          <p className="mt-1.5 max-w-md text-sm leading-relaxed text-text-secondary">{heroSubtitle}</p>
           <div className="mt-4">
-            <button onClick={() => onOpenLesson(currentBai)} className="btn-primary inline-flex w-full items-center justify-center gap-2 px-5 py-2.5 sm:w-auto">Tiếp tục học<Icon.ChevronRight /></button>
+            <button onClick={() => onOpenLesson(currentBai)} className="btn-primary inline-flex w-full items-center justify-center gap-2 px-5 py-2.5 sm:w-auto">Tiếp tục học<Icon.ChevronRight className="h-4 w-4" /></button>
           </div>
         </div>
-        <div className="absolute bottom-0 right-4 z-10 hidden md:block"><div className="animate-float"><PandaHeroMascot /></div></div>
+        <div className="pointer-events-none absolute -bottom-1 right-5 z-10 hidden md:block"><div className="animate-float"><PandaHeroMascot /></div></div>
       </section>
 
       <section>
         <HomeSectionHeader title="Tiếp tục học" onAction={() => onNavigate('learn')} />
-        <article className="grid items-center gap-4 rounded-2xl border border-border/60 bg-bg-secondary p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md sm:grid-cols-[56px_1fr_auto]">
-          <div className="grid h-14 w-14 place-items-center rounded-xl bg-accent-subtle font-sans text-xl font-bold text-accent tabular">{String(currentBai).padStart(2, '0')}</div>
-          <div className="min-w-0"><p className="text-xs font-semibold uppercase tracking-[0.08em] text-text-muted tabular">Bài {currentBai} · {completedQuestions}/{totalQuestions} câu</p><h3 className="mt-1 truncate font-hanzi text-[20px] font-semibold">{currentGlossary?.metadata?.title_zh || `Bài ${currentBai}`}</h3><p className="truncate text-sm text-text-muted">{currentGlossary?.metadata?.title_vi || 'Tiếp tục hành trình học tập'}</p><div className="mt-3 flex items-center gap-3"><ProgressBar value={completion} className="flex-1"/><span className="text-xs font-semibold text-text-secondary tabular">{completion}%</span></div></div>
-          <button onClick={() => onOpenLesson(currentBai)} className="btn-soft flex items-center justify-center gap-2 px-5 py-2.5"><Icon.Play className="h-4 w-4"/>Bắt đầu</button>
+        <article
+          onClick={() => onOpenLesson(currentBai)}
+          className="group grid cursor-pointer items-center gap-4 rounded-2xl border border-border/70 bg-surface p-4 shadow-xs transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-accent/35 hover:shadow-md sm:grid-cols-[56px_1fr_auto] sm:p-5"
+        >
+          <div className="grid h-14 w-14 place-items-center rounded-xl bg-accent-subtle font-sans text-xl font-bold text-accent tabular-nums">{String(currentBai).padStart(2, '0')}</div>
+          <div className="min-w-0">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-text-muted tabular-nums">Bài {currentBai} · {completedQuestions}/{totalQuestions} câu</p>
+            <h3 className="mt-0.5 truncate font-hanzi text-[21px] font-semibold text-text-primary">{currentGlossary?.metadata?.title_zh || `Bài ${currentBai}`}</h3>
+            <p className="truncate text-sm text-text-secondary">{currentGlossary?.metadata?.title_vi || 'Tiếp tục hành trình học tập'}</p>
+            <div className="mt-3 flex items-center gap-3">
+              <ProgressBar value={completion} className="h-1.5 flex-1" />
+              <span className="text-xs font-semibold text-text-secondary tabular-nums">{completion}%</span>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={(event) => { event.stopPropagation(); onOpenLesson(currentBai); }}
+            className="btn-soft flex items-center justify-center gap-2 px-5 py-2.5 group-hover:border-accent group-hover:bg-accent group-hover:text-[var(--on-accent)] hover:border-accent-hover hover:bg-accent-hover"
+          >
+            <Icon.Play className="h-4 w-4" />
+            <span>Bắt đầu</span>
+          </button>
         </article>
       </section>
 
       <section>
         <HomeSectionHeader title="Kỹ năng" onAction={() => onNavigate('review')} />
-        <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">{skillCards.map((skill, index) => <button key={`${skill.id}-${index}`} style={{animationDelay:`${index*50}ms`}} onClick={() => onNavigate(skill.id)} className="animate-card-reveal group rounded-2xl border border-border/60 bg-bg-secondary p-4 text-left shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-md"><span className={`grid h-10 w-10 place-items-center rounded-full transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110 ${skill.tone}`}>{skill.icon}</span><span className="mt-3 block font-sans text-[15px] font-semibold">{skill.title}</span><span className="mt-0.5 flex items-center justify-between text-xs text-text-muted">{skill.caption}<Icon.ChevronRight className="h-4 w-4 transition group-hover:translate-x-0.5"/></span></button>)}</div>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">{skillCards.map((skill, index) => (
+          <button
+            key={`${skill.id}-${index}`}
+            style={{ animationDelay: `${index * 45}ms` }}
+            onClick={() => onNavigate(skill.id)}
+            className="animate-card-reveal group rounded-2xl border border-border/70 bg-surface p-4 text-left shadow-xs transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-md active:scale-[0.98]"
+          >
+            <span className={`grid h-10 w-10 place-items-center rounded-xl transition-transform duration-200 group-hover:-rotate-3 group-hover:scale-105 ${skill.tone}`}>{skill.icon}</span>
+            <span className="mt-3 block font-sans text-[15px] font-semibold text-text-primary">{skill.title}</span>
+            <span className="mt-0.5 flex items-center justify-between text-xs font-medium text-text-muted tabular-nums">
+              <span>{skill.caption}</span>
+              <Icon.ChevronRight className="h-4 w-4 text-text-muted/70 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:text-accent" />
+            </span>
+          </button>
+        ))}</div>
       </section>
 
       <section>
@@ -725,7 +757,7 @@ function HomeScreen({ progress, onOpenLesson, onNavigate }) {
           const percent = item.completed ? 100 : Math.round(((item.quizDone || 0) / quizTotal) * 100);
           const accuracy = item.quizDone ? Math.round(((item.quizCorrect || 0) / item.quizDone) * 100) : 0;
           const metadata = GLOSSARY[bai]?.metadata || {};
-          return <button key={bai} disabled={!isUnlocked} onClick={() => isUnlocked && onOpenLesson(bai)} className={`grid w-full grid-cols-[48px_minmax(0,1fr)] items-center gap-3 rounded-2xl border p-4 text-left transition duration-200 sm:grid-cols-[48px_minmax(0,1fr)_96px] sm:gap-4 ${isUnlocked ? 'border-border/60 bg-bg-secondary shadow-sm hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-md' : 'cursor-not-allowed border-border/40 bg-bg-tertiary opacity-55'}`}><span className={`grid h-12 w-12 place-items-center rounded-xl font-sans text-base font-bold tabular ${isUnlocked ? 'bg-accent-subtle text-accent' : 'bg-bg-secondary text-text-muted'}`}>{String(bai).padStart(2, '0')}</span><span className="min-w-0"><span className="flex flex-wrap items-center gap-2"><span className="text-sm font-semibold">Bài {bai}</span><span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${item.completed ? 'bg-success-subtle text-success' : isUnlocked ? 'bg-warning-subtle text-warning' : 'bg-bg-secondary text-text-muted'}`}>{item.completed ? 'Đã xong' : isUnlocked ? 'Đang học' : 'Đã khóa'}</span></span><span className="mt-0.5 block truncate font-hanzi text-[16px] font-medium">{metadata.title_zh || `Bài ${bai}`}</span><span className="block truncate text-xs text-text-muted">{metadata.title_vi || `${quizTotal} câu hỏi`}</span></span><span className="col-span-2 grid grid-cols-[auto_1fr_auto] items-center gap-3 text-right sm:col-span-1 sm:block sm:w-24"><span className="text-xs font-semibold text-text-secondary tabular">{isUnlocked ? `${percent}%` : '—'}</span><ProgressBar value={percent} label={`Tiến độ bài ${bai}`} className="sm:mt-2"/>{isUnlocked && <span className="text-[10px] text-text-muted sm:mt-1 sm:block tabular">{accuracy}% chính xác</span>}</span></button>;
+          return <button key={bai} disabled={!isUnlocked} onClick={() => isUnlocked && onOpenLesson(bai)} className={`grid w-full grid-cols-[48px_minmax(0,1fr)] items-center gap-3 rounded-2xl border p-4 text-left transition-[transform,box-shadow,border-color] duration-200 sm:grid-cols-[48px_minmax(0,1fr)_96px] sm:gap-4 ${isUnlocked ? 'border-border/70 bg-surface shadow-xs hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md active:scale-[0.99]' : 'cursor-not-allowed border-border/45 bg-subtle opacity-55'}`}><span className={`grid h-12 w-12 place-items-center rounded-xl font-sans text-base font-bold tabular-nums ${isUnlocked ? 'bg-accent-subtle text-accent' : 'bg-surface text-text-muted'}`}>{String(bai).padStart(2, '0')}</span><span className="min-w-0"><span className="flex flex-wrap items-center gap-2"><span className="text-sm font-semibold">Bài {bai}</span><span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${item.completed ? 'bg-success-subtle text-success' : isUnlocked ? 'bg-warning-subtle text-warning' : 'bg-surface text-text-muted'}`}>{item.completed ? 'Đã xong' : isUnlocked ? 'Đang học' : 'Đã khóa'}</span></span><span className="mt-0.5 block truncate font-hanzi text-[16px] font-medium">{metadata.title_zh || `Bài ${bai}`}</span><span className="block truncate text-xs text-text-muted">{metadata.title_vi || `${quizTotal} câu hỏi`}</span></span><span className="col-span-2 grid grid-cols-[auto_1fr_auto] items-center gap-3 text-right sm:col-span-1 sm:block sm:w-24"><span className="text-xs font-semibold text-text-secondary tabular-nums">{isUnlocked ? `${percent}%` : '—'}</span><ProgressBar value={percent} label={`Tiến độ bài ${bai}`} className="h-1.5 sm:mt-2"/>{isUnlocked && <span className="text-[10px] text-text-muted sm:mt-1 sm:block tabular-nums">{accuracy}% chính xác</span>}</span></button>;
         })}</div>
       </section>
     </div>

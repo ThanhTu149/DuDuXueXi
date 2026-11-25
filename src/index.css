@@ -662,12 +662,12 @@ html { -webkit-tap-highlight-color: transparent; }
     transition: background-color var(--dur-fast) ease, border-color var(--dur-fast) ease,
       color var(--dur-fast) ease, transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
   }
-  .btn-soft:hover:not(:disabled) {
+  .btn-soft:where(:not(:disabled)):hover {
     background: rgb(var(--accent-rgb) / 0.15);
     border-color: rgb(var(--accent-rgb) / 0.30);
     transform: translateY(-1px);
   }
-  .btn-soft:active:not(:disabled) {
+  .btn-soft:where(:not(:disabled)):active {
     transform: scale(0.98);
   }
 
