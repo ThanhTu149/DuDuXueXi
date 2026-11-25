@@ -6,8 +6,10 @@ function title(entry) { return entry.word_zh || entry.grammar_title_zh || entry.
 const COMMANDS = [
   { id: 'home', label: 'Về lộ trình', detail: 'Màn hình chính' },
   { id: 'library', label: 'Mở thư viện', detail: 'Khóa học và tài liệu' },
+  { id: 'community', label: 'Cộng đồng & Xếp hạng', detail: 'Khóa học chia sẻ và XP tuần' },
+  { id: 'tutor', label: 'Gia sư Trúc AI', detail: 'Hỏi đáp tiếng Trung với AI' },
   { id: 'new-course', label: 'Tạo khóa học mới', detail: 'Nhập tài liệu học' },
-  { id: 'settings', label: 'Mở cài đặt', detail: 'Giao diện và Gemini API' },
+  { id: 'settings', label: 'Mở cài đặt', detail: 'Tài khoản, giao diện và Gemini API' },
   { id: 'theme', label: 'Đổi sáng / tối', detail: 'Chuyển giao diện' },
   { id: 'review', label: 'Ôn tập ngay', detail: 'SRS và câu sai' },
 ];

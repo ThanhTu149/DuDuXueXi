@@ -16,6 +16,7 @@
 import { getAllCourses, getCourse, getRawDocument, getSettings, patchRawDocument, saveCourse } from './db.js';
 import { processRawDocument } from './contentProcessor.js';
 import { ApiQueue } from './queue.js';
+import { getCloudState } from './cloudSync.js';
 import {
   TAB_ID,
   readLocalJson,
@@ -213,7 +214,9 @@ async function beginProcessingJob(courseId, { customInstruction, queue } = {}) {
   const document = await getRawDocument(course.rawDocumentId);
   if (!document) throw new Error('Không tìm thấy tài liệu đã nhập.');
   const settings = await getSettings();
-  if (!settings.geminiApiKey) throw new Error('Chưa có Gemini API key. Hãy thêm trong Hồ sơ > Cài đặt.');
+  const cloud = getCloudState();
+  const useServerProxy = Boolean(!settings.geminiApiKey && cloud.authenticated && cloud.serverInfo?.aiProxyAvailable);
+  if (!settings.geminiApiKey && !useServerProxy) throw new Error('Chưa có Gemini API key. Hãy thêm trong Hồ sơ > Cài đặt.');
   const instruction = customInstruction ?? document.customInstruction ?? '';
   const controller = new AbortController();
   const apiQueue = queue || new ApiQueue();
@@ -256,6 +259,7 @@ async function beginProcessingJob(courseId, { customInstruction, queue } = {}) {
           customInstruction: instruction,
           signal: controller.signal,
           queue: apiQueue,
+          useServerProxy,
           onProgress: (info) => publish(courseId, { ...info, state: apiQueue.paused ? 'paused' : 'processing' }),
         });
       };

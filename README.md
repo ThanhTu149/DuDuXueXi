@@ -1,24 +1,42 @@
-# DuDu Hán Ngữ
+# DuDu Hán Ngữ (Full-Stack)
 
-SPA học tiếng Trung cho sinh viên Việt Nam, xây bằng React, Vite và Tailwind CSS. Mười bài có sẵn được nạp từ JSON trong `data/`; khóa học tự tạo và tài liệu nhập được lưu trong IndexedDB của trình duyệt.
+Ứng dụng web học tiếng Trung full-stack cho sinh viên Việt Nam, xây bằng **React + Vite + Tailwind CSS** ở frontend (hỗ trợ **Offline-First PWA**) và **Node.js + SQLite (`node:sqlite`)** ở backend.
 
-## Chạy local
+Mười bài giáo trình có sẵn được nạp từ `data/`; khóa học tự tạo, tiến độ học, SRS, ghi chú và hội thoại Gia sư AI được lưu cục bộ trên trình duyệt **và tự động đồng bộ hai chiều lên máy chủ SQLite** khi đăng nhập.
+
+## Tính năng Full-Stack mới (v2.0)
+
+- **Tài khoản & Đồng bộ đa thiết bị**: đăng ký/đăng nhập (`scrypt` + cookie phiên `HttpOnly`), quản lý thiết bị đang đăng nhập, tự động gộp dữ liệu đã học ở chế độ khách khi đăng nhập lần đầu, hàng đợi đồng bộ khi mất mạng.
+- **Kho khóa học Cộng đồng**: chia sẻ khóa học tự tạo kèm thẻ chủ đề & mã chia sẻ, tìm kiếm, xem trước bài học và nhân bản 1 chạm về thư viện cá nhân (kèm 2 khóa học mẫu chính thức).
+- **Bảng xếp hạng thực tế**: xếp hạng XP theo tuần (ISO week) và tổng XP mọi thời đại giữa các học viên, có tuỳ chọn ẩn/hiện riêng tư.
+- **Gia sư Trúc AI**: trò chuyện hỏi đáp ngữ pháp, sửa câu tiếng Trung và tạo ví dụ theo đúng ngữ cảnh bài đang mở, lưu lịch sử bền vững trong SQLite.
+- **Bảo mật Gemini API Key phía máy chủ**: hỗ trợ biến môi trường `GEMINI_API_KEY` dùng chung hoặc mã hoá key cá nhân bằng **AES-256-GCM** trên server, gọi Gemini qua `/api/ai/*` proxy.
+
+Xem chi tiết kiến trúc và toàn bộ REST API tại [docs/FULLSTACK.md](docs/FULLSTACK.md).
+
+## Chạy local (Full-Stack)
+
+Yêu cầu **Node.js >= 22.5** (khuyến nghị Node 24).
 
 ```bash
 npm install
 npm run dev
 ```
 
-Mở URL Vite hiển thị trong terminal, thường là `http://localhost:5173`.
+Lệnh `npm run dev` khởi chạy đồng thời:
+- Backend API + SQLite tại `http://127.0.0.1:3001` (tự tạo `data/dudu.sqlite`)
+- Frontend Vite tại `http://localhost:5173` (tự động proxy `/api/*`)
 
-## Build production
+Tuỳ chọn: sao chép `.env.example` thành `.env` nếu muốn cấu hình `GEMINI_API_KEY`, `ENCRYPTION_KEY`, `PORT` hoặc `DUDU_DB_PATH`.
+
+## Build & chạy production (Full-Stack)
 
 ```bash
 npm run build
-npm run preview
+npm start
 ```
 
-Build được ghi vào `dist/`. Tiến độ được lưu riêng theo khóa học trong IndexedDB; tiến độ khóa mặc định vẫn được giữ trong `localStorage` để tương thích dữ liệu cũ.
+`npm start` phục vụ cả ứng dụng tĩnh đã build trong `dist/` lẫn toàn bộ REST API `/api/*` trên cùng một cổng (`http://127.0.0.1:3001`). Ứng dụng vẫn có thể deploy tĩnh (offline-only) nếu chỉ phục vụ `dist/`.
 
 ## Nhập tài liệu và tạo bài học
 
@@ -36,6 +54,9 @@ Trong Thư viện có thể đổi tên, nhân bản, ghép, xóa và xuất/nh�
 ## Kiểm thử
 
 ```bash
+# Backend Full-Stack API, SQLite, Auth, Sync, Community, Leaderboard, AI Proxy (deterministic)
+npm run test:api
+
 # Dữ liệu, pipeline AI, tiến độ, sao lưu, PWA (node thuần, deterministic)
 npm run test:db
 npm run test:extractors
@@ -52,10 +73,11 @@ npm run test:backup
 npm run test:pwa
 npm run test:ux
 
-# Cần Chrome (Puppeteer): layout + audit ảnh chụp mọi màn hình
+# Cần Chrome (Puppeteer): full-stack e2e + layout + audit ảnh chụp mọi màn hình
+npm run test:fullstack  # build trước: e2e đăng ký, đồng bộ 2 thiết bị, cộng đồng, xếp hạng, Gia sư AI
 npm run test:layout
-npm run test:visual   # build trước: ghi ảnh vào test-artifacts/audit
-npm run test:pwa-e2e  # build trước: nạp lại trang khi offline, phải render từ cache
+npm run test:visual     # build trước: ghi ảnh vào test-artifacts/audit
+npm run test:pwa-e2e    # build trước: nạp lại trang khi offline, phải render từ cache
 npm run test:course-flow
 ```
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getCourse, getRawDocument, saveRawDocument } from '../lib/db.js';
 import { commitChapters } from '../lib/contentProcessor.js';
+import { syncCourseToCloud, syncRawDocumentToCloud } from '../lib/cloudSync.js';
 import WordEditorModal from '../components/editors/WordEditorModal.jsx';
 import ContentEditorModal from '../components/editors/ContentEditorModal.jsx';
 import TypingEditorModal from '../components/editors/TypingEditorModal.jsx';
@@ -41,7 +42,7 @@ export default function ReviewGeneratedScreen({ courseId, onBack, onCommitted, o
     setChapters((items) => items.map((chapter, at) => at !== chapterIndex ? chapter : { ...chapter, [field]: { ...chapter[field], [field === 'glossary' ? 'entries' : 'questions']: chapter[field][field === 'glossary' ? 'entries' : 'questions'].map((item) => item.id === id ? { ...item, ...value, id, ...(field === 'glossary' ? { note: value.note ?? item.note } : {}) } : item) } }));
     setDirty(true);
   };
-  const commit = async () => { setBusy(true); setError(''); try { await commitChapters(courseId, chapters); if (document && course.status !== 'ready') await saveRawDocument({ ...document, draftChapters: chapters }); setDirty(false); onCommitted(courseId); } catch (cause) { setError(cause.message); } finally { setBusy(false); } };
+  const commit = async () => { setBusy(true); setError(''); try { const committed = await commitChapters(courseId, chapters); syncCourseToCloud(committed); if (document && course.status !== 'ready') { const updatedDoc = { ...document, draftChapters: chapters }; await saveRawDocument(updatedDoc); syncRawDocumentToCloud(courseId, updatedDoc); } setDirty(false); onCommitted(courseId); } catch (cause) { setError(cause.message); } finally { setBusy(false); } };
   const failures = Object.values(document?.generated || {}).filter((item) => item.error);
   return <div className="space-y-5"><button onClick={() => dirty ? setConfirm({ type: 'leave' }) : onBack()} className="text-sm text-accent">← Thư viện</button><header><p className="text-xs font-semibold uppercase text-accent">{course?.name || 'Khóa học'}</p><h1 className="mt-1 font-serif text-2xl font-semibold">Duyệt nội dung</h1><p className="mt-2 text-sm text-text-secondary">Kiểm tra nội dung Gemini tạo trước khi lưu thành bài học.</p></header>
     {error && <p role="alert" className="rounded-lg bg-error-subtle p-3 text-sm text-error">{error}</p>}

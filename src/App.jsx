@@ -9,12 +9,29 @@ const LibraryScreen = lazy(() => import('./screens/LibraryScreen.jsx'));
 const ImportScreen = lazy(() => import('./screens/ImportScreen.jsx'));
 const ProcessingScreen = lazy(() => import('./screens/ProcessingScreen.jsx'));
 const ReviewGeneratedScreen = lazy(() => import('./screens/ReviewGeneratedScreen.jsx'));
+const CommunityScreen = lazy(() => import('./screens/CommunityScreen.jsx'));
+const AiTutorScreen = lazy(() => import('./screens/AiTutorScreen.jsx'));
 import GlobalCourseSearch from './components/GlobalCourseSearch.jsx';
 import ContentEditorModal from './components/editors/ContentEditorModal.jsx';
 import TypingEditorModal from './components/editors/TypingEditorModal.jsx';
 import ModelSelector from './components/ModelSelector.jsx';
+import AuthModal from './components/AuthModal.jsx';
+import AccountSyncPanel from './components/AccountSyncPanel.jsx';
 import { getActiveProcessingJobs, resumeInterruptedJobs, subscribeProcessingJobs } from './lib/processingJobs.js';
 import { readProgress, writeProgress, subscribeStorageChanges } from './lib/storage.js';
+import {
+  getCloudState,
+  initCloudSession,
+  queueProgressCloudSync,
+  refreshServerInfo,
+  subscribeCloudState,
+  syncAllWithCloud,
+  syncCourseToCloud,
+  syncProfileUpdate,
+  syncSettingsToCloud,
+  trackStudyEvent,
+} from './lib/cloudSync.js';
+import { deleteCloudGeminiKey, saveCloudGeminiKey, testServerAiKey } from './lib/apiClient.js';
 import useDialogA11y from './lib/useDialogA11y.js';
 
 const LESSONS = Array.from({ length: 10 }, (_, index) => index + 1);
@@ -284,7 +301,10 @@ const Icon = {
   Download: (props) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>,
   Upload: (props) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 16V4M7 9l5-5 5 5M4 21h16"/></svg>,
   Bell: (props) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M18 8a6 6 0 00-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>,
-  User: (props) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M20 21a8 8 0 00-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+  User: (props) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M20 21a8 8 0 00-16 0"/><circle cx="12" cy="7" r="4"/></svg>,
+  Globe: (props) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>,
+  Sparkles: (props) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/><path d="M19 3v4M21 5h-4M5 17v4M7 19H3"/></svg>,
+  Cloud: (props) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg>,
 };
 
 const MASCOTS = {
@@ -383,6 +403,8 @@ const NAV_ITEMS = [
 ];
 
 const EXTRA_NAV = [
+  { id: 'community', icon: <Icon.Globe />, label: 'Cộng đồng' },
+  { id: 'tutor', icon: <Icon.Sparkles />, label: 'Gia sư AI' },
   { id: 'exam', icon: <Icon.Pen />, label: 'Thi thử' },
   { id: 'boss', icon: <Icon.Trophy />, label: 'Boss Battle' },
   { id: 'minigame', icon: <Icon.Gamepad />, label: 'Ghép từ' },
@@ -391,7 +413,7 @@ const EXTRA_NAV = [
   { id: 'sentences', icon: <Icon.Type />, label: 'Câu ví dụ' },
 ];
 // --- REDESIGN: APP SHELL ---
-function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMenu, onShortcuts, hidden = false, focused = false }) {
+function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMenu, onShortcuts, hidden = false, focused = false, cloud = null, onOpenAuth = null }) {
   const accuracy = progress.accuracy.total ? Math.round((progress.accuracy.correct / progress.accuracy.total) * 100) : 0;
   const nextTheme = themeMode === 'light' ? 'dark' : themeMode === 'dark' ? 'auto' : 'light';
   const themeLabel = themeMode === 'dark' ? 'Tối' : themeMode === 'light' ? 'Sáng' : 'Tự động';
@@ -422,6 +444,17 @@ function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMe
         <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-border bg-bg-secondary px-2.5 text-[13px] font-semibold text-text-secondary transition hover:bg-bg-tertiary sm:flex" title="Xem chuỗi ngày học" aria-label={`Chuỗi ${progress.streak} ngày`}><Icon.Flame className="h-4 w-4 text-error" /><span className="tabular">{progress.streak}</span></button>
         <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-border bg-bg-secondary px-2.5 text-[13px] font-semibold text-text-secondary transition hover:bg-bg-tertiary sm:flex" title="Xem XP" aria-label={`${progress.xp} điểm XP`}><Icon.Zap className="h-4 w-4 text-warning" /><span className="tabular">{progress.xp} XP</span></button>
         <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-border bg-bg-secondary px-2.5 text-[13px] font-semibold text-text-secondary transition hover:bg-bg-tertiary md:flex" title="Xem độ chính xác" aria-label={`Độ chính xác ${accuracy}%`}><Icon.Target className="h-4 w-4 text-success" /><span className="tabular">{accuracy}%</span></button>
+        {cloud?.serverAvailable && (cloud.authenticated ? (
+          <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-accent/30 bg-accent-subtle px-2.5 text-xs font-semibold text-accent transition hover:border-accent sm:flex" title={cloud.syncState === 'syncing' ? 'Đang đồng bộ đám mây' : 'Tài khoản đã đồng bộ'}>
+            <Icon.Cloud className="h-3.5 w-3.5 shrink-0" />
+            <span className="max-w-[96px] truncate">{cloud.user?.displayName || cloud.user?.username}</span>
+          </button>
+        ) : (
+          <button onClick={() => onOpenAuth?.('login')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-accent/30 bg-accent-subtle px-3 text-xs font-semibold text-accent transition hover:border-accent sm:flex">
+            <Icon.User className="h-3.5 w-3.5 shrink-0" />
+            <span>Đăng nhập</span>
+          </button>
+        ))}
         <button onClick={onShortcuts} className="hidden h-9 w-9 place-items-center rounded-xl border border-border bg-bg-secondary text-[13px] font-bold text-text-secondary transition hover:bg-bg-tertiary md:grid" title="Phím tắt (Ctrl + /)" aria-label="Xem phím tắt">?</button>
         <button onClick={() => onThemeChange(nextTheme)} className="grid h-9 w-9 place-items-center rounded-xl border border-border bg-bg-secondary text-text-secondary transition hover:bg-bg-tertiary" title={`Giao diện: ${themeLabel} — bấm để đổi`} aria-label={`Giao diện đang ${themeLabel}, bấm để đổi`}>{themeMode === 'dark' ? <Icon.Moon className="h-[18px] w-[18px]" /> : <Icon.Sun className="h-[18px] w-[18px]" />}</button>
       </div>
@@ -430,7 +463,7 @@ function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMe
   );
 }
 
-function Sidebar({ screen, progress, onNavigate, mobileOpen, onClose }) {
+function Sidebar({ screen, progress, onNavigate, mobileOpen, onClose, cloud = null, onOpenAuth = null }) {
   return (
     <>
     {mobileOpen && <button className="fixed inset-0 z-40 bg-black/45 lg:hidden" onClick={onClose} aria-label="Đóng menu" />}
@@ -463,10 +496,16 @@ function Sidebar({ screen, progress, onNavigate, mobileOpen, onClose }) {
           <button onClick={() => onNavigate('minigame')} className="btn-primary mt-4 w-full">Luyện nhanh 5 phút</button>
         </section>
       </nav>
-      <div className="mt-4 border-t border-border pt-4">
+      <div className="mt-4 space-y-2 border-t border-border pt-4">
+        {cloud?.serverAvailable && !cloud.authenticated && (
+          <button onClick={() => { onClose(); onOpenAuth?.('login'); }} className="btn-secondary flex w-full items-center justify-center gap-2 text-xs">
+            <Icon.Cloud className="h-4 w-4 text-accent" />
+            <span>Đăng nhập đồng bộ</span>
+          </button>
+        )}
         <button onClick={() => onNavigate('dashboard')} className="flex w-full items-center gap-3 rounded-xl p-2 text-left transition hover:bg-bg-tertiary">
           <span className="grid h-9 w-9 place-items-center rounded-full bg-accent-2-subtle text-2xl" role="img" aria-label="Băng">🐧</span>
-          <span className="min-w-0 flex-1"><span className="block truncate text-sm font-semibold">{progress.profile?.name || 'Học viên'}</span><span className="block text-[11px] text-text-muted">Cấp {Math.max(1, Math.floor((progress.xp || 0) / 250) + 1)} · {progress.xp || 0} XP</span></span>
+          <span className="min-w-0 flex-1"><span className="block truncate text-sm font-semibold">{cloud?.user?.displayName || progress.profile?.name || 'Học viên'}</span><span className="block truncate text-[11px] text-text-muted">{cloud?.authenticated ? `@${cloud.user?.username} · ${cloud.syncState === 'syncing' ? 'Đang đồng bộ' : 'Đám mây'}` : `Cấp ${Math.max(1, Math.floor((progress.xp || 0) / 250) + 1)} · ${progress.xp || 0} XP`}</span></span>
           <Icon.Settings className="h-[18px] w-[18px] text-text-muted" />
         </button>
       </div>
@@ -1739,7 +1778,7 @@ function ProfileCoverArt() {
 
 const PROFILE_BADGE_ICONS = { first_lesson: Icon.Check, streak_3: Icon.Flame, streak_7: Icon.Flame, combo_10: Icon.Target, clean_book: Icon.Book, all_lessons: Icon.Trophy, accuracy_90: Icon.Star, boss_first: Icon.Gamepad };
 
-function ApiKeySection() {
+function ApiKeySection({ cloud = null }) {
  const [draft, setDraft] = useState('');
  const [configured, setConfigured] = useState(false);
  const [visible, setVisible] = useState(false);
@@ -1748,6 +1787,9 @@ function ApiKeySection() {
  const [model, setModel] = useState(DEFAULT_GEMINI_MODEL);
  const [modelKey, setModelKey] = useState('');
  const [modelRefresh, setModelRefresh] = useState(0);
+ const cloudProxyActive = Boolean(cloud?.authenticated && cloud?.serverInfo?.aiProxyAvailable);
+ const cloudUserKeyHint = cloud?.serverInfo?.userKeyHint || '';
+ const serverKeyAvailable = Boolean(cloud?.serverInfo?.serverKeyAvailable);
 
  useEffect(() => {
   let active = true;
@@ -1766,14 +1808,38 @@ function ApiKeySection() {
   setStatus(null);
   try {
    await saveSettings({ geminiApiKey: key, geminiModel: model });
+   let cloudMessage = '';
+   if (cloud?.authenticated && cloud?.serverAvailable) {
+    try {
+     const cloudRes = await saveCloudGeminiKey(key, model);
+     refreshServerInfo({ userKeyConfigured: true, userKeyHint: cloudRes.hint || '', aiProxyAvailable: true });
+     cloudMessage = ' và đã mã hoá đồng bộ lên máy chủ.';
+    } catch {
+     cloudMessage = ' (chưa đẩy được lên máy chủ, vẫn dùng cục bộ).';
+    }
+   }
    setConfigured(true);
    setModelKey(key);
    setModelRefresh((count) => count + 1);
    setDraft('');
    setVisible(false);
-   setStatus({ ok: true, message: 'Đã lưu API key trên trình duyệt này.' });
+   setStatus({ ok: true, message: `Đã lưu API key trên trình duyệt này${cloudMessage || '.'}` });
   } catch {
    setStatus({ ok: false, message: 'Không lưu được API key vào IndexedDB.' });
+  } finally {
+   setBusy(null);
+  }
+ };
+
+ const removeCloudKey = async () => {
+  setBusy('removing');
+  setStatus(null);
+  try {
+   await deleteCloudGeminiKey();
+   refreshServerInfo({ userKeyConfigured: false, userKeyHint: '', aiProxyAvailable: serverKeyAvailable });
+   setStatus({ ok: true, message: 'Đã xoá Gemini API key đã mã hoá khỏi máy chủ.' });
+  } catch (error) {
+   setStatus({ ok: false, message: error.message || 'Không xoá được key trên máy chủ.' });
   } finally {
    setBusy(null);
   }
@@ -1784,36 +1850,57 @@ function ApiKeySection() {
   setStatus(null);
   try {
    const key = draft.trim() || (await getSettings()).geminiApiKey;
+   if (!key && cloudProxyActive) {
+    await testServerAiKey({ model });
+    setModelRefresh((count) => count + 1);
+    setStatus({ ok: true, message: 'Kết nối Gemini qua máy chủ hoạt động ổn định.' });
+    return;
+   }
    const result = await testApiKey(key, model);
    setModelKey(key || '');
    setModelRefresh((count) => count + 1);
    setStatus(result.ok
     ? { ok: true, message: draft.trim() ? 'API key hoạt động. Nhấn Lưu để dùng sau.' : 'API key hoạt động.' }
     : { ok: false, message: result.error });
-  } catch {
-   setStatus({ ok: false, message: 'Không đọc được API key đã lưu.' });
+  } catch (error) {
+   setStatus({ ok: false, message: error?.message || 'Không đọc được API key đã lưu.' });
   } finally {
    setBusy(null);
   }
  };
 
  return <section className="rounded-xl border border-border bg-bg-secondary p-5">
-  <h2 className="font-serif text-lg font-semibold">Gemini API Key</h2>
- <p className="mt-1 text-sm text-text-muted">{configured ? 'Đã cấu hình. Key đã lưu không được hiển thị lại.' : 'Chưa cấu hình.'} Lấy key tại Google AI Studio.</p>
-  <ModelSelector apiKey={modelKey} value={model} refreshToken={modelRefresh} onChange={async (value) => { setModel(value); try { await saveSettings({ geminiModel: value }); } catch { setStatus({ ok: false, message: 'Không lưu được model.' }); } }} />
+  <div className="flex flex-wrap items-center justify-between gap-2">
+   <h2 className="font-serif text-lg font-semibold">Gemini API Key</h2>
+   {cloud?.authenticated && cloud?.serverInfo?.userKeyConfigured && (
+    <span className="rounded-full bg-success-subtle px-2.5 py-1 text-xs font-semibold text-success">
+     Đã mã hoá trên máy chủ {cloudUserKeyHint ? `· ${cloudUserKeyHint}` : ''}
+    </span>
+   )}
+   {cloud?.serverAvailable && serverKeyAvailable && !cloud?.serverInfo?.userKeyConfigured && (
+    <span className="rounded-full bg-accent-subtle px-2.5 py-1 text-xs font-semibold text-accent">
+     Máy chủ đã có sẵn key AI
+    </span>
+   )}
+  </div>
+  <p className="mt-1 text-sm text-text-muted">{configured ? 'Đã cấu hình. Key đã lưu không được hiển thị lại.' : cloudProxyActive ? 'Có thể dùng Gemini qua máy chủ mà không cần nhập lại key.' : 'Chưa cấu hình.'} Lấy key tại Google AI Studio.</p>
+  <ModelSelector apiKey={modelKey} useServerProxy={!modelKey && cloudProxyActive} value={model} refreshToken={modelRefresh} onChange={async (value) => { setModel(value); try { await saveSettings({ geminiModel: value }); syncSettingsToCloud({ geminiModel: value }); } catch { setStatus({ ok: false, message: 'Không lưu được model.' }); } }} />
   {model.includes('pro') && <p className="mt-2 text-sm text-warning">Model Pro có thể phát sinh chi phí. Hãy kiểm tra quota và giá trong Google AI Studio trước khi xử lý tài liệu dài.</p>}
   <div className="mt-4 flex flex-wrap gap-2">
    <label className="min-w-[220px] flex-1" htmlFor="gemini-api-key"><span className="sr-only">Gemini API key</span><input id="gemini-api-key" className="input w-full" type={visible ? 'text' : 'password'} autoComplete="new-password" value={draft} onChange={(event) => { setDraft(event.target.value); setStatus(null); }} placeholder={configured ? 'Nhập key mới để thay thế' : 'Dán API key của bạn'} /></label>
    <button type="button" className="btn-secondary" onClick={() => setVisible((value) => !value)} aria-label={visible ? 'Ẩn API key đang nhập' : 'Hiện API key đang nhập'}>{visible ? 'Ẩn' : 'Hiện'}</button>
    <button type="button" className="btn-primary" onClick={saveKey} disabled={!draft.trim() || Boolean(busy)}>Lưu</button>
-   <button type="button" className="btn-secondary" onClick={checkKey} disabled={(!draft.trim() && !configured) || Boolean(busy)}>{busy === 'checking' ? 'Đang kiểm tra...' : 'Kiểm tra'}</button>
+   <button type="button" className="btn-secondary" onClick={checkKey} disabled={(!draft.trim() && !configured && !cloudProxyActive) || Boolean(busy)}>{busy === 'checking' ? 'Đang kiểm tra...' : 'Kiểm tra'}</button>
+   {cloud?.authenticated && cloud?.serverInfo?.userKeyConfigured && (
+    <button type="button" className="btn-ghost text-xs text-error" onClick={removeCloudKey} disabled={Boolean(busy)}>Xoá key máy chủ</button>
+   )}
   </div>
   {status && <p role="status" className={`mt-3 text-sm ${status.ok ? 'text-success' : 'text-error'}`}>{status.message}</p>}
-  <p className="mt-3 text-xs text-text-muted">Key chỉ lưu trong IndexedDB trên thiết bị này. Không dùng key nhạy cảm trên máy công cộng.</p>
+  <p className="mt-3 text-xs text-text-muted">{cloud?.authenticated ? 'Khi đăng nhập, key được mã hoá AES-256-GCM trên máy chủ để dùng cho Gia sư AI và đồng bộ đa thiết bị.' : 'Key chỉ lưu trong IndexedDB trên thiết bị này. Không dùng key nhạy cảm trên máy công cộng.'}</p>
  </section>;
 }
 
-function Dashboard({ progress, onImport, onThemeChange, onColorThemeChange, onChangeGoal, onUpdateProfile, updateSettings, customBackground, onCustomBackgroundChange, effectiveTheme, initialTab = 'overview' }) {
+function Dashboard({ progress, onImport, onThemeChange, onColorThemeChange, onChangeGoal, onUpdateProfile, updateSettings, customBackground, onCustomBackgroundChange, effectiveTheme, initialTab = 'overview', cloud = null, onOpenAuth = null, onCloudDataApplied = null }) {
  const [tab, setTab] = useState(initialTab);
  const [editing, setEditing] = useState(false);
  const [draft, setDraft] = useState(progress.profile);
@@ -1846,9 +1933,12 @@ function Dashboard({ progress, onImport, onThemeChange, onColorThemeChange, onCh
   </section>
 
   <nav className="flex overflow-x-auto border-b border-border" aria-label="Các phần hồ sơ">{tabs.map(([id, label]) => <button key={id} onClick={() => setTab(id)} className={`relative whitespace-nowrap px-4 py-3 text-sm font-semibold transition ${tab === id ? 'text-accent' : 'text-text-muted hover:text-text-primary'}`}>{label}{tab === id && <span className="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-accent"/>}</button>)}</nav>
-  {tab === 'settings' && <ApiKeySection />}
+  {tab === 'settings' && cloud && <AccountSyncPanel cloud={cloud} onOpenAuth={onOpenAuth} onCloudDataApplied={onCloudDataApplied} />}
+  {tab === 'settings' && <ApiKeySection cloud={cloud} />}
 
-  {tab === 'overview' && <div className="grid gap-4 lg:grid-cols-[1fr_280px]">
+  {tab === 'overview' && <div className="space-y-4">
+   {cloud?.serverAvailable && !cloud.authenticated && <AccountSyncPanel cloud={cloud} onOpenAuth={onOpenAuth} onCloudDataApplied={onCloudDataApplied} />}
+   <div className="grid gap-4 lg:grid-cols-[1fr_280px]">
    <div className="space-y-4">
     <section className="rounded-xl border border-border bg-bg-secondary p-5"><div className="flex items-center justify-between"><h2 className="font-serif text-lg font-semibold">Giới thiệu</h2>{!editing && <button onClick={() => setEditing(true)} className="grid h-8 w-8 place-items-center rounded-lg text-text-muted hover:bg-bg-tertiary" aria-label="Sửa giới thiệu"><Icon.Pen/></button>}</div>{editing ? <div className="mt-4 space-y-3"><input className="input w-full" value={draft.name} onChange={(event) => setDraft((item) => ({ ...item, name: event.target.value }))} aria-label="Tên hiển thị"/><input className="input w-full" value={draft.headline} onChange={(event) => setDraft((item) => ({ ...item, headline: event.target.value }))} aria-label="Mô tả hồ sơ"/><textarea className="input w-full" rows={4} value={draft.bio} onChange={(event) => setDraft((item) => ({ ...item, bio: event.target.value }))} aria-label="Giới thiệu bản thân"/><div className="flex justify-end gap-2"><button onClick={() => { setDraft(progress.profile); setEditing(false); }} className="btn-secondary">Hủy</button><button onClick={saveProfile} className="btn-primary">Lưu hồ sơ</button></div></div> : <p className="mt-3 text-sm leading-6 text-text-secondary">{progress.profile.bio}</p>}</section>
     <section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Kỹ năng</h2><div className="mt-5 space-y-4">{skills.map((skill) => <div key={skill.label}><div className="mb-1.5 flex justify-between text-sm"><span className="font-semibold">{skill.label}</span><span className="text-text-muted">{Math.round(skill.value)}%</span></div><div className="h-2 overflow-hidden rounded-full bg-bg-tertiary"><div className={`h-full origin-left rounded-full transition-transform duration-300 ${skill.tone}`} style={{ transform: `scaleX(${Math.min(100, Math.max(0, skill.value)) / 100})` }}/></div></div>)}</div></section>
@@ -1859,6 +1949,7 @@ function Dashboard({ progress, onImport, onThemeChange, onColorThemeChange, onCh
     <section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Huy hiệu</h2><div className="mt-4 grid grid-cols-4 gap-2">{ACHIEVEMENTS.slice(0,4).map((badge) => { const BadgeIcon=PROFILE_BADGE_ICONS[badge.id] || Icon.Star; const unlocked=progress.achievements.includes(badge.id); return <span key={badge.id} title={badge.title} className={`grid aspect-square place-items-center rounded-xl border ${unlocked ? 'border-warning bg-warning-subtle text-warning' : 'border-border bg-bg-tertiary text-text-muted opacity-45'}`}><BadgeIcon/></span>; })}</div><button onClick={() => setTab('achievements')} className="btn-ghost mt-3 w-full text-accent">Xem thành tích</button></section>
     <section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Lịch sử học</h2><div className="mt-3 space-y-3">{recentStudy.length ? recentStudy.map(([date,data]) => <div key={date} className="flex items-center gap-3 text-sm"><span className="grid h-8 w-8 place-items-center rounded-xl bg-accent-subtle text-accent"><Icon.Calendar/></span><span className="flex-1 text-text-secondary">{new Intl.DateTimeFormat('vi-VN',{day:'2-digit',month:'2-digit'}).format(new Date(`${date}T12:00:00`))}</span><strong>{data.questions || 0} câu</strong></div>) : <p className="text-sm text-text-muted">Chưa có phiên học được ghi nhận.</p>}</div></section>
    </div>
+  </div>
   </div>}
 
   {tab === 'achievements' && <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{ACHIEVEMENTS.map((badge) => { const unlocked=progress.achievements.includes(badge.id); const percent=Math.round(achievementProgress(badge.id)); const BadgeIcon=PROFILE_BADGE_ICONS[badge.id] || Icon.Star; return <article key={badge.id} className={`rounded-xl border p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-sm ${unlocked ? 'border-warning bg-warning-subtle' : 'border-border bg-bg-secondary'}`}><span className={`grid h-11 w-11 place-items-center rounded-xl ${unlocked ? 'bg-warning text-white' : 'bg-bg-tertiary text-text-muted'}`}><BadgeIcon/></span><h2 className="mt-4 text-[15px] font-semibold">{badge.title}</h2><p className="mt-1 min-h-10 text-sm text-text-muted">{badge.description}</p><ProgressBar value={percent} className="mt-4"/><div className="mt-2 flex justify-between text-xs font-semibold"><span className={unlocked ? 'text-success' : 'text-text-muted'}>{unlocked ? 'Đã đạt' : 'Chưa đạt'}</span><span className="text-text-muted">{percent}%</span></div></article>; })}</div>}
@@ -2327,14 +2418,43 @@ export default function App() {
  const [processingJobs, setProcessingJobs] = useState(() => getActiveProcessingJobs());
  const [headerHidden, setHeaderHidden] = useState(false);
  const [online, setOnline] = useState(() => (typeof navigator === 'undefined' ? true : navigator.onLine !== false));
+ const [cloud, setCloud] = useState(() => getCloudState());
+ const [authModal, setAuthModal] = useState({ open: false, mode: 'login' });
  const progressRef = useRef(progress);
  const goKeyRef = useRef(0);
  const pomodoroCompleteRef = useRef(() => {});
  const pomodoro = usePomodoro(pomodoroCompleteRef);
  const remoteAppliedAtRef = useRef('');
  const activeCourseRef = useRef(activeCourse);
+ const activeCourseIdRef = useRef(activeCourseId);
  activeCourseRef.current = activeCourse;
+ activeCourseIdRef.current = activeCourseId;
  progressRef.current = progress;
+
+ const applyCloudData = useCallback((payload) => {
+   if (!payload) return;
+   const currentId = activeCourseIdRef.current || BUILT_IN_COURSE_ID;
+   const nextProg = payload.progressByCourse?.[currentId];
+   if (nextProg) {
+     remoteAppliedAtRef.current = nextProg._savedAt || '';
+     const merged = progressForCourse(nextProg, activeCourseRef.current);
+     if (payload.user?.displayName && !merged.profile?.name) {
+       merged.profile = { ...merged.profile, name: payload.user.displayName, headline: payload.user.headline || merged.profile.headline, bio: payload.user.bio || merged.profile.bio };
+     }
+     setProgress(merged);
+   } else if (payload.user?.displayName) {
+     setProgress((prev) => (!prev.profile?.name ? { ...prev, profile: { ...prev.profile, name: payload.user.displayName, headline: payload.user.headline || prev.profile.headline, bio: payload.user.bio || prev.profile.bio } } : prev));
+   }
+   setLibraryRefresh((value) => value + 1);
+ }, []);
+
+ useEffect(() => subscribeCloudState(setCloud), []);
+
+ useEffect(() => {
+   if (!courseReady) return undefined;
+   initCloudSession({ onCloudDataApplied: applyCloudData }).catch(() => {});
+   return undefined;
+ }, [courseReady, applyCloudData]);
 
  useEffect(() => {
   let active = true;
@@ -2395,7 +2515,10 @@ export default function App() {
  }), []);
 
  useEffect(() => {
-   const goOnline = () => setOnline(true);
+   const goOnline = () => {
+     setOnline(true);
+     syncAllWithCloud({ onCloudDataApplied: applyCloudData }).catch(() => {});
+   };
    const goOffline = () => setOnline(false);
    window.addEventListener('online', goOnline);
    window.addEventListener('offline', goOffline);
@@ -2403,7 +2526,7 @@ export default function App() {
      window.removeEventListener('online', goOnline);
      window.removeEventListener('offline', goOffline);
    };
- }, []);
+ }, [applyCloudData]);
 
  useEffect(() => {
    let previous = window.scrollY;
@@ -2440,6 +2563,7 @@ export default function App() {
      const result = writeProgress(progress);
      if (!result.ok) setWordEditorError(`Không lưu được tiến độ: ${result.error?.userMessage || 'lỗi không xác định'}`);
    }
+   queueProgressCloudSync(activeCourseId, progress);
    const timer = setTimeout(() => saveProgress(activeCourseId, progress).catch((error) => setWordEditorError(`Không lưu được tiến độ: ${error.message}`)), 400);
    return () => clearTimeout(timer);
  }, [progress, activeCourseId, courseReady]);
@@ -2461,7 +2585,9 @@ export default function App() {
      setScreen(course.chapters.length ? 'home' : 'library');
      setLibraryRefresh((value) => value + 1);
      const settings = await getSettings();
-     await saveSettings({ activeCourseId: course.id, recentCourseIds: [course.id, ...(settings.recentCourseIds || []).filter((id) => id !== course.id)].slice(0, 5) });
+     const recentCourseIds = [course.id, ...(settings.recentCourseIds || []).filter((id) => id !== course.id)].slice(0, 5);
+     await saveSettings({ activeCourseId: course.id, recentCourseIds });
+     syncSettingsToCloud({ activeCourseId: course.id, recentCourseIds });
      return course;
    } catch (error) { setToast({ icon: '!', title: 'Không mở được khóa học', description: error.message }); }
  };
@@ -2582,6 +2708,9 @@ export default function App() {
  };
 
  const recordAnswer = (question, userAnswer, result, mode) => {
+ const isTypingQuestion = TYPING_TYPES.has(question.type);
+ const approxXp = isTypingQuestion ? (result.score >= 80 ? XP_REWARDS.typingHigh : result.score >= 60 ? XP_REWARDS.typingMid : 0) : (result.isCorrect ? XP_REWARDS.mcq : 0);
+ trackStudyEvent({ eventType: 'quiz_answer', courseId: activeCourseId, bai: question.bai, questionId: question.id, isCorrect: result.isCorrect, xpEarned: approxXp, meta: { mode, type: question.type } });
  setProgress((previous) => {
  const next = mergeProgress(JSON.parse(JSON.stringify(previous)));
  const today = updateStudyDate(next);
@@ -2656,6 +2785,7 @@ export default function App() {
  };
 
  const recordBossWin = () => {
+ trackStudyEvent({ eventType: 'boss_win', courseId: activeCourseId, xpEarned: XP_REWARDS.boss });
  setProgress((previous) => {
  const next = mergeProgress(JSON.parse(JSON.stringify(previous)));
  const today = updateStudyDate(next);
@@ -2673,8 +2803,8 @@ export default function App() {
  };
 
  const changeDailyGoal = (goal) => setProgress((previous) => ({ ...previous, dailyGoal: goal }));
- const changeTheme = (themeMode) => setProgress((previous) => ({ ...previous, themeMode }));
- const changeColorTheme = (colorTheme) => setProgress((previous) => ({ ...previous, colorTheme }));
+ const changeTheme = (themeMode) => { setProgress((previous) => ({ ...previous, themeMode })); syncSettingsToCloud({ themeMode }); };
+ const changeColorTheme = (colorTheme) => { setProgress((previous) => ({ ...previous, colorTheme })); syncSettingsToCloud({ colorTheme }); };
  const toggleBookmark = (entryId) => setProgress((previous) => ({
  ...previous,
  bookmarks: previous.bookmarks.includes(entryId)
@@ -2691,6 +2821,7 @@ export default function App() {
   if (!editingWord) return;
   const { note, ...changes } = values;
   const updated = await updateWordInCourse(activeCourseId, editingWord.id, changes);
+  getCourse(activeCourseId).then((c) => syncCourseToCloud(c)).catch(() => {});
   const source = GLOSSARY[updated.bai]?.entries;
   if (source) { const index = source.findIndex((entry) => entry.id === updated.id); if (index >= 0) source[index] = updated; }
   const allIndex = ALL_GLOSSARY_ENTRIES.findIndex((entry) => entry.id === updated.id);
@@ -2729,9 +2860,13 @@ export default function App() {
      if (allIndex >= 0) ALL_QUESTIONS[allIndex] = updated;
      setQuizSession((previous) => previous ? { ...previous, questions: previous.questions.map((question) => question.id === updated.id ? updated : question) } : previous);
    }
+   getCourse(activeCourseId).then((c) => syncCourseToCloud(c)).catch(() => {});
    setToast({ icon: '✓', title: 'Đã lưu nội dung', description: 'Thay đổi đã lưu vào khóa học.' });
  };
- const updateProfile = (updates) => setProgress((previous) => ({ ...previous, profile: { ...previous.profile, ...updates } }));
+ const updateProfile = (updates) => {
+   setProgress((previous) => ({ ...previous, profile: { ...previous.profile, ...updates } }));
+   syncProfileUpdate(updates).catch(() => {});
+ };
  const addLessonToSrs = (bai) => {
  setProgress((previous) => {
  const words = GLOSSARY[bai].entries.filter((entry) => entry.type === 'word');
@@ -2744,15 +2879,19 @@ export default function App() {
  return { ...previous, srs };
  });
  };
- const rateSrs = (entryId, rating) => setProgress((previous) => ({
+ const rateSrs = (entryId, rating) => {
+ trackStudyEvent({ eventType: 'srs_review', courseId: activeCourseId, meta: { entryId, rating } });
+ setProgress((previous) => ({
  ...previous,
  srs: { ...(previous.srs || {}), [entryId]: calculateNextReview(previous.srs?.[entryId], rating) },
  }));
+ };
  const importProgress = (imported) => {
  setProgress(rolloverDailyProgress(mergeProgress(imported)));
  setToast({ icon: '✓', title: 'Đã nhập tiến độ', description: 'Dữ liệu học tập đã được khôi phục.' });
  };
  const completePomodoro = () => {
+ trackStudyEvent({ eventType: 'pomodoro_complete', courseId: activeCourseId });
  setProgress((previous) => {
  const next = rolloverDailyProgress(mergeProgress(JSON.parse(JSON.stringify(previous))));
  const today = updateStudyDate(next);
@@ -2802,9 +2941,24 @@ export default function App() {
  window.scrollTo({ top: 0, behavior: 'smooth' });
  };
 
+ const openAuth = (mode = 'login') => setAuthModal({ open: true, mode });
+ const currentLessonContext = useMemo(() => {
+   const g = GLOSSARY[currentBai];
+   return {
+     courseId: activeCourseId,
+     courseName: activeCourse?.name || 'Hán Ngữ Tập 2',
+     bai: currentBai,
+     lessonTitleZh: g?.metadata?.title_zh || '',
+     lessonTitleVi: g?.metadata?.title_vi || '',
+     vocabSample: (g?.entries || []).filter((e) => e.type === 'word').slice(0, 12).map((e) => `${e.word_zh} (${e.pinyin}: ${e.meaning_vi})`),
+   };
+ }, [activeCourseId, activeCourse?.name, currentBai, wordOverrides]);
+
  let content;
  if (!courseReady) content = <div className="space-y-4 py-5" aria-label="Đang tải khóa học"><div className="h-40 animate-pulse rounded-md bg-bg-tertiary" /><div className="h-20 animate-pulse rounded-md bg-bg-tertiary" /><div className="h-20 animate-pulse rounded-md bg-bg-tertiary" /></div>;
- else if (screen === 'library') content = <LibraryScreen activeCourseId={activeCourseId} refreshKey={libraryRefresh} onSelect={selectCourse} onImport={(id) => { setTargetCourseId(id); setScreen('import-document'); }} onProcess={(id) => { setTargetCourseId(id); setScreen('process-document'); }} onReview={(id) => { setTargetCourseId(id); setScreen('review-generated'); }} />;
+ else if (screen === 'library') content = <LibraryScreen activeCourseId={activeCourseId} refreshKey={libraryRefresh} cloud={cloud} onOpenCommunity={() => navigate('community')} onSelect={selectCourse} onImport={(id) => { setTargetCourseId(id); setScreen('import-document'); }} onProcess={(id) => { setTargetCourseId(id); setScreen('process-document'); }} onReview={(id) => { setTargetCourseId(id); setScreen('review-generated'); }} />;
+ else if (screen === 'community') content = <CommunityScreen cloud={cloud} onOpenAuth={openAuth} onNavigateLibrary={() => navigate('library')} onCourseCloned={(cloned) => { setLibraryRefresh((v) => v + 1); setToast({ icon: '✓', title: 'Đã tải khóa học cộng đồng', description: cloned.name }); }} />;
+ else if (screen === 'tutor') content = <AiTutorScreen cloud={cloud} lessonContext={currentLessonContext} onOpenAuth={openAuth} onOpenSettings={() => { setDashboardTab('settings'); setScreen('dashboard'); }} />;
  else if (screen === 'import-document') content = <ImportScreen key={targetCourseId} courseId={targetCourseId} onBack={() => setScreen('library')} onSaved={(id) => { setTargetCourseId(id); setLibraryRefresh((value) => value + 1); setScreen('process-document'); }} />;
  else if (screen === 'process-document') content = <ProcessingScreen key={targetCourseId} courseId={targetCourseId} onBack={() => setScreen('library')} onDone={(id) => { setTargetCourseId(id); setLibraryRefresh((value) => value + 1); setScreen('review-generated'); }} onSettings={() => { setDashboardTab('settings'); setScreen('dashboard'); }} />;
  else if (screen === 'review-generated') content = <ReviewGeneratedScreen key={targetCourseId} courseId={targetCourseId} onBack={() => setScreen('library')} onRetry={() => setScreen('process-document')} onCommitted={(id) => { setLibraryRefresh((value) => value + 1); selectCourse(id); }} />;
@@ -2819,7 +2973,7 @@ export default function App() {
  else if (screen === 'dictation') content = <DictationScreen onComplete={completeDictation} />;
  else if (screen === 'pronunciation') content = <PronunciationScreen onAttempt={recordPronunciation} />;
  else if (screen === 'sentences') content = <SentenceMiningScreen bookmarks={progress.bookmarks} notes={progress.notes} onCharacter={openCharacter} onStartPlaylist={startPlaylist} />;
- else content = <Dashboard progress={progress} onImport={importProgress} onThemeChange={changeTheme} onColorThemeChange={changeColorTheme} onChangeGoal={changeDailyGoal} onUpdateProfile={updateProfile} updateSettings={updateSettings} customBackground={customBackground} onCustomBackgroundChange={updateCustomBackground} effectiveTheme={effectiveTheme} initialTab={dashboardTab} />;
+ else content = <Dashboard progress={progress} onImport={importProgress} onThemeChange={changeTheme} onColorThemeChange={changeColorTheme} onChangeGoal={changeDailyGoal} onUpdateProfile={updateProfile} updateSettings={updateSettings} customBackground={customBackground} onCustomBackgroundChange={updateCustomBackground} effectiveTheme={effectiveTheme} initialTab={dashboardTab} cloud={cloud} onOpenAuth={openAuth} onCloudDataApplied={applyCloudData} />;
 
  const hasBackground = progress.settings?.enableBackground && progress.settings?.background !== 'none' && (progress.settings.background !== 'custom' || Boolean(customBackground));
  const rootBgClass = hasBackground ? 'bg-transparent text-text-primary' : 'bg-bg-primary text-text-primary';
@@ -2830,8 +2984,8 @@ export default function App() {
  <a href="#main-content" className="skip-link">Bỏ qua menu, đến nội dung chính</a>
  {!online && <div role="status" className="fixed inset-x-0 top-0 z-[120] bg-warning-subtle px-4 py-1.5 text-center text-xs font-semibold text-warning">Mất kết nối mạng — bài học đã tải vẫn dùng được, tính năng tạo nội dung bằng AI sẽ tạm chờ.</div>}
  <BackgroundLayer settings={progress.settings} customBackground={customBackground} effectiveTheme={effectiveTheme} />
- {screen !== 'quiz' && <Sidebar screen={screen} progress={progress} onNavigate={navigate} mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />}
- <Header progress={progress} themeMode={progress.themeMode} onThemeChange={changeTheme} onSearch={() => setSearchOpen(true)} onNavigate={navigate} onMenu={() => setSidebarOpen(true)} onShortcuts={() => setShortcutsOpen(true)} hidden={headerHidden} focused={screen === 'quiz'} />
+ {screen !== 'quiz' && <Sidebar screen={screen} progress={progress} onNavigate={navigate} mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} cloud={cloud} onOpenAuth={openAuth} />}
+ <Header progress={progress} themeMode={progress.themeMode} onThemeChange={changeTheme} onSearch={() => setSearchOpen(true)} onNavigate={navigate} onMenu={() => setSidebarOpen(true)} onShortcuts={() => setShortcutsOpen(true)} hidden={headerHidden} focused={screen === 'quiz'} cloud={cloud} onOpenAuth={openAuth} />
  {screen !== 'quiz' && <RightPanel progress={progress} onNavigate={navigate} pomodoro={pomodoro} />}
  <div className={`relative z-10 ${screen === 'quiz' ? '' : 'lg:pl-[240px] xl:pr-[320px]'}`}>
  {processingJobs.length > 0 && <div className="mx-auto max-w-[864px] px-4 pt-3 lg:px-8"><div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-accent/30 bg-accent-subtle px-3 py-2 text-sm"><span className="font-semibold">{processingJobs.map((job) => `${job.courseName}: ${job.state === 'paused' ? 'tạm dừng' : 'đang xử lý'} ${job.current}/${job.total}`).join(' · ')}</span><button className="font-semibold text-accent" onClick={() => { setTargetCourseId(processingJobs[0].courseId); setScreen('process-document'); }}>Xem tiến độ</button></div></div>}
@@ -2846,6 +3000,7 @@ export default function App() {
  <AchievementToast badge={toast} onClose={() => setToast(null)} />
  <GlobalCourseSearch isOpen={searchOpen} onClose={() => setSearchOpen(false)} onSelect={selectSearchResult} onCommand={runPaletteCommand} activeCourseId={activeCourseId} />
  <KeyboardShortcutsModal isOpen={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+ <AuthModal isOpen={authModal.open} initialMode={authModal.mode} onClose={() => setAuthModal((prev) => ({ ...prev, open: false }))} onAuthenticated={(info) => { applyCloudData(info); if (info?.user) setToast({ icon: '✓', title: info.justSignedUp ? 'Đã tạo tài khoản' : 'Đã đăng nhập', description: `Chào mừng ${info.user.displayName || info.user.username} — dữ liệu đã được đồng bộ.` }); }} />
  <PomodoroDock pomodoro={pomodoro} sessionsToday={progress.pomodoroSessions} />
  </div>
  );

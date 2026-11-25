@@ -6,6 +6,7 @@ import { extractTextFromTxt } from '../lib/txtExtractor.js';
 import { chunkText } from '../lib/chunker.js';
 import { detectChapters } from '../lib/chapterDetector.js';
 import { attachRawDocument, getCourse } from '../lib/db.js';
+import { syncCourseToCloud, syncRawDocumentToCloud } from '../lib/cloudSync.js';
 
 export default function ImportScreen({ courseId, onBack, onSaved }) {
   const [course, setCourse] = useState(null);
@@ -47,7 +48,9 @@ export default function ImportScreen({ courseId, onBack, onSaved }) {
     setStage('save'); setError('');
     try {
       const doc = { id: `doc-${crypto.randomUUID()}`, courseId, fileName: file.name, fileSize: file.size, fileType: result.fileType, extractedText: result.text, textLength: result.text.length, chunks: result.chunks, chunkCount: result.chunks.length, status: 'chunked', detectedStructure: { chapters: result.chapters }, extractedAt: new Date().toISOString(), error: null, generated: {} };
-      await attachRawDocument(courseId, doc);
+      const updatedCourse = await attachRawDocument(courseId, doc);
+      syncCourseToCloud(updatedCourse);
+      syncRawDocumentToCloud(courseId, doc);
       onSaved(courseId);
     } catch (cause) { setError(cause.message); setStage('preview'); }
   };

@@ -230,8 +230,45 @@ function normalizeSchema(value) {
   return value;
 }
 
-export async function fetchAvailableModels(apiKey, { force = false, signal, timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
+export async function fetchAvailableModels(apiKey, { force = false, signal, timeoutMs = DEFAULT_TIMEOUT_MS, useServerProxy = false } = {}) {
   const key = apiKey?.trim();
+  if (useServerProxy && !key) {
+    if (!force && cachedModelKey === '__server_proxy__' && cachedModels) return cachedModels;
+    const abortLink = createLinkedAbort(signal, timeoutMs);
+    try {
+      let response;
+      try {
+        response = await fetch('/api/ai/models', {
+          credentials: 'include',
+          headers: { Accept: 'application/json' },
+          signal: abortLink.signal,
+        });
+      } catch (error) {
+        if (abortLink.timedOut) throw new TimeoutError(timeoutMs);
+        if (signal?.aborted) throw new DOMException('Đã huỷ yêu cầu Gemini.', 'AbortError');
+        if (error instanceof TypeError || error?.name === 'TypeError') throw new NetworkError(error);
+        throw error;
+      }
+      const data = await readJsonBody(response);
+      if (!response.ok || data?.ok === false) {
+        const err = data?.error || {};
+        if (response.status === 429) throw new RateLimitError(retryDelay(response.headers?.get?.('Retry-After')));
+        if (response.status === 401 || response.status === 403 || err.code === 'gemini_auth' || err.code === 'gemini_key_missing') {
+          throw new AuthError(err.message || 'API key Gemini không hợp lệ.', { status: response.status });
+        }
+        if (response.status >= 500) throw new ServerError(response.status, err.message);
+        throw new RequestError(err.message || 'Không lấy được danh sách model từ máy chủ.', { status: response.status });
+      }
+      if (!Array.isArray(data.models) || !data.models.length) {
+        throw new InvalidResponseError('Không tìm thấy model sinh văn bản phù hợp.');
+      }
+      cachedModelKey = '__server_proxy__';
+      cachedModels = data.models;
+      return data.models;
+    } finally {
+      abortLink.dispose();
+    }
+  }
   if (!key) throw new AuthError('Chưa có Gemini API key. Vui lòng nhập key trong Cài đặt.');
   if (!force && cachedModelKey === key && cachedModels) return cachedModels;
 
@@ -298,11 +335,51 @@ export async function callGemini({
   model = DEFAULT_GEMINI_MODEL,
   signal,
   timeoutMs = DEFAULT_TIMEOUT_MS,
+  useServerProxy = false,
 }) {
   const key = apiKey?.trim();
-  if (!key) throw new AuthError('Chưa có Gemini API key. Vui lòng nhập key trong Cài đặt.');
   if (!prompt?.trim()) throw new RequestError('Nội dung gửi Gemini không được để trống.');
   if (!/^[a-z0-9.-]+$/i.test(model)) throw new RequestError('Tên model Gemini không hợp lệ.');
+
+  if (useServerProxy && !key) {
+    const abortLink = createLinkedAbort(signal, Math.max(timeoutMs, 45000));
+    try {
+      let response;
+      try {
+        response = await fetch('/api/ai/generate', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ prompt, schema, maxTokens, model }),
+          signal: abortLink.signal,
+        });
+      } catch (error) {
+        if (abortLink.timedOut) throw new TimeoutError(timeoutMs);
+        if (signal?.aborted) throw new DOMException('Đã huỷ yêu cầu Gemini.', 'AbortError');
+        if (error instanceof TypeError || error?.name === 'TypeError') throw new NetworkError(error);
+        throw error;
+      }
+      const data = await readJsonBody(response);
+      if (!response.ok || data?.ok === false) {
+        const err = data?.error || {};
+        if (response.status === 429) throw new RateLimitError(retryDelay(response.headers?.get?.('Retry-After')));
+        if (response.status === 401 || response.status === 403 || err.code === 'gemini_auth' || err.code === 'gemini_key_missing') {
+          throw new AuthError(err.message || 'API key Gemini không hợp lệ.', { status: response.status });
+        }
+        if (err.code === 'gemini_invalid_json') throw new ParseError('');
+        if (response.status >= 500) throw new ServerError(response.status, err.message);
+        throw new RequestError(err.message || 'Yêu cầu Gemini thất bại.', { status: response.status });
+      }
+      if (!data.output || typeof data.output !== 'object') {
+        throw new InvalidResponseError('Máy chủ không trả về dữ liệu JSON hợp lệ.');
+      }
+      return data.output;
+    } finally {
+      abortLink.dispose();
+    }
+  }
+
+  if (!key) throw new AuthError('Chưa có Gemini API key. Vui lòng nhập key trong Cài đặt.');
 
   const abortLink = createLinkedAbort(signal, timeoutMs);
   try {
@@ -355,11 +432,12 @@ export async function callGemini({
   }
 }
 
-export async function testApiKey(apiKey, model = DEFAULT_GEMINI_MODEL) {
+export async function testApiKey(apiKey, model = DEFAULT_GEMINI_MODEL, { useServerProxy = false } = {}) {
   try {
     const answer = await callGemini({
       apiKey,
       model,
+      useServerProxy,
       prompt: 'Trả về JSON có trường ok bằng true. Không thêm nội dung khác.',
       schema: { type: 'object', properties: { ok: { type: 'boolean' } }, required: ['ok'] },
       maxTokens: 256,

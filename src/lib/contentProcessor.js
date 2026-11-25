@@ -4,7 +4,7 @@ import { callGemini, DEFAULT_GEMINI_MODEL, GeminiError } from './geminiClient.js
 import { ApiQueue } from './queue.js';
 import { mergeChunkOutputs } from './contentMerger.js';
 
-export async function processRawDocument({ rawDocumentId, apiKey, model = DEFAULT_GEMINI_MODEL, customInstruction = '', onProgress = () => {}, signal, queue = new ApiQueue() }) {
+export async function processRawDocument({ rawDocumentId, apiKey, model = DEFAULT_GEMINI_MODEL, customInstruction = '', onProgress = () => {}, signal, queue = new ApiQueue(), useServerProxy = false }) {
   const document = await getRawDocument(rawDocumentId);
   if (!document) throw new Error('Không tìm thấy tài liệu đã nhập.');
   const generated = { ...(document.generated || {}) };
@@ -31,7 +31,7 @@ export async function processRawDocument({ rawDocumentId, apiKey, model = DEFAUL
       const output = await queue.add((attemptSignal) => {
         attempt += 1;
         const prompt = buildChapterPrompt(chunk, { customInstruction }) + (attempt > 1 ? '\nCHỈ TRẢ VỀ JSON HỢP LỆ, không thêm markdown hoặc lời giải thích ngoài JSON.' : '');
-        return callGemini({ apiKey, model, prompt, schema: CHAPTER_SCHEMA, signal: attemptSignal || signal, timeoutMs: 30000 });
+        return callGemini({ apiKey, model, prompt, schema: CHAPTER_SCHEMA, signal: attemptSignal || signal, timeoutMs: 30000, useServerProxy });
       }, {
         signal,
         onWait: (delay) => report('waiting', stats().processed, `Chờ ${Math.ceil(delay / 1000)} giây để tránh giới hạn Gemini`),

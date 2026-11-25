@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { getCourse, getRawDocument, getSettings, saveCourse, saveRawDocument } from '../lib/db.js';
 import { cancelProcessingJob, getProcessingJob, pauseProcessingJob, resumeProcessingJob, startProcessingJob, subscribeProcessingJobs } from '../lib/processingJobs.js';
 import { estimateTokens } from '../lib/chunker.js';
+import { getCloudState } from '../lib/cloudSync.js';
 
 export default function ProcessingScreen({ courseId, onBack, onDone, onSettings }) {
   const [course, setCourse] = useState(null);
@@ -30,7 +31,8 @@ export default function ProcessingScreen({ courseId, onBack, onDone, onSettings 
     Promise.all([getCourse(courseId), getSettings()]).then(async ([item, settings]) => {
       if (!live) return;
       setCourse(item);
-      setHasKey(Boolean(settings.geminiApiKey));
+      const cloud = getCloudState();
+      setHasKey(Boolean(settings.geminiApiKey || (cloud.authenticated && cloud.serverInfo?.aiProxyAvailable)));
       setModel(settings.geminiModel || 'gemini-flash-latest');
       documentId = item?.rawDocumentId;
       if (documentId) {
