@@ -555,15 +555,21 @@ function RightPanel({ progress, onNavigate, pomodoro }) {
   monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
   const thisWeekXp = Number(progress.weeklyXP?.[getWeekKey(monday)]) || 0;
   const streakTarget = progress.streak < 3 ? 3 : progress.streak < 7 ? 7 : 10;
-  const streakPercent = Math.min(100, Math.round((progress.streak / streakTarget) * 100));
-  const panelClass = 'rounded-2xl border border-border/65 bg-surface p-4 shadow-xs';
+  const panelClass = 'rounded-2xl border border-border/70 bg-surface p-4 shadow-xs';
   return (
-    <aside className="hidden w-[320px] shrink-0 border-l border-border/65 bg-surface/50 p-4 xl:block" aria-label="Bảng tiến độ">
-      <div className="space-y-3.5">
+    <aside className="hidden w-[320px] shrink-0 border-l border-border/65 bg-surface/40 px-4 pb-20 pt-5 xl:block" aria-label="Bảng tiến độ">
+      <div className="space-y-4">
         <section className={panelClass}>
-          <div className="flex items-center gap-2"><Icon.Target className="h-[18px] w-[18px] text-accent" /><h2 className="font-serif text-[16px] font-semibold">Mục tiêu hôm nay</h2></div>
-          <div className="mt-3.5 flex items-center gap-4">
-            <div className="relative h-[92px] w-[92px] shrink-0">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <Icon.Target className="h-[17px] w-[17px] text-accent" />
+              <h2 className="font-serif text-[16px] font-semibold text-text-primary">Tiến độ hôm nay</h2>
+            </div>
+            <span className="rounded-full bg-subtle px-2 py-0.5 text-[11px] font-medium text-text-muted tabular-nums">{thisWeekXp} XP tuần</span>
+          </div>
+
+          <div className="mt-4 flex items-center gap-4">
+            <div className="relative h-[88px] w-[88px] shrink-0">
               <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100" role="img" aria-label={`Đã đạt ${goalPercent}% mục tiêu hôm nay`}>
                 <defs>
                   <linearGradient id="goalRing" x1="0" y1="0" x2="1" y2="1">
@@ -571,60 +577,63 @@ function RightPanel({ progress, onNavigate, pomodoro }) {
                     <stop offset="100%" stopColor="var(--accent-2)" />
                   </linearGradient>
                 </defs>
-                <circle cx="50" cy="50" r="38" fill="none" stroke="var(--bg-tertiary)" strokeWidth="7" />
-                <circle cx="50" cy="50" r="38" fill="none" stroke="url(#goalRing)" strokeWidth="7" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={circumference * (1 - goalPercent / 100)} style={{ '--ring-length': circumference }} className="animate-ring-progress" />
+                <circle cx="50" cy="50" r="38" fill="none" stroke="var(--bg-tertiary)" strokeWidth="7.5" />
+                <circle cx="50" cy="50" r="38" fill="none" stroke="url(#goalRing)" strokeWidth="7.5" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={circumference * (1 - goalPercent / 100)} style={{ '--ring-length': circumference }} className="animate-ring-progress" />
               </svg>
-              <span className="absolute inset-0 grid place-items-center font-sans text-lg font-bold tabular">{goalPercent}%</span>
+              <span className="absolute inset-0 grid place-items-center font-sans text-base font-bold text-text-primary tabular-nums">{goalPercent}%</span>
             </div>
             <div className="min-w-0 flex-1">
-              <p className="whitespace-nowrap font-sans text-2xl font-bold tracking-tight tabular">{done} <span className="text-lg font-medium text-text-muted">/ {goal}</span></p>
-              <p className="mt-0.5 text-xs text-text-muted">câu hôm nay</p>
+              <p className="flex items-baseline gap-1 whitespace-nowrap font-sans tabular-nums">
+                <span className="text-2xl font-bold leading-none tracking-tight text-text-primary">{done}</span>
+                <span className="text-sm font-medium text-text-muted">/ {goal}</span>
+              </p>
+              <p className="mt-1 text-xs text-text-muted">câu hôm nay</p>
               <p className="mt-2 text-xs font-semibold text-accent">{goalPercent >= 100 ? 'Đã hoàn thành!' : goalPercent >= 60 ? 'Sắp chạm mục tiêu!' : done === 0 ? 'Bắt đầu một câu nào!' : 'Cố lên, sắp xong rồi!'}</p>
             </div>
           </div>
-        </section>
 
-        <section className="rounded-2xl border border-accent/15 bg-accent-subtle/70 p-4 shadow-sm">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-wider text-accent">Ôn tập thông minh</p>
-              <p className="mt-1 font-sans text-[15px] font-semibold text-text-primary">{dueCount > 0 ? `${dueCount} từ đến hạn` : 'Chưa có từ cần ôn'}</p>
-              <p className="mt-0.5 text-xs leading-relaxed text-text-secondary">{dueCount > 0 ? 'Ôn đúng lúc giúp nhớ lâu gấp đôi.' : 'Đọc xong một bài, từ mới sẽ tự vào lịch ôn.'}</p>
-            </div>
-            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-bg-secondary text-accent shadow-xs"><Icon.Refresh className="h-4 w-4" /></span>
-          </div>
-          <button onClick={() => onNavigate('review')} className="btn-soft mt-3 w-full">{dueCount > 0 ? 'Ôn ngay' : 'Xem sổ ôn tập'}</button>
-        </section>
-
-        {pomodoro && <PomodoroCard pomodoro={pomodoro} collapsible />}
-
-        <section className={panelClass}>
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2"><Icon.Flame className="h-4 w-4 text-error" /><h2 className="font-serif text-[15px] font-semibold">7 ngày qua</h2></div>
-            <span className="text-[11px] font-medium text-text-muted">{progress.streak} ngày liên tiếp</span>
-          </div>
-          <div className="mt-3.5 grid grid-cols-7 gap-1.5">
-            {lastSeven.map((day) => (
-              <div key={day.key} className="text-center">
-                <span className="block text-[10px] font-medium uppercase text-text-muted">{day.label}</span>
-                <span title={day.key} className={`mx-auto mt-1.5 grid h-7 w-7 place-items-center rounded-full border ${day.active ? 'border-accent bg-accent text-white dark:text-[#14161A]' : day.today ? 'streak-today border-accent text-accent' : 'border-border/70 text-text-muted'}`}>{day.active && <Icon.Check className="h-3.5 w-3.5" />}</span>
+          <div className="mt-4 border-t border-border/60 pt-4">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5">
+                <Icon.Flame className="h-3.5 w-3.5 text-error" />
+                <span className="text-xs font-semibold text-text-primary tabular-nums">Chuỗi {progress.streak} ngày</span>
               </div>
-            ))}
+              <span className="text-[11px] font-medium text-text-muted">7 ngày qua</span>
+            </div>
+            <div className="mt-2.5 grid grid-cols-7 gap-1">
+              {lastSeven.map((day) => (
+                <div key={day.key} className="text-center">
+                  <span className="block text-[10px] font-medium uppercase text-text-muted">{day.label}</span>
+                  <span title={day.key} className={`mx-auto mt-1.5 grid h-7 w-7 place-items-center rounded-full border ${day.active ? 'border-accent bg-accent text-white dark:text-[#14161A]' : day.today ? 'streak-today border-accent text-accent' : 'border-border/70 text-text-muted'}`}>{day.active && <Icon.Check className="h-3.5 w-3.5" />}</span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-3.5 flex items-center justify-between border-t border-border/50 pt-2.5 text-[11px] text-text-muted">
+              <span className="truncate tabular-nums">{progress.achievements.length} huy hiệu · mốc {streakTarget} ngày</span>
+              <button type="button" onClick={() => onNavigate('dashboard')} className="shrink-0 font-semibold text-accent transition-colors hover:text-accent-hover">Chi tiết →</button>
+            </div>
           </div>
         </section>
 
-        <section className={panelClass}>
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2"><Icon.Star className="h-4 w-4 text-warning" /><h2 className="font-serif text-[15px] font-semibold">Tuần này & Huy hiệu</h2></div>
-            <span className="font-sans text-xs font-semibold text-text-secondary tabular">{thisWeekXp} XP</span>
+        <section className={dueCount > 0 ? 'rounded-2xl border border-accent/20 bg-accent-subtle/75 p-4 shadow-xs' : panelClass}>
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className={`text-[11px] font-semibold uppercase tracking-wider ${dueCount > 0 ? 'text-accent' : 'text-text-muted'}`}>Ôn tập thông minh</p>
+              <p className="mt-1 font-sans text-base font-semibold leading-snug text-text-primary tabular-nums">{dueCount > 0 ? `${dueCount} từ đến hạn` : 'Chưa có từ cần ôn'}</p>
+              <p className="mt-1 text-xs leading-relaxed text-text-secondary">{dueCount > 0 ? 'Ôn đúng lúc giúp nhớ lâu gấp đôi.' : 'Đọc xong một bài, từ mới sẽ tự vào lịch ôn.'}</p>
+            </div>
+            <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-xl ${dueCount > 0 ? 'bg-surface text-accent shadow-xs' : 'bg-subtle text-text-muted'}`}><Icon.Refresh className="h-4 w-4" /></span>
           </div>
-          <p className="mt-2.5 text-xs leading-relaxed text-text-secondary">Còn <strong>{Math.max(0, streakTarget - progress.streak)} ngày</strong> để đạt chuỗi {streakTarget} ngày.</p>
-          <ProgressBar value={streakPercent} className="mt-2.5 h-1.5" />
-          <div className="mt-2 flex items-center justify-between text-[11px] font-medium text-text-muted">
-            <span className="tabular">{progress.streak}/{streakTarget} ngày · {progress.achievements.length} huy hiệu</span>
-            <button onClick={() => onNavigate('dashboard')} className="font-semibold text-accent hover:text-accent-hover">Chi tiết →</button>
-          </div>
+          <button
+            type="button"
+            onClick={() => onNavigate('review')}
+            className={`${dueCount > 0 ? 'btn-soft' : 'btn-outline'} mt-3.5 w-full py-2 text-xs`}
+          >
+            {dueCount > 0 ? 'Ôn ngay' : 'Xem sổ ôn tập'}
+          </button>
         </section>
+
+        {pomodoro && <PomodoroCard pomodoro={pomodoro} />}
       </div>
     </aside>
   );
@@ -1657,50 +1666,28 @@ function usePomodoro(onCompleteRef) {
  return { ...timer, duration, percent, minutes, seconds, toggle, reset, switchMode };
 }
 
-function PomodoroCard({ pomodoro, compact = false, collapsible = false }) {
- const [expanded, setExpanded] = useState(pomodoro.isRunning);
+function PomodoroCard({ pomodoro, compact = false }) {
  const label = pomodoro.mode === 'work' ? 'Phiên học' : 'Giờ nghỉ';
- const isOpen = !collapsible || expanded || pomodoro.isRunning;
-
- if (collapsible && !isOpen) {
-  return (
-   <div className="flex items-center justify-between gap-2 rounded-2xl border border-border/60 bg-bg-primary/80 px-4 py-3 shadow-sm">
-    <button type="button" onClick={() => setExpanded(true)} className="flex min-w-0 items-center gap-2 text-left" aria-expanded={false} aria-label="Mở rộng đồng hồ phiên học">
-     <Icon.Clock className={`h-4 w-4 shrink-0 ${pomodoro.mode === 'work' ? 'text-accent-2' : 'text-success'}`} />
-     <span className="font-serif text-[15px] font-semibold">{label}</span>
-     <span className="font-sans text-sm font-semibold text-text-secondary tabular">{pomodoro.minutes}:{pomodoro.seconds}</span>
-    </button>
-    <div className="flex shrink-0 items-center gap-1.5">
-     <button type="button" onClick={pomodoro.toggle} className="btn-soft px-3 py-1.5 text-xs">Bắt đầu</button>
-     <button type="button" onClick={() => setExpanded(true)} className="grid h-7 w-7 place-items-center rounded-lg text-text-muted hover:bg-bg-tertiary" aria-label="Mở rộng"><Icon.ChevronRight className="h-3.5 w-3.5 rotate-90" /></button>
-    </div>
-   </div>
-  );
- }
-
  return (
- <div className={compact ? 'rounded-2xl border border-border/60 bg-bg-secondary p-4 shadow-lg' : 'rounded-2xl border border-border/60 bg-bg-primary/80 p-4 shadow-sm'}>
+ <section className={compact ? 'rounded-2xl border border-border/70 bg-surface p-4 shadow-lg' : 'rounded-2xl border border-border/70 bg-surface p-4 shadow-xs'}>
   <div className="flex items-center justify-between gap-2">
    <div className="flex items-center gap-2">
-    <Icon.Clock className={`h-4 w-4 ${pomodoro.mode === 'work' ? 'text-accent-2' : 'text-success'}`} />
-    <h2 className="font-serif text-[15px] font-semibold">{label}</h2>
+    <Icon.Clock className={`h-4 w-4 shrink-0 ${pomodoro.mode === 'work' ? 'text-accent-2' : 'text-success'}`} />
+    <h2 className="font-serif text-[15px] font-semibold text-text-primary">{label}</h2>
    </div>
-   <div className="flex items-center gap-1">
-    <button type="button" onClick={pomodoro.switchMode} className="rounded-full bg-bg-tertiary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-text-muted hover:text-accent">{pomodoro.mode === 'work' ? '5 phút nghỉ' : '25 phút học'}</button>
-    {collapsible && !pomodoro.isRunning && (
-     <button type="button" onClick={() => setExpanded(false)} className="grid h-6 w-6 place-items-center rounded-md text-text-muted hover:bg-bg-tertiary" aria-label="Thu gọn"><Icon.ChevronRight className="h-3.5 w-3.5 -rotate-90" /></button>
-    )}
-   </div>
+   <button type="button" onClick={pomodoro.switchMode} className="rounded-full bg-subtle px-2.5 py-0.5 text-[11px] font-medium text-text-muted transition-colors hover:bg-accent-subtle hover:text-accent">
+    {pomodoro.mode === 'work' ? '5 phút nghỉ' : '25 phút học'}
+   </button>
   </div>
   <div className="mt-3 flex items-center justify-between gap-3">
-   <p className="font-sans text-2xl font-bold leading-none tracking-tight tabular">{pomodoro.minutes}:{pomodoro.seconds}</p>
-   <div className="flex gap-1.5">
+   <p className="font-sans text-[26px] font-bold leading-none tracking-tight text-text-primary tabular-nums">{pomodoro.minutes}:{pomodoro.seconds}</p>
+   <div className="flex items-center gap-1.5">
     <button type="button" onClick={pomodoro.toggle} className="btn-soft px-3.5 py-1.5 text-xs">{pomodoro.isRunning ? 'Tạm dừng' : 'Bắt đầu'}</button>
-    <button type="button" onClick={pomodoro.reset} className="icon-action grid h-8 w-8 place-items-center rounded-md border border-border/70 bg-bg-secondary text-text-muted hover:bg-bg-tertiary" aria-label="Đặt lại Pomodoro" data-tooltip="Đặt lại"><Icon.Refresh className="h-3.5 w-3.5" /></button>
+    <button type="button" onClick={pomodoro.reset} className="btn-ghost icon-action grid h-8 w-8 place-items-center p-0 text-text-muted hover:text-text-primary" aria-label="Đặt lại Pomodoro" data-tooltip="Đặt lại"><Icon.Refresh className="h-4 w-4" /></button>
    </div>
   </div>
-  <ProgressBar value={pomodoro.percent} label="Tiến độ Pomodoro" className="mt-3 h-1.5" />
- </div>
+  <ProgressBar value={pomodoro.percent} label="Tiến độ Pomodoro" className="mt-3 h-1" />
+ </section>
  );
 }
 
@@ -1708,16 +1695,16 @@ function PomodoroDock({ pomodoro, sessionsToday }) {
  const [open, setOpen] = useState(false);
  const running = pomodoro.isRunning;
  return (
- <div className="fixed bottom-20 right-4 z-40 xl:hidden">
+ <div className="fixed bottom-20 right-5 z-30 lg:bottom-5 xl:hidden">
   {open && (
-   <div className="mb-2 w-[min(19rem,calc(100vw-2rem))]">
+   <div className="mb-2 w-[min(19rem,calc(100vw-2.5rem))]">
     <PomodoroCard pomodoro={pomodoro} compact />
-    <p className="mt-1 text-right text-[11px] font-semibold text-text-muted">{sessionsToday} phiên hôm nay</p>
+    <p className="mt-1 text-right text-[11px] font-semibold text-text-muted tabular-nums">{sessionsToday} phiên hôm nay</p>
    </div>
   )}
-  <button type="button" onClick={() => setOpen((value) => !value)} aria-label={open ? 'Đóng bộ hẹn giờ Pomodoro' : 'Mở bộ hẹn giờ Pomodoro'} aria-expanded={open} className={`ml-auto flex h-11 items-center gap-2 rounded-full border border-border bg-bg-secondary px-3 shadow-lg transition ${running ? 'text-accent' : 'text-text-secondary'}`}>
+  <button type="button" onClick={() => setOpen((value) => !value)} aria-label={open ? 'Đóng bộ hẹn giờ Pomodoro' : 'Mở bộ hẹn giờ Pomodoro'} aria-expanded={open} className={`ml-auto flex h-11 items-center gap-2 rounded-full border border-border/70 bg-surface px-3.5 shadow-md transition-colors hover:bg-subtle ${running ? 'text-accent' : 'text-text-secondary'}`}>
    <Icon.Clock className="h-4 w-4" />
-   <span className="text-xs font-bold tabular">{pomodoro.minutes}:{pomodoro.seconds}</span>
+   <span className="text-xs font-bold tabular-nums">{pomodoro.minutes}:{pomodoro.seconds}</span>
   </button>
  </div>
  );
@@ -2304,7 +2291,7 @@ function PlaylistFloatingPlayer({ playlist, onClose }) {
  if (!entries.length) return null;
  const move = (direction) => { setIndex((value) => Math.min(entries.length - 1, Math.max(0, value + direction))); setPlaying(true); };
  return (
- <aside aria-label="Trình phát playlist" className={`animate-toast-in fixed bottom-20 left-3 right-3 z-[65] rounded-xl border border-border bg-bg-secondary shadow-lg sm:bottom-5 sm:left-auto sm:right-5 ${minimized ? 'sm:w-56' : 'sm:w-80'}`}>
+ <aside aria-label="Trình phát playlist" className={`animate-toast-in fixed bottom-20 left-3 right-3 z-30 rounded-xl border border-border/70 bg-surface shadow-lg sm:bottom-5 sm:left-auto sm:right-5 ${minimized ? 'sm:w-56' : 'sm:w-80'}`}>
  <div className="flex items-center gap-2 border-b border-border p-3"><Icon.Volume className="h-4 w-4 shrink-0 text-accent" aria-hidden="true"/><p className="min-w-0 flex-1 truncate text-sm font-bold">Playlist · {index + 1}/{entries.length}</p><button onClick={() => setMinimized((value) => !value)} className="icon-action grid h-9 w-9 place-items-center rounded-xl bg-bg-tertiary text-xs hover:bg-border" data-tooltip={minimized ? 'Mở rộng' : 'Thu nhỏ'} aria-label={minimized ? 'Mở rộng playlist' : 'Thu nhỏ playlist'}>{minimized ? <Icon.Plus /> : <Icon.Minus />}</button><button onClick={onClose} className="icon-action grid h-9 w-9 place-items-center rounded-xl bg-bg-tertiary text-text-muted hover:bg-border" aria-label="Đóng playlist" data-tooltip="Đóng"><Icon.X /></button></div>
  {!minimized && <div className="p-4"><p className="truncate h2-text font-bold">{entries[index]?.label || entries[index]?.text}</p><p className="mt-1 truncate text-sm text-text-muted">{entries[index]?.sublabel}</p><ProgressBar value={((index + 1) / entries.length) * 100} className="mt-4" /><div className="mt-4 flex items-center justify-center gap-2"><button onClick={() => move(-1)} disabled={index === 0} className="grid h-9 w-9 place-items-center rounded-xl bg-bg-tertiary font-bold disabled:opacity-30 hover:bg-border" title="Trước" aria-label="Bài trước">‹</button><button onClick={() => setPlaying((value) => !value)} className="grid h-11 w-11 place-items-center rounded-xl bg-accent text-white hover:bg-accent/90" aria-label={playing ? 'Tạm dừng' : 'Tiếp tục phát'}>{playing ? 'Ⅱ' : '▶'}</button><button onClick={() => move(1)} disabled={index === entries.length - 1 && !loop} className="grid h-9 w-9 place-items-center rounded-xl bg-bg-tertiary font-bold disabled:opacity-30 hover:bg-border" title="Tiếp" aria-label="Bài tiếp theo">›</button></div><div className="mt-4 flex items-center justify-between gap-2"><select value={rate} onChange={(event) => setRate(Number(event.target.value))} className="rounded-xl border border-border bg-bg-tertiary px-2 py-1.5 text-xs font-bold" aria-label="Tốc độ phát"><option value="0.7">0.7x</option><option value="0.85">0.85x</option><option value="1">1.0x</option></select><label className="flex items-center gap-2 text-xs font-bold cursor-pointer"><input type="checkbox" checked={loop} onChange={(event) => setLoop(event.target.checked)} /> Lặp</label></div></div>}
  </aside>
