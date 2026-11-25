@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: "true"
+        run: npm ci
+
+      - name: Run pure-Node deterministic test suites
+        run: |
+          npm run test:api
+          npm run test:gemini-retry
+          npm run test:processing
+          npm run test:processing-jobs
+          npm run test:storage
+          npm run test:db-schema
+          npm run test:backup
+          npm run test:pwa
+          npm run test:ux
+
+      - name: Build production bundle
+        run: npm run build

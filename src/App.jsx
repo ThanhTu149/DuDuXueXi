@@ -739,15 +739,19 @@ function HomeScreen({ progress, courseName = 'Hán Ngữ Tập 2', onOpenLesson,
     <div className="space-y-6">
       <section className="relative flex min-h-[216px] items-center overflow-hidden rounded-3xl border border-border/60 bg-surface p-6 shadow-sm sm:min-h-[224px] sm:px-7 sm:py-6">
         <img
-          src="/images/hero-panda-banner.jpg"
+          src="/images/hero-panda-banner.webp"
           alt=""
           aria-hidden="true"
+          decoding="async"
+          fetchPriority="high"
           className="pointer-events-none absolute inset-0 block h-full w-full select-none object-cover object-[right_35%] dark:hidden"
         />
         <img
           src="/images/hero-panda-banner-dark.webp"
           alt=""
           aria-hidden="true"
+          decoding="async"
+          fetchPriority="high"
           className="pointer-events-none absolute inset-0 hidden h-full w-full select-none object-cover object-[right_35%] dark:block"
         />
         <div
@@ -793,6 +797,7 @@ function HomeScreen({ progress, courseName = 'Hán Ngữ Tập 2', onOpenLesson,
                 src={currentThumb.src}
                 alt=""
                 aria-hidden="true"
+                decoding="async"
                 className={`h-full w-full object-cover transition-transform duration-300 ease-out dark:brightness-[0.88] ${currentThumb.cropClass}`}
               />
               <span className="absolute left-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-[11px] font-semibold leading-tight text-white backdrop-blur-sm tabular-nums">
@@ -861,6 +866,8 @@ function HomeScreen({ progress, courseName = 'Hán Ngữ Tập 2', onOpenLesson,
                   src={thumb.src}
                   alt=""
                   aria-hidden="true"
+                  loading="lazy"
+                  decoding="async"
                   className={`h-full w-full object-cover transition-transform duration-300 ease-out dark:brightness-[0.88] ${thumb.cropClass} ${isUnlocked ? '' : 'grayscale-[45%] opacity-75'}`}
                 />
                 <span className="absolute left-1.5 top-1.5 rounded-full bg-black/55 px-1.5 py-0.5 text-[10px] font-semibold leading-none text-white backdrop-blur-sm tabular-nums">
@@ -905,6 +912,16 @@ function LearnScreen({ bai, progress, unlockedBai, bookmarks, notes, onToggleBoo
   const [activeTab, setActiveTab] = useState('words');
   const readSentinelRef = useRef(null);
   const lessonData = GLOSSARY[bai];
+
+  useEffect(() => {
+    if (!lessonData || activeTab !== 'words' || !readSentinelRef.current) return undefined;
+    const observer = new IntersectionObserver(([item]) => {
+      if (item.isIntersecting) onLessonRead?.(bai);
+    }, { threshold: 0.8 });
+    observer.observe(readSentinelRef.current);
+    return () => observer.disconnect();
+  }, [lessonData, activeTab, bai, onLessonRead]);
+
   if (!lessonData) return null;
 
   const meta = lessonData.metadata || {};
@@ -934,8 +951,6 @@ function LearnScreen({ bai, progress, unlockedBai, bookmarks, notes, onToggleBoo
       ))}
     </div>
   );
-
-  useEffect(() => { if (activeTab !== 'words' || !readSentinelRef.current) return undefined; const observer = new IntersectionObserver(([item]) => { if (item.isIntersecting) onLessonRead?.(bai); }, { threshold: 0.8 }); observer.observe(readSentinelRef.current); return () => observer.disconnect(); }, [activeTab, bai, onLessonRead]);
 
   const lessonHeader = (
     <div className="learn-toolbar bg-bg-primary pt-4">
@@ -2544,9 +2559,55 @@ function evaluateAchievements(progress) {
  return ACHIEVEMENTS.filter((badge) => conditions[badge.id] && !progress.achievements.includes(badge.id));
 }
 
+const ROUTABLE_SCREENS = new Set([
+  'home',
+  'library',
+  'learn',
+  'review',
+  'dashboard',
+  'community',
+  'tutor',
+  'exam',
+  'boss',
+  'minigame',
+  'dictation',
+  'pronunciation',
+  'sentences',
+]);
+const DASHBOARD_TABS = new Set(['overview', 'analytics', 'badges', 'profile', 'settings']);
+
+function parseHashRoute(rawHash = '') {
+  const hash = String(rawHash || '');
+  if (!hash.startsWith('#/')) return null;
+  const parts = hash.slice(2).split('/').filter(Boolean);
+  const head = parts[0] || 'home';
+  if (!ROUTABLE_SCREENS.has(head)) return null;
+  if (head === 'learn') {
+    const parsedBai = Number.parseInt(parts[1] || '', 10);
+    const bai = Number.isInteger(parsedBai) && parsedBai > 0 ? parsedBai : null;
+    return { screen: head, bai };
+  }
+  if (head === 'dashboard') {
+    return { screen: 'dashboard', dashboardTab: DASHBOARD_TABS.has(parts[1]) ? parts[1] : 'overview' };
+  }
+  return { screen: head };
+}
+
+function buildHashRoute(screen, currentBai, dashboardTab = 'overview') {
+  if (!ROUTABLE_SCREENS.has(screen)) return null;
+  if (screen === 'home') return '#/';
+  if (screen === 'learn') return `#/learn/${currentBai || 1}`;
+  if (screen === 'dashboard' && dashboardTab && dashboardTab !== 'overview') return `#/dashboard/${dashboardTab}`;
+  return `#/${screen}`;
+}
+
 export default function App() {
- const [screen, setScreen] = useState('home');
- const [currentBai, setCurrentBai] = useState(1);
+ const initialRouteRef = useRef(null);
+ if (initialRouteRef.current === null) {
+   initialRouteRef.current = typeof window !== 'undefined' ? parseHashRoute(window.location.hash) : null;
+ }
+ const [screen, setScreen] = useState(initialRouteRef.current?.screen || 'home');
+ const [currentBai, setCurrentBai] = useState(initialRouteRef.current?.bai || 1);
  // Read once, outside the state initializer, so the "progress was corrupt"
  // diagnostic can be surfaced as a toast after the first render.
  const bootProgressRef = useRef(null);
@@ -2572,7 +2633,7 @@ export default function App() {
  const [wordEditorError, setWordEditorError] = useState('');
  const [editingWord, setEditingWord] = useState(null);
  const [editingContent, setEditingContent] = useState(null);
- const [dashboardTab, setDashboardTab] = useState('overview');
+ const [dashboardTab, setDashboardTab] = useState(initialRouteRef.current?.dashboardTab || 'overview');
  const [activeCourseId, setActiveCourseId] = useState(BUILT_IN_COURSE_ID);
  const [activeCourse, setActiveCourse] = useState(null);
  const [courseReady, setCourseReady] = useState(false);
@@ -2590,9 +2651,73 @@ export default function App() {
  const remoteAppliedAtRef = useRef('');
  const activeCourseRef = useRef(activeCourse);
  const activeCourseIdRef = useRef(activeCourseId);
+ const applyingHashRef = useRef(false);
+ const screenRef = useRef(screen);
+ const currentBaiRef = useRef(currentBai);
+ const dashboardTabRef = useRef(dashboardTab);
  activeCourseRef.current = activeCourse;
  activeCourseIdRef.current = activeCourseId;
  progressRef.current = progress;
+ screenRef.current = screen;
+ currentBaiRef.current = currentBai;
+ dashboardTabRef.current = dashboardTab;
+
+ useEffect(() => {
+   if (!courseReady || !LESSONS.length) return;
+   if (!LESSONS.includes(currentBai)) setCurrentBai(LESSONS[0]);
+ }, [courseReady, currentBai]);
+
+ useEffect(() => {
+   if (applyingHashRef.current) {
+     applyingHashRef.current = false;
+     return;
+   }
+   const nextHash = buildHashRoute(screen, currentBai, dashboardTab);
+   if (!nextHash) return;
+   const currentHash = window.location.hash || '';
+   if (screen === 'home' && !currentHash.startsWith('#/')) return;
+   if (currentHash !== nextHash) window.history.pushState(null, '', nextHash);
+ }, [screen, currentBai, dashboardTab]);
+
+ useEffect(() => {
+   const syncFromHash = () => {
+     const raw = window.location.hash || '';
+     if (!raw || !raw.startsWith('#/')) {
+       if (raw === '' || raw === '#') {
+         const changed = screenRef.current !== 'home';
+         if (changed) {
+           applyingHashRef.current = true;
+           setScreen('home');
+         }
+         setSidebarOpen(false);
+         setHeaderHidden(false);
+       }
+       return;
+     }
+     const parsed = parseHashRoute(raw);
+     if (!parsed) return;
+     const nextBai = parsed.bai
+       ? (LESSONS.includes(parsed.bai) ? parsed.bai : (LESSONS[0] || 1))
+       : currentBaiRef.current;
+     const nextTab = parsed.dashboardTab ?? dashboardTabRef.current;
+     const changed =
+       parsed.screen !== screenRef.current ||
+       nextBai !== currentBaiRef.current ||
+       nextTab !== dashboardTabRef.current;
+     if (changed) applyingHashRef.current = true;
+     setSidebarOpen(false);
+     setHeaderHidden(false);
+     if (parsed.bai) setCurrentBai(nextBai);
+     if (parsed.dashboardTab) setDashboardTab(parsed.dashboardTab);
+     setScreen(parsed.screen);
+   };
+   window.addEventListener('popstate', syncFromHash);
+   window.addEventListener('hashchange', syncFromHash);
+   return () => {
+     window.removeEventListener('popstate', syncFromHash);
+     window.removeEventListener('hashchange', syncFromHash);
+   };
+ }, []);
 
  const applyCloudData = useCallback((payload) => {
    if (!payload) return;

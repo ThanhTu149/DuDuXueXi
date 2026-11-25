@@ -31,3 +31,9 @@ __pycache__/
 Thumbs.db
 .vscode/
 .idea/
+
+# Large textbook sources & intermediate OCR dumps
+docs/*.pdf
+data/_extracted/pages/
+data/_extracted/DuDu3_full.txt
+data/_extracted/DuDu3_clean.txt

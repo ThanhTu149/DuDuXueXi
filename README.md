@@ -1,8 +1,19 @@
 # DuDu Hán Ngữ (Full-Stack)
 
+[![CI](https://github.com/ThanhTu149/DuDuXueXi/actions/workflows/ci.yml/badge.svg)](https://github.com/ThanhTu149/DuDuXueXi/actions/workflows/ci.yml)
+![Node.js >=22.5](https://img.shields.io/badge/node-%3E%3D22.5-3F6B43?style=flat-square&logo=node.js&logoColor=white)
+[![License: MIT](https://img.shields.io/badge/license-MIT-3A6B8C?style=flat-square)](LICENSE)
+![Offline-First PWA](https://img.shields.io/badge/PWA-Offline--First-C68B3E?style=flat-square)
+
 Ứng dụng web học tiếng Trung full-stack cho sinh viên Việt Nam, xây bằng **React + Vite + Tailwind CSS** ở frontend (hỗ trợ **Offline-First PWA**) và **Node.js + SQLite (`node:sqlite`)** ở backend.
 
 Mười bài giáo trình có sẵn được nạp từ `data/`; khóa học tự tạo, tiến độ học, SRS, ghi chú và hội thoại Gia sư AI được lưu cục bộ trên trình duyệt **và tự động đồng bộ hai chiều lên máy chủ SQLite** khi đăng nhập.
+
+## Giao diện trực quan (Light & Dark Mode)
+
+| Light Mode (Giấy ấm & Xanh rừng) | Dark Mode (Đèn lồng đêm 3D) |
+| --- | --- |
+| ![DuDu Hán Ngữ — Light Mode](docs/screenshots/dashboard-light.webp) | ![DuDu Hán Ngữ — Dark Mode](docs/screenshots/dashboard-dark.webp) |
 
 ## Tính năng Full-Stack mới (v2.0)
 
@@ -96,11 +107,14 @@ Các kiểm thử Gemini dùng phản hồi giả lập, không gọi API thật
 
 ## Giao diện
 
-- Giao diện `Sáng` / `Tối` / `Tự động` (06:00–18:00) và 3 bảng màu `Học thuật` / `Hoa đào` / `Biển xanh`; mọi bảng màu đều có biến thể tối riêng nên không còn card trắng trong dark mode.
-- Typography: Lora cho tiêu đề, Inter cho nội dung, font Hán tự riêng cho chữ Trung; tab bar cuộn ngang, toolbar bài học tự xếp lại trên điện thoại.
+- Giao diện **Lingora-style** 3 cột thoáng (Sidebar cố định `100vh`, Main Canvas, Right Panel tích hợp mục tiêu + chuỗi 7 ngày + Pomodoro), thẻ kỹ năng pastel dịu mắt và **Hero Gấu trúc 3D song giao diện** tự đổi ảnh theo Sáng/Tối.
+- Hỗ trợ `Sáng` / `Tối` / `Tự động` (06:00–18:00) và 3 bảng màu `Học thuật` / `Hoa đào` / `Biển xanh`; mọi bảng màu đều có biến thể tối riêng đạt chuẩn tương phản WCAG AA.
+- Typography: **Lora** cho tiêu đề, **Be Vietnam Pro** cho nội dung tiếng Việt, **JetBrains Mono** cho Pinyin và **Noto Sans SC** cho chữ Hán; tab bar cuộn ngang, toolbar bài học tự xếp lại trên điện thoại.
+- Điều hướng bằng **Hash URL Routing** (`#/learn/1`, `#/library`, `#/review`…) hỗ trợ nút Back/Forward của trình duyệt và giữ nguyên màn hình khi F5.
 - Motion có kiểm soát (`prefers-reduced-motion`), micro-interaction khi trả lời đúng/sai, XP bay lên, confetti khi hoàn hảo, skeleton shimmer khi tải.
-- Ảnh nền chuyển sang WebP (2.8 MB → 880 KB) và preconnect font.
+- Toàn bộ ảnh Hero, thumbnail bài học 3D và hình nền đều nén chuẩn **WebP** siêu nhẹ kèm `loading="lazy"` và `preconnect` font.
 - Phím tắt: `Ctrl/Cmd+K` mở tìm kiếm/lệnh nhanh, `1–4` chọn đáp án, `Enter` kiểm tra/tiếp tục, `Ctrl+/` xem toàn bộ phím tắt.
+- **GitHub Actions CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) tự động chạy 9 bộ kiểm thử Node thuần (API, SQLite, đồng bộ, xử lý AI, lưu trữ, sao lưu, PWA, tương phản WCAG AA) + `npm run build` cho mỗi commit và PR vào `main`.
 
 ## Quick Wins Phase 1
 

@@ -112,7 +112,7 @@ function isStaticAsset(url) {
   return url.pathname.startsWith('/assets/')
     || url.pathname.startsWith('/icons/')
     || url.pathname.startsWith('/backgrounds/')
-    || url.pathname.startsWith('/background/')
+    || url.pathname.startsWith('/images/')
     || STATIC_EXTENSIONS.test(url.pathname);
 }
 
