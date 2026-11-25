@@ -423,48 +423,39 @@ const EXTRA_NAV = [
   { id: 'sentences', icon: <Icon.Type />, label: 'Câu ví dụ' },
 ];
 // --- REDESIGN: APP SHELL ---
-function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMenu, onShortcuts, hidden = false, focused = false, cloud = null, onOpenAuth = null }) {
+function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMenu, onShortcuts, hidden = false, focused = false }) {
   const nextTheme = themeMode === 'light' ? 'dark' : themeMode === 'dark' ? 'auto' : 'light';
   const themeLabel = themeMode === 'dark' ? 'Tối' : themeMode === 'light' ? 'Sáng' : 'Tự động';
   return (
-    <header className={`app-header transition-transform duration-200 ${focused ? '' : 'lg:ml-[240px] xl:mr-[340px]'} ${hidden ? '-translate-y-full' : ''}`}>
-      <div className="mx-auto flex h-16 max-w-[864px] items-center gap-2 px-4 lg:gap-3 lg:px-8">
-      {!focused && <button onClick={onMenu} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-border/70 bg-bg-secondary text-text-secondary lg:hidden" aria-label="Mở menu">
+    <header className={`app-header transition-transform duration-200 ${hidden ? '-translate-y-full' : ''}`}>
+      <div className="mx-auto flex h-16 max-w-[1160px] items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+      <div className="flex min-w-0 flex-1 items-center gap-2.5">
+      {!focused && <button onClick={onMenu} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-border/70 bg-surface text-text-secondary transition-colors hover:bg-subtle lg:hidden" aria-label="Mở menu">
         <span className="space-y-1"><span className="block h-px w-4 bg-current"/><span className="block h-px w-4 bg-current"/><span className="block h-px w-4 bg-current"/></span>
       </button>}
       {focused ? (
         <div className="flex min-w-0 flex-1 items-center gap-2">
-          <span className="grid h-8 w-8 place-items-center rounded-xl bg-accent-subtle text-base" role="img" aria-label="Trúc">🐼</span>
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-accent-subtle text-base" role="img" aria-label="Trúc">🐼</span>
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold leading-tight">Đang luyện tập</p>
             <p className="truncate text-[11px] leading-tight text-text-muted">Giữ nhịp tập trung nhé</p>
           </div>
         </div>
       ) : (
-        <button onClick={onSearch} aria-label="Tìm kiếm hoặc mở lệnh" aria-keyshortcuts="Control+K" className="flex h-10 min-w-0 flex-1 items-center justify-between gap-2 rounded-xl border border-border/70 bg-bg-secondary px-3.5 text-text-muted shadow-xs transition duration-150 hover:border-border-strong focus:border-accent focus:ring-[3px] focus:ring-accent-subtle">
-          <div className="flex min-w-0 items-center gap-2.5 text-sm">
-            <Icon.Search className="h-4 w-4 shrink-0" />
+        <button onClick={onSearch} aria-label="Tìm kiếm hoặc mở lệnh" aria-keyshortcuts="Control+K" className="flex h-9 w-full max-w-[440px] min-w-0 items-center justify-between gap-2 rounded-xl border border-border/70 bg-surface/90 px-3 text-text-muted shadow-xs transition-colors duration-150 hover:border-border-strong hover:bg-surface focus:border-accent focus:ring-[3px] focus:ring-accent-subtle">
+          <div className="flex min-w-0 items-center gap-2 text-sm">
+            <Icon.Search className="h-4 w-4 shrink-0 text-text-muted" />
             <span className="truncate">Tìm từ vựng, ngữ pháp...</span>
           </div>
-          <kbd className="hidden shrink-0 rounded-md border border-border/70 bg-bg-tertiary px-1.5 py-0.5 text-[11px] font-medium sm:block">Ctrl K</kbd>
+          <kbd className="hidden shrink-0 rounded-md border border-border/70 bg-subtle px-1.5 py-0.5 text-[11px] font-medium text-text-muted sm:block">Ctrl K</kbd>
         </button>
       )}
-      <div className="flex shrink-0 items-center gap-2">
-        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-full border border-border/60 bg-bg-secondary px-3 text-[13px] font-semibold text-text-secondary shadow-xs transition hover:bg-bg-tertiary sm:flex" title="Xem chuỗi ngày học" aria-label={`Chuỗi ${progress.streak} ngày`}><Icon.Flame className="h-4 w-4 text-error" /><span className="tabular">{progress.streak}</span></button>
-        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-full border border-border/60 bg-bg-secondary px-3 text-[13px] font-semibold text-text-secondary shadow-xs transition hover:bg-bg-tertiary sm:flex" title="Xem XP" aria-label={`${progress.xp} điểm XP`}><Icon.Zap className="h-4 w-4 text-warning" /><span className="tabular">{progress.xp} XP</span></button>
-        {cloud?.serverAvailable && (cloud.authenticated ? (
-          <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-full border border-accent/30 bg-accent-subtle px-3 text-xs font-semibold text-accent shadow-xs transition hover:border-accent sm:flex" title={cloud.syncState === 'syncing' ? 'Đang đồng bộ đám mây' : 'Tài khoản đã đồng bộ'}>
-            <Icon.Cloud className="h-3.5 w-3.5 shrink-0" />
-            <span className="max-w-[96px] truncate">{cloud.user?.displayName || cloud.user?.username}</span>
-          </button>
-        ) : (
-          <button onClick={() => onOpenAuth?.('login')} className="hidden h-9 items-center gap-1.5 rounded-full border border-accent/30 bg-accent-subtle px-3 text-xs font-semibold text-accent shadow-xs transition hover:border-accent sm:flex">
-            <Icon.User className="h-3.5 w-3.5 shrink-0" />
-            <span>Đăng nhập</span>
-          </button>
-        ))}
-        <button onClick={onShortcuts} className="hidden h-9 w-9 place-items-center rounded-xl border border-border/70 bg-bg-secondary text-[13px] font-semibold text-text-secondary transition hover:bg-bg-tertiary md:grid" title="Phím tắt (Ctrl + /)" aria-label="Xem phím tắt">?</button>
-        <button onClick={() => onThemeChange(nextTheme)} className="grid h-9 w-9 place-items-center rounded-xl border border-border/70 bg-bg-secondary text-text-secondary transition hover:bg-bg-tertiary" title={`Giao diện: ${themeLabel} — bấm để đổi`} aria-label={`Giao diện đang ${themeLabel}, bấm để đổi`}>{themeMode === 'dark' ? <Icon.Moon className="h-[18px] w-[18px]" /> : <Icon.Sun className="h-[18px] w-[18px]" />}</button>
+      </div>
+      <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-full border border-border/65 bg-surface px-3 text-[13px] font-semibold text-text-secondary shadow-xs transition-colors hover:bg-subtle sm:flex" title="Xem chuỗi ngày học" aria-label={`Chuỗi ${progress.streak} ngày`}><Icon.Flame className="h-4 w-4 text-error" /><span className="tabular-nums">{progress.streak}</span></button>
+        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-full border border-border/65 bg-surface px-3 text-[13px] font-semibold text-text-secondary shadow-xs transition-colors hover:bg-subtle sm:flex" title="Xem XP" aria-label={`${progress.xp} điểm XP`}><Icon.Zap className="h-4 w-4 text-warning" /><span className="tabular-nums">{progress.xp} XP</span></button>
+        <button onClick={onShortcuts} className="hidden h-9 w-9 place-items-center rounded-xl border border-border/65 bg-surface text-[13px] font-semibold text-text-secondary shadow-xs transition-colors hover:bg-subtle md:grid" title="Phím tắt (Ctrl + /)" aria-label="Xem phím tắt">?</button>
+        <button onClick={() => onThemeChange(nextTheme)} className="grid h-9 w-9 place-items-center rounded-xl border border-border/65 bg-surface text-text-secondary shadow-xs transition-colors hover:bg-subtle" title={`Giao diện: ${themeLabel} — bấm để đổi`} aria-label={`Giao diện đang ${themeLabel}, bấm để đổi`}>{themeMode === 'dark' ? <Icon.Moon className="h-[18px] w-[18px]" /> : <Icon.Sun className="h-[18px] w-[18px]" />}</button>
       </div>
       </div>
     </header>
@@ -484,61 +475,62 @@ function Sidebar({ screen, progress, onNavigate, mobileOpen, onClose, cloud = nu
   return (
     <>
     {mobileOpen && <button className="fixed inset-0 z-40 bg-black/45 lg:hidden" onClick={onClose} aria-label="Đóng menu" />}
-    <aside className={`fixed inset-y-0 left-0 z-50 flex w-[240px] flex-col border-r border-border/70 bg-bg-secondary px-3.5 py-4 transition-transform duration-200 lg:translate-x-0 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`} aria-label="Menu chính">
-      <div className="flex h-11 shrink-0 items-center justify-between px-2">
+    <aside className={`fixed inset-y-0 left-0 z-50 flex h-screen w-[232px] flex-col border-r border-border/65 bg-surface px-3 py-3.5 transition-transform duration-200 lg:translate-x-0 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`} aria-label="Menu chính">
+      <div className="flex h-10 shrink-0 items-center justify-between px-2">
         <button onClick={() => onNavigate('home')} className="flex items-center gap-2.5 text-left" aria-label="Về trang chủ">
-          <span className="grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-accent-subtle to-accent-2-subtle text-xl" role="img" aria-label="Trúc">🐼</span>
-          <span><span className="block font-serif text-[17px] font-bold leading-tight">DuDu Hán Ngữ</span><span className="block text-[11px] text-text-muted">Học mỗi ngày</span></span>
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-accent-subtle to-accent-2-subtle text-lg" role="img" aria-label="Trúc">🐼</span>
+          <span className="min-w-0"><span className="block truncate font-serif text-[17px] font-bold leading-tight">DuDu Hán Ngữ</span><span className="block truncate text-[11px] text-text-muted">Học mỗi ngày</span></span>
         </button>
-        <button onClick={onClose} className="grid h-8 w-8 place-items-center rounded-lg text-text-muted hover:bg-bg-tertiary lg:hidden" aria-label="Đóng menu"><Icon.X /></button>
+        <button onClick={onClose} className="grid h-8 w-8 place-items-center rounded-lg text-text-muted hover:bg-subtle lg:hidden" aria-label="Đóng menu"><Icon.X /></button>
       </div>
-      <nav aria-label="Menu chính" className="mt-4 flex min-h-0 flex-1 flex-col justify-between overflow-y-auto lg:overflow-visible">
-        <div>
-          <div className="px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-text-muted">Chính</div>
-          <div className="space-y-0.5">{NAV_ITEMS.map((item) => (
+      <nav aria-label="Menu chính" className="mt-3.5 flex min-h-0 flex-1 flex-col overflow-y-auto lg:overflow-visible">
+        <div className="px-2.5 pb-1 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-text-muted">Chính</div>
+        <div className="space-y-0.5">{NAV_ITEMS.map((item) => (
+          <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item ${screen === item.id ? 'active' : ''}`}>
+            {item.icon}<span className="truncate">{item.label}</span>
+          </button>
+        ))}</div>
+        <div className="mb-1 mt-3.5 px-2.5 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-text-muted">Luyện tập</div>
+        <div className="space-y-0.5">
+          {primaryPractice.map((item) => (
             <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item ${screen === item.id ? 'active' : ''}`}>
-              {item.icon}<span>{item.label}</span>
+              {item.icon}<span className="truncate">{item.label}</span>
             </button>
-          ))}</div>
-          <div className="mb-1.5 mt-4 px-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-text-muted">Luyện tập</div>
-          <div className="space-y-0.5">
-            {primaryPractice.map((item) => (
-              <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item ${screen === item.id ? 'active' : ''}`}>
-                {item.icon}<span>{item.label}</span>
-              </button>
-            ))}
-            <button
-              type="button"
-              onClick={() => setMoreOpen((v) => !v)}
-              aria-expanded={moreOpen}
-              className="nav-item text-text-muted"
-            >
-              <Icon.ChevronRight className={`h-4 w-4 transition-transform duration-150 ${moreOpen ? 'rotate-90' : ''}`} />
-              <span>{moreOpen ? 'Thu gọn kỹ năng' : `Kỹ năng khác (${secondaryPractice.length})`}</span>
-            </button>
-            {moreOpen && (
-              <div className="space-y-0.5 pl-2">
-                {secondaryPractice.map((item) => (
-                  <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item ${screen === item.id ? 'active' : ''}`}>
-                    {item.icon}<span>{item.label}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => setMoreOpen((v) => !v)}
+            aria-expanded={moreOpen}
+            className="nav-item text-text-muted"
+          >
+            <Icon.ChevronRight className={`h-4 w-4 transition-transform duration-150 ${moreOpen ? 'rotate-90' : ''}`} />
+            <span className="truncate">{moreOpen ? 'Thu gọn kỹ năng' : `Kỹ năng khác (${secondaryPractice.length})`}</span>
+          </button>
+          {moreOpen && (
+            <div className="space-y-0.5 pl-2">
+              {secondaryPractice.map((item) => (
+                <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item ${screen === item.id ? 'active' : ''}`}>
+                  {item.icon}<span className="truncate">{item.label}</span>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </nav>
-      <div className="mt-3 shrink-0 space-y-2 border-t border-border/70 pt-3">
+      <div className="mt-auto shrink-0 space-y-2 border-t border-border/65 pt-3">
         {cloud?.serverAvailable && !cloud.authenticated && (
-          <button onClick={() => { onClose(); onOpenAuth?.('login'); }} className="btn-secondary flex w-full items-center justify-center gap-2 py-2 text-xs">
+          <button onClick={() => { onClose(); onOpenAuth?.('login'); }} className="btn-outline flex w-full items-center justify-center gap-2 py-2 text-xs">
             <Icon.Cloud className="h-4 w-4 text-accent" />
             <span>Đăng nhập đồng bộ</span>
           </button>
         )}
-        <button onClick={() => onNavigate('dashboard')} className="flex w-full items-center gap-3 rounded-xl p-2 text-left transition hover:bg-bg-tertiary">
+        <button onClick={() => onNavigate('dashboard')} className="flex w-full min-w-0 items-center gap-2.5 rounded-xl p-2 text-left transition-colors hover:bg-subtle">
           <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent-2-subtle text-xl" role="img" aria-label="Băng">🐧</span>
-          <span className="min-w-0 flex-1"><span className="block truncate text-sm font-semibold">{cloud?.user?.displayName || progress.profile?.name || 'Học viên'}</span><span className="block truncate text-[11px] text-text-muted">{cloud?.authenticated ? `@${cloud.user?.username} · ${cloud.syncState === 'syncing' ? 'Đang đồng bộ' : 'Đám mây'}` : `Cấp ${Math.max(1, Math.floor((progress.xp || 0) / 250) + 1)} · ${progress.xp || 0} XP`}</span></span>
-          <Icon.Settings className="h-[18px] w-[18px] shrink-0 text-text-muted" />
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-sm font-semibold text-text-primary">{cloud?.user?.displayName || progress.profile?.name || 'Học viên'}</span>
+            <span className="block truncate text-[11px] text-text-muted">{cloud?.authenticated ? `@${cloud.user?.username} · ${cloud.syncState === 'syncing' ? 'Đang đồng bộ' : 'Đám mây'}` : `Cấp ${Math.max(1, Math.floor((progress.xp || 0) / 250) + 1)} · ${progress.xp || 0} XP`}</span>
+          </span>
+          <Icon.Settings className="h-[17px] w-[17px] shrink-0 text-text-muted" />
         </button>
       </div>
     </aside>
@@ -564,9 +556,9 @@ function RightPanel({ progress, onNavigate, pomodoro }) {
   const thisWeekXp = Number(progress.weeklyXP?.[getWeekKey(monday)]) || 0;
   const streakTarget = progress.streak < 3 ? 3 : progress.streak < 7 ? 7 : 10;
   const streakPercent = Math.min(100, Math.round((progress.streak / streakTarget) * 100));
-  const panelClass = 'rounded-2xl border border-border/60 bg-bg-primary/80 p-4 shadow-sm';
+  const panelClass = 'rounded-2xl border border-border/65 bg-surface p-4 shadow-xs';
   return (
-    <aside className="fixed inset-y-0 right-0 z-10 hidden w-[340px] border-l border-border/70 bg-bg-secondary p-4 xl:flex xl:flex-col xl:justify-between" aria-label="Bảng tiến độ">
+    <aside className="hidden w-[320px] shrink-0 border-l border-border/65 bg-surface/50 p-4 xl:block" aria-label="Bảng tiến độ">
       <div className="space-y-3.5">
         <section className={panelClass}>
           <div className="flex items-center gap-2"><Icon.Target className="h-[18px] w-[18px] text-accent" /><h2 className="font-serif text-[16px] font-semibold">Mục tiêu hôm nay</h2></div>
@@ -694,7 +686,7 @@ function HomeScreen({ progress, onOpenLesson, onNavigate }) {
   ];
   const recentLessons = [...new Set([...unlocked.slice().reverse(), ...LESSONS])].slice(0, 5);
   return (
-    <div className="space-y-8">
+    <div className="space-y-7">
       <section className="relative overflow-hidden rounded-2xl border border-accent/15 bg-gradient-to-br from-accent-subtle/85 via-bg-secondary to-accent-2-subtle/75 px-6 py-5 shadow-sm sm:px-8 sm:py-6">
         <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-56 w-56 rounded-full bg-accent-2-subtle blur-2xl" />
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 left-1/3 h-44 w-44 rounded-full bg-warm-subtle blur-3xl" />
@@ -3020,11 +3012,15 @@ export default function App() {
  {!online && <div role="status" className="fixed inset-x-0 top-0 z-[120] bg-warning-subtle px-4 py-1.5 text-center text-xs font-semibold text-warning">Mất kết nối mạng — bài học đã tải vẫn dùng được, tính năng tạo nội dung bằng AI sẽ tạm chờ.</div>}
  <BackgroundLayer settings={progress.settings} customBackground={customBackground} effectiveTheme={effectiveTheme} />
  {screen !== 'quiz' && <Sidebar screen={screen} progress={progress} onNavigate={navigate} mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} cloud={cloud} onOpenAuth={openAuth} />}
- <Header progress={progress} themeMode={progress.themeMode} onThemeChange={changeTheme} onSearch={() => setSearchOpen(true)} onNavigate={navigate} onMenu={() => setSidebarOpen(true)} onShortcuts={() => setShortcutsOpen(true)} hidden={headerHidden} focused={screen === 'quiz'} cloud={cloud} onOpenAuth={openAuth} />
- {screen !== 'quiz' && <RightPanel progress={progress} onNavigate={navigate} pomodoro={pomodoro} />}
- <div className={`relative z-10 ${screen === 'quiz' ? '' : 'lg:pl-[240px] xl:pr-[340px]'}`}>
- {processingJobs.length > 0 && <div className="mx-auto max-w-[864px] px-4 pt-3 lg:px-8"><div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-accent/30 bg-accent-subtle px-3 py-2 text-sm"><span className="font-semibold">{processingJobs.map((job) => `${job.courseName}: ${job.state === 'paused' ? 'tạm dừng' : 'đang xử lý'} ${job.current}/${job.total}`).join(' · ')}</span><button className="font-semibold text-accent" onClick={() => { setTargetCourseId(processingJobs[0].courseId); setScreen('process-document'); }}>Xem tiến độ</button></div></div>}
- <main id="main-content" tabIndex={-1} key={screen} className={`mx-auto min-w-0 animate-fade-slide px-4 pb-24 pt-6 lg:px-8 lg:pb-10 ${screen === 'quiz' ? 'max-w-[720px]' : 'max-w-[864px]'}`}><Suspense fallback={<div aria-label="Đang tải màn hình" className="space-y-3"><div className="h-24 animate-pulse rounded-md bg-bg-tertiary" /><div className="h-48 animate-pulse rounded-md bg-bg-tertiary" /></div>}>{content}</Suspense></main>
+ <div className={`relative z-10 min-h-screen ${screen === 'quiz' ? '' : 'lg:pl-[232px]'}`}>
+  <Header progress={progress} themeMode={progress.themeMode} onThemeChange={changeTheme} onSearch={() => setSearchOpen(true)} onNavigate={navigate} onMenu={() => setSidebarOpen(true)} onShortcuts={() => setShortcutsOpen(true)} hidden={headerHidden} focused={screen === 'quiz'} />
+  <div className={screen === 'quiz' ? '' : 'xl:grid xl:min-h-[calc(100vh-4rem)] xl:grid-cols-[minmax(0,1fr)_320px]'}>
+   <div className="min-w-0">
+    {processingJobs.length > 0 && <div className="mx-auto max-w-[840px] px-4 pt-3 sm:px-6 lg:px-8"><div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-accent/30 bg-accent-subtle px-3 py-2 text-sm"><span className="font-semibold">{processingJobs.map((job) => `${job.courseName}: ${job.state === 'paused' ? 'tạm dừng' : 'đang xử lý'} ${job.current}/${job.total}`).join(' · ')}</span><button className="font-semibold text-accent" onClick={() => { setTargetCourseId(processingJobs[0].courseId); setScreen('process-document'); }}>Xem tiến độ</button></div></div>}
+    <main id="main-content" tabIndex={-1} key={screen} className={`mx-auto min-w-0 animate-fade-slide px-4 pb-24 pt-6 sm:px-6 lg:px-8 lg:pb-12 ${screen === 'quiz' ? 'max-w-[720px]' : 'max-w-[840px]'}`}><Suspense fallback={<div aria-label="Đang tải màn hình" className="space-y-3"><div className="h-24 animate-pulse rounded-md bg-bg-tertiary" /><div className="h-48 animate-pulse rounded-md bg-bg-tertiary" /></div>}>{content}</Suspense></main>
+   </div>
+   {screen !== 'quiz' && <RightPanel progress={progress} onNavigate={navigate} pomodoro={pomodoro} />}
+  </div>
  </div>
  {screen !== 'quiz' && <BottomNav screen={screen} onNavigate={navigate} />}
  <GlossaryModal entry={shownGlossaryEntry} onClose={() => setGlossaryEntry(null)} onOpenEntry={setGlossaryEntry} bookmarks={progress.bookmarks} onToggleBookmark={toggleBookmark} notes={progress.notes} onSaveNote={saveNote} onCharacter={openCharacter} onEditWord={wordEditorReady ? setEditingWord : null} />
