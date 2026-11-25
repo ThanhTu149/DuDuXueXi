@@ -58,11 +58,11 @@ html { -webkit-tap-highlight-color: transparent; }
     --radius-full: 9999px;
 
     /* -- Elevation (light) ------------------------------------------------ */
-    --shadow-xs: 0 1px 2px rgba(28, 31, 38, 0.04);
-    --shadow-sm: 0 2px 8px rgba(28, 31, 38, 0.06);
-    --shadow-md: 0 6px 18px rgba(28, 31, 38, 0.08);
-    --shadow-lg: 0 16px 40px rgba(28, 31, 38, 0.11);
-    --shadow-xl: 0 28px 64px rgba(28, 31, 38, 0.15);
+    --shadow-xs: 0 1px 3px rgba(28, 31, 38, 0.04), 0 1px 2px rgba(28, 31, 38, 0.02);
+    --shadow-sm: 0 4px 16px -2px rgba(28, 31, 38, 0.06), 0 1px 3px rgba(28, 31, 38, 0.03);
+    --shadow-md: 0 10px 28px -4px rgba(28, 31, 38, 0.09), 0 2px 6px rgba(28, 31, 38, 0.04);
+    --shadow-lg: 0 18px 44px -6px rgba(28, 31, 38, 0.12);
+    --shadow-xl: 0 28px 64px -8px rgba(28, 31, 38, 0.16);
 
     /* -- Motion ----------------------------------------------------------- */
     --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
@@ -192,11 +192,11 @@ html { -webkit-tap-highlight-color: transparent; }
     --on-accent: #14161A;
     --accent-glow: rgba(123, 168, 125, 0.3);
 
-    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.42);
-    --shadow-md: 0 8px 22px rgba(0, 0, 0, 0.48);
-    --shadow-lg: 0 18px 44px rgba(0, 0, 0, 0.55);
-    --shadow-xl: 0 30px 70px rgba(0, 0, 0, 0.6);
+    --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.36);
+    --shadow-sm: 0 4px 16px -2px rgba(0, 0, 0, 0.42), 0 1px 3px rgba(0, 0, 0, 0.28);
+    --shadow-md: 0 10px 28px -4px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.34);
+    --shadow-lg: 0 18px 44px -6px rgba(0, 0, 0, 0.56);
+    --shadow-xl: 0 30px 70px -8px rgba(0, 0, 0, 0.62);
   }
 
   /* ===========================================================================
@@ -359,10 +359,10 @@ html { -webkit-tap-highlight-color: transparent; }
     position: sticky;
     top: 0;
     z-index: 20;
-    border-bottom: 1px solid rgb(var(--border-rgb) / 0.65);
-    background: rgb(var(--bg-primary-rgb) / 0.82);
-    backdrop-filter: blur(12px) saturate(1.25);
-    -webkit-backdrop-filter: blur(12px) saturate(1.25);
+    border-bottom: 1px solid rgb(var(--border-rgb) / 0.5);
+    background: rgb(var(--bg-primary-rgb) / 0.8);
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
   }
 
   .learn-toolbar {
@@ -737,22 +737,22 @@ html { -webkit-tap-highlight-color: transparent; }
      =========================================================================== */
   .card {
     background: var(--bg-secondary);
-    border: 1px solid rgb(var(--border-rgb) / 0.72);
-    border-radius: var(--radius-xl);
-    padding: 18px 20px;
-    box-shadow: var(--shadow-xs);
+    border: 1px solid rgb(var(--border-rgb) / 0.6);
+    border-radius: var(--radius-2xl);
+    padding: 20px 22px;
+    box-shadow: var(--shadow-sm);
     transition: transform var(--dur-base) var(--ease-out-soft), box-shadow var(--dur-base) ease,
       border-color var(--dur-base) ease;
   }
   @media (hover: hover) and (pointer: fine) {
     .card:hover {
       transform: translateY(-2px);
-      box-shadow: var(--shadow-sm);
-      border-color: var(--border-strong);
+      box-shadow: var(--shadow-md);
+      border-color: rgb(var(--border-strong-rgb) / 0.85);
     }
   }
   .card-lg {
-    border-radius: var(--radius-2xl);
+    border-radius: var(--radius-3xl);
     padding: 28px 32px;
   }
 
@@ -778,10 +778,10 @@ html { -webkit-tap-highlight-color: transparent; }
     position: relative;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 7px 11px;
-    border-radius: var(--radius-lg);
-    font: 500 13.5px/1.35 var(--font-sans);
+    gap: 11px;
+    padding: 8px 14px;
+    border-radius: var(--radius-full);
+    font: 500 14px/1.35 var(--font-sans);
     color: var(--text-secondary);
     width: 100%;
     text-align: left;
@@ -794,19 +794,9 @@ html { -webkit-tap-highlight-color: transparent; }
   }
   .nav-item:active { transform: scale(0.98); }
   .nav-item.active {
-    background: rgb(var(--accent-rgb) / 0.11);
+    background: var(--accent-subtle);
     color: var(--accent);
-    font-weight: 600;
-  }
-  .nav-item.active::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 6px;
-    bottom: 6px;
-    width: 3px;
-    border-radius: var(--radius-full);
-    background: var(--accent);
+    font-weight: 500;
   }
   .nav-item svg {
     width: 17px;
@@ -814,7 +804,7 @@ html { -webkit-tap-highlight-color: transparent; }
     flex-shrink: 0;
   }
   .nav-item.active svg {
-    stroke-width: 2.2;
+    stroke-width: 2;
   }
 
   .spinner {

@@ -346,7 +346,7 @@ function SpeakButton({ text, lang = 'zh-CN', className = '' }) {
 
 function SectionHeading({ eyebrow, title, action }) { return <div className="mb-6 flex items-end justify-between gap-4"><div><p className="text-[11px] font-bold uppercase tracking-widest text-accent">{eyebrow}</p><h1 className="mt-1 text-3xl font-bold text-text-primary">{title}</h1></div>{action}</div>; }
 
-function BottomNav({ screen, onNavigate }) { return <nav aria-label="Điều hướng nhanh" className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-6 border-t border-border bg-bg-secondary p-1.5 lg:hidden">{NAV_ITEMS.map((item) => <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`flex min-h-11 min-w-0 flex-col items-center justify-center gap-1 rounded-md px-1 py-1 text-[11px] font-semibold ${screen === item.id ? 'bg-accent-subtle text-accent' : 'text-text-muted'}`}>{item.icon}<span className="truncate">{item.label}</span></button>)}</nav>; }
+function BottomNav({ screen, onNavigate }) { return <nav aria-label="Điều hướng nhanh" className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-6 border-t border-border/60 bg-surface/95 p-1.5 backdrop-blur-md lg:hidden">{NAV_ITEMS.map((item) => <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`flex min-h-11 min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1 py-1 text-[11px] font-medium transition-[background-color,color] duration-200 ease-out ${screen === item.id ? 'bg-accent-subtle text-accent' : 'text-text-muted'}`}>{item.icon}<span className="truncate">{item.label}</span></button>)}</nav>; }
 
 function StreakCalendar({ studyDays = {}, streak = 0 }) { const days = Array.from({ length: 28 }, (_, index) => { const date = new Date(); date.setDate(date.getDate() - (27 - index)); const key = localDate(date); return { key, active: Boolean(studyDays[key]?.questions || studyDays[key]?.xp) }; }); return <div><h2 className="text-lg font-bold">Lịch học</h2><div className="mt-5 grid grid-cols-7 gap-2">{days.map((day) => <span key={day.key} title={day.key} className={`aspect-square rounded ${day.active ? 'bg-accent' : 'bg-bg-tertiary'}`} />)}</div><p className="mt-3 text-sm font-bold text-text-muted">Chuỗi hiện tại: {streak} ngày</p></div>; }
 
@@ -427,35 +427,35 @@ function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMe
   const nextTheme = themeMode === 'light' ? 'dark' : themeMode === 'dark' ? 'auto' : 'light';
   const themeLabel = themeMode === 'dark' ? 'Tối' : themeMode === 'light' ? 'Sáng' : 'Tự động';
   return (
-    <header className={`app-header transition-transform duration-200 ${hidden ? '-translate-y-full' : ''}`}>
-      <div className="mx-auto flex h-16 max-w-[1160px] items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+    <header className={`app-header bg-bg-primary/80 backdrop-blur-md transition-transform duration-200 ease-out ${hidden ? '-translate-y-full' : ''}`}>
+      <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
       <div className="flex min-w-0 flex-1 items-center gap-2.5">
-      {!focused && <button onClick={onMenu} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-border/70 bg-surface text-text-secondary transition-colors hover:bg-subtle lg:hidden" aria-label="Mở menu">
+      {!focused && <button onClick={onMenu} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border/60 bg-surface text-text-secondary shadow-xs transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out hover:border-border-strong hover:bg-subtle active:scale-[0.98] lg:hidden" aria-label="Mở menu">
         <span className="space-y-1"><span className="block h-px w-4 bg-current"/><span className="block h-px w-4 bg-current"/><span className="block h-px w-4 bg-current"/></span>
       </button>}
       {focused ? (
-        <div className="flex min-w-0 flex-1 items-center gap-2">
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-accent-subtle text-base" role="img" aria-label="Trúc">🐼</span>
+        <div className="flex min-w-0 flex-1 items-center gap-2.5">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent-subtle text-base" role="img" aria-label="Trúc">🐼</span>
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold leading-tight">Đang luyện tập</p>
             <p className="truncate text-[11px] leading-tight text-text-muted">Giữ nhịp tập trung nhé</p>
           </div>
         </div>
       ) : (
-        <button onClick={onSearch} aria-label="Tìm kiếm hoặc mở lệnh" aria-keyshortcuts="Control+K" className="flex h-9 w-full max-w-[440px] min-w-0 items-center justify-between gap-2 rounded-xl border border-border/70 bg-surface/90 px-3 text-text-muted shadow-xs transition-[border-color,background-color,box-shadow,transform] duration-200 ease-out hover:border-border-strong hover:bg-surface active:scale-[0.99] focus-visible:border-accent">
-          <div className="flex min-w-0 items-center gap-2 text-sm">
+        <button onClick={onSearch} aria-label="Tìm kiếm hoặc mở lệnh" aria-keyshortcuts="Control+K" className="flex h-10 w-full max-w-[420px] min-w-0 items-center justify-between gap-2.5 rounded-full border border-border/60 bg-surface px-4 text-text-muted shadow-xs transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out hover:border-border-strong hover:shadow-sm active:scale-[0.99] focus-visible:border-accent">
+          <div className="flex min-w-0 items-center gap-2.5 text-sm">
             <Icon.Search className="h-4 w-4 shrink-0 text-text-muted" />
             <span className="truncate">Tìm từ vựng, ngữ pháp...</span>
           </div>
-          <kbd className="hidden shrink-0 rounded-md border border-border/70 bg-subtle px-1.5 py-0.5 text-[11px] font-medium text-text-muted sm:block">Ctrl K</kbd>
+          <kbd className="hidden shrink-0 rounded-full border border-border/60 bg-subtle px-2 py-0.5 text-[11px] font-medium text-text-muted sm:inline-block">Ctrl K</kbd>
         </button>
       )}
       </div>
-      <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-full border border-border/65 bg-surface px-3 text-[13px] font-semibold text-text-secondary shadow-xs transition-[background-color,border-color,transform] duration-200 ease-out hover:border-border-strong hover:bg-subtle active:scale-[0.98] sm:flex" title="Xem chuỗi ngày học" aria-label={`Chuỗi ${progress.streak} ngày`}><Icon.Flame className="h-4 w-4 text-error" /><span className="tabular-nums">{progress.streak}</span></button>
-        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-full border border-border/65 bg-surface px-3 text-[13px] font-semibold text-text-secondary shadow-xs transition-[background-color,border-color,transform] duration-200 ease-out hover:border-border-strong hover:bg-subtle active:scale-[0.98] sm:flex" title="Xem XP" aria-label={`${progress.xp} điểm XP`}><Icon.Zap className="h-4 w-4 text-warning" /><span className="tabular-nums">{progress.xp} XP</span></button>
-        <button onClick={onShortcuts} className="hidden h-9 w-9 place-items-center rounded-xl border border-border/65 bg-surface text-[13px] font-semibold text-text-secondary shadow-xs transition-[background-color,border-color,transform] duration-200 ease-out hover:border-border-strong hover:bg-subtle active:scale-[0.98] md:grid" title="Phím tắt (Ctrl + /)" aria-label="Xem phím tắt">?</button>
-        <button onClick={() => onThemeChange(nextTheme)} className="grid h-9 w-9 place-items-center rounded-xl border border-border/65 bg-surface text-text-secondary shadow-xs transition-[background-color,border-color,transform] duration-200 ease-out hover:border-border-strong hover:bg-subtle active:scale-[0.98]" title={`Giao diện: ${themeLabel} — bấm để đổi`} aria-label={`Giao diện đang ${themeLabel}, bấm để đổi`}>{themeMode === 'dark' ? <Icon.Moon className="h-[18px] w-[18px]" /> : <Icon.Sun className="h-[18px] w-[18px]" />}</button>
+      <div className="flex shrink-0 items-center gap-2">
+        <button onClick={() => onNavigate('dashboard')} className="hidden h-10 items-center gap-1.5 rounded-full border border-border/60 bg-surface px-3.5 text-[13px] font-semibold text-text-primary shadow-xs transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-border-strong hover:shadow-sm active:scale-[0.98] sm:inline-flex" title="Xem chuỗi ngày học" aria-label={`Chuỗi ${progress.streak} ngày`}><Icon.Flame className="h-4 w-4 text-accent-orange" /><span className="tabular-nums">{progress.streak}</span></button>
+        <button onClick={() => onNavigate('dashboard')} className="hidden h-10 items-center gap-1.5 rounded-full border border-border/60 bg-surface px-3.5 text-[13px] font-semibold text-text-primary shadow-xs transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-border-strong hover:shadow-sm active:scale-[0.98] sm:inline-flex" title="Xem XP" aria-label={`${progress.xp} điểm XP`}><Icon.Zap className="h-4 w-4 text-warning" /><span className="tabular-nums">{progress.xp} XP</span></button>
+        <button onClick={onShortcuts} className="hidden h-10 w-10 place-items-center rounded-full border border-border/60 bg-surface text-[13px] font-semibold text-text-secondary shadow-xs transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-border-strong hover:bg-subtle hover:text-text-primary active:scale-[0.98] md:grid" title="Phím tắt (Ctrl + /)" aria-label="Xem phím tắt">?</button>
+        <button onClick={() => onThemeChange(nextTheme)} className="grid h-10 w-10 place-items-center rounded-full border border-border/60 bg-surface text-text-secondary shadow-xs transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-border-strong hover:bg-subtle hover:text-text-primary active:scale-[0.98]" title={`Giao diện: ${themeLabel} — bấm để đổi`} aria-label={`Giao diện đang ${themeLabel}, bấm để đổi`}>{themeMode === 'dark' ? <Icon.Moon className="h-[18px] w-[18px]" /> : <Icon.Sun className="h-[18px] w-[18px]" />}</button>
       </div>
       </div>
     </header>
@@ -475,25 +475,25 @@ function Sidebar({ screen, progress, onNavigate, mobileOpen, onClose, cloud = nu
   return (
     <>
     {mobileOpen && <button className="fixed inset-0 z-40 bg-black/45 lg:hidden" onClick={onClose} aria-label="Đóng menu" />}
-    <aside className={`fixed inset-y-0 left-0 z-50 flex h-screen w-[232px] flex-col border-r border-border/65 bg-surface px-3 py-3.5 transition-transform duration-200 lg:translate-x-0 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`} aria-label="Menu chính">
-      <div className="flex h-10 shrink-0 items-center justify-between px-2">
+    <aside className={`fixed inset-y-0 left-0 z-50 flex h-screen w-[232px] flex-col border-r border-border/60 bg-surface px-3.5 py-3.5 shadow-xs transition-transform duration-200 ease-out lg:translate-x-0 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`} aria-label="Menu chính">
+      <div className="flex h-10 shrink-0 items-center justify-between px-1.5">
         <button onClick={() => onNavigate('home')} className="flex items-center gap-2.5 text-left" aria-label="Về trang chủ">
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-accent-subtle to-accent-2-subtle text-lg" role="img" aria-label="Trúc">🐼</span>
-          <span className="min-w-0"><span className="block truncate font-serif text-[17px] font-bold leading-tight">DuDu Hán Ngữ</span><span className="block truncate text-[11px] text-text-muted">Học mỗi ngày</span></span>
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-accent-subtle to-accent-2-subtle text-lg shadow-xs" role="img" aria-label="Trúc">🐼</span>
+          <span className="min-w-0"><span className="block truncate font-serif text-[17px] font-bold leading-tight text-text-primary">DuDu Hán Ngữ</span><span className="block truncate text-[11px] text-text-muted">Học mỗi ngày</span></span>
         </button>
-        <button onClick={onClose} className="grid h-8 w-8 place-items-center rounded-lg text-text-muted hover:bg-subtle lg:hidden" aria-label="Đóng menu"><Icon.X /></button>
+        <button onClick={onClose} className="grid h-8 w-8 place-items-center rounded-full text-text-muted transition-[background-color,color] duration-200 ease-out hover:bg-subtle hover:text-text-primary lg:hidden" aria-label="Đóng menu"><Icon.X /></button>
       </div>
-      <nav aria-label="Menu chính" className="mt-3.5 flex min-h-0 flex-1 flex-col overflow-y-auto lg:overflow-visible">
-        <div className="px-2.5 pb-1 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-text-muted">Chính</div>
+      <nav aria-label="Menu chính" className="mt-3 flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain">
+        <div className="px-3 pb-1 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-text-muted">Chính</div>
         <div className="space-y-0.5">{NAV_ITEMS.map((item) => (
-          <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item ${screen === item.id ? 'active' : ''}`}>
+          <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item py-2 text-sm ${screen === item.id ? 'active bg-accent-subtle font-medium text-accent' : ''}`}>
             {item.icon}<span className="truncate">{item.label}</span>
           </button>
         ))}</div>
-        <div className="mb-1 mt-3.5 px-2.5 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-text-muted">Luyện tập</div>
+        <div className="mb-1 mt-3.5 px-3 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-text-muted">Luyện tập</div>
         <div className="space-y-0.5">
           {primaryPractice.map((item) => (
-            <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item ${screen === item.id ? 'active' : ''}`}>
+            <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item py-2 text-sm ${screen === item.id ? 'active bg-accent-subtle font-medium text-accent' : ''}`}>
               {item.icon}<span className="truncate">{item.label}</span>
             </button>
           ))}
@@ -501,15 +501,15 @@ function Sidebar({ screen, progress, onNavigate, mobileOpen, onClose, cloud = nu
             type="button"
             onClick={() => setMoreOpen((v) => !v)}
             aria-expanded={moreOpen}
-            className="nav-item text-text-muted"
+            className="nav-item py-2 text-sm text-text-muted"
           >
-            <Icon.ChevronRight className={`h-4 w-4 transition-transform duration-150 ${moreOpen ? 'rotate-90' : ''}`} />
+            <Icon.ChevronRight className={`h-4 w-4 transition-transform duration-200 ease-out ${moreOpen ? 'rotate-90' : ''}`} />
             <span className="truncate">{moreOpen ? 'Thu gọn kỹ năng' : `Kỹ năng khác (${secondaryPractice.length})`}</span>
           </button>
           {moreOpen && (
             <div className="space-y-0.5 pl-2">
               {secondaryPractice.map((item) => (
-                <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item ${screen === item.id ? 'active' : ''}`}>
+                <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item py-2 text-sm ${screen === item.id ? 'active bg-accent-subtle font-medium text-accent' : ''}`}>
                   {item.icon}<span className="truncate">{item.label}</span>
                 </button>
               ))}
@@ -517,14 +517,14 @@ function Sidebar({ screen, progress, onNavigate, mobileOpen, onClose, cloud = nu
           )}
         </div>
       </nav>
-      <div className="mt-auto shrink-0 space-y-2 border-t border-border/65 pt-3">
+      <div className="mt-auto shrink-0 space-y-2 border-t border-border/50 pt-3">
         {cloud?.serverAvailable && !cloud.authenticated && (
-          <button onClick={() => { onClose(); onOpenAuth?.('login'); }} className="btn-outline flex w-full items-center justify-center gap-2 py-2 text-xs">
+          <button onClick={() => { onClose(); onOpenAuth?.('login'); }} className="btn-outline flex w-full items-center justify-center gap-2 rounded-full py-2 text-xs">
             <Icon.Cloud className="h-4 w-4 text-accent" />
             <span>Đăng nhập đồng bộ</span>
           </button>
         )}
-        <button onClick={() => onNavigate('dashboard')} className="flex w-full min-w-0 items-center gap-2.5 rounded-xl p-2 text-left transition-[background-color,transform] duration-200 ease-out hover:bg-subtle active:scale-[0.98]">
+        <button onClick={() => onNavigate('dashboard')} className="flex w-full min-w-0 items-center gap-2.5 rounded-2xl p-2 text-left transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out hover:bg-subtle active:scale-[0.98]">
           <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent-2-subtle text-xl" role="img" aria-label="Băng">🐧</span>
           <span className="min-w-0 flex-1">
             <span className="block truncate text-sm font-semibold text-text-primary">{cloud?.user?.displayName || progress.profile?.name || 'Học viên'}</span>
@@ -555,10 +555,10 @@ function RightPanel({ progress, onNavigate, pomodoro, showStackedBelowXl = false
   monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
   const thisWeekXp = Number(progress.weeklyXP?.[getWeekKey(monday)]) || 0;
   const streakTarget = progress.streak < 3 ? 3 : progress.streak < 7 ? 7 : 10;
-  const panelClass = 'rounded-2xl border border-border/70 bg-surface p-4 shadow-xs transition-[border-color,box-shadow] duration-200 ease-out hover:border-border-strong';
+  const panelClass = 'rounded-3xl border border-border/60 bg-surface p-5 shadow-sm transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out hover:border-border-strong hover:shadow-md';
   const asideClass = showStackedBelowXl
-    ? 'mx-auto w-full max-w-[840px] px-4 pb-24 pt-2 sm:px-6 lg:px-8 lg:pb-12 xl:mx-0 xl:w-[320px] xl:max-w-none xl:shrink-0 xl:border-l xl:border-border/65 xl:bg-surface/40 xl:px-4 xl:pb-20 xl:pt-5'
-    : 'hidden w-[320px] shrink-0 border-l border-border/65 bg-surface/40 px-4 pb-20 pt-5 xl:block';
+    ? 'mx-auto w-full max-w-[840px] px-4 pb-24 pt-2 sm:px-6 lg:px-8 lg:pb-12 xl:mx-0 xl:w-full xl:max-w-none xl:shrink-0 xl:px-0 xl:pb-20 xl:pt-6'
+    : 'hidden w-full shrink-0 pb-20 pt-6 xl:block';
   return (
     <aside className={asideClass} aria-label="Bảng tiến độ">
       <div className={showStackedBelowXl ? 'grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-1' : 'space-y-4'}>
@@ -619,7 +619,7 @@ function RightPanel({ progress, onNavigate, pomodoro, showStackedBelowXl = false
         </section>
 
         <div className="space-y-4">
-          <section className={dueCount > 0 ? 'rounded-2xl border border-accent/20 bg-accent-subtle/75 p-4 shadow-xs transition-[border-color,box-shadow] duration-200 ease-out hover:border-accent/35' : panelClass}>
+          <section className={dueCount > 0 ? 'rounded-3xl border border-accent/20 bg-accent-subtle/75 p-5 shadow-sm transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out hover:border-accent/35 hover:shadow-md' : panelClass}>
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className={`text-[11px] font-semibold uppercase tracking-wider ${dueCount > 0 ? 'text-accent' : 'text-text-muted'}`}>Ôn tập thông minh</p>
@@ -1674,7 +1674,7 @@ function usePomodoro(onCompleteRef) {
 function PomodoroCard({ pomodoro, compact = false }) {
  const label = pomodoro.mode === 'work' ? 'Phiên học' : 'Giờ nghỉ';
  return (
- <section className={compact ? 'rounded-2xl border border-border/70 bg-surface p-4 shadow-lg' : 'rounded-2xl border border-border/70 bg-surface p-4 shadow-xs transition-[border-color,box-shadow] duration-200 ease-out hover:border-border-strong'}>
+ <section className={compact ? 'rounded-3xl border border-border/60 bg-surface p-4 shadow-lg' : 'rounded-3xl border border-border/60 bg-surface p-5 shadow-sm transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out hover:border-border-strong hover:shadow-md'}>
   <div className="flex items-center justify-between gap-2">
    <div className="flex items-center gap-2">
     <Icon.Clock className={`h-4 w-4 shrink-0 ${pomodoro.mode === 'work' ? 'text-accent-2' : 'text-success'}`} />
@@ -3038,10 +3038,10 @@ export default function App() {
  {screen !== 'quiz' && <Sidebar screen={screen} progress={progress} onNavigate={navigate} mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} cloud={cloud} onOpenAuth={openAuth} />}
  <div className={`relative z-10 min-h-screen ${screen === 'quiz' ? '' : 'lg:pl-[232px]'}`}>
   <Header progress={progress} themeMode={progress.themeMode} onThemeChange={changeTheme} onSearch={() => setSearchOpen(true)} onNavigate={navigate} onMenu={() => setSidebarOpen(true)} onShortcuts={() => setShortcutsOpen(true)} hidden={headerHidden} focused={screen === 'quiz'} />
-  <div className={screen === 'quiz' ? '' : 'xl:grid xl:min-h-[calc(100vh-4rem)] xl:grid-cols-[minmax(0,1fr)_320px]'}>
+  <div className={screen === 'quiz' ? '' : 'mx-auto max-w-[1280px] xl:grid xl:min-h-[calc(100vh-4rem)] xl:grid-cols-[minmax(0,1fr)_316px] xl:gap-7 xl:px-8'}>
    <div className="min-w-0">
-    {processingJobs.length > 0 && <div className="mx-auto max-w-[840px] px-4 pt-3 sm:px-6 lg:px-8"><div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-accent/30 bg-accent-subtle px-3 py-2 text-sm"><span className="font-semibold">{processingJobs.map((job) => `${job.courseName}: ${job.state === 'paused' ? 'tạm dừng' : 'đang xử lý'} ${job.current}/${job.total}`).join(' · ')}</span><button className="font-semibold text-accent" onClick={() => { setTargetCourseId(processingJobs[0].courseId); setScreen('process-document'); }}>Xem tiến độ</button></div></div>}
-    <main id="main-content" tabIndex={-1} key={screen} className={`mx-auto min-w-0 animate-fade-slide px-4 pt-6 sm:px-6 lg:px-8 ${screen === 'home' ? 'pb-6 xl:pb-12' : 'pb-24 lg:pb-12'} ${screen === 'quiz' ? 'max-w-[720px]' : 'max-w-[840px]'}`}><Suspense fallback={<div aria-label="Đang tải màn hình" className="space-y-3"><div className="h-24 animate-pulse rounded-md bg-bg-tertiary" /><div className="h-48 animate-pulse rounded-md bg-bg-tertiary" /></div>}>{content}</Suspense></main>
+    {processingJobs.length > 0 && <div className="mx-auto max-w-[840px] px-4 pt-3 sm:px-6 lg:px-8 xl:max-w-none xl:px-0"><div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-accent/30 bg-accent-subtle px-4 py-2.5 text-sm shadow-xs"><span className="font-semibold">{processingJobs.map((job) => `${job.courseName}: ${job.state === 'paused' ? 'tạm dừng' : 'đang xử lý'} ${job.current}/${job.total}`).join(' · ')}</span><button className="font-semibold text-accent" onClick={() => { setTargetCourseId(processingJobs[0].courseId); setScreen('process-document'); }}>Xem tiến độ</button></div></div>}
+    <main id="main-content" tabIndex={-1} key={screen} className={`mx-auto min-w-0 animate-fade-slide px-4 pt-6 sm:px-6 lg:px-8 ${screen === 'home' ? 'pb-6 xl:pb-12' : 'pb-24 lg:pb-12'} ${screen === 'quiz' ? 'max-w-[720px]' : 'max-w-[840px] xl:max-w-none xl:px-0'}`}><Suspense fallback={<div aria-label="Đang tải màn hình" className="space-y-3"><div className="h-24 animate-pulse rounded-2xl bg-bg-tertiary" /><div className="h-48 animate-pulse rounded-2xl bg-bg-tertiary" /></div>}>{content}</Suspense></main>
    </div>
    {screen !== 'quiz' && <RightPanel progress={progress} onNavigate={navigate} pomodoro={pomodoro} showStackedBelowXl={screen === 'home'} />}
   </div>
