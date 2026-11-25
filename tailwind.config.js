@@ -5,10 +5,13 @@ export default {
   theme: {
     extend: {
       colors: {
+        canvas: 'rgb(var(--bg-primary-rgb) / <alpha-value>)',
+        surface: 'rgb(var(--bg-secondary-rgb) / <alpha-value>)',
+        subtle: 'rgb(var(--bg-tertiary-rgb) / <alpha-value>)',
         bg: {
-          primary: 'var(--bg-primary)',
-          secondary: 'var(--bg-secondary)',
-          tertiary: 'var(--bg-tertiary)',
+          primary: 'rgb(var(--bg-primary-rgb) / <alpha-value>)',
+          secondary: 'rgb(var(--bg-secondary-rgb) / <alpha-value>)',
+          tertiary: 'rgb(var(--bg-tertiary-rgb) / <alpha-value>)',
         },
         text: {
           primary: 'var(--text-primary)',
@@ -16,20 +19,20 @@ export default {
           muted: 'var(--text-muted)',
         },
         border: {
-          DEFAULT: 'var(--border)',
-          strong: 'var(--border-strong)',
+          DEFAULT: 'rgb(var(--border-rgb) / <alpha-value>)',
+          strong: 'rgb(var(--border-strong-rgb) / <alpha-value>)',
         },
         accent: {
           // rgb() + <alpha-value> keeps opacity modifiers (bg-accent/90,
           // border-accent/20, …) alive; the triplet is themed in index.css.
           DEFAULT: 'rgb(var(--accent-rgb) / <alpha-value>)',
           hover: 'var(--accent-hover)',
-          subtle: 'var(--accent-subtle)',
+          subtle: 'rgb(var(--accent-subtle-rgb) / <alpha-value>)',
         },
         'accent-2': {
           DEFAULT: 'rgb(var(--accent-2-rgb) / <alpha-value>)',
           hover: 'var(--accent-2-hover)',
-          subtle: 'var(--accent-2-subtle)',
+          subtle: 'rgb(var(--accent-2-subtle-rgb) / <alpha-value>)',
         },
         warm: {
           DEFAULT: 'var(--warm)',
