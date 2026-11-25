@@ -644,34 +644,33 @@ function RightPanel({ progress, onNavigate, pomodoro, showStackedBelowXl = false
   );
 }
 
-function PandaHeroMascot() {
-  return (
-    <svg viewBox="0 0 210 190" className="h-[132px] w-[146px] drop-shadow-md" role="img" aria-label="Trúc đang chào">
-      <ellipse cx="107" cy="174" rx="68" ry="10" fill="var(--accent-2)" opacity=".14" />
-      <circle cx="69" cy="50" r="25" fill="#252932" />
-      <circle cx="143" cy="48" r="25" fill="#252932" />
-      <path d="M57 102c0-41 20-68 52-68s53 27 53 68c0 35-21 59-53 59-31 0-52-24-52-59Z" fill="#FFFDF7" stroke="#252932" strokeWidth="4" />
-      <ellipse cx="82" cy="84" rx="17" ry="23" fill="#252932" transform="rotate(24 82 84)" />
-      <ellipse cx="136" cy="84" rx="17" ry="23" fill="#252932" transform="rotate(-24 136 84)" />
-      <circle cx="84" cy="82" r="5.5" fill="#FFFDF7" /><circle cx="134" cy="82" r="5.5" fill="#FFFDF7" />
-      <circle cx="85" cy="83" r="2.5" fill="var(--accent-2)" /><circle cx="133" cy="83" r="2.5" fill="var(--accent-2)" />
-      <path d="M101 99c0-6 16-6 16 0 0 5-4 8-8 8s-8-3-8-8Z" fill="#252932" />
-      <path d="M96 113c8 8 18 8 26 0" fill="none" stroke="#252932" strokeWidth="3" strokeLinecap="round" />
-      <path d="M77 133c12-9 51-9 64 0l-6 37H83l-6-37Z" fill="var(--accent)" />
-      <path d="M68 143c-18-7-29-23-26-38 2-9 13-13 20-7 6 5 5 13 7 20 2 6 7 10 13 13l-14 12Z" fill="#252932" />
-      <path d="M143 137c10-10 13-24 11-39-1-8 1-15 8-23 6-7 16-8 21-2 5 5 3 13-2 18-5 6-6 13-5 20 2 17-5 32-20 42l-13-16Z" fill="#252932" />
-      <path d="M166 73l8-12M174 80l14-4M161 66l1-15" stroke="var(--warm)" strokeWidth="4" strokeLinecap="round" />
-      <ellipse cx="90" cy="169" rx="20" ry="11" fill="#252932" /><ellipse cx="130" cy="169" rx="20" ry="11" fill="#252932" />
-      <path d="M82 135c14 8 41 8 55 0" fill="none" stroke="#FFFDF7" strokeWidth="5" strokeLinecap="round" opacity=".9" />
-    </svg>
-  );
+const LESSON_THUMBNAILS = {
+  music: { src: '/images/lesson-music.webp', cropClass: 'object-right scale-[1.48] origin-right group-hover:scale-[1.54]' },
+  food: { src: '/images/lesson-food.webp', cropClass: 'object-center scale-100 group-hover:scale-105' },
+  travel: { src: '/images/lesson-travel.webp', cropClass: 'object-right scale-[1.34] origin-right group-hover:scale-[1.40]' },
+  study: { src: '/images/lesson-study.webp', cropClass: 'object-right scale-[1.34] origin-right group-hover:scale-[1.40]' },
+};
+const LESSON_THUMBNAIL_ORDER = ['study', 'music', 'travel', 'food'];
+
+function getLessonThumbnail(lesson = {}) {
+  const text = `${lesson.title_zh || ''} ${lesson.title_vi || ''} ${lesson.topic || ''}`.toLowerCase();
+  let key;
+  if (/âm nhạc|nhạc|hát|piano|hòa tấu|音乐|歌|钢琴|曲/.test(text)) key = 'music';
+  else if (/ăn|trà|ẩm thực|món|cơm|uống|吃|茶|饭|菜|喝/.test(text)) key = 'food';
+  else if (/du lịch|đi|bắc kinh|xe|hộ chiếu|旅游|北京|车|护照|路/.test(text)) key = 'travel';
+  else if (/học|sách|văn hóa|phòng họp|viết|学|书|文化|会议|课/.test(text)) key = 'study';
+  else {
+    const id = Number(lesson.id ?? lesson.bai ?? 0) || 0;
+    key = LESSON_THUMBNAIL_ORDER[Math.abs(id) % LESSON_THUMBNAIL_ORDER.length];
+  }
+  return LESSON_THUMBNAILS[key];
 }
 
 function HomeSectionHeader({ title, onAction }) {
-  return <div className="mb-3 flex items-center justify-between"><h2 className="font-serif text-[18px] font-semibold text-text-primary">{title}</h2><button onClick={onAction} className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-accent transition-[background-color,color,transform] duration-200 ease-out hover:bg-accent-subtle hover:text-accent-hover active:scale-[0.98]">Xem tất cả<Icon.ChevronRight className="h-3.5 w-3.5" /></button></div>;
+  return <div className="mb-3 flex items-center justify-between"><h2 className="font-serif text-[18px] font-semibold text-text-primary">{title}</h2><button onClick={onAction} className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold text-accent transition-[background-color,color,transform] duration-200 ease-out hover:bg-accent-subtle hover:text-accent-hover active:scale-[0.98]">Xem tất cả<Icon.ChevronRight className="h-3.5 w-3.5" /></button></div>;
 }
 
-function HomeScreen({ progress, onOpenLesson, onNavigate }) {
+function HomeScreen({ progress, courseName = 'Hán Ngữ Tập 2', onOpenLesson, onNavigate }) {
   const unlocked = progress.unlockedBai?.length ? progress.unlockedBai : [1];
   const currentBai = unlocked.find((bai) => !progress.baiProgress?.[bai]?.completed) || Math.max(...unlocked);
   const currentGlossary = GLOSSARY[currentBai];
@@ -690,52 +689,124 @@ function HomeScreen({ progress, onOpenLesson, onNavigate }) {
     : remainingToday === 0
       ? 'Bạn đã chạm mục tiêu hôm nay. Nghỉ một chút hoặc thử thách thêm nhé!'
       : `Bạn đã hoàn thành ${todayCount} câu hôm nay — thêm ${remainingToday} câu nữa là chạm mục tiêu.`;
+  const currentThumb = getLessonThumbnail({
+    id: currentBai,
+    title_zh: currentGlossary?.metadata?.title_zh,
+    title_vi: currentGlossary?.metadata?.title_vi,
+  });
   const totalWords = Object.values(GLOSSARY).reduce((sum, lesson) => sum + lesson.entries.filter((entry) => entry.type === 'word').length, 0);
   const totalGrammar = Object.values(GLOSSARY).reduce((sum, lesson) => sum + lesson.entries.filter((entry) => entry.type === 'grammar').length, 0);
   const skillCards = [
-    { id: 'dictation', title: 'Chính tả', caption: `${progress.advancedStats?.dictationSessions || 0} phiên`, icon: <Icon.Headphones />, tone: 'bg-accent-2-subtle text-accent-2' },
-    { id: 'pronunciation', title: 'Phát âm', caption: `${progress.advancedStats?.pronunciationAttempts || 0} lượt`, icon: <Icon.Mic />, tone: 'bg-warm-subtle text-warm' },
-    { id: 'learn', title: 'Từ vựng', caption: `${totalWords} từ`, icon: <Icon.Book />, tone: 'bg-accent-subtle text-accent' },
-    { id: 'learn', title: 'Ngữ pháp', caption: `${totalGrammar} điểm`, icon: <Icon.Pen />, tone: 'bg-[var(--accent-purple-subtle)] text-[var(--accent-purple)]' },
+    {
+      id: 'dictation',
+      title: 'Chính tả',
+      caption: `${progress.advancedStats?.dictationSessions || 0} phiên`,
+      icon: <Icon.Headphones className="h-[18px] w-[18px]" />,
+      cardTone: 'border-violet-200/70 bg-violet-50/90 hover:border-violet-300/90 hover:bg-violet-100/70 dark:border-white/5 dark:bg-violet-500/10 dark:hover:border-violet-400/25 dark:hover:bg-violet-500/15',
+      badgeTone: 'bg-violet-600 text-white dark:bg-violet-500/25 dark:text-violet-300',
+      arrowTone: 'group-hover:text-violet-700 dark:group-hover:text-violet-300',
+    },
+    {
+      id: 'pronunciation',
+      title: 'Phát âm',
+      caption: `${progress.advancedStats?.pronunciationAttempts || 0} lượt`,
+      icon: <Icon.Mic className="h-[18px] w-[18px]" />,
+      cardTone: 'border-rose-200/70 bg-rose-50/90 hover:border-rose-300/90 hover:bg-rose-100/70 dark:border-white/5 dark:bg-rose-500/10 dark:hover:border-rose-400/25 dark:hover:bg-rose-500/15',
+      badgeTone: 'bg-rose-500 text-white dark:bg-rose-500/25 dark:text-rose-300',
+      arrowTone: 'group-hover:text-rose-700 dark:group-hover:text-rose-300',
+    },
+    {
+      id: 'learn',
+      title: 'Từ vựng',
+      caption: `${totalWords} từ`,
+      icon: <Icon.Book className="h-[18px] w-[18px]" />,
+      cardTone: 'border-emerald-200/70 bg-emerald-50/90 hover:border-emerald-300/90 hover:bg-emerald-100/70 dark:border-white/5 dark:bg-emerald-500/10 dark:hover:border-emerald-400/25 dark:hover:bg-emerald-500/15',
+      badgeTone: 'bg-emerald-600 text-white dark:bg-emerald-500/25 dark:text-emerald-300',
+      arrowTone: 'group-hover:text-emerald-700 dark:group-hover:text-emerald-300',
+    },
+    {
+      id: 'learn',
+      title: 'Ngữ pháp',
+      caption: `${totalGrammar} điểm`,
+      icon: <Icon.Pen className="h-[18px] w-[18px]" />,
+      cardTone: 'border-amber-200/70 bg-amber-50/90 hover:border-amber-300/90 hover:bg-amber-100/70 dark:border-white/5 dark:bg-amber-500/10 dark:hover:border-amber-400/25 dark:hover:bg-amber-500/15',
+      badgeTone: 'bg-amber-600 text-white dark:bg-amber-500/25 dark:text-amber-300',
+      arrowTone: 'group-hover:text-amber-700 dark:group-hover:text-amber-300',
+    },
   ];
   const recentLessons = [...new Set([...unlocked.slice().reverse(), ...LESSONS])].slice(0, 5);
   return (
     <div className="space-y-6">
-      <section className="relative overflow-hidden rounded-2xl border border-accent/15 bg-gradient-to-br from-accent-subtle/80 via-surface to-accent-2-subtle/70 p-5 shadow-xs sm:px-6 sm:py-5">
-        <div aria-hidden="true" className="pointer-events-none absolute -right-14 -top-20 h-48 w-48 rounded-full bg-accent-2-subtle blur-2xl" />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-16 left-1/3 h-36 w-36 rounded-full bg-warm-subtle blur-3xl" />
-        <svg aria-hidden="true" viewBox="0 0 800 210" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 bottom-0 h-[62%] w-full opacity-50"><path d="M0 176 112 94l78 58 111-108 98 106 78-63 121 82 89-76 113 83v34H0Z" fill="var(--accent-2-subtle)"/><path d="M0 191 135 128l93 57 108-83 113 80 105-65 106 64 67-34 73 40v23H0Z" fill="var(--accent-subtle)"/><path d="M0 199c130-24 250-13 369-2 148 14 277-16 431-3v16H0Z" fill="var(--bg-secondary)"/></svg>
-        <div className="relative z-10 max-w-[490px] md:pr-4">
-          <p className="text-xs font-semibold uppercase tracking-wider text-accent">{greeting},</p>
-          <h1 className="mt-1 break-words font-serif text-[26px] font-bold leading-tight text-text-primary sm:text-[30px]">{progress.profile?.name ? <>{progress.profile.name} <span className="inline-block align-middle text-[20px]">👋</span></> : <>Hôm nay học gì? <span className="inline-block align-middle text-[20px]">👋</span></>}</h1>
-          <p className="mt-1.5 max-w-md text-sm leading-relaxed text-text-secondary">{heroSubtitle}</p>
-          <div className="mt-4">
-            <button onClick={() => onOpenLesson(currentBai)} className="btn-primary inline-flex w-full items-center justify-center gap-2 px-5 py-2.5 sm:w-auto">Tiếp tục học<Icon.ChevronRight className="h-4 w-4" /></button>
+      <section className="relative flex min-h-[216px] items-center overflow-hidden rounded-3xl border border-border/60 bg-surface p-6 shadow-sm sm:min-h-[224px] sm:px-7 sm:py-6">
+        <img
+          src="/images/hero-panda-banner.jpg"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full select-none object-cover object-[right_35%] dark:brightness-[0.82] dark:saturate-[0.9]"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-bg-secondary/95 via-bg-secondary/85 to-bg-secondary/65 sm:via-bg-secondary/65 sm:to-transparent dark:from-bg-secondary/95 dark:via-bg-secondary/90 dark:to-bg-secondary/65 sm:dark:via-bg-secondary/80 sm:dark:to-bg-secondary/20"
+        />
+        <div className="relative z-10 max-w-[430px]">
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="text-xs font-semibold uppercase tracking-wider text-accent">{greeting},</p>
+            <button
+              type="button"
+              onClick={() => onNavigate('library')}
+              className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-surface/85 px-2.5 py-0.5 text-[11px] font-semibold text-text-secondary shadow-xs backdrop-blur-md transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out hover:border-border-strong hover:bg-surface hover:text-text-primary active:scale-[0.98]"
+              title="Đổi khóa học trong thư viện"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+              <span className="max-w-[150px] truncate">{courseName}</span>
+              <Icon.ChevronRight className="h-3 w-3 text-text-muted" />
+            </button>
+          </div>
+          <h1 className="mt-1.5 break-words font-serif text-[26px] font-bold leading-tight text-text-primary sm:text-[32px]">
+            {progress.profile?.name ? <>{progress.profile.name} <span className="inline-block align-middle text-[22px]">👋</span></> : <>Hôm nay học gì? <span className="inline-block align-middle text-[22px]">👋</span></>}
+          </h1>
+          <p className="mt-2 max-w-md text-sm leading-relaxed text-text-secondary">{heroSubtitle}</p>
+          <div className="mt-5">
+            <button onClick={() => onOpenLesson(currentBai)} className="btn-primary inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-2.5 sm:w-auto">
+              <span>Tiếp tục học</span>
+              <Icon.ChevronRight className="h-4 w-4" />
+            </button>
           </div>
         </div>
-        <div className="pointer-events-none absolute -bottom-1 right-5 z-10 hidden md:block"><div className="animate-float"><PandaHeroMascot /></div></div>
       </section>
 
       <section>
         <HomeSectionHeader title="Tiếp tục học" onAction={() => onNavigate('learn')} />
         <article
           onClick={() => onOpenLesson(currentBai)}
-          className="group grid cursor-pointer items-center gap-4 rounded-2xl border border-border/70 bg-surface p-4 shadow-xs transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/35 hover:shadow-md active:scale-[0.99] sm:grid-cols-[56px_1fr_auto] sm:p-5"
+          className="group flex cursor-pointer flex-col gap-4 rounded-3xl border border-border/60 bg-surface p-4 shadow-sm transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/35 hover:shadow-md active:scale-[0.99] sm:flex-row sm:items-center sm:gap-5 sm:p-5"
         >
-          <div className="grid h-14 w-14 place-items-center rounded-xl bg-accent-subtle font-sans text-xl font-bold text-accent tabular-nums">{String(currentBai).padStart(2, '0')}</div>
-          <div className="min-w-0">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-text-muted tabular-nums">Bài {currentBai} · {completedQuestions}/{totalQuestions} câu</p>
-            <h3 className="mt-0.5 truncate font-hanzi text-[21px] font-semibold text-text-primary">{currentGlossary?.metadata?.title_zh || `Bài ${currentBai}`}</h3>
-            <p className="truncate text-sm text-text-secondary">{currentGlossary?.metadata?.title_vi || 'Tiếp tục hành trình học tập'}</p>
-            <div className="mt-3 flex items-center gap-3">
-              <ProgressBar value={completion} className="h-1.5 flex-1" />
-              <span className="text-xs font-semibold text-text-secondary tabular-nums">{completion}%</span>
+          <div className="flex min-w-0 flex-1 items-center gap-4">
+            <div className="relative h-20 w-28 shrink-0 overflow-hidden rounded-2xl bg-subtle ring-1 ring-border/40 sm:h-[88px] sm:w-32">
+              <img
+                src={currentThumb.src}
+                alt=""
+                aria-hidden="true"
+                className={`h-full w-full object-cover transition-transform duration-300 ease-out dark:brightness-[0.88] ${currentThumb.cropClass}`}
+              />
+              <span className="absolute left-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-[11px] font-semibold leading-tight text-white backdrop-blur-sm tabular-nums">
+                {String(currentBai).padStart(2, '0')}
+              </span>
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-text-muted tabular-nums">Bài {currentBai} · {completedQuestions}/{totalQuestions} câu</p>
+              <h3 className="mt-0.5 truncate font-hanzi text-lg font-semibold text-text-primary sm:text-[20px]">{currentGlossary?.metadata?.title_zh || `Bài ${currentBai}`}</h3>
+              <p className="truncate text-sm text-text-secondary">{currentGlossary?.metadata?.title_vi || 'Tiếp tục hành trình học tập'}</p>
+              <div className="mt-3 flex items-center gap-3">
+                <ProgressBar value={completion} className="h-2 flex-1" />
+                <span className="text-xs font-semibold text-text-secondary tabular-nums">{completion}%</span>
+              </div>
             </div>
           </div>
           <button
             type="button"
             onClick={(event) => { event.stopPropagation(); onOpenLesson(currentBai); }}
-            className="btn-soft flex items-center justify-center gap-2 px-5 py-2.5 group-hover:border-accent group-hover:bg-accent group-hover:text-[var(--on-accent)] hover:border-accent-hover hover:bg-accent-hover"
+            className="btn-soft flex shrink-0 items-center justify-center gap-2 rounded-full px-5 py-2.5 group-hover:border-accent group-hover:bg-accent group-hover:text-[var(--on-accent)] hover:border-accent-hover hover:bg-accent-hover"
           >
             <Icon.Play className="h-4 w-4" />
             <span>Bắt đầu</span>
@@ -750,13 +821,13 @@ function HomeScreen({ progress, onOpenLesson, onNavigate }) {
             key={`${skill.id}-${index}`}
             style={{ animationDelay: `${index * 45}ms` }}
             onClick={() => onNavigate(skill.id)}
-            className="animate-card-reveal group rounded-2xl border border-border/70 bg-surface p-4 text-left shadow-xs transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-md active:scale-[0.98]"
+            className={`animate-card-reveal group rounded-2xl border p-4 text-left shadow-xs transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98] ${skill.cardTone}`}
           >
-            <span className={`grid h-10 w-10 place-items-center rounded-xl transition-transform duration-200 group-hover:-rotate-3 group-hover:scale-105 ${skill.tone}`}>{skill.icon}</span>
+            <span className={`grid h-10 w-10 place-items-center rounded-2xl shadow-xs transition-transform duration-200 ease-out group-hover:-rotate-3 group-hover:scale-105 ${skill.badgeTone}`}>{skill.icon}</span>
             <span className="mt-3 block font-sans text-[15px] font-semibold text-text-primary">{skill.title}</span>
-            <span className="mt-0.5 flex items-center justify-between text-xs font-medium text-text-muted tabular-nums">
+            <span className="mt-0.5 flex items-center justify-between text-xs font-medium text-text-secondary tabular-nums">
               <span>{skill.caption}</span>
-              <Icon.ChevronRight className="h-4 w-4 text-text-muted/70 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:text-accent" />
+              <Icon.ChevronRight className={`h-4 w-4 text-text-muted transition-[transform,color] duration-200 ease-out group-hover:translate-x-0.5 ${skill.arrowTone}`} />
             </span>
           </button>
         ))}</div>
@@ -771,7 +842,42 @@ function HomeScreen({ progress, onOpenLesson, onNavigate }) {
           const percent = item.completed ? 100 : Math.round(((item.quizDone || 0) / quizTotal) * 100);
           const accuracy = item.quizDone ? Math.round(((item.quizCorrect || 0) / item.quizDone) * 100) : 0;
           const metadata = GLOSSARY[bai]?.metadata || {};
-          return <button key={bai} disabled={!isUnlocked} onClick={() => isUnlocked && onOpenLesson(bai)} className={`grid w-full grid-cols-[48px_minmax(0,1fr)] items-center gap-3 rounded-2xl border p-4 text-left transition-[transform,box-shadow,border-color] duration-200 sm:grid-cols-[48px_minmax(0,1fr)_96px] sm:gap-4 ${isUnlocked ? 'border-border/70 bg-surface shadow-xs hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md active:scale-[0.99]' : 'cursor-not-allowed border-border/45 bg-subtle opacity-55'}`}><span className={`grid h-12 w-12 place-items-center rounded-xl font-sans text-base font-bold tabular-nums ${isUnlocked ? 'bg-accent-subtle text-accent' : 'bg-surface text-text-muted'}`}>{String(bai).padStart(2, '0')}</span><span className="min-w-0"><span className="flex flex-wrap items-center gap-2"><span className="text-sm font-semibold">Bài {bai}</span><span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${item.completed ? 'bg-success-subtle text-success' : isUnlocked ? 'bg-warning-subtle text-warning' : 'bg-surface text-text-muted'}`}>{item.completed ? 'Đã xong' : isUnlocked ? 'Đang học' : 'Đã khóa'}</span></span><span className="mt-0.5 block truncate font-hanzi text-[16px] font-medium">{metadata.title_zh || `Bài ${bai}`}</span><span className="block truncate text-xs text-text-muted">{metadata.title_vi || `${quizTotal} câu hỏi`}</span></span><span className="col-span-2 grid grid-cols-[auto_1fr_auto] items-center gap-3 text-right sm:col-span-1 sm:block sm:w-24"><span className="text-xs font-semibold text-text-secondary tabular-nums">{isUnlocked ? `${percent}%` : '—'}</span><ProgressBar value={percent} label={`Tiến độ bài ${bai}`} className="h-1.5 sm:mt-2"/>{isUnlocked && <span className="text-[10px] text-text-muted sm:mt-1 sm:block tabular-nums">{accuracy}% chính xác</span>}</span></button>;
+          const thumb = getLessonThumbnail({ id: bai, title_zh: metadata.title_zh, title_vi: metadata.title_vi });
+          return (
+            <button
+              key={bai}
+              disabled={!isUnlocked}
+              onClick={() => isUnlocked && onOpenLesson(bai)}
+              className={`group grid w-full grid-cols-[64px_minmax(0,1fr)] items-center gap-3.5 rounded-2xl border p-3.5 text-left transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out sm:grid-cols-[64px_minmax(0,1fr)_96px] sm:gap-4 sm:p-4 ${isUnlocked ? 'border-border/60 bg-surface shadow-xs hover:-translate-y-0.5 hover:border-accent/35 hover:shadow-md active:scale-[0.99]' : 'cursor-not-allowed border-border/45 bg-subtle opacity-60'}`}
+            >
+              <span className="relative block h-12 w-16 overflow-hidden rounded-xl bg-subtle ring-1 ring-border/40">
+                <img
+                  src={thumb.src}
+                  alt=""
+                  aria-hidden="true"
+                  className={`h-full w-full object-cover transition-transform duration-300 ease-out dark:brightness-[0.88] ${thumb.cropClass} ${isUnlocked ? '' : 'grayscale-[45%] opacity-75'}`}
+                />
+                <span className="absolute left-1.5 top-1.5 rounded-full bg-black/55 px-1.5 py-0.5 text-[10px] font-semibold leading-none text-white backdrop-blur-sm tabular-nums">
+                  {String(bai).padStart(2, '0')}
+                </span>
+              </span>
+              <span className="min-w-0">
+                <span className="flex flex-wrap items-center gap-2">
+                  <span className="text-sm font-semibold text-text-primary">Bài {bai}</span>
+                  <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${item.completed ? 'bg-success-subtle text-success' : isUnlocked ? 'bg-warning-subtle text-warning' : 'bg-surface text-text-muted'}`}>
+                    {item.completed ? 'Đã xong' : isUnlocked ? 'Đang học' : 'Đã khóa'}
+                  </span>
+                </span>
+                <span className="mt-0.5 block truncate font-hanzi text-[16px] font-medium text-text-primary">{metadata.title_zh || `Bài ${bai}`}</span>
+                <span className="block truncate text-xs text-text-muted">{metadata.title_vi || `${quizTotal} câu hỏi`}</span>
+              </span>
+              <span className="col-span-2 grid grid-cols-[auto_1fr_auto] items-center gap-3 text-right sm:col-span-1 sm:block sm:w-24">
+                <span className="text-xs font-semibold text-text-secondary tabular-nums">{isUnlocked ? `${percent}%` : '—'}</span>
+                <ProgressBar value={percent} label={`Tiến độ bài ${bai}`} className="h-1.5 sm:mt-2" />
+                {isUnlocked && <span className="text-[10px] text-text-muted sm:mt-1 sm:block tabular-nums">{accuracy}% chính xác</span>}
+              </span>
+            </button>
+          );
         })}</div>
       </section>
     </div>
@@ -3014,7 +3120,7 @@ export default function App() {
  else if (screen === 'process-document') content = <ProcessingScreen key={targetCourseId} courseId={targetCourseId} onBack={() => setScreen('library')} onDone={(id) => { setTargetCourseId(id); setLibraryRefresh((value) => value + 1); setScreen('review-generated'); }} onSettings={() => { setDashboardTab('settings'); setScreen('dashboard'); }} />;
  else if (screen === 'review-generated') content = <ReviewGeneratedScreen key={targetCourseId} courseId={targetCourseId} onBack={() => setScreen('library')} onRetry={() => setScreen('process-document')} onCommitted={(id) => { setLibraryRefresh((value) => value + 1); selectCourse(id); }} />;
  else if (!LESSONS.length && screen !== 'dashboard') content = <div className="rounded-md border border-border bg-bg-secondary p-8 text-center"><h1 className="font-serif text-xl font-semibold">{activeCourse?.name || 'Khóa học'} chưa có bài học</h1><p className="mt-2 text-sm text-text-secondary">Nhập tài liệu để bắt đầu tạo nội dung.</p><button onClick={() => { setTargetCourseId(activeCourseId); setScreen('import-document'); }} className="btn-primary mt-5">Nhập tài liệu</button></div>;
- else if (screen === 'home') content = <HomeScreen progress={progress} onOpenLesson={(bai) => { setCurrentBai(bai); setScreen('learn'); }} onNavigate={navigate} onChangeGoal={changeDailyGoal} />;
+ else if (screen === 'home') content = <HomeScreen progress={progress} courseName={activeCourse?.name || 'Hán Ngữ Tập 2'} onOpenLesson={(bai) => { setCurrentBai(bai); setScreen('learn'); }} onNavigate={navigate} onChangeGoal={changeDailyGoal} />;
  else if (screen === 'learn') content = <LearnScreen bai={currentBai} progress={progress} unlockedBai={progress.unlockedBai} bookmarks={progress.bookmarks} notes={progress.notes} onToggleBookmark={toggleBookmark} onSaveNote={saveNote} onLessonRead={addLessonToSrs} onStartQuiz={startLessonQuiz} onOpenEntry={setGlossaryEntry} onCharacter={openCharacter} onStartPlaylist={startPlaylist} onChangeBai={setCurrentBai} wordOverrides={wordOverrides} onEditWord={wordEditorReady ? setEditingWord : null} onEditGrammar={wordEditorReady ? setEditingContent : null} editorError={wordEditorError} />;
  else if (screen === 'quiz') content = quizSession ? <QuizScreen key={quizSession.id} session={quizSession} progress={progress} onAnswer={recordAnswer} onFinish={() => {}} onExit={() => setScreen('home')} onOpenEntry={setGlossaryEntry} onEditQuestion={wordEditorReady ? setEditingContent : null} onPracticeWrong={startWrongReview} /> : <EmptyState icon="✓" title="Chọn một bài để luyện" text="Chọn bài học trong Lộ trình để bắt đầu." />;
  else if (screen === 'review') content = <ReviewScreen progress={progress} onPracticeWrong={startWrongReview} onOpenEntry={setGlossaryEntry} onToggleBookmark={toggleBookmark} onSaveNote={saveNote} onRateSrs={rateSrs} onNavigate={navigate} />;
