@@ -36,6 +36,8 @@ Khi khởi tạo lần đầu, `server/db/seed.js` nạp sẵn 2 khóa học c�
 - `PATCH /api/auth/profile` — Cập nhật tên hiển thị, mô tả, ẩn/hiện bảng xếp hạng
 - `POST /api/auth/password` — Đổi mật khẩu và tự động thu hồi các phiên thiết bị khác
 - `GET /api/auth/sessions` / `DELETE /api/auth/sessions/:id` — Xem và thu hồi từng thiết bị đang đăng nhập
+- `GET /api/auth/export` — Xuất toàn bộ dữ liệu tài khoản đám mây dạng JSON (không gồm mật khẩu hay key)
+- `DELETE /api/auth/account` — Xoá vĩnh viễn tài khoản & toàn bộ dữ liệu liên quan (cần xác nhận mật khẩu)
 
 ### Đồng bộ đám mây & Thống kê (`/api/sync/*`, `/api/progress/*`, `/api/events`, `/api/analytics`)
 - `GET /api/sync/bootstrap` — Tải toàn bộ cài đặt, khóa học, tiến độ và thống kê trong 1 request
@@ -67,3 +69,20 @@ Khi khởi tạo lần đầu, `server/db/seed.js` nạp sẵn 2 khóa học c�
 1. Mọi thao tác học vẫn ghi tức thời vào `localStorage` + IndexedDB như trước.
 2. Khi người dùng đăng nhập (hoặc mới tạo tài khoản), dữ liệu đã học trước đó ở chế độ khách được **tự động gộp và đẩy lên SQLite**, không mất tiến độ cũ.
 3. Khi đang đăng nhập mà mất mạng, các thay đổi được ghi vào hàng đợi `dudu-cloud-pending-v1` và tự động đồng bộ lại ngay khi trình duyệt có mạng (`online` event) hoặc khi bấm **Đồng bộ ngay**.
+4. **Cô lập máy dùng chung (`dudu-cloud-owner-v1`)**: nếu tài khoản B đăng nhập trên trình duyệt vừa dùng bởi tài khoản A, ứng dụng tự động xoá sạch bộ nhớ cục bộ của A trước khi nạp dữ liệu của B — không trộn lẫn tiến độ, khóa học hay API key. Có thêm nút **Đăng xuất & xoá máy này** cho máy công cộng.
+
+## 5. Bảo mật, Hiệu năng & Triển khai Production (Audit v2.1)
+
+- **Chống CSRF**: mọi request thay đổi dữ liệu (`POST/PUT/PATCH/DELETE`) dùng cookie được kiểm tra Fetch Metadata (`Sec-Fetch-Site`) và `Origin`/`Referer` trùng `Host` hoặc `CORS_ORIGIN`.
+- **Security Headers**: `Content-Security-Policy`, `Permissions-Policy`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, `Referrer-Policy`, và `Strict-Transport-Security` khi bật HTTPS (`COOKIE_SECURE=true`).
+- **Rate Limiting chống bypass**: mặc định dùng IP socket thật (chỉ tin `X-Forwarded-For` khi `TRUST_PROXY=true`), kết hợp giới hạn theo IP + theo tài khoản mục tiêu khi đăng nhập, giới hạn AI proxy, giới hạn clone cộng đồng và giới hạn tổng `/api/*`.
+- **Chống Slowloris & giới hạn dung lượng**: `headersTimeout = 15s`, `requestTimeout = 70s`, `keepAliveTimeout = 5s`, giới hạn tối đa `MAX_COURSES_PER_USER` khóa học/user, kiểm tra nghiêm ngặt tên model Gemini (`^[a-z0-9._-]+$`).
+- **Hiệu năng SQL & HTTP**:
+  - Schema v2 lưu sẵn `chapter_count`, `total_entries`, `total_questions` và `current_week_key`/`current_week_xp`; các endpoint liệt kê khóa học không đọc `chapters_json`, bảng xếp hạng gom nhóm trực tiếp bằng SQLite `GROUP BY` + cache 5 giây.
+  - Tự động nén `br` / `gzip` cho response >= 1 KB, `ETag` + `304 Not Modified` cho tệp tĩnh `dist/`, và `PRAGMA wal_checkpoint(TRUNCATE)` khi tắt server.
+- **Triển khai Docker**: dùng [Dockerfile](../Dockerfile) multi-stage (Node 24 Alpine, user không phải root, volume `/app/data`, tích hợp `HEALTHCHECK`).
+
+```bash
+docker build -t dudu-hanngu .
+docker run -p 3001:3001 -v dudu_data:/app/data dudu-hanngu
+```

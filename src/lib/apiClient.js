@@ -33,7 +33,7 @@ export async function apiRequest(path, { method = 'GET', body = undefined, signa
   }
 
   try {
-    const headers = { Accept: 'application/json' };
+    const headers = { Accept: 'application/json', 'X-DuDu-Client': 'web' };
     const init = {
       method,
       credentials: 'include',
@@ -124,6 +124,8 @@ export const updateAccountProfile = (payload) => apiRequest('/api/auth/profile',
 export const changeAccountPassword = (payload) => apiRequest('/api/auth/password', { method: 'POST', body: payload });
 export const fetchAccountSessions = () => apiRequest('/api/auth/sessions');
 export const revokeAccountSession = (id) => apiRequest(`/api/auth/sessions/${encodeURIComponent(id)}`, { method: 'DELETE' });
+export const exportAccountDataApi = () => apiRequest('/api/auth/export', { timeoutMs: 45_000 });
+export const deleteAccountApi = (password) => apiRequest('/api/auth/account', { method: 'DELETE', body: { password } });
 
 /* ------------------------------------------------------------------ */
 /* Cloud Sync & Analytics                                             */
@@ -162,11 +164,13 @@ export const publishCourseToCommunity = (courseId, payload) => (
   apiRequest(`/api/courses/${encodeURIComponent(courseId)}/publish`, { method: 'POST', body: payload })
 );
 
-export const fetchCommunityCourses = ({ q = '', tag = '', sort = 'popular' } = {}) => {
+export const fetchCommunityCourses = ({ q = '', tag = '', sort = 'popular', limit = 30, offset = 0 } = {}) => {
   const params = new URLSearchParams();
   if (q) params.set('q', q);
   if (tag) params.set('tag', tag);
   if (sort) params.set('sort', sort);
+  if (limit) params.set('limit', String(limit));
+  if (offset) params.set('offset', String(offset));
   const qs = params.toString();
   return apiRequest(`/api/community/courses${qs ? `?${qs}` : ''}`);
 };

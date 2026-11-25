@@ -618,6 +618,29 @@ html { -webkit-tap-highlight-color: transparent; }
     color: var(--text-primary);
   }
 
+  .btn-soft {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--accent-subtle);
+    color: var(--accent);
+    border: 1px solid rgb(var(--accent-rgb) / 0.18);
+    border-radius: var(--radius-md);
+    font: 600 13.5px/1.4 var(--font-sans);
+    transition: background-color var(--dur-fast) ease, border-color var(--dur-fast) ease,
+      transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+  }
+  .btn-soft:hover:not(:disabled) {
+    background: rgb(var(--accent-rgb) / 0.14);
+    border-color: rgb(var(--accent-rgb) / 0.32);
+    transform: translateY(-1px);
+  }
+  .btn-soft:active:not(:disabled) {
+    transform: scale(0.985);
+  }
+
   /* ===========================================================================
      3d. Inputs
      =========================================================================== */
@@ -715,7 +738,7 @@ html { -webkit-tap-highlight-color: transparent; }
     display: flex;
     align-items: center;
     gap: 11px;
-    padding: 9px 12px;
+    padding: 8px 12px;
     border-left: 2px solid transparent;
     border-radius: var(--radius-md);
     font: 500 14px/1.4 var(--font-sans);

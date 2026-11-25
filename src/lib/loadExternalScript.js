@@ -1,8 +1,11 @@
 const pendingScripts = new Map();
 
-export function loadExternalScript(url, globalName) {
+export function loadExternalScript(url, globalName, { integrity = null } = {}) {
   if (typeof document === 'undefined') {
     return Promise.reject(new Error('Chỉ có thể trích xuất tài liệu trong trình duyệt.'));
+  }
+  if (typeof url !== 'string' || !/^https:\/\//i.test(url)) {
+    return Promise.reject(new Error('Chỉ cho phép nạp thư viện ngoài qua kết nối HTTPS an toàn.'));
   }
   if (window[globalName]) return Promise.resolve(window[globalName]);
   if (pendingScripts.has(url)) return pendingScripts.get(url);
@@ -21,6 +24,8 @@ export function loadExternalScript(url, globalName) {
     script.src = url;
     script.async = true;
     script.crossOrigin = 'anonymous';
+    script.referrerPolicy = 'no-referrer';
+    if (integrity) script.integrity = integrity;
     script.onload = () => {
       clearTimeout(timeout);
       if (window[globalName]) resolve(window[globalName]);

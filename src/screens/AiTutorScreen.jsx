@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import {
   clearTutorHistoryApi,
   fetchTutorHistoryApi,
+  saveCloudGeminiKey,
   sendTutorMessageApi,
 } from '../lib/apiClient.js';
 import { getSettings } from '../lib/db.js';
+import { refreshServerInfo } from '../lib/cloudSync.js';
 
 const QUICK_PROMPTS = [
   'Giải thích điểm ngữ pháp quan trọng nhất trong bài hiện tại kèm 2 ví dụ dễ hiểu.',
@@ -61,6 +63,18 @@ export default function AiTutorScreen({ cloud, lessonContext, onOpenAuth, onOpen
     endRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'nearest' });
   }, [messages.length]);
 
+  const syncLocalKeyToServer = async () => {
+    if (!localKey) return;
+    setError('');
+    try {
+      const res = await saveCloudGeminiKey(localKey);
+      refreshServerInfo({ userKeyConfigured: true, userKeyHint: res.hint || '', aiProxyAvailable: true });
+      setAiAvailable(true);
+    } catch (cause) {
+      setError(cause.message || 'Không đồng bộ được API key lên máy chủ.');
+    }
+  };
+
   const send = async (textOverride = null) => {
     const text = (textOverride ?? input).trim();
     if (!text || sending) return;
@@ -74,8 +88,6 @@ export default function AiTutorScreen({ cloud, lessonContext, onOpenAuth, onOpen
         message: text,
         courseId: lessonContext?.courseId || 'hanngu-tap2',
         lessonContext,
-        // Nếu người dùng mới chỉ lưu key cục bộ ở trình duyệt, vẫn hỗ trợ gửi qua proxy an toàn
-        ...(localKey && !aiAvailable ? { apiKey: localKey } : {}),
       });
       setMessages((prev) => [
         ...prev.filter((m) => m.id !== optimistic.id),
@@ -143,7 +155,7 @@ export default function AiTutorScreen({ cloud, lessonContext, onOpenAuth, onOpen
     );
   }
 
-  const readyToChat = aiAvailable || Boolean(localKey);
+  const readyToChat = aiAvailable;
 
   return (
     <div className="space-y-4">
@@ -167,8 +179,17 @@ export default function AiTutorScreen({ cloud, lessonContext, onOpenAuth, onOpen
 
       {!loading && !readyToChat && (
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-warning/40 bg-warning-subtle px-4 py-3 text-sm">
-          <span className="text-text-primary">Chưa có Gemini API key trên tài khoản hoặc máy chủ. Thêm key trong Cài đặt để bật Gia sư AI.</span>
-          <button type="button" onClick={onOpenSettings} className="btn-secondary shrink-0 text-xs">Mở Cài đặt AI</button>
+          <span className="text-text-primary">
+            {localKey
+              ? 'Bạn đã lưu Gemini key trên trình duyệt. Hãy mã hoá đồng bộ key lên máy chủ (AES-256-GCM) để dùng Gia sư AI an toàn.'
+              : 'Chưa có Gemini API key trên tài khoản hoặc máy chủ. Thêm key trong Cài đặt để bật Gia sư AI.'}
+          </span>
+          <div className="flex shrink-0 gap-2">
+            {localKey && (
+              <button type="button" onClick={syncLocalKeyToServer} className="btn-primary text-xs">Mã hoá & bật ngay</button>
+            )}
+            <button type="button" onClick={onOpenSettings} className="btn-secondary text-xs">Mở Cài đặt AI</button>
+          </div>
         </div>
       )}
 

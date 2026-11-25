@@ -1,0 +1,11 @@
+node_modules
+dist
+test-artifacts
+.git
+.env
+.env.*
+!.env.example
+data/*.sqlite
+data/*.sqlite-*
+data/.dudu-secret
+*.log

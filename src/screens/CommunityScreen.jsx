@@ -14,10 +14,13 @@ export default function CommunityScreen({ cloud, onOpenAuth, onCourseCloned, onN
   const [selectedTag, setSelectedTag] = useState('');
   const [sort, setSort] = useState('popular');
   const [courses, setCourses] = useState([]);
+  const [totalCourses, setTotalCourses] = useState(0);
   const [tags, setTags] = useState([]);
   const [loadingCourses, setLoadingCourses] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [preview, setPreview] = useState(null);
   const [cloningId, setCloningId] = useState(null);
+  const [copiedCode, setCopiedCode] = useState('');
 
   const [period, setPeriod] = useState('week');
   const [leaderboard, setLeaderboard] = useState({ entries: [], currentUserRank: null, totalParticipants: 0, weekKey: '' });
@@ -38,10 +41,11 @@ export default function CommunityScreen({ cloud, onOpenAuth, onCourseCloned, onN
     setLoadingCourses(true);
     setError('');
     const timer = setTimeout(() => {
-      fetchCommunityCourses({ q: query, tag: selectedTag, sort })
+      fetchCommunityCourses({ q: query, tag: selectedTag, sort, limit: 20, offset: 0 })
         .then((res) => {
           if (!live) return;
           setCourses(res.courses || []);
+          setTotalCourses(Number(res.total ?? res.courses?.length ?? 0));
           setTags(res.tags || []);
         })
         .catch((cause) => { if (live) setError(cause.message); })
@@ -49,6 +53,28 @@ export default function CommunityScreen({ cloud, onOpenAuth, onCourseCloned, onN
     }, query ? 220 : 0);
     return () => { live = false; clearTimeout(timer); };
   }, [cloud.serverAvailable, query, selectedTag, sort]);
+
+  const loadMoreCourses = async () => {
+    setLoadingMore(true);
+    try {
+      const res = await fetchCommunityCourses({ q: query, tag: selectedTag, sort, limit: 20, offset: courses.length });
+      setCourses((prev) => [...prev, ...(res.courses || [])]);
+      setTotalCourses(Number(res.total ?? 0));
+    } catch (cause) {
+      setError(cause.message);
+    } finally {
+      setLoadingMore(false);
+    }
+  };
+
+  const copyShareCode = async (code) => {
+    if (!code) return;
+    try {
+      await navigator.clipboard?.writeText(code);
+      setCopiedCode(code);
+      setTimeout(() => setCopiedCode((cur) => (cur === code ? '' : cur)), 2000);
+    } catch { /* bỏ qua nếu trình duyệt chặn clipboard */ }
+  };
 
   useEffect(() => {
     if (!cloud.serverAvailable || tab !== 'leaderboard') return undefined;
@@ -215,7 +241,14 @@ export default function CommunityScreen({ cloud, onOpenAuth, onCourseCloned, onN
                           <span className="rounded-full bg-accent-subtle px-2 py-0.5 text-[11px] font-semibold text-accent">Chính thức</span>
                         )}
                         {course.shareCode && (
-                          <span className="rounded bg-bg-tertiary px-2 py-0.5 font-mono text-[11px] text-text-muted">#{course.shareCode}</span>
+                          <button
+                            type="button"
+                            onClick={() => copyShareCode(course.shareCode)}
+                            title="Sao chép mã chia sẻ"
+                            className="rounded bg-bg-tertiary px-2 py-0.5 font-mono text-[11px] text-text-muted transition hover:text-accent"
+                          >
+                            {copiedCode === course.shareCode ? '✓ Đã sao chép' : `#${course.shareCode}`}
+                          </button>
                         )}
                       </div>
                       {course.description && (
@@ -252,6 +285,11 @@ export default function CommunityScreen({ cloud, onOpenAuth, onCourseCloned, onN
                   </div>
                 </article>
               ))}
+              {courses.length < totalCourses && (
+                <button type="button" disabled={loadingMore} onClick={loadMoreCourses} className="btn-secondary mx-auto">
+                  {loadingMore ? 'Đang tải thêm...' : `Xem thêm (${totalCourses - courses.length} khóa nữa)`}
+                </button>
+              )}
             </div>
           )}
         </div>

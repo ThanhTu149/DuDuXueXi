@@ -130,4 +130,19 @@ export const MIGRATIONS = [
       CREATE INDEX IF NOT EXISTS idx_tutor_user_created ON tutor_messages(user_id, created_at ASC);
     `,
   },
+  {
+    version: 2,
+    name: 'precomputed_course_counts_and_leaderboard_columns',
+    sql: `
+      ALTER TABLE courses ADD COLUMN chapter_count INTEGER NOT NULL DEFAULT 0;
+      ALTER TABLE courses ADD COLUMN total_entries INTEGER NOT NULL DEFAULT 0;
+      ALTER TABLE courses ADD COLUMN total_questions INTEGER NOT NULL DEFAULT 0;
+
+      ALTER TABLE user_progress ADD COLUMN current_week_key TEXT NOT NULL DEFAULT '';
+      ALTER TABLE user_progress ADD COLUMN current_week_xp INTEGER NOT NULL DEFAULT 0;
+
+      CREATE INDEX IF NOT EXISTS idx_progress_week ON user_progress(current_week_key, current_week_xp DESC);
+      CREATE INDEX IF NOT EXISTS idx_users_leaderboard ON users(show_on_leaderboard, role);
+    `,
+  },
 ];

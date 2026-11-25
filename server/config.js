@@ -30,10 +30,6 @@ export function loadDotEnv(envPath = path.join(ROOT_DIR, '.env')) {
   }
 }
 
-/**
- * Tạo hoặc đọc khoá bí mật cục bộ cho môi trường chạy tự host (để key Gemini mã hoá
- * vẫn giải mã được sau khi khởi động lại server mà không bắt buộc cấu hình tay).
- */
 function resolveSecret(envValue, secretFilePath) {
   if (envValue && envValue.trim().length >= 16) return envValue.trim();
   try {
@@ -78,7 +74,10 @@ export function createConfig(overrides = {}) {
     encryptionSecret,
     geminiApiKey: (env.GEMINI_API_KEY || '').trim() || null,
     corsOrigin: (env.CORS_ORIGIN || '').trim() || null,
+    trustProxy: env.TRUST_PROXY === 'true',
     cookieSecure: env.COOKIE_SECURE === 'true' || (nodeEnv === 'production' && env.COOKIE_SECURE !== 'false' && Boolean(env.FORCE_HTTPS)),
     rateLimitDisabled: env.DUDU_DISABLE_RATE_LIMIT === 'true',
+    quietLogs: env.DUDU_QUIET_LOGS === 'true' || dbPath === ':memory:',
+    maxCoursesPerUser: Math.max(5, Number(env.MAX_COURSES_PER_USER || 50)),
   };
 }

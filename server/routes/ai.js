@@ -5,6 +5,15 @@ import { resolveEffectiveGeminiKey } from './settings.js';
 
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
 const DEFAULT_MODEL = 'gemini-flash-latest';
+const MODEL_NAME_RE = /^[a-z0-9._-]{2,80}$/i;
+
+function sanitizeModelName(raw) {
+  const cleaned = String(raw || DEFAULT_MODEL).trim().replace(/^models\//, '');
+  if (!MODEL_NAME_RE.test(cleaned)) {
+    throw new ApiError(400, 'invalid_model', 'Tên model Gemini không hợp lệ.');
+  }
+  return cleaned;
+}
 
 function normalizeSchema(value) {
   if (Array.isArray(value)) return value.map(normalizeSchema);
@@ -76,10 +85,18 @@ function buildTutorSystemPrompt(lessonContext) {
     'Trình bày gọn gàng, dễ đọc, khuyến khích người học thực hành.',
   ];
   if (lessonContext && typeof lessonContext === 'object') {
-    const title = [lessonContext.courseName, lessonContext.lessonTitleZh, lessonContext.lessonTitleVi].filter(Boolean).join(' · ');
+    const title = [
+      String(lessonContext.courseName || '').slice(0, 80),
+      String(lessonContext.lessonTitleZh || '').slice(0, 80),
+      String(lessonContext.lessonTitleVi || '').slice(0, 80),
+    ].filter(Boolean).join(' · ');
     if (title) parts.push(`Ngữ cảnh bài học hiện tại: ${title}.`);
     if (Array.isArray(lessonContext.vocabSample) && lessonContext.vocabSample.length) {
-      parts.push(`Một số từ vựng trong bài: ${lessonContext.vocabSample.slice(0, 15).join(', ')}.`);
+      const safeVocab = lessonContext.vocabSample
+        .slice(0, 15)
+        .map((item) => String(item || '').slice(0, 80).trim())
+        .filter(Boolean);
+      if (safeVocab.length) parts.push(`Một số từ vựng trong bài: ${safeVocab.join(', ')}.`);
     }
   }
   return parts.join('\n');
@@ -150,7 +167,7 @@ export function registerAiRoutes(router, { db, config, aiLimiter }) {
     const user = requireAuth(ctx);
     aiLimiter.check(`ai-test:${user.id}`, res);
     const body = await readJsonBody(req);
-    const model = String(body.model || DEFAULT_MODEL).trim().replace(/^models\//, '');
+    const model = sanitizeModelName(body.model);
     const resolved = resolveEffectiveGeminiKey(db, config, user.id, body.apiKey);
     if (!resolved.key) {
       throw new ApiError(400, 'gemini_key_missing', 'Chưa có Gemini API key để kiểm tra.');
@@ -180,11 +197,12 @@ export function registerAiRoutes(router, { db, config, aiLimiter }) {
     aiLimiter.check(`ai-gen:${user.id}`, res);
     const body = await readJsonBody(req, { maxBytes: 2 * 1024 * 1024 });
     const prompt = String(body.prompt || '');
-    if (!prompt.trim()) throw new ApiError(400, 'missing_prompt', 'Thiếu nội dung prompt gửi tới Gemini.');
-    const model = String(body.model || DEFAULT_MODEL).trim().replace(/^models\//, '');
+    if (!prompt.trim() || prompt.length > 200_000) throw new ApiError(400, 'missing_prompt', 'Nội dung prompt gửi tới Gemini không hợp lệ.');
+    const model = sanitizeModelName(body.model);
     const maxTokens = Math.min(16384, Math.max(64, Number(body.maxTokens || 8192)));
 
-    const resolved = resolveEffectiveGeminiKey(db, config, user.id, body.apiKey);
+    // Chỉ dùng key mã hoá của người dùng trên server hoặc GEMINI_API_KEY của server
+    const resolved = resolveEffectiveGeminiKey(db, config, user.id);
     if (!resolved.key) {
       throw new ApiError(400, 'gemini_key_missing', 'Chưa có Gemini API key. Hãy cấu hình trong Hồ sơ > Cài đặt.');
     }
@@ -257,7 +275,7 @@ export function registerAiRoutes(router, { db, config, aiLimiter }) {
   // Gửi câu hỏi tới Gia sư AI DuDu
   router.post('/api/ai/tutor', async (req, res, ctx) => {
     const user = requireAuth(ctx);
-    aiLimiter.check(`ai-tutor:${user.id || getClientIp(req)}`, res);
+    aiLimiter.check(`ai-tutor:${user.id || getClientIp(req, { trustProxy: config.trustProxy })}`, res);
     const body = await readJsonBody(req);
     const message = String(body.message || '').trim();
     if (!message || message.length > 2000) {
@@ -265,8 +283,8 @@ export function registerAiRoutes(router, { db, config, aiLimiter }) {
     }
     const courseId = String(body.courseId || 'hanngu-tap2').slice(0, 120);
     const settingsRow = db.prepare('SELECT gemini_model FROM user_settings WHERE user_id = ?').get(user.id);
-    const model = String(body.model || settingsRow?.gemini_model || DEFAULT_MODEL).trim().replace(/^models\//, '');
-    const resolved = resolveEffectiveGeminiKey(db, config, user.id, body.apiKey);
+    const model = sanitizeModelName(body.model || settingsRow?.gemini_model);
+    const resolved = resolveEffectiveGeminiKey(db, config, user.id);
     if (!resolved.key) {
       throw new ApiError(400, 'gemini_key_missing', 'Chưa có Gemini API key. Hãy vào Hồ sơ > Cài đặt để thêm API key cho Gia sư AI.');
     }

@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { getIsoWeekKey } from '../db/database.js';
 import { ApiError, readJsonBody, safeJsonParse, sanitizeDeep, sendJson } from '../lib/http.js';
 import { requireAuth } from './auth.js';
 import { getUserSettingsSnapshot } from './settings.js';
@@ -190,7 +191,7 @@ export function computeAnalytics(db, userId) {
   };
 }
 
-export function registerSyncRoutes(router, { db, config }) {
+export function registerSyncRoutes(router, { db, config, onLeaderboardInvalidated = () => {} }) {
   // Tải toàn bộ trạng thái đồng bộ của người dùng trong 1 request sau khi đăng nhập
   router.get('/api/sync/bootstrap', async (req, res, ctx) => {
     const user = requireAuth(ctx);
@@ -294,14 +295,16 @@ export function registerSyncRoutes(router, { db, config }) {
 
     const now = new Date().toISOString();
     const metrics = extractProgressMetrics(finalProgress);
+    const weekKey = getIsoWeekKey();
+    const currentWeekXp = Math.max(0, Math.floor(Number(metrics.weeklyXP?.[weekKey]) || 0));
     const nextVersion = (Number(existingRow?.version) || 0) + 1;
     const clientSavedAt = typeof finalProgress._savedAt === 'string' ? finalProgress._savedAt : now;
 
     db.prepare(`
       INSERT INTO user_progress (
         user_id, course_id, progress_json, xp, streak, accuracy_correct, accuracy_total,
-        achievements_count, weekly_xp_json, client_saved_at, version, updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        achievements_count, weekly_xp_json, current_week_key, current_week_xp, client_saved_at, version, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       ON CONFLICT(user_id, course_id) DO UPDATE SET
         progress_json = excluded.progress_json,
         xp = excluded.xp,
@@ -310,6 +313,8 @@ export function registerSyncRoutes(router, { db, config }) {
         accuracy_total = excluded.accuracy_total,
         achievements_count = excluded.achievements_count,
         weekly_xp_json = excluded.weekly_xp_json,
+        current_week_key = excluded.current_week_key,
+        current_week_xp = excluded.current_week_xp,
         client_saved_at = excluded.client_saved_at,
         version = excluded.version,
         updated_at = excluded.updated_at
@@ -323,11 +328,14 @@ export function registerSyncRoutes(router, { db, config }) {
       metrics.accuracyTotal,
       metrics.achievementsCount,
       JSON.stringify(metrics.weeklyXP),
+      weekKey,
+      currentWeekXp,
       clientSavedAt,
       nextVersion,
       now,
     );
 
+    onLeaderboardInvalidated();
     sendJson(res, 200, {
       ok: true,
       courseId,

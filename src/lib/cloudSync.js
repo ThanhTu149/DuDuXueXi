@@ -12,6 +12,7 @@
 
 import {
   BUILT_IN_COURSE_ID,
+  deleteCourse,
   getAllCourses,
   getCourse,
   getProgress,
@@ -22,9 +23,13 @@ import {
   saveSettings,
 } from './db.js';
 import {
+  clearProgress,
   readLocalJson,
+  readLocalValue,
   readProgress,
+  removeLocalValue,
   writeLocalJsonSafe,
+  writeLocalValueSafe,
   writeProgress,
 } from './storage.js';
 
@@ -148,6 +153,7 @@ export function mergeLocalAndCloudProgress(localProg, cloudProg) {
   return merged;
 }
 import {
+  deleteAccountApi,
   deleteCloudCourse,
   fetchSyncBootstrap,
   loginAccount,
@@ -163,6 +169,7 @@ import {
 } from './apiClient.js';
 
 const PENDING_QUEUE_KEY = 'dudu-cloud-pending-v1';
+const CLOUD_OWNER_KEY = 'dudu-cloud-owner-v1';
 
 const state = {
   initialized: false,
@@ -281,6 +288,26 @@ export async function syncAllWithCloud({ onCloudDataApplied } = {}) {
 
       // 2. Lấy toàn bộ dữ liệu từ server
       const boot = await fetchSyncBootstrap();
+
+      // 2b. Cô lập máy dùng chung: nếu trình duyệt vừa dùng bởi TÀI KHOẢN KHÁC,
+      // không bao giờ gộp tiến độ / khóa học riêng của tài khoản cũ sang tài khoản mới!
+      const previousOwnerId = readLocalValue(CLOUD_OWNER_KEY, null);
+      const switchedAccount = Boolean(previousOwnerId && boot.user?.id && previousOwnerId !== boot.user.id);
+      if (switchedAccount) {
+        const oldLocalCourses = await getAllCourses();
+        for (const item of oldLocalCourses) {
+          if (item.id !== BUILT_IN_COURSE_ID && item.type !== 'built-in') {
+            await deleteCourse(item.id).catch(() => {});
+          }
+        }
+        clearProgress();
+        await saveSettings({ geminiApiKey: null, activeCourseId: BUILT_IN_COURSE_ID, recentCourseIds: [] }).catch(() => {});
+        writePendingQueue({ progressIds: [], courseIds: [], deletedCourseIds: [], settingsDirty: false });
+      }
+      if (boot.user?.id) {
+        writeLocalValueSafe(CLOUD_OWNER_KEY, boot.user.id);
+      }
+
       const cloudCourseMap = new Map((boot.courses || []).map((course) => [course.id, course]));
 
       // 3. Kéo khóa học từ server về IndexedDB nếu mới hơn hoặc chưa có ở máy này
@@ -455,12 +482,28 @@ export async function signUpWithPassword(payload, { onCloudDataApplied } = {}) {
   return res.user;
 }
 
-export async function signOutAccount() {
+export async function signOutAccount({ wipeLocal = false } = {}) {
   for (const timer of progressTimers.values()) clearTimeout(timer);
   progressTimers.clear();
+  const hadCloudKey = Boolean(state.serverInfo?.userKeyConfigured);
   try {
     await logoutAccount();
   } catch { /* vẫn dọn state phía client kể cả khi rớt mạng */ }
+  // Luôn xoá key thuần ở IndexedDB nếu key đã mã hoá trên cloud hoặc khi user yêu cầu xoá dữ liệu máy này
+  if (hadCloudKey || wipeLocal) {
+    await saveSettings({ geminiApiKey: null }).catch(() => {});
+  }
+  if (wipeLocal) {
+    const localCourses = await getAllCourses().catch(() => []);
+    for (const item of localCourses) {
+      if (item.id !== BUILT_IN_COURSE_ID && item.type !== 'built-in') {
+        await deleteCourse(item.id).catch(() => {});
+      }
+    }
+    clearProgress();
+    await saveSettings({ activeCourseId: BUILT_IN_COURSE_ID, recentCourseIds: [], geminiApiKey: null }).catch(() => {});
+    removeLocalValue(CLOUD_OWNER_KEY);
+  }
   writePendingQueue({ progressIds: [], courseIds: [], deletedCourseIds: [], settingsDirty: false });
   setState({
     authenticated: false,
@@ -473,6 +516,11 @@ export async function signOutAccount() {
       ? { ...state.serverInfo, userKeyConfigured: false, userKeyHint: '', aiProxyAvailable: Boolean(state.serverInfo.serverKeyAvailable) }
       : null,
   });
+}
+
+export async function deleteUserAccount(password) {
+  await deleteAccountApi(password);
+  await signOutAccount({ wipeLocal: true });
 }
 
 export async function syncProfileUpdate(updates) {

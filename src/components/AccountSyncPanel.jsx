@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import {
   changeAccountPassword,
+  exportAccountDataApi,
   fetchAccountSessions,
   revokeAccountSession,
 } from '../lib/apiClient.js';
 import {
+  deleteUserAccount,
   signOutAccount,
   syncAllWithCloud,
   syncProfileUpdate,
@@ -28,14 +30,17 @@ export default function AccountSyncPanel({ cloud, onOpenAuth, onCloudDataApplied
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState(null);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [showDeleteForm, setShowDeleteForm] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [deletePassword, setDeletePassword] = useState('');
   const [sessions, setSessions] = useState([]);
   const [sessionsLoaded, setSessionsLoaded] = useState(false);
 
   useEffect(() => {
     setSessions([]);
     setSessionsLoaded(false);
+    setShowDeleteForm(false);
   }, [cloud.authenticated, cloud.user?.id]);
 
   const handleManualSync = async () => {
@@ -81,6 +86,26 @@ export default function AccountSyncPanel({ cloud, onOpenAuth, onCloudDataApplied
     }
   };
 
+  const handleExportCloud = async () => {
+    setBusy(true);
+    setNotice(null);
+    try {
+      const payload = await exportAccountDataApi();
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `dudu-cloud-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      setNotice({ ok: true, text: 'Đã xuất toàn bộ dữ liệu đám mây dạng JSON.' });
+    } catch (error) {
+      setNotice({ ok: false, text: error.message });
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const loadSessions = async () => {
     setBusy(true);
     try {
@@ -107,11 +132,29 @@ export default function AccountSyncPanel({ cloud, onOpenAuth, onCloudDataApplied
     }
   };
 
-  const handleLogout = async () => {
+  const handleLogout = async (wipeLocal = false) => {
     setBusy(true);
     try {
-      await signOutAccount();
-      setNotice({ ok: true, text: 'Đã đăng xuất. Dữ liệu đã học trên máy vẫn được giữ nguyên.' });
+      await signOutAccount({ wipeLocal });
+      if (wipeLocal) {
+        window.location.reload();
+        return;
+      }
+      setNotice({ ok: true, text: 'Đã đăng xuất. Tiến độ cục bộ vẫn được giữ (tài khoản khác đăng nhập sẽ tự cô lập dữ liệu).' });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleDeleteAccount = async (event) => {
+    event.preventDefault();
+    setBusy(true);
+    setNotice(null);
+    try {
+      await deleteUserAccount(deletePassword);
+      window.location.reload();
+    } catch (error) {
+      setNotice({ ok: false, text: error.message });
     } finally {
       setBusy(false);
     }
@@ -179,14 +222,20 @@ export default function AccountSyncPanel({ cloud, onOpenAuth, onCloudDataApplied
         <button type="button" disabled={busy} onClick={handleManualSync} className="btn-primary">
           {busy ? 'Đang xử lý...' : 'Đồng bộ ngay'}
         </button>
+        <button type="button" disabled={busy} onClick={handleExportCloud} className="btn-secondary">
+          Xuất dữ liệu cloud
+        </button>
         <button type="button" disabled={busy} onClick={() => setShowPasswordForm((v) => !v)} className="btn-secondary">
           Đổi mật khẩu
         </button>
         <button type="button" disabled={busy} onClick={loadSessions} className="btn-secondary">
           Phiên đăng nhập
         </button>
-        <button type="button" disabled={busy} onClick={handleLogout} className="btn-ghost text-error">
+        <button type="button" disabled={busy} onClick={() => handleLogout(false)} className="btn-ghost text-text-secondary">
           Đăng xuất
+        </button>
+        <button type="button" disabled={busy} onClick={() => handleLogout(true)} className="btn-ghost text-xs text-error" title="Dành cho máy tính dùng chung / công cộng">
+          Đăng xuất & xoá máy này
         </button>
       </div>
 
@@ -251,6 +300,35 @@ export default function AccountSyncPanel({ cloud, onOpenAuth, onCloudDataApplied
           ))}
         </div>
       )}
+
+      <div className="border-t border-border pt-3">
+        {!showDeleteForm ? (
+          <button type="button" onClick={() => setShowDeleteForm(true)} className="text-xs text-error hover:underline">
+            Xoá vĩnh viễn tài khoản đám mây...
+          </button>
+        ) : (
+          <form onSubmit={handleDeleteAccount} className="space-y-3 rounded-xl border border-error/40 bg-error-subtle/40 p-4">
+            <p className="text-sm font-semibold text-error">Xoá vĩnh viễn tài khoản & dữ liệu đám mây</p>
+            <p className="text-xs text-text-secondary">Thao tác này không thể hoàn tác. Hãy xuất sao lưu trước nếu cần giữ dữ liệu.</p>
+            <input
+              type="password"
+              required
+              value={deletePassword}
+              onChange={(event) => setDeletePassword(event.target.value)}
+              placeholder="Nhập mật khẩu để xác nhận xoá tài khoản"
+              className="input w-full"
+            />
+            <div className="flex gap-2">
+              <button type="submit" disabled={busy || !deletePassword} className="rounded-lg border border-error bg-error px-4 py-2 text-xs font-semibold text-white disabled:opacity-50">
+                Xác nhận xoá vĩnh viễn
+              </button>
+              <button type="button" onClick={() => { setShowDeleteForm(false); setDeletePassword(''); }} className="btn-secondary text-xs">
+                Hủy
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
 
       {notice && (
         <p role="status" className={`text-sm ${notice.ok ? 'text-success' : 'text-error'}`}>{notice.text}</p>

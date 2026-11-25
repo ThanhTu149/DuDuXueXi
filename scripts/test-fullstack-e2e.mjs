@@ -139,10 +139,49 @@ try {
   await clickButton(page2, 'Thư viện');
   await page2.waitForFunction(() => document.querySelector('main')?.textContent.includes('HSK 1 — Giao tiếp hằng ngày'), { timeout: 10000 });
 
+  // Kiểm tra Thống kê đám mây trong Hồ sơ > Hoạt động
+  await clickButton(page2, 'Hồ sơ');
+  await page2.waitForFunction(() => [...document.querySelectorAll('main button')].some((b) => b.textContent.trim() === 'Hoạt động'));
+  await clickButton(page2, 'Hoạt động');
+  await page2.waitForFunction(() => document.querySelector('main')?.textContent.includes('Tổng hợp toàn tài khoản'), { timeout: 10000 });
+
+  // Kiểm tra cô lập máy dùng chung: đăng xuất tài khoản 1 rồi đăng ký tài khoản 2 trên CÙNG trình duyệt!
+  await clickButton(page2, 'Cài đặt');
+  await page2.waitForFunction(() => [...document.querySelectorAll('main button')].some((b) => b.textContent.trim() === 'Đăng xuất'));
+  await clickButton(page2, 'Đăng xuất');
+  await page2.waitForFunction(() => [...document.querySelectorAll('header button')].some((b) => b.textContent.includes('Đăng nhập')));
+
+  await page2.evaluate(() => [...document.querySelectorAll('header button')].find((b) => b.textContent.includes('Đăng nhập'))?.click());
+  await page2.waitForSelector('[role="dialog"][aria-labelledby="auth-modal-title"]');
+  await clickButton(page2, 'Tạo tài khoản');
+  await page2.type('input[name="username"]', 'an_le_new');
+  await page2.type('input[name="displayName"]', 'An Lê');
+  await page2.type('input[name="password"]', 'secret123');
+  await page2.type('input[name="confirmPassword"]', 'secret123');
+  await clickButton(page2, 'Tạo tài khoản và đồng bộ');
+  await page2.waitForFunction(() => document.querySelector('header')?.textContent.includes('An Lê'));
+  await new Promise((r) => setTimeout(r, 800));
+
+  // Tài khoản mới An Lê trên máy dùng chung KHÔNG ĐƯỢC thừa hưởng khóa học riêng hay XP của Minh Thư!
+  await clickButton(page2, 'Thư viện');
+  await new Promise((r) => setTimeout(r, 400));
+  const leakedCourse = await page2.evaluate(() => document.querySelector('main')?.textContent.includes('HSK 1 — Giao tiếp hằng ngày'));
+  assert.equal(leakedCourse, false, 'Tài khoản khác trên cùng máy không được thừa hưởng khóa học của tài khoản trước');
+  const anDbProg = app.db.prepare("SELECT xp FROM user_progress p JOIN users u ON u.id = p.user_id WHERE u.username = 'an_le_new'").get();
+  assert.ok(!anDbProg || anDbProg.xp === 0, `Tài khoản mới không được thừa hưởng XP của tài khoản trước, nhận: ${JSON.stringify(anDbProg)}`);
+
+  // Kiểm tra ETag + 304 và gzip trên máy chủ tĩnh production
+  const assetRes = await fetch(`${baseUrl}/index.html`, { headers: { 'Accept-Encoding': 'gzip' } });
+  assert.equal(assetRes.status, 200);
+  const etag = assetRes.headers.get('etag');
+  assert.ok(etag, 'Static server phải trả ETag');
+  const notModified = await fetch(`${baseUrl}/index.html`, { headers: { 'If-None-Match': etag } });
+  assert.equal(notModified.status, 304, 'Static server phải trả 304 khi If-None-Match khớp ETag');
+
   assert.deepEqual(errors2, [], `Thiết bị 2 có lỗi console/pageerror: ${errors2.join(' | ')}`);
   await ctx2.close();
 
-  console.log(`Full-Stack E2E OK: đăng ký, đồng bộ ${dbProg.xp} XP sang SQLite, clone khóa cộng đồng, bảng xếp hạng #1, Gia sư AI, khôi phục trọn vẹn trên Thiết bị 2 (0 lỗi console).`);
+  console.log(`Full-Stack E2E OK: đăng ký, đồng bộ ${dbProg.xp} XP sang SQLite, clone khóa cộng đồng, bảng xếp hạng #1, Gia sư AI, thống kê cloud, khôi phục trên Thiết bị 2, cô lập tài khoản trên máy dùng chung, ETag 304 (0 lỗi console).`);
 } finally {
   if (browser) await browser.close();
   await app.close();

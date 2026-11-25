@@ -73,12 +73,22 @@ try {
   const aliceDevice2 = new TestClient(baseUrl);
   const bob = new TestClient(baseUrl);
 
-  // 1. Health + seeded official community courses + guest session check
+  // 1. Health + schema v2 + security headers + seeded official community courses + guest session check
   const health = await alice.req('/api/health');
   assert.equal(health.status, 200);
   assert.equal(health.data.ok, true);
-  assert.equal(health.data.schemaVersion, 1);
+  assert.equal(health.data.schemaVersion, 2);
   assert.ok(health.data.stats.communityCourses >= 2);
+  assert.match(health.headers.get('content-security-policy') || '', /default-src 'self'/);
+  assert.equal(health.headers.get('x-content-type-options'), 'nosniff');
+  assert.ok(health.headers.get('permissions-policy'));
+
+  // Community pagination check (no chapters_json overhead)
+  const pagedComm = await alice.req('/api/community/courses?limit=1&offset=0');
+  assert.equal(pagedComm.status, 200);
+  assert.equal(pagedComm.data.courses.length, 1);
+  assert.ok(pagedComm.data.total >= 2);
+  assert.equal(Object.hasOwn(pagedComm.data.courses[0], 'chapters'), false);
 
   const guestMe = await alice.req('/api/auth/me');
   assert.equal(guestMe.status, 200);
@@ -368,7 +378,7 @@ try {
   assert.equal(delKey.status, 200);
   assert.equal((await alice.req('/api/settings')).data.settings.geminiKeyConfigured, false);
 
-  // 8. Prototype pollution guard + Bootstrap snapshot
+  // 8. Prototype pollution guard + CSRF guard + model validation + account export/delete + Bootstrap snapshot
   const polluted = await alice.req('/api/courses/course-alice-1', {
     method: 'PUT',
     body: '{"name":"Safe Course","chapters":[],"__proto__":{"polluted":true}}',
@@ -376,19 +386,53 @@ try {
   assert.equal(polluted.status, 200);
   assert.equal(({}).polluted, undefined);
 
+  // CSRF blocked for cross-site Origin or Sec-Fetch-Site
+  const csrfOrigin = await alice.req('/api/auth/profile', {
+    method: 'PATCH',
+    headers: { Origin: 'https://evil-attacker.example' },
+    body: { displayName: 'Hacked' },
+  });
+  assert.equal(csrfOrigin.status, 403);
+  assert.equal(csrfOrigin.data.error.code, 'csrf_blocked');
+
+  const csrfFetchSite = await alice.req('/api/auth/profile', {
+    method: 'PATCH',
+    headers: { 'Sec-Fetch-Site': 'cross-site' },
+    body: { displayName: 'Hacked' },
+  });
+  assert.equal(csrfFetchSite.status, 403);
+
+  // Model path-traversal rejected
+  const badModel = await alice.req('/api/ai/tutor', {
+    method: 'POST',
+    body: { message: 'xin chao', model: '../evil/path' },
+  });
+  assert.equal(badModel.status, 400);
+  assert.equal(badModel.data.error.code, 'invalid_model');
+
+  // Full account export (never includes password_hash or raw secrets)
+  const exported = await alice.req('/api/auth/export');
+  assert.equal(exported.status, 200);
+  assert.equal(exported.data.format, 'dudu-account-export');
+  assert.equal(JSON.stringify(exported.data).includes('password_hash'), false);
+
   const boot = await alice.req('/api/sync/bootstrap');
   assert.equal(boot.status, 200);
   assert.equal(boot.data.courses.length, 1);
   assert.equal(boot.data.progressByCourse['hanngu-tap2'].xp, 180);
 
-  // Delete course & logout
+  // Delete course & account deletion (wrong password rejected, right password cascades)
   assert.equal((await alice.req('/api/courses/course-alice-1', { method: 'DELETE' })).status, 200);
+  assert.equal((await bob.req('/api/auth/account', { method: 'DELETE', body: { password: 'wrong' } })).status, 400);
+  assert.equal((await bob.req('/api/auth/account', { method: 'DELETE', body: { password: 'password123' } })).status, 200);
+  assert.equal((await bob.req('/api/auth/me')).data.authenticated, false);
+
   assert.equal((await alice.req('/api/auth/logout', { method: 'POST' })).status, 200);
   assert.equal((await alice.req('/api/auth/me')).data.authenticated, false);
 
-  // 9. Rate limiting check (separate server instance with rate limiting enabled)
+  // 9. Rate limiting & anti-X-Forwarded-For spoofing + course quota check
   const limitedApp = createApp({
-    configOverrides: { DUDU_DB_PATH: ':memory:', DUDU_DISABLE_RATE_LIMIT: 'false' },
+    configOverrides: { DUDU_DB_PATH: ':memory:', DUDU_DISABLE_RATE_LIMIT: 'false', TRUST_PROXY: 'false', MAX_COURSES_PER_USER: '5' },
     serveStatic: false,
     seed: false,
   });
@@ -397,14 +441,30 @@ try {
     const client = new TestClient(`http://127.0.0.1:${lAddr.port}`);
     let got429 = false;
     for (let i = 0; i < 35; i += 1) {
-      const r = await client.req('/api/auth/login', { method: 'POST', body: { identifier: 'nobody', password: 'wrong' } });
+      // Cố tình giả mạo X-Forwarded-For khác nhau mỗi lần — vẫn phải bị chặn vì TRUST_PROXY=false!
+      const r = await client.req('/api/auth/login', {
+        method: 'POST',
+        headers: { 'X-Forwarded-For': `10.0.0.${i + 1}` },
+        body: { identifier: `user_${i}`, password: 'wrong' },
+      });
       if (r.status === 429) {
         got429 = true;
         assert.ok(Number(r.headers.get('retry-after')) >= 1);
         break;
       }
     }
-    assert.equal(got429, true, 'Rate limiter phải trả 429 khi vượt ngưỡng login');
+    assert.equal(got429, true, 'Rate limiter phải chặn kể cả khi giả mạo X-Forwarded-For');
+
+    // Kiểm tra giới hạn số lượng khóa học per-user
+    const quotaClient = new TestClient(`http://127.0.0.1:${lAddr.port}`);
+    await quotaClient.req('/api/auth/register', { method: 'POST', body: { username: 'quota_u', password: 'password123' } });
+    for (let i = 1; i <= 5; i += 1) {
+      const r = await quotaClient.req(`/api/courses/c-${i}`, { method: 'PUT', body: { name: `Course ${i}`, chapters: [] } });
+      assert.equal(r.status, 201);
+    }
+    const overQuota = await quotaClient.req('/api/courses/c-6', { method: 'PUT', body: { name: 'Course 6', chapters: [] } });
+    assert.equal(overQuota.status, 400);
+    assert.equal(overQuota.data.error.code, 'course_limit_reached');
   } finally {
     await limitedApp.close();
   }

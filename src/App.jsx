@@ -17,6 +17,7 @@ import TypingEditorModal from './components/editors/TypingEditorModal.jsx';
 import ModelSelector from './components/ModelSelector.jsx';
 import AuthModal from './components/AuthModal.jsx';
 import AccountSyncPanel from './components/AccountSyncPanel.jsx';
+import CloudAnalyticsCard from './components/CloudAnalyticsCard.jsx';
 import { getActiveProcessingJobs, resumeInterruptedJobs, subscribeProcessingJobs } from './lib/processingJobs.js';
 import { readProgress, writeProgress, subscribeStorageChanges } from './lib/storage.js';
 import {
@@ -207,28 +208,37 @@ function speak(text, lang = 'zh-CN', rate = 0.85, onEnd) { if (!text || !('speec
 function buildPinyinIndex() { const index = {}; const add = (pinyin, zh, vi = '') => { const key = normalizePinyin(pinyin); if (!key || !zh || !/[\u3400-\u9fff]/.test(zh)) return; index[key] ||= []; if (!index[key].some((item) => item.zh === zh)) index[key].push({ zh, vi, pinyin }); }; ALL_GLOSSARY_ENTRIES.forEach((entry) => add(entry.pinyin, entry.word_zh || entry.phrase_zh, entry.meaning_vi)); ALL_QUESTIONS.forEach((question) => add(question.sample_answer_pinyin, question.sample_answer, question.source_sentence_vi)); return index; }
 let PINYIN_INDEX = buildPinyinIndex();
 function searchPinyin(query) { const normalized = normalizePinyin(query); if (!normalized) return []; return Object.entries(PINYIN_INDEX).filter(([key]) => key.startsWith(normalized)).flatMap(([key, items]) => items.map((item) => ({ ...item, key }))).slice(0, 20); }
-function getDictationSentences(bai) { const seen = new Set(); return GLOSSARY[bai].entries.map((entry) => ({ zh: entry.example_zh, pinyin: entry.example_pinyin, vi: entry.example_vi, source: entry.id })).filter((sentence) => sentence.zh && sentence.zh.length >= 4 && sentence.zh.length <= 30 && !seen.has(sentence.zh) && seen.add(sentence.zh)); }
-function getSentencesByBai(bai) { const seen = new Set(); return GLOSSARY[bai].entries.flatMap((entry) => [entry.example_zh ? { zh: entry.example_zh, pinyin: entry.example_pinyin, vi: entry.example_vi, source: entry.id, entry } : null, ...(entry.examples || []).map((example) => ({ ...example, source: entry.id, entry }))]).filter((sentence) => sentence?.zh && !seen.has(sentence.zh) && seen.add(sentence.zh)); }
+function getDictationSentences(bai) { const seen = new Set(); return (GLOSSARY[bai]?.entries || []).map((entry) => ({ zh: entry.example_zh, pinyin: entry.example_pinyin, vi: entry.example_vi, source: entry.id })).filter((sentence) => sentence.zh && sentence.zh.length >= 4 && sentence.zh.length <= 30 && !seen.has(sentence.zh) && seen.add(sentence.zh)); }
+function getSentencesByBai(bai) { const seen = new Set(); return (GLOSSARY[bai]?.entries || []).flatMap((entry) => [entry.example_zh ? { zh: entry.example_zh, pinyin: entry.example_pinyin, vi: entry.example_vi, source: entry.id, entry } : null, ...(entry.examples || []).map((example) => ({ ...example, source: entry.id, entry }))]).filter((sentence) => sentence?.zh && !seen.has(sentence.zh) && seen.add(sentence.zh)); }
 function getCharacterInfo(char) { return CHARACTER_INFO[char] || { radical: null, strokes: null }; }
 
-const audioCtx = typeof window !== 'undefined' ? new (window.AudioContext || window.webkitAudioContext)() : null;
+let audioCtx = null;
+function getAudioContext() {
+ if (audioCtx) return audioCtx;
+ if (typeof window === 'undefined') return null;
+ const Ctor = window.AudioContext || window.webkitAudioContext;
+ if (!Ctor) return null;
+ try { audioCtx = new Ctor(); } catch { return null; }
+ return audioCtx;
+}
 
 function playTone(frequency, duration, type = 'sine') {
- if (!audioCtx) return;
  const isSoundEnabled = localStorage.getItem('dudu-sound-enabled') !== 'false';
  if (!isSoundEnabled) return;
- 
- if (audioCtx.state === 'suspended') audioCtx.resume();
- const osc = audioCtx.createOscillator();
- const gain = audioCtx.createGain();
+ const ctx = getAudioContext();
+ if (!ctx) return;
+
+ if (ctx.state === 'suspended') ctx.resume();
+ const osc = ctx.createOscillator();
+ const gain = ctx.createGain();
  osc.type = type;
  osc.frequency.value = frequency;
  osc.connect(gain);
- gain.connect(audioCtx.destination);
- gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
- gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
- osc.start(audioCtx.currentTime);
- osc.stop(audioCtx.currentTime + duration);
+ gain.connect(ctx.destination);
+ gain.gain.setValueAtTime(0.12, ctx.currentTime);
+ gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+ osc.start(ctx.currentTime);
+ osc.stop(ctx.currentTime + duration);
 }
 
 const sounds = {
@@ -414,13 +424,12 @@ const EXTRA_NAV = [
 ];
 // --- REDESIGN: APP SHELL ---
 function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMenu, onShortcuts, hidden = false, focused = false, cloud = null, onOpenAuth = null }) {
-  const accuracy = progress.accuracy.total ? Math.round((progress.accuracy.correct / progress.accuracy.total) * 100) : 0;
   const nextTheme = themeMode === 'light' ? 'dark' : themeMode === 'dark' ? 'auto' : 'light';
   const themeLabel = themeMode === 'dark' ? 'Tối' : themeMode === 'light' ? 'Sáng' : 'Tự động';
   return (
-    <header className={`app-header transition-transform duration-200 ${focused ? '' : 'lg:ml-[240px] xl:mr-[320px]'} ${hidden ? '-translate-y-full' : ''}`}>
+    <header className={`app-header transition-transform duration-200 ${focused ? '' : 'lg:ml-[240px] xl:mr-[340px]'} ${hidden ? '-translate-y-full' : ''}`}>
       <div className="mx-auto flex h-16 max-w-[864px] items-center gap-2 px-4 lg:gap-3 lg:px-8">
-      {!focused && <button onClick={onMenu} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-border bg-bg-secondary text-text-secondary lg:hidden" aria-label="Mở menu">
+      {!focused && <button onClick={onMenu} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-border/70 bg-bg-secondary text-text-secondary lg:hidden" aria-label="Mở menu">
         <span className="space-y-1"><span className="block h-px w-4 bg-current"/><span className="block h-px w-4 bg-current"/><span className="block h-px w-4 bg-current"/></span>
       </button>}
       {focused ? (
@@ -432,31 +441,30 @@ function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMe
           </div>
         </div>
       ) : (
-        <button onClick={onSearch} aria-label="Tìm kiếm hoặc mở lệnh" aria-keyshortcuts="Control+K" className="flex h-10 min-w-0 flex-1 items-center justify-between gap-2 rounded-xl border border-border bg-bg-secondary px-3 text-text-muted shadow-xs transition duration-150 hover:border-border-strong focus:border-accent focus:ring-[3px] focus:ring-accent-subtle">
-          <div className="flex min-w-0 items-center gap-2 text-sm">
+        <button onClick={onSearch} aria-label="Tìm kiếm hoặc mở lệnh" aria-keyshortcuts="Control+K" className="flex h-10 min-w-0 flex-1 items-center justify-between gap-2 rounded-xl border border-border/70 bg-bg-secondary px-3.5 text-text-muted shadow-xs transition duration-150 hover:border-border-strong focus:border-accent focus:ring-[3px] focus:ring-accent-subtle">
+          <div className="flex min-w-0 items-center gap-2.5 text-sm">
             <Icon.Search className="h-4 w-4 shrink-0" />
             <span className="truncate">Tìm từ vựng, ngữ pháp...</span>
           </div>
-          <kbd className="hidden shrink-0 rounded border border-border bg-bg-tertiary px-1.5 py-0.5 text-[11px] font-medium sm:block">Ctrl K</kbd>
+          <kbd className="hidden shrink-0 rounded-md border border-border/70 bg-bg-tertiary px-1.5 py-0.5 text-[11px] font-medium sm:block">Ctrl K</kbd>
         </button>
       )}
-      <div className="flex shrink-0 items-center gap-1.5">
-        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-border bg-bg-secondary px-2.5 text-[13px] font-semibold text-text-secondary transition hover:bg-bg-tertiary sm:flex" title="Xem chuỗi ngày học" aria-label={`Chuỗi ${progress.streak} ngày`}><Icon.Flame className="h-4 w-4 text-error" /><span className="tabular">{progress.streak}</span></button>
-        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-border bg-bg-secondary px-2.5 text-[13px] font-semibold text-text-secondary transition hover:bg-bg-tertiary sm:flex" title="Xem XP" aria-label={`${progress.xp} điểm XP`}><Icon.Zap className="h-4 w-4 text-warning" /><span className="tabular">{progress.xp} XP</span></button>
-        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-border bg-bg-secondary px-2.5 text-[13px] font-semibold text-text-secondary transition hover:bg-bg-tertiary md:flex" title="Xem độ chính xác" aria-label={`Độ chính xác ${accuracy}%`}><Icon.Target className="h-4 w-4 text-success" /><span className="tabular">{accuracy}%</span></button>
+      <div className="flex shrink-0 items-center gap-2">
+        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-full border border-border/60 bg-bg-secondary px-3 text-[13px] font-semibold text-text-secondary shadow-xs transition hover:bg-bg-tertiary sm:flex" title="Xem chuỗi ngày học" aria-label={`Chuỗi ${progress.streak} ngày`}><Icon.Flame className="h-4 w-4 text-error" /><span className="tabular">{progress.streak}</span></button>
+        <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-full border border-border/60 bg-bg-secondary px-3 text-[13px] font-semibold text-text-secondary shadow-xs transition hover:bg-bg-tertiary sm:flex" title="Xem XP" aria-label={`${progress.xp} điểm XP`}><Icon.Zap className="h-4 w-4 text-warning" /><span className="tabular">{progress.xp} XP</span></button>
         {cloud?.serverAvailable && (cloud.authenticated ? (
-          <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-accent/30 bg-accent-subtle px-2.5 text-xs font-semibold text-accent transition hover:border-accent sm:flex" title={cloud.syncState === 'syncing' ? 'Đang đồng bộ đám mây' : 'Tài khoản đã đồng bộ'}>
+          <button onClick={() => onNavigate('dashboard')} className="hidden h-9 items-center gap-1.5 rounded-full border border-accent/30 bg-accent-subtle px-3 text-xs font-semibold text-accent shadow-xs transition hover:border-accent sm:flex" title={cloud.syncState === 'syncing' ? 'Đang đồng bộ đám mây' : 'Tài khoản đã đồng bộ'}>
             <Icon.Cloud className="h-3.5 w-3.5 shrink-0" />
             <span className="max-w-[96px] truncate">{cloud.user?.displayName || cloud.user?.username}</span>
           </button>
         ) : (
-          <button onClick={() => onOpenAuth?.('login')} className="hidden h-9 items-center gap-1.5 rounded-xl border border-accent/30 bg-accent-subtle px-3 text-xs font-semibold text-accent transition hover:border-accent sm:flex">
+          <button onClick={() => onOpenAuth?.('login')} className="hidden h-9 items-center gap-1.5 rounded-full border border-accent/30 bg-accent-subtle px-3 text-xs font-semibold text-accent shadow-xs transition hover:border-accent sm:flex">
             <Icon.User className="h-3.5 w-3.5 shrink-0" />
             <span>Đăng nhập</span>
           </button>
         ))}
-        <button onClick={onShortcuts} className="hidden h-9 w-9 place-items-center rounded-xl border border-border bg-bg-secondary text-[13px] font-bold text-text-secondary transition hover:bg-bg-tertiary md:grid" title="Phím tắt (Ctrl + /)" aria-label="Xem phím tắt">?</button>
-        <button onClick={() => onThemeChange(nextTheme)} className="grid h-9 w-9 place-items-center rounded-xl border border-border bg-bg-secondary text-text-secondary transition hover:bg-bg-tertiary" title={`Giao diện: ${themeLabel} — bấm để đổi`} aria-label={`Giao diện đang ${themeLabel}, bấm để đổi`}>{themeMode === 'dark' ? <Icon.Moon className="h-[18px] w-[18px]" /> : <Icon.Sun className="h-[18px] w-[18px]" />}</button>
+        <button onClick={onShortcuts} className="hidden h-9 w-9 place-items-center rounded-xl border border-border/70 bg-bg-secondary text-[13px] font-semibold text-text-secondary transition hover:bg-bg-tertiary md:grid" title="Phím tắt (Ctrl + /)" aria-label="Xem phím tắt">?</button>
+        <button onClick={() => onThemeChange(nextTheme)} className="grid h-9 w-9 place-items-center rounded-xl border border-border/70 bg-bg-secondary text-text-secondary transition hover:bg-bg-tertiary" title={`Giao diện: ${themeLabel} — bấm để đổi`} aria-label={`Giao diện đang ${themeLabel}, bấm để đổi`}>{themeMode === 'dark' ? <Icon.Moon className="h-[18px] w-[18px]" /> : <Icon.Sun className="h-[18px] w-[18px]" />}</button>
       </div>
       </div>
     </header>
@@ -464,49 +472,73 @@ function Header({ progress, onSearch, onNavigate, themeMode, onThemeChange, onMe
 }
 
 function Sidebar({ screen, progress, onNavigate, mobileOpen, onClose, cloud = null, onOpenAuth = null }) {
+  const primaryPractice = EXTRA_NAV.slice(0, 4);
+  const secondaryPractice = EXTRA_NAV.slice(4);
+  const isSecondaryActive = secondaryPractice.some((item) => item.id === screen);
+  const [moreOpen, setMoreOpen] = useState(isSecondaryActive);
+
+  useEffect(() => {
+    if (isSecondaryActive) setMoreOpen(true);
+  }, [isSecondaryActive]);
+
   return (
     <>
     {mobileOpen && <button className="fixed inset-0 z-40 bg-black/45 lg:hidden" onClick={onClose} aria-label="Đóng menu" />}
-    <aside className={`fixed inset-y-0 left-0 z-50 flex w-[240px] flex-col border-r border-border bg-bg-secondary px-4 py-5 transition-transform duration-200 lg:translate-x-0 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`} aria-label="Menu chính">
-      <div className="flex h-12 items-center justify-between px-2">
-        <button onClick={() => onNavigate('home')} className="flex items-center gap-3 text-left" aria-label="Về trang chủ">
+    <aside className={`fixed inset-y-0 left-0 z-50 flex w-[240px] flex-col border-r border-border/70 bg-bg-secondary px-3.5 py-4 transition-transform duration-200 lg:translate-x-0 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`} aria-label="Menu chính">
+      <div className="flex h-11 shrink-0 items-center justify-between px-2">
+        <button onClick={() => onNavigate('home')} className="flex items-center gap-2.5 text-left" aria-label="Về trang chủ">
           <span className="grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-accent-subtle to-accent-2-subtle text-xl" role="img" aria-label="Trúc">🐼</span>
-          <span><span className="block font-serif text-[18px] font-bold leading-tight">DuDu Hán Ngữ</span><span className="block text-[11px] text-text-muted">Học mỗi ngày</span></span>
+          <span><span className="block font-serif text-[17px] font-bold leading-tight">DuDu Hán Ngữ</span><span className="block text-[11px] text-text-muted">Học mỗi ngày</span></span>
         </button>
         <button onClick={onClose} className="grid h-8 w-8 place-items-center rounded-lg text-text-muted hover:bg-bg-tertiary lg:hidden" aria-label="Đóng menu"><Icon.X /></button>
       </div>
-      <nav aria-label="Menu chính" className="mt-5 min-h-0 flex-1 overflow-y-auto pr-1 scrollbar-thin">
-        <div className="px-3 pb-2 text-[11px] font-medium uppercase tracking-[0.08em] text-text-muted">Chính</div>
-        <div className="space-y-1">{NAV_ITEMS.map((item) => (
-          <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item ${screen === item.id ? 'active' : ''}`}>
-            {item.icon}<span>{item.label}</span>
-          </button>
-        ))}</div>
-        <div className="mb-2 mt-5 px-3 text-[11px] font-medium uppercase tracking-[0.08em] text-text-muted">Luyện tập</div>
-        <div className="space-y-1">{EXTRA_NAV.map((item) => (
-          <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item ${screen === item.id ? 'active' : ''}`}>
-            {item.icon}<span>{item.label}</span>
-          </button>
-        ))}</div>
-        <section className="mt-6 rounded-xl border border-accent/20 bg-gradient-to-br from-accent-subtle to-accent-2-subtle p-4">
-          <div className="flex items-center gap-2 text-accent"><span className="grid h-8 w-8 place-items-center rounded-xl bg-bg-secondary"><Icon.Zap className="h-4 w-4" /></span><h2 className="font-serif text-[15px] font-semibold">Góc học tập</h2></div>
-          <p className="mt-3 text-sm leading-5 text-text-secondary">{studyTipOfTheDay()}</p>
-          <div className="mt-3 flex items-center justify-between text-xs font-semibold text-text-muted"><span>Mục tiêu hôm nay</span><span className="tabular">{progress.todayCount || 0}/{progress.dailyGoal || 20}</span></div>
-          <ProgressBar value={((progress.todayCount || 0) / (progress.dailyGoal || 20)) * 100} label="Mục tiêu hôm nay" className="mt-2 h-1.5" />
-          <button onClick={() => onNavigate('minigame')} className="btn-primary mt-4 w-full">Luyện nhanh 5 phút</button>
-        </section>
+      <nav aria-label="Menu chính" className="mt-4 flex min-h-0 flex-1 flex-col justify-between overflow-y-auto lg:overflow-visible">
+        <div>
+          <div className="px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-text-muted">Chính</div>
+          <div className="space-y-0.5">{NAV_ITEMS.map((item) => (
+            <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item ${screen === item.id ? 'active' : ''}`}>
+              {item.icon}<span>{item.label}</span>
+            </button>
+          ))}</div>
+          <div className="mb-1.5 mt-4 px-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-text-muted">Luyện tập</div>
+          <div className="space-y-0.5">
+            {primaryPractice.map((item) => (
+              <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item ${screen === item.id ? 'active' : ''}`}>
+                {item.icon}<span>{item.label}</span>
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => setMoreOpen((v) => !v)}
+              aria-expanded={moreOpen}
+              className="nav-item text-text-muted"
+            >
+              <Icon.ChevronRight className={`h-4 w-4 transition-transform duration-150 ${moreOpen ? 'rotate-90' : ''}`} />
+              <span>{moreOpen ? 'Thu gọn kỹ năng' : `Kỹ năng khác (${secondaryPractice.length})`}</span>
+            </button>
+            {moreOpen && (
+              <div className="space-y-0.5 pl-2">
+                {secondaryPractice.map((item) => (
+                  <button key={item.id} onClick={() => onNavigate(item.id)} aria-current={screen === item.id ? 'page' : undefined} className={`nav-item ${screen === item.id ? 'active' : ''}`}>
+                    {item.icon}<span>{item.label}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </nav>
-      <div className="mt-4 space-y-2 border-t border-border pt-4">
+      <div className="mt-3 shrink-0 space-y-2 border-t border-border/70 pt-3">
         {cloud?.serverAvailable && !cloud.authenticated && (
-          <button onClick={() => { onClose(); onOpenAuth?.('login'); }} className="btn-secondary flex w-full items-center justify-center gap-2 text-xs">
+          <button onClick={() => { onClose(); onOpenAuth?.('login'); }} className="btn-secondary flex w-full items-center justify-center gap-2 py-2 text-xs">
             <Icon.Cloud className="h-4 w-4 text-accent" />
             <span>Đăng nhập đồng bộ</span>
           </button>
         )}
         <button onClick={() => onNavigate('dashboard')} className="flex w-full items-center gap-3 rounded-xl p-2 text-left transition hover:bg-bg-tertiary">
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-accent-2-subtle text-2xl" role="img" aria-label="Băng">🐧</span>
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent-2-subtle text-xl" role="img" aria-label="Băng">🐧</span>
           <span className="min-w-0 flex-1"><span className="block truncate text-sm font-semibold">{cloud?.user?.displayName || progress.profile?.name || 'Học viên'}</span><span className="block truncate text-[11px] text-text-muted">{cloud?.authenticated ? `@${cloud.user?.username} · ${cloud.syncState === 'syncing' ? 'Đang đồng bộ' : 'Đám mây'}` : `Cấp ${Math.max(1, Math.floor((progress.xp || 0) / 250) + 1)} · ${progress.xp || 0} XP`}</span></span>
-          <Icon.Settings className="h-[18px] w-[18px] text-text-muted" />
+          <Icon.Settings className="h-[18px] w-[18px] shrink-0 text-text-muted" />
         </button>
       </div>
     </aside>
@@ -518,7 +550,7 @@ function RightPanel({ progress, onNavigate, pomodoro }) {
   const goal = Math.max(1, Number(progress.dailyGoal) || 20);
   const done = Math.max(0, Number(progress.todayCount) || 0);
   const goalPercent = Math.min(100, Math.round((done / goal) * 100));
-  const circumference = 2 * Math.PI * 48;
+  const circumference = 2 * Math.PI * 38;
   const dueCount = getDueEntries(progress.srs || {}).length;
   const lastSeven = Array.from({ length: 7 }, (_, index) => {
     const date = new Date();
@@ -529,93 +561,77 @@ function RightPanel({ progress, onNavigate, pomodoro }) {
   const monday = new Date();
   monday.setHours(12, 0, 0, 0);
   monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
-  const weeks = Array.from({ length: 3 }, (_, index) => {
-    const date = new Date(monday);
-    date.setDate(date.getDate() - index * 7);
-    const key = getWeekKey(date);
-    return { key, label: index === 0 ? 'Tuần này' : index === 1 ? 'Tuần trước' : '2 tuần trước', xp: Number(progress.weeklyXP?.[key]) || 0 };
-  });
-  const maxWeekXp = Math.max(...weeks.map((week) => week.xp), 1);
+  const thisWeekXp = Number(progress.weeklyXP?.[getWeekKey(monday)]) || 0;
   const streakTarget = progress.streak < 3 ? 3 : progress.streak < 7 ? 7 : 10;
   const streakPercent = Math.min(100, Math.round((progress.streak / streakTarget) * 100));
-  const panelClass = 'rounded-xl border border-border bg-bg-primary p-5';
+  const panelClass = 'rounded-2xl border border-border/60 bg-bg-primary/80 p-4 shadow-sm';
   return (
-    <aside className="fixed inset-y-0 right-0 z-10 hidden w-[320px] overflow-y-auto border-l border-border bg-bg-secondary p-5 xl:block scrollbar-thin" aria-label="Bảng tiến độ">
-      <div className="space-y-4">
+    <aside className="fixed inset-y-0 right-0 z-10 hidden w-[340px] border-l border-border/70 bg-bg-secondary p-4 xl:flex xl:flex-col xl:justify-between" aria-label="Bảng tiến độ">
+      <div className="space-y-3.5">
         <section className={panelClass}>
-          <div className="flex items-center gap-2"><Icon.Target className="h-[18px] w-[18px] text-accent" /><h2 className="font-serif text-[17px] font-semibold">Mục tiêu hôm nay</h2></div>
-          <div className="mt-5 flex items-center gap-5">
-            <div className="relative h-[120px] w-[120px] shrink-0">
-              <svg className="h-full w-full -rotate-90" viewBox="0 0 120 120" role="img" aria-label={`Đã đạt ${goalPercent}% mục tiêu hôm nay`}>
+          <div className="flex items-center gap-2"><Icon.Target className="h-[18px] w-[18px] text-accent" /><h2 className="font-serif text-[16px] font-semibold">Mục tiêu hôm nay</h2></div>
+          <div className="mt-3.5 flex items-center gap-4">
+            <div className="relative h-[92px] w-[92px] shrink-0">
+              <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100" role="img" aria-label={`Đã đạt ${goalPercent}% mục tiêu hôm nay`}>
                 <defs>
                   <linearGradient id="goalRing" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stopColor="var(--accent)" />
                     <stop offset="100%" stopColor="var(--accent-2)" />
                   </linearGradient>
                 </defs>
-                <circle cx="60" cy="60" r="48" fill="none" stroke="var(--bg-tertiary)" strokeWidth="8" />
-                <circle cx="60" cy="60" r="48" fill="none" stroke="url(#goalRing)" strokeWidth="8" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={circumference * (1 - goalPercent / 100)} style={{ '--ring-length': circumference }} className="animate-ring-progress" />
+                <circle cx="50" cy="50" r="38" fill="none" stroke="var(--bg-tertiary)" strokeWidth="7" />
+                <circle cx="50" cy="50" r="38" fill="none" stroke="url(#goalRing)" strokeWidth="7" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={circumference * (1 - goalPercent / 100)} style={{ '--ring-length': circumference }} className="animate-ring-progress" />
               </svg>
-              <span className="absolute inset-0 grid place-items-center font-serif text-2xl font-semibold tabular">{goalPercent}%</span>
+              <span className="absolute inset-0 grid place-items-center font-sans text-lg font-bold tabular">{goalPercent}%</span>
             </div>
-            <div className="min-w-0">
-              <p className="font-serif text-2xl font-semibold tabular">{done} <span className="text-text-muted">/ {goal}</span></p>
-              <p className="mt-1 text-sm text-text-muted">câu hôm nay</p>
-              <p className="mt-3 text-sm font-medium text-accent">{goalPercent >= 100 ? 'Đã hoàn thành!' : goalPercent >= 60 ? 'Sắp chạm mục tiêu rồi!' : done === 0 ? 'Bắt đầu một câu nào!' : 'Cố lên, sắp xong rồi!'}</p>
+            <div className="min-w-0 flex-1">
+              <p className="whitespace-nowrap font-sans text-2xl font-bold tracking-tight tabular">{done} <span className="text-lg font-medium text-text-muted">/ {goal}</span></p>
+              <p className="mt-0.5 text-xs text-text-muted">câu hôm nay</p>
+              <p className="mt-2 text-xs font-semibold text-accent">{goalPercent >= 100 ? 'Đã hoàn thành!' : goalPercent >= 60 ? 'Sắp chạm mục tiêu!' : done === 0 ? 'Bắt đầu một câu nào!' : 'Cố lên, sắp xong rồi!'}</p>
             </div>
           </div>
         </section>
 
-        <section className="rounded-xl border border-accent/25 bg-accent-subtle p-4">
+        <section className="rounded-2xl border border-accent/15 bg-accent-subtle/70 p-4 shadow-sm">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-widest text-accent">Ôn tập thông minh</p>
-              <p className="mt-1 font-serif text-xl font-semibold">{dueCount > 0 ? `${dueCount} từ đến hạn` : 'Chưa có từ cần ôn'}</p>
-              <p className="mt-1 text-xs text-text-secondary">{dueCount > 0 ? 'Ôn đúng lúc giúp nhớ lâu gấp đôi.' : 'Đọc xong một bài, từ mới sẽ tự vào lịch ôn.'}</p>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-accent">Ôn tập thông minh</p>
+              <p className="mt-1 font-sans text-[15px] font-semibold text-text-primary">{dueCount > 0 ? `${dueCount} từ đến hạn` : 'Chưa có từ cần ôn'}</p>
+              <p className="mt-0.5 text-xs leading-relaxed text-text-secondary">{dueCount > 0 ? 'Ôn đúng lúc giúp nhớ lâu gấp đôi.' : 'Đọc xong một bài, từ mới sẽ tự vào lịch ôn.'}</p>
             </div>
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-bg-secondary text-accent"><Icon.Refresh className="h-[18px] w-[18px]" /></span>
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-bg-secondary text-accent shadow-xs"><Icon.Refresh className="h-4 w-4" /></span>
           </div>
-          <button onClick={() => onNavigate('review')} className="btn-primary mt-3 w-full">{dueCount > 0 ? 'Ôn ngay' : 'Xem sổ ôn tập'}</button>
+          <button onClick={() => onNavigate('review')} className="btn-soft mt-3 w-full">{dueCount > 0 ? 'Ôn ngay' : 'Xem sổ ôn tập'}</button>
         </section>
 
-        {pomodoro && <PomodoroCard pomodoro={pomodoro} />}
+        {pomodoro && <PomodoroCard pomodoro={pomodoro} collapsible />}
 
         <section className={panelClass}>
           <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2"><Icon.Flame className="h-[18px] w-[18px] text-error" /><h2 className="font-serif text-[17px] font-semibold">Chuỗi {progress.streak} ngày</h2></div>
-            <span className="text-[11px] font-semibold text-text-muted">7 ngày qua</span>
+            <div className="flex items-center gap-2"><Icon.Flame className="h-4 w-4 text-error" /><h2 className="font-serif text-[15px] font-semibold">7 ngày qua</h2></div>
+            <span className="text-[11px] font-medium text-text-muted">{progress.streak} ngày liên tiếp</span>
           </div>
-          <div className="mt-5 grid grid-cols-7 gap-2">
+          <div className="mt-3.5 grid grid-cols-7 gap-1.5">
             {lastSeven.map((day) => (
               <div key={day.key} className="text-center">
                 <span className="block text-[10px] font-medium uppercase text-text-muted">{day.label}</span>
-                <span title={day.key} className={`mx-auto mt-2 grid h-7 w-7 place-items-center rounded-full border ${day.active ? 'border-accent bg-accent text-white dark:text-[#14161A]' : day.today ? 'streak-today border-accent text-accent' : 'border-border text-text-muted'}`}>{day.active && <Icon.Check className="h-3.5 w-3.5" />}</span>
+                <span title={day.key} className={`mx-auto mt-1.5 grid h-7 w-7 place-items-center rounded-full border ${day.active ? 'border-accent bg-accent text-white dark:text-[#14161A]' : day.today ? 'streak-today border-accent text-accent' : 'border-border/70 text-text-muted'}`}>{day.active && <Icon.Check className="h-3.5 w-3.5" />}</span>
               </div>
             ))}
           </div>
         </section>
 
         <section className={panelClass}>
-          <div className="flex items-center gap-2"><Icon.Trophy className="h-[18px] w-[18px] text-warning" /><h2 className="font-serif text-[17px] font-semibold">Nhịp XP theo tuần</h2></div>
-          <div className="mt-4 space-y-3">
-            {weeks.map((week, index) => (
-              <div key={week.key} className="space-y-1.5">
-                <div className="flex items-baseline justify-between gap-2">
-                  <span className={`text-sm ${index === 0 ? 'font-semibold text-text-primary' : 'font-medium text-text-secondary'}`}>{week.label}</span>
-                  <span className="text-sm font-semibold tabular">{week.xp} XP</span>
-                </div>
-                <ProgressBar value={(week.xp / maxWeekXp) * 100} label={`XP ${week.label}`} className="h-1.5" />
-              </div>
-            ))}
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2"><Icon.Star className="h-4 w-4 text-warning" /><h2 className="font-serif text-[15px] font-semibold">Tuần này & Huy hiệu</h2></div>
+            <span className="font-sans text-xs font-semibold text-text-secondary tabular">{thisWeekXp} XP</span>
           </div>
-        </section>
-
-        <section className="rounded-xl border border-border bg-gradient-to-br from-warm-subtle to-accent-subtle p-5">
-          <div className="flex items-center gap-2"><Icon.Star className="h-[18px] w-[18px] text-warning" /><h2 className="font-serif text-[17px] font-semibold">Thành tựu sắp tới</h2></div>
-          <p className="mt-4 text-sm leading-6 text-text-secondary">Còn <strong>{Math.max(0, streakTarget - progress.streak)} ngày</strong> để đạt chuỗi {streakTarget} ngày liên tiếp.</p>
-          <ProgressBar value={streakPercent} className="mt-4" />
-          <div className="mt-2 flex justify-between text-xs font-medium text-text-muted"><span>{progress.streak}/{streakTarget} ngày</span><span>{progress.achievements.length} huy hiệu</span></div>
-          <button onClick={() => onNavigate('dashboard')} className="btn-secondary mt-4 w-full">Xem tất cả</button>
+          <p className="mt-2.5 text-xs leading-relaxed text-text-secondary">Còn <strong>{Math.max(0, streakTarget - progress.streak)} ngày</strong> để đạt chuỗi {streakTarget} ngày.</p>
+          <ProgressBar value={streakPercent} className="mt-2.5 h-1.5" />
+          <div className="mt-2 flex items-center justify-between text-[11px] font-medium text-text-muted">
+            <span className="tabular">{progress.streak}/{streakTarget} ngày · {progress.achievements.length} huy hiệu</span>
+            <button onClick={() => onNavigate('dashboard')} className="font-semibold text-accent hover:text-accent-hover">Chi tiết →</button>
+          </div>
         </section>
       </div>
     </aside>
@@ -624,7 +640,7 @@ function RightPanel({ progress, onNavigate, pomodoro }) {
 
 function PandaHeroMascot() {
   return (
-    <svg viewBox="0 0 210 190" className="h-[178px] w-[196px] drop-shadow-lg" role="img" aria-label="Trúc đang chào">
+    <svg viewBox="0 0 210 190" className="h-[144px] w-[158px] drop-shadow-md" role="img" aria-label="Trúc đang chào">
       <ellipse cx="107" cy="174" rx="68" ry="10" fill="var(--accent-2)" opacity=".14" />
       <circle cx="69" cy="50" r="25" fill="#252932" />
       <circle cx="143" cy="48" r="25" fill="#252932" />
@@ -646,7 +662,7 @@ function PandaHeroMascot() {
 }
 
 function HomeSectionHeader({ title, onAction }) {
-  return <div className="mb-3 flex items-center justify-between"><h2 className="font-serif text-[18px] font-semibold">{title}</h2><button onClick={onAction} className="flex items-center gap-1 text-sm font-semibold text-accent transition hover:text-accent-hover">Xem tất cả<Icon.ChevronRight className="h-4 w-4" /></button></div>;
+  return <div className="mb-3.5 flex items-center justify-between"><h2 className="font-serif text-[18px] font-semibold">{title}</h2><button onClick={onAction} className="flex items-center gap-1 text-sm font-medium text-accent transition hover:text-accent-hover">Xem tất cả<Icon.ChevronRight className="h-4 w-4" /></button></div>;
 }
 
 function HomeScreen({ progress, onOpenLesson, onNavigate }) {
@@ -678,53 +694,46 @@ function HomeScreen({ progress, onOpenLesson, onNavigate }) {
   ];
   const recentLessons = [...new Set([...unlocked.slice().reverse(), ...LESSONS])].slice(0, 5);
   return (
-    <div className="space-y-7">
-      <section className="relative min-h-[248px] overflow-hidden rounded-2xl border border-accent/20 bg-gradient-to-br from-accent-subtle via-bg-secondary to-accent-2-subtle p-6 sm:p-8">
-        <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-64 w-64 rounded-full bg-accent-2-subtle blur-2xl" />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 left-1/3 h-48 w-48 rounded-full bg-warm-subtle blur-3xl" />
-        <svg aria-hidden="true" viewBox="0 0 800 210" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 bottom-0 h-[72%] w-full opacity-60"><path d="M0 176 112 94l78 58 111-108 98 106 78-63 121 82 89-76 113 83v34H0Z" fill="var(--accent-2-subtle)"/><path d="M0 191 135 128l93 57 108-83 113 80 105-65 106 64 67-34 73 40v23H0Z" fill="var(--accent-subtle)"/><path d="M0 199c130-24 250-13 369-2 148 14 277-16 431-3v16H0Z" fill="var(--bg-secondary)"/></svg>
-        <div className="relative z-10 max-w-[560px]">
-          <p className="text-sm font-semibold text-accent">{greeting},</p>
-          <h1 className="mt-1 break-words font-serif text-[30px] font-bold leading-tight text-text-primary sm:text-[34px]">{progress.profile?.name ? <>{progress.profile.name} <span className="inline-block align-middle text-[24px]">👋</span></> : <>Hôm nay học gì? <span className="inline-block align-middle text-[24px]">👋</span></>}</h1>
-          <p className="mt-2 max-w-md text-[15px] leading-6 text-text-secondary">{heroSubtitle}</p>
-          <div className="mt-5 flex flex-wrap gap-2">
-            <button onClick={() => onOpenLesson(currentBai)} className="btn-primary flex w-full items-center justify-center gap-2 px-5 py-2.5 sm:w-auto">Tiếp tục học<Icon.ChevronRight /></button>
-            <button onClick={() => onNavigate('exam')} className="btn-secondary flex flex-1 items-center justify-center gap-2 bg-bg-secondary sm:flex-none"><Icon.Pen />Thi thử</button>
-            <button onClick={() => onNavigate('boss')} className="btn-secondary flex flex-1 items-center justify-center gap-2 bg-bg-secondary sm:flex-none"><Icon.Trophy />Boss</button>
-          </div>
-          <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold text-text-secondary">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-bg-secondary/85 px-2.5 py-1"><Icon.Flame className="h-3.5 w-3.5 text-error" /><span className="tabular">{progress.streak} ngày</span></span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-bg-secondary/85 px-2.5 py-1"><Icon.Target className="h-3.5 w-3.5 text-success" /><span className="tabular">{progress.todayCount || 0}/{progress.dailyGoal || 20} câu hôm nay</span></span>
-            <span className="hidden items-center gap-1.5 rounded-full border border-border bg-bg-secondary/85 px-2.5 py-1 sm:inline-flex"><Icon.Zap className="h-3.5 w-3.5 text-warning" /><span className="tabular">{progress.xp} XP</span></span>
+    <div className="space-y-8">
+      <section className="relative overflow-hidden rounded-2xl border border-accent/15 bg-gradient-to-br from-accent-subtle/85 via-bg-secondary to-accent-2-subtle/75 px-6 py-5 shadow-sm sm:px-8 sm:py-6">
+        <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-56 w-56 rounded-full bg-accent-2-subtle blur-2xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 left-1/3 h-44 w-44 rounded-full bg-warm-subtle blur-3xl" />
+        <svg aria-hidden="true" viewBox="0 0 800 210" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 bottom-0 h-[68%] w-full opacity-55"><path d="M0 176 112 94l78 58 111-108 98 106 78-63 121 82 89-76 113 83v34H0Z" fill="var(--accent-2-subtle)"/><path d="M0 191 135 128l93 57 108-83 113 80 105-65 106 64 67-34 73 40v23H0Z" fill="var(--accent-subtle)"/><path d="M0 199c130-24 250-13 369-2 148 14 277-16 431-3v16H0Z" fill="var(--bg-secondary)"/></svg>
+        <div className="relative z-10 max-w-[520px]">
+          <p className="text-xs font-semibold uppercase tracking-wider text-accent">{greeting},</p>
+          <h1 className="mt-1 break-words font-serif text-[28px] font-bold leading-tight text-text-primary sm:text-[32px]">{progress.profile?.name ? <>{progress.profile.name} <span className="inline-block align-middle text-[22px]">👋</span></> : <>Hôm nay học gì? <span className="inline-block align-middle text-[22px]">👋</span></>}</h1>
+          <p className="mt-1.5 max-w-md text-[14.5px] leading-6 text-text-secondary">{heroSubtitle}</p>
+          <div className="mt-4">
+            <button onClick={() => onOpenLesson(currentBai)} className="btn-primary inline-flex w-full items-center justify-center gap-2 px-5 py-2.5 sm:w-auto">Tiếp tục học<Icon.ChevronRight /></button>
           </div>
         </div>
-        <div className="absolute bottom-1 right-4 z-10 hidden md:block"><div className="animate-float"><PandaHeroMascot /></div></div>
+        <div className="absolute bottom-0 right-4 z-10 hidden md:block"><div className="animate-float"><PandaHeroMascot /></div></div>
       </section>
 
       <section>
         <HomeSectionHeader title="Tiếp tục học" onAction={() => onNavigate('learn')} />
-        <article className="grid items-center gap-4 rounded-xl border border-border bg-bg-secondary p-5 shadow-xs transition duration-200 hover:-translate-y-0.5 hover:shadow-sm sm:grid-cols-[60px_1fr_auto]">
-          <div className="grid h-[60px] w-[60px] place-items-center rounded-xl bg-accent-subtle font-serif text-2xl font-semibold text-accent">{String(currentBai).padStart(2, '0')}</div>
-          <div className="min-w-0"><p className="text-xs font-semibold uppercase tracking-[0.08em] text-text-muted">Bài {currentBai} · {completedQuestions}/{totalQuestions} câu</p><h3 className="mt-1 truncate font-hanzi text-[20px] font-semibold">{currentGlossary?.metadata?.title_zh || `Bài ${currentBai}`}</h3><p className="truncate text-sm text-text-muted">{currentGlossary?.metadata?.title_vi || 'Tiếp tục hành trình học tập'}</p><div className="mt-3 flex items-center gap-3"><ProgressBar value={completion} className="flex-1"/><span className="text-xs font-semibold text-text-secondary">{completion}%</span></div></div>
-          <button onClick={() => onOpenLesson(currentBai)} className="btn-primary flex items-center justify-center gap-2 px-5"><Icon.Play className="h-4 w-4"/>Bắt đầu</button>
+        <article className="grid items-center gap-4 rounded-2xl border border-border/60 bg-bg-secondary p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md sm:grid-cols-[56px_1fr_auto]">
+          <div className="grid h-14 w-14 place-items-center rounded-xl bg-accent-subtle font-sans text-xl font-bold text-accent tabular">{String(currentBai).padStart(2, '0')}</div>
+          <div className="min-w-0"><p className="text-xs font-semibold uppercase tracking-[0.08em] text-text-muted tabular">Bài {currentBai} · {completedQuestions}/{totalQuestions} câu</p><h3 className="mt-1 truncate font-hanzi text-[20px] font-semibold">{currentGlossary?.metadata?.title_zh || `Bài ${currentBai}`}</h3><p className="truncate text-sm text-text-muted">{currentGlossary?.metadata?.title_vi || 'Tiếp tục hành trình học tập'}</p><div className="mt-3 flex items-center gap-3"><ProgressBar value={completion} className="flex-1"/><span className="text-xs font-semibold text-text-secondary tabular">{completion}%</span></div></div>
+          <button onClick={() => onOpenLesson(currentBai)} className="btn-soft flex items-center justify-center gap-2 px-5 py-2.5"><Icon.Play className="h-4 w-4"/>Bắt đầu</button>
         </article>
       </section>
 
       <section>
         <HomeSectionHeader title="Kỹ năng" onAction={() => onNavigate('review')} />
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">{skillCards.map((skill, index) => <button key={`${skill.id}-${index}`} style={{animationDelay:`${index*50}ms`}} onClick={() => onNavigate(skill.id)} className="animate-card-reveal group rounded-xl border border-border bg-bg-secondary p-4 text-left shadow-xs transition duration-200 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-sm"><span className={`grid h-10 w-10 place-items-center rounded-full transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110 ${skill.tone}`}>{skill.icon}</span><span className="mt-3 block text-[15px] font-semibold">{skill.title}</span><span className="mt-0.5 flex items-center justify-between text-xs text-text-muted">{skill.caption}<Icon.ChevronRight className="h-4 w-4 transition group-hover:translate-x-0.5"/></span></button>)}</div>
+        <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">{skillCards.map((skill, index) => <button key={`${skill.id}-${index}`} style={{animationDelay:`${index*50}ms`}} onClick={() => onNavigate(skill.id)} className="animate-card-reveal group rounded-2xl border border-border/60 bg-bg-secondary p-4 text-left shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-md"><span className={`grid h-10 w-10 place-items-center rounded-full transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110 ${skill.tone}`}>{skill.icon}</span><span className="mt-3 block font-sans text-[15px] font-semibold">{skill.title}</span><span className="mt-0.5 flex items-center justify-between text-xs text-text-muted">{skill.caption}<Icon.ChevronRight className="h-4 w-4 transition group-hover:translate-x-0.5"/></span></button>)}</div>
       </section>
 
       <section>
         <HomeSectionHeader title="Bài học gần đây" onAction={() => onNavigate('learn')} />
-        <div className="space-y-2">{recentLessons.map((bai) => {
+        <div className="space-y-2.5">{recentLessons.map((bai) => {
           const isUnlocked = unlocked.includes(bai);
           const item = progress.baiProgress?.[bai] || {};
           const quizTotal = QUIZZES[bai]?.questions?.length || 30;
           const percent = item.completed ? 100 : Math.round(((item.quizDone || 0) / quizTotal) * 100);
           const accuracy = item.quizDone ? Math.round(((item.quizCorrect || 0) / item.quizDone) * 100) : 0;
           const metadata = GLOSSARY[bai]?.metadata || {};
-          return <button key={bai} disabled={!isUnlocked} onClick={() => isUnlocked && onOpenLesson(bai)} className={`grid w-full grid-cols-[48px_minmax(0,1fr)] items-center gap-3 rounded-xl border p-4 text-left transition duration-200 sm:grid-cols-[48px_minmax(0,1fr)_96px] sm:gap-4 ${isUnlocked ? 'border-border bg-bg-secondary hover:-translate-y-0.5 hover:border-accent hover:shadow-sm' : 'cursor-not-allowed border-border bg-bg-tertiary opacity-55'}`}><span className={`grid h-12 w-12 place-items-center rounded-lg font-serif text-lg font-semibold ${isUnlocked ? 'bg-accent-subtle text-accent' : 'bg-bg-secondary text-text-muted'}`}>{String(bai).padStart(2, '0')}</span><span className="min-w-0"><span className="flex flex-wrap items-center gap-2"><span className="text-sm font-semibold">Bài {bai}</span><span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${item.completed ? 'bg-success-subtle text-success' : isUnlocked ? 'bg-warning-subtle text-warning' : 'bg-bg-secondary text-text-muted'}`}>{item.completed ? 'Đã xong' : isUnlocked ? 'Đang học' : 'Đã khóa'}</span></span><span className="mt-0.5 block truncate font-hanzi text-[16px] font-medium">{metadata.title_zh || `Bài ${bai}`}</span><span className="block truncate text-xs text-text-muted">{metadata.title_vi || `${quizTotal} câu hỏi`}</span></span><span className="col-span-2 grid grid-cols-[auto_1fr_auto] items-center gap-3 text-right sm:col-span-1 sm:block sm:w-24"><span className="text-xs font-semibold text-text-secondary">{isUnlocked ? `${percent}%` : '—'}</span><ProgressBar value={percent} label={`Tiến độ bài ${bai}`} className="sm:mt-2"/>{isUnlocked && <span className="text-[10px] text-text-muted sm:mt-1 sm:block">{accuracy}% chính xác</span>}</span></button>;
+          return <button key={bai} disabled={!isUnlocked} onClick={() => isUnlocked && onOpenLesson(bai)} className={`grid w-full grid-cols-[48px_minmax(0,1fr)] items-center gap-3 rounded-2xl border p-4 text-left transition duration-200 sm:grid-cols-[48px_minmax(0,1fr)_96px] sm:gap-4 ${isUnlocked ? 'border-border/60 bg-bg-secondary shadow-sm hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-md' : 'cursor-not-allowed border-border/40 bg-bg-tertiary opacity-55'}`}><span className={`grid h-12 w-12 place-items-center rounded-xl font-sans text-base font-bold tabular ${isUnlocked ? 'bg-accent-subtle text-accent' : 'bg-bg-secondary text-text-muted'}`}>{String(bai).padStart(2, '0')}</span><span className="min-w-0"><span className="flex flex-wrap items-center gap-2"><span className="text-sm font-semibold">Bài {bai}</span><span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${item.completed ? 'bg-success-subtle text-success' : isUnlocked ? 'bg-warning-subtle text-warning' : 'bg-bg-secondary text-text-muted'}`}>{item.completed ? 'Đã xong' : isUnlocked ? 'Đang học' : 'Đã khóa'}</span></span><span className="mt-0.5 block truncate font-hanzi text-[16px] font-medium">{metadata.title_zh || `Bài ${bai}`}</span><span className="block truncate text-xs text-text-muted">{metadata.title_vi || `${quizTotal} câu hỏi`}</span></span><span className="col-span-2 grid grid-cols-[auto_1fr_auto] items-center gap-3 text-right sm:col-span-1 sm:block sm:w-24"><span className="text-xs font-semibold text-text-secondary tabular">{isUnlocked ? `${percent}%` : '—'}</span><ProgressBar value={percent} label={`Tiến độ bài ${bai}`} className="sm:mt-2"/>{isUnlocked && <span className="text-[10px] text-text-muted sm:mt-1 sm:block tabular">{accuracy}% chính xác</span>}</span></button>;
         })}</div>
       </section>
     </div>
@@ -736,7 +745,7 @@ function HomeScreen({ progress, onOpenLesson, onNavigate }) {
 function extractReadingLines(raw = '') { const lines = raw.replace(/\r/g, '').split('\n'); const start = Math.max(0, lines.findIndex((line) => line.includes('课文')) + 1); const end = lines.findIndex((line, index) => index > start && line.includes('生词')); return lines.slice(start, end > start ? end : lines.length).map((line) => line.replace(/\s+/g, ' ').trim()).filter((line) => line && /[\u3400-\u9fff]/.test(line) && !/^(=====|TRANG|[~+\-=]+)$/.test(line)); }
 
 function ReadingModeTab({ bai, onOpenEntry }) {
- const [showPinyin, setShowPinyin] = useState(true); const [showVi, setShowVi] = useState(true); const entries = GLOSSARY[bai].entries;
+ const [showPinyin, setShowPinyin] = useState(true); const [showVi, setShowVi] = useState(true); const entries = GLOSSARY[bai]?.entries || [];
  const examples = useMemo(() => getSentencesByBai(bai), [bai]);
  const lines = useMemo(() => extractReadingLines(LESSON_TEXTS[bai]).map((text, index) => { const match = examples.find((item) => normalizeText(text).includes(normalizeText(item.zh))); const words = entries.filter((entry) => entry.word_zh && text.includes(entry.word_zh)); return { id: `${bai}-${index}`, text, pinyin: match?.pinyin || words.map((entry) => `${entry.word_zh} ${entry.pinyin}`).join(' · '), vi: match?.vi || words.map((entry) => `${entry.word_zh}: ${entry.meaning_vi}`).join(' · ') }; }), [bai, entries, examples]);
  return <div><div className="mb-4 flex gap-2 border-b border-border bg-bg-primary py-3"><span className="filter-btn active">Hán</span><button onClick={() => setShowPinyin((value) => !value)} className={`filter-btn ${showPinyin ? 'active' : ''}`}>Pinyin</button><button onClick={() => setShowVi((value) => !value)} className={`filter-btn ${showVi ? 'active' : ''}`}>Tiếng Việt</button></div><div className="space-y-3">{lines.map((line) => <article key={line.id} className="card"><div className="flex items-start gap-3"><p className="font-hanzi flex-1 text-xl font-medium leading-9">{line.text}</p><SpeakButton text={line.text} /></div>{showPinyin && line.pinyin && <p className="pinyin-text mt-2 text-sm text-success">{line.pinyin}</p>}{showVi && line.vi && <p className="mt-1 text-sm text-accent-2">{line.vi}</p>}</article>)}</div>{!lines.length && <EmptyState icon="文" title="Chưa nhận diện được bài khóa" text="Nội dung OCR chưa có phần 课文 rõ ràng." />}</div>;
@@ -1495,9 +1504,9 @@ function ExamScreen({ onRecord, onOpenEntry }) {
 }
 
 function BossBattleScreen({ progress, onRecord, onWin }) {
- const eligibleBais = LESSONS.filter((bai) => progress.baiProgress[bai].completed);
- const poolBais = eligibleBais.length ? eligibleBais : [1];
- const [questions, setQuestions] = useState(() => shuffleArray(poolBais.flatMap((bai) => QUIZZES[bai].questions).filter((question) => ['apply', 'synthesize'].includes(question.level))).slice(0, 10));
+ const eligibleBais = LESSONS.filter((bai) => progress.baiProgress[bai]?.completed);
+ const poolBais = eligibleBais.length ? eligibleBais : LESSONS.slice(0, 1);
+ const [questions, setQuestions] = useState(() => shuffleArray(poolBais.flatMap((bai) => QUIZZES[bai]?.questions || []).filter((question) => ['apply', 'synthesize'].includes(question.level))).slice(0, 10));
  const [index, setIndex] = useState(0);
  const [bossHp, setBossHp] = useState(100);
  const [playerHp, setPlayerHp] = useState(100);
@@ -1521,7 +1530,7 @@ function BossBattleScreen({ progress, onRecord, onWin }) {
  setIndex((value) => (value + 1) % questions.length);
  setSelected(''); setInput(''); setResult(null);
  };
- const reset = () => { setQuestions(shuffleArray(poolBais.flatMap((bai) => QUIZZES[bai].questions).filter((item) => ['apply', 'synthesize'].includes(item.level))).slice(0, 10)); setIndex(0); setBossHp(100); setPlayerHp(100); setSelected(''); setInput(''); setResult(null); setStatus('active'); };
+ const reset = () => { setQuestions(shuffleArray(poolBais.flatMap((bai) => QUIZZES[bai]?.questions || []).filter((item) => ['apply', 'synthesize'].includes(item.level))).slice(0, 10)); setIndex(0); setBossHp(100); setPlayerHp(100); setSelected(''); setInput(''); setResult(null); setStatus('active'); };
 
  if (status !== 'active') return <div className="mx-auto max-w-lg text-center"><div className={`mx-auto grid h-24 w-24 place-items-center rounded-lg ${status === 'won' ? 'bg-warning-subtle text-warning' : 'bg-bg-tertiary text-text-muted'}`}>{status === 'won' ? <Icon.Trophy className="h-10 w-10"/> : <Icon.Refresh className="h-10 w-10"/>}</div><h1 className="mt-5 h1-text font-bold">{status === 'won' ? 'Chiến thắng!' : 'Thử lại nhé'}</h1><p className="mt-2 text-text-muted">{status === 'won' ? `Bạn nhận ${XP_REWARDS.boss} XP và một huy hiệu mới.` : 'Ôn lại câu sai rồi quay lại sẽ hiệu quả hơn.'}</p><button onClick={reset} className="btn-primary mt-6 w-full">Đấu lại</button></div>;
  if (!question) return <EmptyState icon="♛" title="Chưa có câu Boss" text="Hoàn thành thêm bài để mở câu hỏi tổng hợp." />;
@@ -1624,22 +1633,46 @@ function usePomodoro(onCompleteRef) {
  return { ...timer, duration, percent, minutes, seconds, toggle, reset, switchMode };
 }
 
-function PomodoroCard({ pomodoro, compact = false }) {
+function PomodoroCard({ pomodoro, compact = false, collapsible = false }) {
+ const [expanded, setExpanded] = useState(pomodoro.isRunning);
  const label = pomodoro.mode === 'work' ? 'Phiên học' : 'Giờ nghỉ';
+ const isOpen = !collapsible || expanded || pomodoro.isRunning;
+
+ if (collapsible && !isOpen) {
+  return (
+   <div className="flex items-center justify-between gap-2 rounded-2xl border border-border/60 bg-bg-primary/80 px-4 py-3 shadow-sm">
+    <button type="button" onClick={() => setExpanded(true)} className="flex min-w-0 items-center gap-2 text-left" aria-expanded={false} aria-label="Mở rộng đồng hồ phiên học">
+     <Icon.Clock className={`h-4 w-4 shrink-0 ${pomodoro.mode === 'work' ? 'text-accent-2' : 'text-success'}`} />
+     <span className="font-serif text-[15px] font-semibold">{label}</span>
+     <span className="font-sans text-sm font-semibold text-text-secondary tabular">{pomodoro.minutes}:{pomodoro.seconds}</span>
+    </button>
+    <div className="flex shrink-0 items-center gap-1.5">
+     <button type="button" onClick={pomodoro.toggle} className="btn-soft px-3 py-1.5 text-xs">Bắt đầu</button>
+     <button type="button" onClick={() => setExpanded(true)} className="grid h-7 w-7 place-items-center rounded-lg text-text-muted hover:bg-bg-tertiary" aria-label="Mở rộng"><Icon.ChevronRight className="h-3.5 w-3.5 rotate-90" /></button>
+    </div>
+   </div>
+  );
+ }
+
  return (
- <div className={compact ? 'rounded-xl border border-border bg-bg-secondary p-4 shadow-lg' : 'rounded-xl border border-border bg-bg-primary p-4'}>
+ <div className={compact ? 'rounded-2xl border border-border/60 bg-bg-secondary p-4 shadow-lg' : 'rounded-2xl border border-border/60 bg-bg-primary/80 p-4 shadow-sm'}>
   <div className="flex items-center justify-between gap-2">
    <div className="flex items-center gap-2">
-    <Icon.Clock className={`h-[18px] w-[18px] ${pomodoro.mode === 'work' ? 'text-accent-2' : 'text-success'}`} />
-    <h2 className="font-serif text-[17px] font-semibold">{label}</h2>
+    <Icon.Clock className={`h-4 w-4 ${pomodoro.mode === 'work' ? 'text-accent-2' : 'text-success'}`} />
+    <h2 className="font-serif text-[15px] font-semibold">{label}</h2>
    </div>
-   <button type="button" onClick={pomodoro.switchMode} className="rounded-full bg-bg-tertiary px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-text-muted hover:text-accent">{pomodoro.mode === 'work' ? '5 phút nghỉ' : '25 phút học'}</button>
+   <div className="flex items-center gap-1">
+    <button type="button" onClick={pomodoro.switchMode} className="rounded-full bg-bg-tertiary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-text-muted hover:text-accent">{pomodoro.mode === 'work' ? '5 phút nghỉ' : '25 phút học'}</button>
+    {collapsible && !pomodoro.isRunning && (
+     <button type="button" onClick={() => setExpanded(false)} className="grid h-6 w-6 place-items-center rounded-md text-text-muted hover:bg-bg-tertiary" aria-label="Thu gọn"><Icon.ChevronRight className="h-3.5 w-3.5 -rotate-90" /></button>
+    )}
+   </div>
   </div>
   <div className="mt-3 flex items-center justify-between gap-3">
-   <p className="font-serif text-[26px] font-semibold leading-none tabular">{pomodoro.minutes}:{pomodoro.seconds}</p>
-   <div className="flex gap-2">
-    <button type="button" onClick={pomodoro.toggle} className="btn-primary px-4">{pomodoro.isRunning ? 'Tạm dừng' : 'Bắt đầu'}</button>
-    <button type="button" onClick={pomodoro.reset} className="icon-action grid h-9 w-9 place-items-center rounded-md border border-border bg-bg-secondary text-text-muted" aria-label="Đặt lại Pomodoro" data-tooltip="Đặt lại"><Icon.Refresh className="h-4 w-4" /></button>
+   <p className="font-sans text-2xl font-bold leading-none tracking-tight tabular">{pomodoro.minutes}:{pomodoro.seconds}</p>
+   <div className="flex gap-1.5">
+    <button type="button" onClick={pomodoro.toggle} className="btn-soft px-3.5 py-1.5 text-xs">{pomodoro.isRunning ? 'Tạm dừng' : 'Bắt đầu'}</button>
+    <button type="button" onClick={pomodoro.reset} className="icon-action grid h-8 w-8 place-items-center rounded-md border border-border/70 bg-bg-secondary text-text-muted hover:bg-bg-tertiary" aria-label="Đặt lại Pomodoro" data-tooltip="Đặt lại"><Icon.Refresh className="h-3.5 w-3.5" /></button>
    </div>
   </div>
   <ProgressBar value={pomodoro.percent} label="Tiến độ Pomodoro" className="mt-3 h-1.5" />
@@ -1954,7 +1987,7 @@ function Dashboard({ progress, onImport, onThemeChange, onColorThemeChange, onCh
 
   {tab === 'achievements' && <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{ACHIEVEMENTS.map((badge) => { const unlocked=progress.achievements.includes(badge.id); const percent=Math.round(achievementProgress(badge.id)); const BadgeIcon=PROFILE_BADGE_ICONS[badge.id] || Icon.Star; return <article key={badge.id} className={`rounded-xl border p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-sm ${unlocked ? 'border-warning bg-warning-subtle' : 'border-border bg-bg-secondary'}`}><span className={`grid h-11 w-11 place-items-center rounded-xl ${unlocked ? 'bg-warning text-white' : 'bg-bg-tertiary text-text-muted'}`}><BadgeIcon/></span><h2 className="mt-4 text-[15px] font-semibold">{badge.title}</h2><p className="mt-1 min-h-10 text-sm text-text-muted">{badge.description}</p><ProgressBar value={percent} className="mt-4"/><div className="mt-2 flex justify-between text-xs font-semibold"><span className={unlocked ? 'text-success' : 'text-text-muted'}>{unlocked ? 'Đã đạt' : 'Chưa đạt'}</span><span className="text-text-muted">{percent}%</span></div></article>; })}</div>}
 
-  {tab === 'activity' && <div className="space-y-4"><section className="rounded-xl border border-border bg-bg-secondary p-5"><div className="flex items-center gap-2"><Icon.Chart className="text-accent"/><h2 className="font-serif text-lg font-semibold">XP trong 7 ngày</h2></div><div className="mt-5 flex h-44 items-end gap-3">{lastSeven.map((item) => { const ratio = Math.max(0.04, item.value / maxXp); return <div key={item.key} className="flex h-full flex-1 flex-col text-center"><span className="mb-2 text-xs font-semibold text-text-muted">{item.value}</span><div className="flex min-h-1 flex-1 items-end overflow-hidden rounded-t-lg"><div className="h-full w-full origin-bottom bg-accent transition-transform duration-300" style={{ transform: `scaleY(${ratio})` }}/></div><span className="mt-2 text-[11px] font-medium text-text-muted">{item.label}</span></div>; })}</div></section><div className="grid gap-4 md:grid-cols-2"><section className="rounded-xl border border-border bg-bg-secondary p-5"><StreakCalendar studyDays={progress.studyDays} streak={progress.streak}/></section><section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Tiến độ theo bài</h2><div className="mt-4 space-y-3">{LESSONS.slice(0,5).map((bai)=>{const data=progress.baiProgress[bai]; const value=data.quizDone?data.quizCorrect/data.quizDone*100:0; return <div key={bai} className="grid grid-cols-[42px_1fr_48px] items-center gap-2 text-xs"><strong>Bài {bai}</strong><ProgressBar value={value}/><span className="text-right text-text-muted">{data.quizCorrect}/{data.quizDone}</span></div>;})}</div></section></div></div>}
+  {tab === 'activity' && <div className="space-y-4"><CloudAnalyticsCard cloud={cloud} /><section className="rounded-xl border border-border bg-bg-secondary p-5"><div className="flex items-center gap-2"><Icon.Chart className="text-accent"/><h2 className="font-serif text-lg font-semibold">XP trong 7 ngày</h2></div><div className="mt-5 flex h-44 items-end gap-3">{lastSeven.map((item) => { const ratio = Math.max(0.04, item.value / maxXp); return <div key={item.key} className="flex h-full flex-1 flex-col text-center"><span className="mb-2 text-xs font-semibold text-text-muted">{item.value}</span><div className="flex min-h-1 flex-1 items-end overflow-hidden rounded-t-lg"><div className="h-full w-full origin-bottom bg-accent transition-transform duration-300" style={{ transform: `scaleY(${ratio})` }}/></div><span className="mt-2 text-[11px] font-medium text-text-muted">{item.label}</span></div>; })}</div></section><div className="grid gap-4 md:grid-cols-2"><section className="rounded-xl border border-border bg-bg-secondary p-5"><StreakCalendar studyDays={progress.studyDays} streak={progress.streak}/></section><section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Tiến độ theo bài</h2><div className="mt-4 space-y-3">{LESSONS.slice(0,5).map((bai)=>{const data=progress.baiProgress[bai] || { quizDone: 0, quizCorrect: 0 }; const value=data.quizDone?data.quizCorrect/data.quizDone*100:0; return <div key={bai} className="grid grid-cols-[42px_1fr_48px] items-center gap-2 text-xs"><strong>Bài {bai}</strong><ProgressBar value={value}/><span className="text-right text-text-muted">{data.quizCorrect}/{data.quizDone}</span></div>;})}</div></section></div></div>}
 
   {tab === 'settings' && <div className="space-y-4"><section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Mục tiêu mỗi ngày</h2><p className="mt-1 text-sm text-text-muted">Điều chỉnh số câu muốn hoàn thành trong ngày.</p><div className="mt-4 grid grid-cols-4 gap-2">{[10,20,30,50].map((goal)=><button key={goal} onClick={()=>onChangeGoal(goal)} className={`rounded-xl border px-3 py-2 text-sm font-semibold ${progress.dailyGoal===goal?'border-accent bg-accent-subtle text-accent':'border-border hover:bg-bg-tertiary'}`}>{goal}</button>)}</div></section><section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Giao diện sáng / tối</h2><p className="mb-4 mt-1 text-sm text-text-muted">Chế độ tự động dùng giao diện sáng từ 06:00 đến 18:00.</p><div className="grid grid-cols-3 gap-2">{[['light','Sáng'],['dark','Tối'],['auto','Tự động']].map(([id,label])=><button key={id} onClick={()=>onThemeChange(id)} className={`rounded-xl border px-3 py-2 text-sm font-semibold ${progress.themeMode===id?'border-accent bg-accent-subtle text-accent':'border-border'}`}>{label}</button>)}</div></section><section className="rounded-xl border border-border bg-bg-secondary p-5"><h2 className="font-serif text-lg font-semibold">Theme màu sắc</h2><div className="mt-4 grid grid-cols-3 gap-2">{Object.entries(THEMES).map(([id,theme])=><button key={id} onClick={()=>onColorThemeChange(id)} className={`rounded-xl border px-3 py-2 text-sm font-semibold ${progress.colorTheme===id?'border-accent bg-accent-subtle text-accent':'border-border'}`}>{theme.name}</button>)}</div></section><BackgroundSettings settings={progress.settings} updateSettings={updateSettings} customBackground={customBackground} onCustomBackgroundChange={onCustomBackgroundChange} effectiveTheme={effectiveTheme}/><SoundToggle/><section className="rounded-xl border border-border bg-bg-secondary p-5"><div className="flex items-center gap-2"><Icon.Clock className="text-accent"/><h2 className="font-serif text-lg font-semibold">Pomodoro hôm nay</h2></div><p className="mt-3 font-serif text-2xl font-semibold text-error">{progress.pomodoroSessions} phiên</p><p className="mt-1 text-sm text-text-muted">Mỗi phiên tập trung kéo dài 25 phút.</p></section><ImportExportPanel progress={progress} onImport={onImport}/></div>}
  </div>;
@@ -1981,7 +2014,8 @@ function MatchingGame({ onComplete }) {
  }, [isPlaying, matched.length, pairs.length, startTime]);
 
  const start = () => {
- const entries = GLOSSARY[bai].entries.filter(e => e.type === 'word' || e.type === 'phrase');
+ const entries = (GLOSSARY[bai]?.entries || []).filter(e => e.type === 'word' || e.type === 'phrase');
+ if (!entries.length) return;
  const selectedPairs = shuffleArray(entries).slice(0, 8).map(e => ({
  id: e.id,
  zh: e.word_zh || e.phrase_zh,
@@ -2134,10 +2168,11 @@ function PronunciationScreen({ onAttempt }) {
  const [listening, setListening] = useState(false);
  const [feedback, setFeedback] = useState(null);
  const recognitionRef = useRef(null);
- const entries = GLOSSARY[bai].entries.filter((entry) => entry.type === 'word' && entry.word_zh);
- const entry = entries[index % entries.length];
+ const entries = (GLOSSARY[bai]?.entries || []).filter((entry) => entry.type === 'word' && entry.word_zh);
+ const entry = entries.length ? entries[index % entries.length] : null;
  const supported = typeof window !== 'undefined' && Boolean(window.SpeechRecognition || window.webkitSpeechRecognition);
  useEffect(() => () => recognitionRef.current?.abort(), []);
+ if (!entry) return <EmptyState icon="🎤" title="Chưa có từ vựng để luyện phát âm" text="Hãy chọn bài khác hoặc thêm từ vựng vào khóa học này." />;
  const record = () => {
  if (!supported || listening) return;
  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -2181,7 +2216,7 @@ function SentenceMiningScreen({ bookmarks, notes, onCharacter, onStartPlaylist }
  const [showPinyin, setShowPinyin] = useState(true);
  const [showVi, setShowVi] = useState(true);
  const [filter, setFilter] = useState('all');
- const entries = GLOSSARY[bai].entries;
+ const entries = GLOSSARY[bai]?.entries || [];
  const sentences = getSentencesByBai(bai).filter((sentence) => filter === 'all' || (filter === 'bookmarks' ? bookmarks.includes(sentence.source) : Boolean(notes[sentence.source])));
  const playlist = sentences.map((sentence) => ({ text: sentence.zh, label: sentence.zh, sublabel: sentence.vi }));
  return (
@@ -2987,7 +3022,7 @@ export default function App() {
  {screen !== 'quiz' && <Sidebar screen={screen} progress={progress} onNavigate={navigate} mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} cloud={cloud} onOpenAuth={openAuth} />}
  <Header progress={progress} themeMode={progress.themeMode} onThemeChange={changeTheme} onSearch={() => setSearchOpen(true)} onNavigate={navigate} onMenu={() => setSidebarOpen(true)} onShortcuts={() => setShortcutsOpen(true)} hidden={headerHidden} focused={screen === 'quiz'} cloud={cloud} onOpenAuth={openAuth} />
  {screen !== 'quiz' && <RightPanel progress={progress} onNavigate={navigate} pomodoro={pomodoro} />}
- <div className={`relative z-10 ${screen === 'quiz' ? '' : 'lg:pl-[240px] xl:pr-[320px]'}`}>
+ <div className={`relative z-10 ${screen === 'quiz' ? '' : 'lg:pl-[240px] xl:pr-[340px]'}`}>
  {processingJobs.length > 0 && <div className="mx-auto max-w-[864px] px-4 pt-3 lg:px-8"><div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-accent/30 bg-accent-subtle px-3 py-2 text-sm"><span className="font-semibold">{processingJobs.map((job) => `${job.courseName}: ${job.state === 'paused' ? 'tạm dừng' : 'đang xử lý'} ${job.current}/${job.total}`).join(' · ')}</span><button className="font-semibold text-accent" onClick={() => { setTargetCourseId(processingJobs[0].courseId); setScreen('process-document'); }}>Xem tiến độ</button></div></div>}
  <main id="main-content" tabIndex={-1} key={screen} className={`mx-auto min-w-0 animate-fade-slide px-4 pb-24 pt-6 lg:px-8 lg:pb-10 ${screen === 'quiz' ? 'max-w-[720px]' : 'max-w-[864px]'}`}><Suspense fallback={<div aria-label="Đang tải màn hình" className="space-y-3"><div className="h-24 animate-pulse rounded-md bg-bg-tertiary" /><div className="h-48 animate-pulse rounded-md bg-bg-tertiary" /></div>}>{content}</Suspense></main>
  </div>

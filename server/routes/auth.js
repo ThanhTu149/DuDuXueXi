@@ -84,7 +84,7 @@ function createSessionForUser(db, config, req, res, userId) {
   const expiresAt = new Date(now.getTime() + config.sessionTtlDays * 86400 * 1000).toISOString();
   const sessionId = `sess-${randomUUID()}`;
   const ua = String(req.headers['user-agent'] || '').slice(0, 200);
-  const ip = getClientIp(req);
+  const ip = getClientIp(req, { trustProxy: config.trustProxy });
 
   db.prepare(`
     INSERT INTO sessions (id, user_id, token_hash, user_agent, ip, expires_at, created_at, last_seen_at)
@@ -115,7 +115,7 @@ function clearSessionCookie(config, res) {
   }));
 }
 
-export function registerAuthRoutes(router, { db, config, authLimiter }) {
+export function registerAuthRoutes(router, { db, config, authLimiter, onLeaderboardInvalidated = () => {} }) {
   // Luôn trả 200 OK để trình duyệt không log lỗi 401 đỏ ở Console khi người dùng chưa đăng nhập
   router.get('/api/auth/me', async (req, res, ctx) => {
     const user = ctx.auth?.user || null;
@@ -140,7 +140,7 @@ export function registerAuthRoutes(router, { db, config, authLimiter }) {
   });
 
   router.post('/api/auth/register', async (req, res) => {
-    authLimiter.check(`register:${getClientIp(req)}`, res);
+    authLimiter.check(`register:${getClientIp(req, { trustProxy: config.trustProxy })}`, res);
     const body = await readJsonBody(req);
     const username = String(body.username || '').trim();
     const email = String(body.email || '').trim();
@@ -212,7 +212,8 @@ export function registerAuthRoutes(router, { db, config, authLimiter }) {
   });
 
   router.post('/api/auth/login', async (req, res) => {
-    authLimiter.check(`login:${getClientIp(req)}`, res);
+    const ip = getClientIp(req, { trustProxy: config.trustProxy });
+    authLimiter.check(`login:ip:${ip}`, res);
     const body = await readJsonBody(req);
     const identifier = String(body.identifier || body.username || body.email || '').trim().toLowerCase();
     const password = String(body.password || '');
@@ -220,6 +221,8 @@ export function registerAuthRoutes(router, { db, config, authLimiter }) {
     if (!identifier || !password) {
       throw new ApiError(400, 'missing_credentials', 'Vui lòng nhập tên đăng nhập (hoặc email) và mật khẩu.');
     }
+    // Giới hạn thêm theo tài khoản mục tiêu để chống brute-force phân tán từ nhiều IP
+    authLimiter.check(`login:acct:${identifier.slice(0, 80)}`, res);
 
     const row = db.prepare(`
       SELECT * FROM users
@@ -269,6 +272,7 @@ export function registerAuthRoutes(router, { db, config, authLimiter }) {
     `).run(displayName, headline || 'Học viên Hán ngữ', bio, showOnLeaderboard, now, user.id);
 
     const updated = db.prepare('SELECT * FROM users WHERE id = ?').get(user.id);
+    onLeaderboardInvalidated();
     sendJson(res, 200, { ok: true, user: serializeUser(updated) });
   });
 
@@ -330,5 +334,57 @@ export function registerAuthRoutes(router, { db, config, authLimiter }) {
     }
     if (targetId === ctx.auth.sessionId) clearSessionCookie(config, res);
     sendJson(res, 200, { ok: true });
+  });
+
+  // Xuất toàn bộ dữ liệu tài khoản (không bao gồm mật khẩu hay API key)
+  router.get('/api/auth/export', async (req, res, ctx) => {
+    const user = requireAuth(ctx);
+    const courses = db.prepare(`
+      SELECT id, name, description, type, status, metadata_json, chapters_json, is_public, share_code, tags_json, created_at, updated_at
+      FROM courses WHERE owner_id = ?
+    `).all(user.id).map((r) => ({
+      id: r.id,
+      name: r.name,
+      description: r.description,
+      type: r.type,
+      status: r.status,
+      metadata: JSON.parse(r.metadata_json || '{}'),
+      chapters: JSON.parse(r.chapters_json || '[]'),
+      isPublic: Boolean(r.is_public),
+      shareCode: r.share_code || null,
+      tags: JSON.parse(r.tags_json || '[]'),
+      createdAt: r.created_at,
+      updatedAt: r.updated_at,
+    }));
+    const progress = db.prepare('SELECT course_id, progress_json, updated_at FROM user_progress WHERE user_id = ?').all(user.id)
+      .map((r) => ({ courseId: r.course_id, updatedAt: r.updated_at, data: JSON.parse(r.progress_json || '{}') }));
+    const tutorMessages = db.prepare('SELECT id, course_id, role, content, created_at FROM tutor_messages WHERE user_id = ? ORDER BY created_at ASC').all(user.id);
+
+    sendJson(res, 200, {
+      ok: true,
+      exportedAt: new Date().toISOString(),
+      format: 'dudu-account-export',
+      version: '2.0',
+      user,
+      courses,
+      progress,
+      tutorMessages,
+    });
+  });
+
+  // Xoá vĩnh viễn tài khoản và toàn bộ dữ liệu liên quan (cần xác nhận mật khẩu)
+  router.delete('/api/auth/account', async (req, res, ctx) => {
+    const user = requireAuth(ctx);
+    authLimiter.check(`delete-account:${user.id}`, res);
+    const body = await readJsonBody(req);
+    const password = String(body.password || '');
+    const row = db.prepare('SELECT password_hash, password_salt FROM users WHERE id = ?').get(user.id);
+    if (!verifyPassword(password, row?.password_hash, row?.password_salt)) {
+      throw new ApiError(400, 'wrong_password', 'Mật khẩu xác nhận chưa chính xác.');
+    }
+    db.prepare('DELETE FROM users WHERE id = ?').run(user.id);
+    clearSessionCookie(config, res);
+    onLeaderboardInvalidated();
+    sendJson(res, 200, { ok: true, deleted: true, message: 'Tài khoản và toàn bộ dữ liệu đám mây đã được xoá vĩnh viễn.' });
   });
 }

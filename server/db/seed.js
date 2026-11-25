@@ -488,15 +488,18 @@ export function seedOfficialCommunityCourses(db) {
   const insertCourse = db.prepare(`
     INSERT OR IGNORE INTO courses (
       id, owner_id, name, description, type, status, raw_document_id,
-      metadata_json, chapters_json, is_public, share_code, tags_json, clone_count, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, 'community', 'ready', NULL, ?, ?, 1, ?, ?, 0, ?, ?)
+      metadata_json, chapters_json, chapter_count, total_entries, total_questions,
+      is_public, share_code, tags_json, clone_count, created_at, updated_at
+    ) VALUES (?, ?, ?, ?, 'community', 'ready', NULL, ?, ?, ?, ?, ?, 1, ?, ?, 0, ?, ?)
   `);
 
   for (const course of OFFICIAL_COURSES) {
+    const totalEntries = course.chapters.reduce((sum, ch) => sum + (ch.glossary?.entries?.length || 0), 0);
+    const totalQuestions = course.chapters.reduce((sum, ch) => sum + (ch.quiz?.questions?.length || 0), 0);
     const metadata = {
       totalBai: course.chapters.length,
-      totalEntries: course.chapters.reduce((sum, ch) => sum + (ch.glossary?.entries?.length || 0), 0),
-      totalQuestions: course.chapters.reduce((sum, ch) => sum + (ch.quiz?.questions?.length || 0), 0),
+      totalEntries,
+      totalQuestions,
       language: 'zh-VI',
       official: true,
     };
@@ -507,6 +510,9 @@ export function seedOfficialCommunityCourses(db) {
       course.description,
       JSON.stringify(metadata),
       JSON.stringify(course.chapters),
+      course.chapters.length,
+      totalEntries,
+      totalQuestions,
       course.shareCode,
       JSON.stringify(course.tags),
       now,

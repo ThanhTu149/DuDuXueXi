@@ -1,16 +1,23 @@
 import { randomUUID } from 'node:crypto';
 import { generateShareCode } from '../lib/crypto.js';
-import { ApiError, readJsonBody, safeJsonParse, sanitizeDeep, sendJson } from '../lib/http.js';
+import { ApiError, getClientIp, readJsonBody, safeJsonParse, sanitizeDeep, sendJson } from '../lib/http.js';
 import { requireAuth } from './auth.js';
 
 const BUILT_IN_COURSE_ID = 'hanngu-tap2';
 
+const COURSE_SUMMARY_COLUMNS = `
+  c.id, c.owner_id, c.name, c.description, c.type, c.status, c.raw_document_id,
+  c.metadata_json, c.chapter_count, c.total_entries, c.total_questions,
+  c.is_public, c.share_code, c.tags_json, c.clone_count, c.created_at, c.updated_at,
+  u.display_name AS author_name, u.username AS author_username
+`;
+
 function summarizeCourse(row) {
   const metadata = safeJsonParse(row.metadata_json, {}) || {};
-  const chapters = safeJsonParse(row.chapters_json, []) || [];
   const tags = safeJsonParse(row.tags_json, []) || [];
-  const totalEntries = metadata.totalEntries ?? chapters.reduce((s, ch) => s + (ch?.glossary?.entries?.length || 0), 0);
-  const totalQuestions = metadata.totalQuestions ?? chapters.reduce((s, ch) => s + (ch?.quiz?.questions?.length || 0), 0);
+  const chapterCount = Number(row.chapter_count ?? metadata.totalBai ?? 0);
+  const totalEntries = Number(row.total_entries ?? metadata.totalEntries ?? 0);
+  const totalQuestions = Number(row.total_questions ?? metadata.totalQuestions ?? 0);
   return {
     id: row.id,
     ownerId: row.owner_id,
@@ -21,10 +28,10 @@ function summarizeCourse(row) {
     type: row.type,
     status: row.status,
     rawDocumentId: row.raw_document_id || null,
-    chapterCount: chapters.length,
+    chapterCount,
     totalEntries,
     totalQuestions,
-    metadata: { ...metadata, totalBai: chapters.length, totalEntries, totalQuestions },
+    metadata: { ...metadata, totalBai: chapterCount, totalEntries, totalQuestions },
     isPublic: Boolean(row.is_public),
     shareCode: row.share_code || null,
     tags,
@@ -66,22 +73,25 @@ function validateCoursePayload(body, courseId) {
   const baseMeta = body.metadata && typeof body.metadata === 'object' && !Array.isArray(body.metadata)
     ? sanitizeDeep(body.metadata)
     : {};
+  const chapterCount = chapters.length;
+  const totalEntries = chapters.reduce((s, ch) => s + (ch?.glossary?.entries?.length || 0), 0);
+  const totalQuestions = chapters.reduce((s, ch) => s + (ch?.quiz?.questions?.length || 0), 0);
   const metadata = {
     ...baseMeta,
-    totalBai: chapters.length,
-    totalEntries: chapters.reduce((s, ch) => s + (ch?.glossary?.entries?.length || 0), 0),
-    totalQuestions: chapters.reduce((s, ch) => s + (ch?.quiz?.questions?.length || 0), 0),
+    totalBai: chapterCount,
+    totalEntries,
+    totalQuestions,
   };
 
-  return { name, description, type, status, rawDocumentId, metadata, chapters, tags };
+  return { name, description, type, status, rawDocumentId, metadata, chapters, chapterCount, totalEntries, totalQuestions, tags };
 }
 
-export function registerCourseRoutes(router, { db }) {
-  // Danh sách khóa học cá nhân của người dùng
+export function registerCourseRoutes(router, { db, config, cloneLimiter }) {
+  // Danh sách khóa học cá nhân (KHÔNG SELECT chapters_json để tiết kiệm RAM/CPU)
   router.get('/api/courses', async (req, res, ctx) => {
     const user = requireAuth(ctx);
     const rows = db.prepare(`
-      SELECT c.*, u.display_name AS author_name, u.username AS author_username
+      SELECT ${COURSE_SUMMARY_COLUMNS}
       FROM courses c
       JOIN users u ON u.id = c.owner_id
       WHERE c.owner_id = ?
@@ -93,7 +103,7 @@ export function registerCourseRoutes(router, { db }) {
   // Đọc chi tiết 1 khóa học (chủ sở hữu hoặc khóa công khai)
   router.get('/api/courses/:id', async (req, res, ctx) => {
     const row = db.prepare(`
-      SELECT c.*, u.display_name AS author_name, u.username AS author_username
+      SELECT ${COURSE_SUMMARY_COLUMNS}, c.chapters_json
       FROM courses c
       JOIN users u ON u.id = c.owner_id
       WHERE c.id = ?
@@ -107,16 +117,22 @@ export function registerCourseRoutes(router, { db }) {
     sendJson(res, 200, { ok: true, course: fullCourse(row) });
   });
 
-  // Tạo mới hoặc cập nhật khóa học của chính người dùng
+  // Tạo mới hoặc cập nhật khóa học của chính người dùng (có kiểm tra quota)
   router.put('/api/courses/:id', async (req, res, ctx) => {
     const user = requireAuth(ctx);
     const courseId = String(ctx.params.id || '').trim();
     const body = await readJsonBody(req, { maxBytes: 20 * 1024 * 1024 });
     const data = validateCoursePayload(body, courseId);
 
-    const existing = db.prepare('SELECT * FROM courses WHERE id = ?').get(courseId);
+    const existing = db.prepare('SELECT id, owner_id, tags_json FROM courses WHERE id = ?').get(courseId);
     if (existing && existing.owner_id !== user.id) {
       throw new ApiError(403, 'forbidden', 'Không thể chỉnh sửa khóa học thuộc người dùng khác.');
+    }
+    if (!existing) {
+      const countRow = db.prepare('SELECT COUNT(*) AS count FROM courses WHERE owner_id = ?').get(user.id);
+      if (Number(countRow?.count || 0) >= config.maxCoursesPerUser) {
+        throw new ApiError(400, 'course_limit_reached', `Tài khoản đã đạt giới hạn tối đa ${config.maxCoursesPerUser} khóa học tùy chỉnh. Hãy xoá bớt khóa cũ trước khi tạo thêm.`);
+      }
     }
 
     const now = new Date().toISOString();
@@ -125,7 +141,8 @@ export function registerCourseRoutes(router, { db }) {
       db.prepare(`
         UPDATE courses
         SET name = ?, description = ?, type = ?, status = ?, raw_document_id = ?,
-            metadata_json = ?, chapters_json = ?, tags_json = ?, updated_at = ?
+            metadata_json = ?, chapters_json = ?, chapter_count = ?, total_entries = ?, total_questions = ?,
+            tags_json = ?, updated_at = ?
         WHERE id = ? AND owner_id = ?
       `).run(
         data.name,
@@ -135,6 +152,9 @@ export function registerCourseRoutes(router, { db }) {
         data.rawDocumentId,
         JSON.stringify(data.metadata),
         JSON.stringify(data.chapters),
+        data.chapterCount,
+        data.totalEntries,
+        data.totalQuestions,
         JSON.stringify(nextTags),
         now,
         courseId,
@@ -144,8 +164,9 @@ export function registerCourseRoutes(router, { db }) {
       db.prepare(`
         INSERT INTO courses (
           id, owner_id, name, description, type, status, raw_document_id,
-          metadata_json, chapters_json, is_public, share_code, tags_json, clone_count, created_at, updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, NULL, ?, 0, ?, ?)
+          metadata_json, chapters_json, chapter_count, total_entries, total_questions,
+          is_public, share_code, tags_json, clone_count, created_at, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, NULL, ?, 0, ?, ?)
       `).run(
         courseId,
         user.id,
@@ -156,6 +177,9 @@ export function registerCourseRoutes(router, { db }) {
         data.rawDocumentId,
         JSON.stringify(data.metadata),
         JSON.stringify(data.chapters),
+        data.chapterCount,
+        data.totalEntries,
+        data.totalQuestions,
         JSON.stringify(data.tags),
         now,
         now,
@@ -163,14 +187,14 @@ export function registerCourseRoutes(router, { db }) {
     }
 
     const saved = db.prepare(`
-      SELECT c.*, u.display_name AS author_name, u.username AS author_username
+      SELECT ${COURSE_SUMMARY_COLUMNS}, c.chapters_json
       FROM courses c JOIN users u ON u.id = c.owner_id
       WHERE c.id = ?
     `).get(courseId);
     sendJson(res, existing ? 200 : 201, { ok: true, course: fullCourse(saved) });
   });
 
-  // Xóa khóa học của người dùng (cascade raw_documents + xóa tiến độ khóa đó)
+  // Xóa khóa học của người dùng
   router.delete('/api/courses/:id', async (req, res, ctx) => {
     const user = requireAuth(ctx);
     const courseId = String(ctx.params.id || '').trim();
@@ -187,7 +211,7 @@ export function registerCourseRoutes(router, { db }) {
     sendJson(res, 200, { ok: true, deleted: true, id: courseId });
   });
 
-  // Đồng bộ tài liệu gốc + checkpoint xử lý AI của khóa học
+  // Đồng bộ tài liệu gốc + checkpoint AI
   router.get('/api/courses/:id/raw-document', async (req, res, ctx) => {
     const user = requireAuth(ctx);
     const row = db.prepare(`
@@ -246,14 +270,13 @@ export function registerCourseRoutes(router, { db }) {
   router.post('/api/courses/:id/publish', async (req, res, ctx) => {
     const user = requireAuth(ctx);
     const courseId = String(ctx.params.id || '').trim();
-    const row = db.prepare('SELECT * FROM courses WHERE id = ?').get(courseId);
+    const row = db.prepare('SELECT id, owner_id, description, chapter_count, share_code, tags_json FROM courses WHERE id = ?').get(courseId);
     if (!row) throw new ApiError(404, 'not_found', 'Không tìm thấy khóa học.');
     if (row.owner_id !== user.id) throw new ApiError(403, 'forbidden', 'Bạn chỉ có thể chia sẻ khóa học của mình.');
 
     const body = await readJsonBody(req);
     const isPublic = body.isPublic !== false;
-    const chapters = safeJsonParse(row.chapters_json, []) || [];
-    if (isPublic && !chapters.length) {
+    if (isPublic && Number(row.chapter_count || 0) < 1) {
       throw new ApiError(400, 'empty_course', 'Khóa học cần có ít nhất 1 bài học trước khi chia sẻ lên cộng đồng.');
     }
 
@@ -273,27 +296,29 @@ export function registerCourseRoutes(router, { db }) {
     `).run(isPublic ? 1 : 0, description, JSON.stringify(tags), shareCode, now, courseId, user.id);
 
     const updated = db.prepare(`
-      SELECT c.*, u.display_name AS author_name, u.username AS author_username
+      SELECT ${COURSE_SUMMARY_COLUMNS}
       FROM courses c JOIN users u ON u.id = c.owner_id
       WHERE c.id = ?
     `).get(courseId);
     sendJson(res, 200, { ok: true, course: summarizeCourse(updated) });
   });
 
-  // Kho khóa học cộng đồng (ai cũng có thể duyệt và tìm kiếm)
+  // Kho khóa học cộng đồng (KHÔNG SELECT chapters_json + hỗ trợ phân trang)
   router.get('/api/community/courses', async (req, res, ctx) => {
     const q = String(ctx.query.get('q') || '').trim().toLowerCase();
     const tag = String(ctx.query.get('tag') || '').trim().toLowerCase();
     const sort = ctx.query.get('sort') === 'newest' ? 'newest' : 'popular';
+    const limit = Math.min(50, Math.max(1, Number(ctx.query.get('limit') || 30)));
+    const offset = Math.max(0, Number(ctx.query.get('offset') || 0));
     const orderBy = sort === 'newest' ? 'c.updated_at DESC' : 'c.clone_count DESC, c.updated_at DESC';
 
     const rows = db.prepare(`
-      SELECT c.*, u.display_name AS author_name, u.username AS author_username
+      SELECT ${COURSE_SUMMARY_COLUMNS}
       FROM courses c
       JOIN users u ON u.id = c.owner_id
       WHERE c.is_public = 1
       ORDER BY ${orderBy}
-      LIMIT 100
+      LIMIT 200
     `).all();
 
     let items = rows.map(summarizeCourse);
@@ -310,15 +335,17 @@ export function registerCourseRoutes(router, { db }) {
       items = items.filter((item) => item.tags.some((t) => t.toLowerCase() === tag));
     }
 
+    const total = items.length;
+    const paged = items.slice(offset, offset + limit);
     const allTags = [...new Set(rows.flatMap((r) => safeJsonParse(r.tags_json, []) || []))].slice(0, 20);
-    sendJson(res, 200, { ok: true, courses: items, tags: allTags });
+    sendJson(res, 200, { ok: true, total, limit, offset, courses: paged, tags: allTags });
   });
 
   // Xem trước khóa học cộng đồng
   router.get('/api/community/courses/:id', async (req, res, ctx) => {
     const key = String(ctx.params.id || '').trim();
     const row = db.prepare(`
-      SELECT c.*, u.display_name AS author_name, u.username AS author_username
+      SELECT ${COURSE_SUMMARY_COLUMNS}, c.chapters_json
       FROM courses c
       JOIN users u ON u.id = c.owner_id
       WHERE (c.id = ? OR UPPER(c.share_code) = UPPER(?)) AND c.is_public = 1
@@ -327,20 +354,32 @@ export function registerCourseRoutes(router, { db }) {
     sendJson(res, 200, { ok: true, course: fullCourse(row) });
   });
 
-  // Nhân bản (clone) khóa học từ cộng đồng về thư viện của người học
+  // Nhân bản (clone) khóa học từ cộng đồng (có rate limit chống bơm ảo clone_count)
   router.post('/api/community/courses/:id/clone', async (req, res, ctx) => {
+    const limiterKey = ctx.auth?.user?.id || getClientIp(req, { trustProxy: config.trustProxy });
+    cloneLimiter?.check(`clone:${limiterKey}`, res);
+
     const key = String(ctx.params.id || '').trim();
     const source = db.prepare(`
-      SELECT c.*, u.display_name AS author_name, u.username AS author_username
+      SELECT ${COURSE_SUMMARY_COLUMNS}, c.chapters_json
       FROM courses c
       JOIN users u ON u.id = c.owner_id
       WHERE (c.id = ? OR UPPER(c.share_code) = UPPER(?)) AND c.is_public = 1
     `).get(key, key);
     if (!source) throw new ApiError(404, 'not_found', 'Không tìm thấy khóa học cộng đồng để tải về.');
 
+    if (ctx.auth?.user) {
+      const countRow = db.prepare('SELECT COUNT(*) AS count FROM courses WHERE owner_id = ?').get(ctx.auth.user.id);
+      if (Number(countRow?.count || 0) >= config.maxCoursesPerUser) {
+        throw new ApiError(400, 'course_limit_reached', `Tài khoản đã đạt giới hạn tối đa ${config.maxCoursesPerUser} khóa học.`);
+      }
+    }
+
     db.prepare('UPDATE courses SET clone_count = clone_count + 1 WHERE id = ?').run(source.id);
 
     const chapters = safeJsonParse(source.chapters_json, []) || [];
+    const totalEntries = Number(source.total_entries || 0);
+    const totalQuestions = Number(source.total_questions || 0);
     const metadata = {
       ...(safeJsonParse(source.metadata_json, {}) || {}),
       clonedFrom: source.id,
@@ -363,13 +402,13 @@ export function registerCourseRoutes(router, { db }) {
       updatedAt: now,
     };
 
-    // Nếu đã đăng nhập, lưu trực tiếp bản sao vào tài khoản cloud trên SQLite
     if (ctx.auth?.user) {
       db.prepare(`
         INSERT INTO courses (
           id, owner_id, name, description, type, status, raw_document_id,
-          metadata_json, chapters_json, is_public, share_code, tags_json, clone_count, created_at, updated_at
-        ) VALUES (?, ?, ?, ?, 'imported', 'ready', NULL, ?, ?, 0, NULL, ?, 0, ?, ?)
+          metadata_json, chapters_json, chapter_count, total_entries, total_questions,
+          is_public, share_code, tags_json, clone_count, created_at, updated_at
+        ) VALUES (?, ?, ?, ?, 'imported', 'ready', NULL, ?, ?, ?, ?, ?, 0, NULL, ?, 0, ?, ?)
       `).run(
         newId,
         ctx.auth.user.id,
@@ -377,6 +416,9 @@ export function registerCourseRoutes(router, { db }) {
         clonedCourse.description,
         JSON.stringify(metadata),
         JSON.stringify(chapters),
+        chapters.length,
+        totalEntries,
+        totalQuestions,
         JSON.stringify(clonedCourse.tags),
         now,
         now,
