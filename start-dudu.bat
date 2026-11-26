@@ -1,36 +1,40 @@
 @echo off
 chcp 65001 >nul
-title DuDu Hán Ngữ — Full-Stack Server
+title DuDu Han Ngu - Full-Stack Server
 if not exist "package.json" cd /d "%~dp0"
 
 echo ===================================================
-echo   DuDu Hán Ngữ — Khởi động nhanh (API + Frontend)
+echo   DuDu Han Ngu - Khoi dong nhanh (API + Frontend)
 echo ===================================================
 
 where node >nul 2>nul
-if %ERRORLEVEL% neq 0 (
-    echo [LỖI] Không tìm thấy Node.js trong PATH. Vui lòng cài Node.js ^>= 22.5.
+if errorlevel 1 (
+    echo [ERROR] Node.js not found in PATH. Please install Node.js 22.5+.
     pause
     exit /b 1
 )
 
 if not exist "node_modules\" (
-    echo [1/2] Đang cài đặt thư viện lần đầu...
+    echo [1/2] Installing dependencies...
     call npm.cmd install
-    if %ERRORLEVEL% neq 0 (
-        echo [LỖI] npm install thất bại.
+    if errorlevel 1 (
+        echo [ERROR] npm install failed.
         pause
         exit /b 1
     )
 )
 
-echo [Chạy] Đang bật Backend SQLite (3001) + Vite Frontend (5173) và mở trình duyệt...
-echo (Nhấn Ctrl + C để tắt server)
+echo [Starting] Backend SQLite (127.0.0.1:3001) + Vite Frontend (127.0.0.1:5173)...
+echo (Press Ctrl + C to stop server)
 echo.
-node scripts/dev.mjs --open
+if "%~1"=="--no-open" (
+    node scripts/dev.mjs
+) else (
+    node scripts/dev.mjs --open
+)
 
-if %ERRORLEVEL% neq 0 (
+if errorlevel 1 (
     echo.
-    echo [LỖI] Server dừng bất thường (mã lỗi %ERRORLEVEL%).
+    echo [ERROR] Server stopped unexpectedly.
     pause
 )
