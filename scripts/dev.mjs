@@ -15,12 +15,15 @@ const apiTarget = `http://${apiHost}:${actualApiPort}`;
 
 console.log(`DuDu API Server đang chạy tại ${apiTarget} (DB: ${backend.config.dbPath})`);
 
+const shouldOpen = process.argv.includes('--open') || process.env.DUDU_OPEN === '1';
+
 const viteServer = await createServer({
   root: process.cwd(),
   configFile: false,
   plugins: [react()],
   server: {
     host: '127.0.0.1',
+    open: shouldOpen,
     proxy: {
       '/api': {
         target: apiTarget,
