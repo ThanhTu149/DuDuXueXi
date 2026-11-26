@@ -2,18 +2,18 @@
 
 BAI3 MUA DONG SAP DEN ROI
 
-| — | 课文 Kewen @ Text - Bai doc .....cscsessesesscssssscessscesseessens LD
+课文 (Bài khóa)
 
 张东;
 
 张东:
 
-AS:
+田芳:
 
 (一) REM, BERT
 
 (去教室的路上.…….)
-AS:
+田芳:
 
 ™, MT. SRAAAS,
 冬天快要到了。
@@ -46,11 +46,11 @@ aR: 别捡了，快走吧，要上课了。
 
 RR: 你看看表，几点了?
 
-AS: We AE.
+田芳: We AE.
 
 HRA: 什么? 你的表是不是坏了?
 
-AS: 哎呀，我的表停了，可能没电了，该换电池了。什么时
+田芳: 哎呀，我的表停了，可能没电了，该换电池了。什么时
 间了?
 
 KR: 都七点五十了。快走吧，再不快点儿就迟到了。

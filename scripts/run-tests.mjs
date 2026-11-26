@@ -5,6 +5,7 @@
 import { spawnSync } from 'node:child_process';
 
 const PURE_NODE_SUITES = [
+  { name: 'lint', args: ['scripts/lint-check.mjs'] },
   { name: 'test:api', args: ['scripts/test-api.mjs'] },
   { name: 'test:pedagogy', args: ['--test', 'scripts/test-pedagogy.mjs'] },
   { name: 'test:gemini-retry', args: ['scripts/test-gemini-retry.mjs'] },

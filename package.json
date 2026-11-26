@@ -14,6 +14,7 @@
     "start": "node server/index.js",
     "preview": "vite preview",
     "db:backup": "node scripts/backup-db.mjs",
+    "lint": "node scripts/lint-check.mjs",
     "test": "node scripts/run-tests.mjs",
     "test:pedagogy": "node --test scripts/test-pedagogy.mjs",
     "test:api": "node scripts/test-api.mjs",

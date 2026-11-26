@@ -9,6 +9,16 @@ const FOCUSABLE = [
   '[tabindex]:not([tabindex="-1"])',
 ].join(', ');
 
+const openDialogStack = new Set();
+
+function syncBackdropInert() {
+  if (typeof document === 'undefined') return;
+  const shell = document.getElementById('dudu-app-shell');
+  if (!shell) return;
+  if (openDialogStack.size > 0) shell.setAttribute('inert', '');
+  else shell.removeAttribute('inert');
+}
+
 export default function useDialogA11y(isOpen, onClose) {
   const dialogRef = useRef(null);
   const closeRef = useRef(onClose);
@@ -24,6 +34,8 @@ export default function useDialogA11y(isOpen, onClose) {
     const previouslyFocused = document.activeElement;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    openDialogStack.add(dialog);
+    syncBackdropInert();
 
     const focusable = () => Array.from(dialog.querySelectorAll(FOCUSABLE));
     const onKeyDown = (event) => {
@@ -60,6 +72,8 @@ export default function useDialogA11y(isOpen, onClose) {
 
     return () => {
       cancelAnimationFrame(rafId);
+      openDialogStack.delete(dialog);
+      syncBackdropInert();
       dialog.removeEventListener('keydown', onKeyDown);
       document.body.style.overflow = previousOverflow;
       if (previouslyFocused instanceof HTMLElement) requestAnimationFrame(() => previouslyFocused.focus());

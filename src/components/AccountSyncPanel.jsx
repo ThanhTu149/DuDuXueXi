@@ -3,6 +3,8 @@ import {
   changeAccountPassword,
   exportAccountDataApi,
   fetchAccountSessions,
+  fetchRecoveryCodeStatus,
+  regenerateRecoveryCodes,
   revokeAccountSession,
 } from '../lib/apiClient.js';
 import {
@@ -36,11 +38,20 @@ export default function AccountSyncPanel({ cloud, onOpenAuth, onCloudDataApplied
   const [deletePassword, setDeletePassword] = useState('');
   const [sessions, setSessions] = useState([]);
   const [sessionsLoaded, setSessionsLoaded] = useState(false);
+  const [recoveryCount, setRecoveryCount] = useState(null);
+  const [generatedCodes, setGeneratedCodes] = useState([]);
 
   useEffect(() => {
     setSessions([]);
     setSessionsLoaded(false);
     setShowDeleteForm(false);
+    setGeneratedCodes([]);
+    setRecoveryCount(null);
+    if (cloud.authenticated) {
+      fetchRecoveryCodeStatus()
+        .then((res) => setRecoveryCount(Number(res?.remainingCount || 0)))
+        .catch(() => {});
+    }
   }, [cloud.authenticated, cloud.user?.id]);
 
   const handleManualSync = async () => {
@@ -129,6 +140,31 @@ export default function AccountSyncPanel({ cloud, onOpenAuth, onCloudDataApplied
       setNotice({ ok: false, text: error.message });
     } finally {
       setBusy(false);
+    }
+  };
+
+  const handleGenerateRecoveryCodes = async () => {
+    setBusy(true);
+    setNotice(null);
+    try {
+      const res = await regenerateRecoveryCodes();
+      setGeneratedCodes(res.codes || []);
+      setRecoveryCount(Number(res.remainingCount || 0));
+      setNotice({ ok: true, text: 'Đã tạo 6 mã khôi phục một lần. Hãy lưu hoặc sao chép lại — mã chỉ hiển thị một lần!' });
+    } catch (error) {
+      setNotice({ ok: false, text: error.message });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleCopyCodes = async () => {
+    if (!generatedCodes.length) return;
+    try {
+      await navigator.clipboard?.writeText(generatedCodes.join('\n'));
+      setNotice({ ok: true, text: 'Đã sao chép 6 mã khôi phục vào khay nhớ tạm.' });
+    } catch {
+      setNotice({ ok: false, text: 'Không sao chép tự động được — hãy chép thủ công các mã bên trên.' });
     }
   };
 
@@ -228,6 +264,9 @@ export default function AccountSyncPanel({ cloud, onOpenAuth, onCloudDataApplied
         <button type="button" disabled={busy} onClick={() => setShowPasswordForm((v) => !v)} className="btn-secondary">
           Đổi mật khẩu
         </button>
+        <button type="button" disabled={busy} onClick={handleGenerateRecoveryCodes} className="btn-secondary">
+          Mã khôi phục{recoveryCount !== null ? ` (${recoveryCount})` : ''}
+        </button>
         <button type="button" disabled={busy} onClick={loadSessions} className="btn-secondary">
           Phiên đăng nhập
         </button>
@@ -278,6 +317,25 @@ export default function AccountSyncPanel({ cloud, onOpenAuth, onCloudDataApplied
             <button type="button" onClick={() => setShowPasswordForm(false)} className="btn-secondary">Hủy</button>
           </div>
         </form>
+      )}
+
+      {generatedCodes.length > 0 && (
+        <div className="space-y-3 rounded-xl border border-warning/40 bg-warning-subtle/30 p-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 className="text-sm font-semibold">Mã khôi phục một lần ({generatedCodes.length} mã)</h3>
+              <p className="text-xs text-text-muted">Mỗi mã dùng được đúng 1 lần khi quên mật khẩu. Cất giữ ở nơi an toàn.</p>
+            </div>
+            <button type="button" onClick={handleCopyCodes} className="btn-secondary text-xs">Sao chép tất cả</button>
+          </div>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            {generatedCodes.map((code) => (
+              <code key={code} className="rounded-lg border border-border bg-bg-primary px-3 py-1.5 font-mono text-xs font-semibold tracking-wider text-text-primary select-all">
+                {code}
+              </code>
+            ))}
+          </div>
+        </div>
       )}
 
       {sessionsLoaded && (

@@ -379,7 +379,7 @@
       "meaning_vi": "tuyết",
       "meaning_en": "snow",
       "example_zh": "昨晚下了一场雪。",
-      "example_pinyin": "Zuó wǎn xià le yī chǎng xuě.",
+      "example_pinyin": "Zuó wǎn xià le yì chǎng xuě.",
       "example_vi": "Tối qua có một trận tuyết.",
       "example_source": "ai_inferred",
       "grammar_note": null,
@@ -433,7 +433,7 @@
       "meaning_vi": "không những... mà còn...",
       "meaning_en": "not only... but also...",
       "example_zh": "他不但会汉语，而且会英语。",
-      "example_pinyin": "Tā bù dàn huì hànyǔ, ér qiě huì yīngyǔ.",
+      "example_pinyin": "Tā bú dàn huì hànyǔ, ér qiě huì yīngyǔ.",
       "example_vi": "Anh ấy không những biết tiếng Trung mà còn biết tiếng Anh.",
       "example_source": "ai_inferred",
       "grammar_note": null,
@@ -650,7 +650,7 @@
       "meaning_vi": "tập tranh",
       "meaning_en": "album of paintings",
       "example_zh": "这本画册很漂亮。",
-      "example_pinyin": "Zhè běn huàcè hěn piāo liàng.",
+      "example_pinyin": "Zhè běn huàcè hěn piàoliang.",
       "example_vi": "Cuốn sách tranh này rất đẹp.",
       "example_source": "ai_inferred",
       "grammar_note": null,
@@ -877,7 +877,7 @@
       "examples": [
         {
           "zh": "他不但会说英语，而且还会法语。",
-          "pinyin": "Tā bù dàn huì shuō yīngyǔ, ér qiě hái huì fǎ yǔ.",
+          "pinyin": "Tā bú dàn huì shuō yīngyǔ, ér qiě hái huì fǎ yǔ.",
           "vi": "Anh ấy không những biết tiếng Anh mà còn biết tiếng Pháp.",
           "source": "document"
         },

@@ -160,4 +160,18 @@ export const MIGRATIONS = [
       );
     `,
   },
+  {
+    version: 4,
+    name: 'user_recovery_codes',
+    sql: `
+      CREATE TABLE IF NOT EXISTS user_recovery_codes (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        code_hash TEXT NOT NULL,
+        used_at TEXT,
+        created_at TEXT NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_recovery_user ON user_recovery_codes(user_id, used_at);
+    `,
+  },
 ];

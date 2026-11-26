@@ -660,3 +660,94 @@ export function gradeDictation(userAnswer, targetZh) {
     diff: buildCharDiff(userNorm, targetNorm),
   };
 }
+
+/**
+ * Sinh bộ câu hỏi luyện tập trực tiếp từ từ vựng, ngữ pháp và mẫu câu của bài học
+ * (bù đắp phần từ/ngữ pháp chưa xuất hiện trong bộ quiz tĩnh và tạo bài tập viết câu ngữ pháp).
+ */
+export function buildEntryPracticeQuestions(entries = [], { bai = null, limit = 15, types = ['word', 'grammar', 'phrase'] } = {}) {
+  const allowed = new Set(types);
+  const wordPool = entries.filter((e) => e?.type === 'word' && e.meaning_vi);
+  const questions = [];
+
+  for (const entry of entries) {
+    if (!entry || !allowed.has(entry.type)) continue;
+    if (entry.type === 'word' && entry.word_zh && entry.meaning_vi) {
+      const distractors = wordPool
+        .filter((other) => other.id !== entry.id && other.meaning_vi !== entry.meaning_vi)
+        .sort((a, b) => a.id.localeCompare(b.id))
+        .slice(0, 3)
+        .map((d) => d.meaning_vi);
+
+      if (distractors.length >= 3) {
+        const seed = [...entry.id].reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+        const rawTexts = [entry.meaning_vi, ...distractors];
+        const correctIdx = seed % 4;
+        const arranged = [...rawTexts];
+        [arranged[0], arranged[correctIdx]] = [arranged[correctIdx], arranged[0]];
+        const optionIds = ['A', 'B', 'C', 'D'];
+        questions.push({
+          id: `gen-word-mcq-${entry.id}`,
+          bai: entry.bai ?? bai ?? 1,
+          type: 'mcq_meaning_zh_to_vi',
+          level: 'recall',
+          question_vi: `Từ "${entry.word_zh}" (${entry.pinyin || ''}) có nghĩa là gì?`,
+          options: arranged.map((text, idx) => ({ id: optionIds[idx], text })),
+          correct_option: optionIds[correctIdx],
+          related_glossary: [entry.id],
+          explanation: {
+            why_correct: `${entry.word_zh} (${entry.pinyin || ''}) nghĩa là "${entry.meaning_vi}".`,
+          },
+        });
+      } else if (entry.pinyin) {
+        questions.push({
+          id: `gen-word-type-${entry.id}`,
+          bai: entry.bai ?? bai ?? 1,
+          type: 'typing_zh_from_pinyin',
+          level: 'apply',
+          question_vi: 'Gõ chữ Hán tương ứng với pinyin và nghĩa sau:',
+          pinyin: entry.pinyin,
+          meaning_vi: entry.meaning_vi,
+          sample_answer: entry.word_zh,
+          related_glossary: [entry.id],
+          explanation: { why_correct: `${entry.pinyin} viết là "${entry.word_zh}" (${entry.meaning_vi}).` },
+        });
+      }
+    } else if (entry.type === 'grammar') {
+      const example = (entry.examples || []).find((ex) => ex?.zh && ex?.vi);
+      if (example) {
+        questions.push({
+          id: `gen-grammar-prod-${entry.id}`,
+          bai: entry.bai ?? bai ?? 1,
+          type: 'translation_vi_to_zh',
+          level: 'synthesize',
+          question_vi: `Đặt/dịch câu áp dụng mẫu ngữ pháp "${entry.grammar_title_zh || entry.grammar_title_vi}"`,
+          source_sentence_vi: example.vi,
+          sample_answer: example.zh,
+          sample_answer_pinyin: example.pinyin || '',
+          related_glossary: [entry.id],
+          explanation: {
+            why_correct: entry.explanation_vi || example.zh,
+            keyword_tip: entry.structure || '',
+          },
+        });
+      }
+    } else if (entry.type === 'phrase' && entry.phrase_zh && entry.meaning_vi) {
+      questions.push({
+        id: `gen-phrase-type-${entry.id}`,
+        bai: entry.bai ?? bai ?? 1,
+        type: 'translation_vi_to_zh',
+        level: 'apply',
+        question_vi: 'Viết câu/mẫu câu tiếng Trung có nghĩa:',
+        source_sentence_vi: entry.meaning_vi,
+        sample_answer: entry.phrase_zh,
+        sample_answer_pinyin: entry.pinyin || '',
+        related_glossary: [entry.id],
+        explanation: { why_correct: `${entry.phrase_zh} (${entry.pinyin || ''}) — ${entry.usage_note || entry.meaning_vi}` },
+      });
+    }
+    if (questions.length >= limit) break;
+  }
+
+  return questions;
+}

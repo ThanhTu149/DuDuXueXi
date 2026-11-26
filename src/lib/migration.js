@@ -1,4 +1,4 @@
-import { GLOSSARY, LESSON_TEXTS, QUIZZES } from '../data-loader.js';
+import { GLOSSARY, LESSON_TEXTS, QUIZZES, ensureAllBuiltInLessons } from '../data-loader.js';
 import {
   BUILT_IN_COURSE_ID,
   getCourse,
@@ -98,6 +98,7 @@ export async function migrateLegacyData() {
 
   let course = await getCourse(BUILT_IN_COURSE_ID);
   if (!course) {
+    await ensureAllBuiltInLessons();
     course = await saveCourse(builtInCourse(builtInChapters()));
   }
   if (!await getProgress(BUILT_IN_COURSE_ID)) {

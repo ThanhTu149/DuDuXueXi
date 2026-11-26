@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { randomBytes, randomUUID, timingSafeEqual } from 'node:crypto';
 import {
   generateSessionToken,
   hashPasswordAsync,
@@ -17,6 +17,21 @@ import {
 
 const USERNAME_RE = /^[a-zA-Z0-9_.-]{3,32}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const RECOVERY_ALPHABET = '23456789ABCDEFGHJKMNPQRSTUVWXYZ';
+
+function normalizeRecoveryCode(raw) {
+  return String(raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+}
+
+function generateFormattedRecoveryCode() {
+  const bytes = randomBytes(16);
+  let out = '';
+  for (let i = 0; i < 16; i += 1) {
+    if (i > 0 && i % 4 === 0) out += '-';
+    out += RECOVERY_ALPHABET[bytes[i] % RECOVERY_ALPHABET.length];
+  }
+  return out;
+}
 
 export function serializeUser(row) {
   if (!row) return null;
@@ -369,6 +384,85 @@ export function registerAuthRoutes(router, { db, config, authLimiter, onLeaderbo
       courses,
       progress,
       tutorMessages,
+    });
+  });
+
+  // Kiểm tra số mã khôi phục còn lại (không trả mã gốc)
+  router.get('/api/auth/recovery-codes', async (req, res, ctx) => {
+    const user = requireAuth(ctx);
+    const row = db.prepare('SELECT COUNT(*) AS count FROM user_recovery_codes WHERE user_id = ? AND used_at IS NULL').get(user.id);
+    sendJson(res, 200, { ok: true, remainingCount: Number(row?.count || 0) });
+  });
+
+  // Tạo bộ 6 mã khôi phục một lần mới (thu hồi toàn bộ mã cũ)
+  router.post('/api/auth/recovery-codes/regenerate', async (req, res, ctx) => {
+    const user = requireAuth(ctx);
+    authLimiter.check(`recovery-gen:${user.id}`, res);
+    const now = new Date().toISOString();
+    const codes = Array.from({ length: 6 }, () => generateFormattedRecoveryCode());
+    db.prepare('DELETE FROM user_recovery_codes WHERE user_id = ?').run(user.id);
+    const insert = db.prepare(`
+      INSERT INTO user_recovery_codes (id, user_id, code_hash, used_at, created_at)
+      VALUES (?, ?, ?, NULL, ?)
+    `);
+    for (const code of codes) {
+      insert.run(`rc-${randomUUID()}`, user.id, hashToken(normalizeRecoveryCode(code)), now);
+    }
+    sendJson(res, 200, { ok: true, codes, remainingCount: codes.length });
+  });
+
+  // Đặt lại mật khẩu bằng mã khôi phục một lần (không cần email SMTP)
+  router.post('/api/auth/recover', async (req, res) => {
+    authLimiter.check(`recover:${getClientIp(req, { trustProxy: config.trustProxy })}`, res);
+    const body = await readJsonBody(req);
+    const identifier = String(body.identifier || '').trim().toLowerCase();
+    const normalizedCode = normalizeRecoveryCode(body.recoveryCode);
+    const newPassword = String(body.newPassword || '');
+
+    if (!identifier || !normalizedCode) {
+      throw new ApiError(400, 'missing_recovery_fields', 'Hãy nhập tên đăng nhập/email và mã khôi phục.');
+    }
+    if (newPassword.length < 6 || newPassword.length > 128) {
+      throw new ApiError(400, 'invalid_password', 'Mật khẩu mới cần từ 6 đến 128 ký tự.');
+    }
+
+    const userRow = db.prepare(`
+      SELECT id FROM users
+      WHERE (username_lower = ? OR email_lower = ?) AND role != 'system'
+    `).get(identifier, identifier);
+
+    const candidateHash = Buffer.from(hashToken(normalizedCode), 'hex');
+    let matchedId = null;
+    if (userRow) {
+      const codeRows = db.prepare(`
+        SELECT id, code_hash FROM user_recovery_codes
+        WHERE user_id = ? AND used_at IS NULL
+      `).all(userRow.id);
+      for (const row of codeRows) {
+        const storedBuf = Buffer.from(String(row.code_hash || ''), 'hex');
+        if (storedBuf.length === candidateHash.length && timingSafeEqual(storedBuf, candidateHash)) {
+          matchedId = row.id;
+          break;
+        }
+      }
+    }
+
+    if (!userRow || !matchedId) {
+      throw new ApiError(400, 'invalid_recovery_code', 'Tài khoản hoặc mã khôi phục không đúng / đã được sử dụng.');
+    }
+
+    const { hash, salt } = await hashPasswordAsync(newPassword);
+    const now = new Date().toISOString();
+    db.prepare('UPDATE user_recovery_codes SET used_at = ? WHERE id = ?').run(now, matchedId);
+    db.prepare('UPDATE users SET password_hash = ?, password_salt = ?, updated_at = ? WHERE id = ?').run(hash, salt, now, userRow.id);
+    db.prepare('DELETE FROM sessions WHERE user_id = ?').run(userRow.id);
+
+    const rem = db.prepare('SELECT COUNT(*) AS count FROM user_recovery_codes WHERE user_id = ? AND used_at IS NULL').get(userRow.id);
+    sendJson(res, 200, {
+      ok: true,
+      recovered: true,
+      remainingCount: Number(rem?.count || 0),
+      message: 'Đã đặt lại mật khẩu. Hãy đăng nhập lại bằng mật khẩu mới.',
     });
   });
 

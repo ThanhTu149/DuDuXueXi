@@ -36,7 +36,17 @@ migrateBuiltInCourse().catch((error) => {
 // lessons keep working without a network connection.
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch((error) => {
+    navigator.serviceWorker.register('/sw.js').then((registration) => {
+      const notifyUpdate = () => window.dispatchEvent(new CustomEvent('dudu-sw-update', { detail: registration }));
+      if (registration.waiting && navigator.serviceWorker.controller) notifyUpdate();
+      registration.addEventListener('updatefound', () => {
+        const nextWorker = registration.installing;
+        if (!nextWorker) return;
+        nextWorker.addEventListener('statechange', () => {
+          if (nextWorker.state === 'installed' && navigator.serviceWorker.controller) notifyUpdate();
+        });
+      });
+    }).catch((error) => {
       console.warn('Không đăng ký được service worker:', error);
     });
   });

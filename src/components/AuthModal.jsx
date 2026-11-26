@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { recoverAccountPassword } from '../lib/apiClient.js';
 import { signInWithPassword, signUpWithPassword } from '../lib/cloudSync.js';
 import useDialogA11y from '../lib/useDialogA11y.js';
 
@@ -8,10 +9,12 @@ export default function AuthModal({ isOpen, initialMode = 'login', onClose, onAu
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
+  const [recoveryCode, setRecoveryCode] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
 
   const trapRef = useDialogA11y(isOpen, onClose);
 
@@ -19,8 +22,10 @@ export default function AuthModal({ isOpen, initialMode = 'login', onClose, onAu
     if (isOpen) {
       setMode(initialMode);
       setError('');
+      setNotice('');
       setPassword('');
       setConfirmPassword('');
+      setRecoveryCode('');
     }
   }, [isOpen, initialMode]);
 
@@ -29,6 +34,31 @@ export default function AuthModal({ isOpen, initialMode = 'login', onClose, onAu
   const submit = async (event) => {
     event.preventDefault();
     setError('');
+    setNotice('');
+    if (mode === 'recover') {
+      if (password !== confirmPassword) {
+        setError('Mật khẩu xác nhận chưa khớp.');
+        return;
+      }
+      setBusy(true);
+      try {
+        const res = await recoverAccountPassword({
+          identifier: identifier.trim(),
+          recoveryCode: recoveryCode.trim(),
+          newPassword: password,
+        });
+        setRecoveryCode('');
+        setConfirmPassword('');
+        setPassword('');
+        setMode('login');
+        setNotice(res.message || 'Đã đặt lại mật khẩu. Hãy đăng nhập lại.');
+      } catch (cause) {
+        setError(cause?.message || 'Không khôi phục được tài khoản.');
+      } finally {
+        setBusy(false);
+      }
+      return;
+    }
     if (mode === 'register') {
       if (password !== confirmPassword) {
         setError('Mật khẩu xác nhận chưa khớp.');
@@ -82,7 +112,7 @@ export default function AuthModal({ isOpen, initialMode = 'login', onClose, onAu
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-accent">Tài khoản DuDu</p>
             <h2 id="auth-modal-title" className="mt-1 font-serif text-2xl font-bold">
-              {mode === 'login' ? 'Đăng nhập đồng bộ' : 'Tạo tài khoản học tập'}
+              {mode === 'login' ? 'Đăng nhập đồng bộ' : mode === 'recover' ? 'Khôi phục mật khẩu' : 'Tạo tài khoản học tập'}
             </h2>
           </div>
           <button
@@ -121,20 +151,35 @@ export default function AuthModal({ isOpen, initialMode = 'login', onClose, onAu
         </p>
 
         <form onSubmit={submit} className="mt-4 space-y-3.5">
-          {mode === 'login' ? (
-            <label className="block text-sm font-medium">
-              Tên đăng nhập hoặc email
-              <input
-                name="identifier"
-                autoFocus
-                required
-                autoComplete="username"
-                value={identifier}
-                onChange={(event) => setIdentifier(event.target.value)}
-                placeholder="vd: minhthu hoặc email@domain.com"
-                className="input mt-1.5 w-full"
-              />
-            </label>
+          {(mode === 'login' || mode === 'recover') ? (
+            <>
+              <label className="block text-sm font-medium">
+                Tên đăng nhập hoặc email
+                <input
+                  name="identifier"
+                  autoFocus
+                  required
+                  autoComplete="username"
+                  value={identifier}
+                  onChange={(event) => setIdentifier(event.target.value)}
+                  placeholder="vd: minhthu hoặc email@domain.com"
+                  className="input mt-1.5 w-full"
+                />
+              </label>
+              {mode === 'recover' && (
+                <label className="block text-sm font-medium">
+                  Mã khôi phục một lần
+                  <input
+                    name="recoveryCode"
+                    required
+                    value={recoveryCode}
+                    onChange={(event) => setRecoveryCode(event.target.value)}
+                    placeholder="XXXX-XXXX-XXXX-XXXX"
+                    className="input mt-1.5 w-full font-mono uppercase tracking-wider"
+                  />
+                </label>
+              )}
+            </>
           ) : (
             <>
               <label className="block text-sm font-medium">
@@ -179,7 +224,7 @@ export default function AuthModal({ isOpen, initialMode = 'login', onClose, onAu
           )}
 
           <label className="block text-sm font-medium">
-            Mật khẩu
+            {mode === 'recover' ? 'Mật khẩu mới' : 'Mật khẩu'}
             <input
               name="password"
               type="password"
@@ -193,7 +238,7 @@ export default function AuthModal({ isOpen, initialMode = 'login', onClose, onAu
             />
           </label>
 
-          {mode === 'register' && (
+          {(mode === 'register' || mode === 'recover') && (
             <label className="block text-sm font-medium">
               Nhập lại mật khẩu
               <input
@@ -210,6 +255,12 @@ export default function AuthModal({ isOpen, initialMode = 'login', onClose, onAu
             </label>
           )}
 
+          {notice && (
+            <p role="status" className="rounded-xl bg-success-subtle px-3.5 py-2.5 text-sm text-success">
+              {notice}
+            </p>
+          )}
+
           {error && (
             <p role="alert" className="rounded-xl bg-error-subtle px-3.5 py-2.5 text-sm text-error">
               {error}
@@ -224,9 +275,28 @@ export default function AuthModal({ isOpen, initialMode = 'login', onClose, onAu
           >
             {busy && <span className="spinner" aria-hidden="true" />}
             {busy
-              ? (mode === 'login' ? 'Đang đăng nhập...' : 'Đang tạo tài khoản...')
-              : (mode === 'login' ? 'Đăng nhập' : 'Tạo tài khoản và đồng bộ')}
+              ? (mode === 'login' ? 'Đang đăng nhập...' : mode === 'recover' ? 'Đang đặt lại...' : 'Đang tạo tài khoản...')
+              : (mode === 'login' ? 'Đăng nhập' : mode === 'recover' ? 'Đặt lại mật khẩu' : 'Tạo tài khoản và đồng bộ')}
           </button>
+
+          {mode === 'login' && (
+            <button
+              type="button"
+              onClick={() => { setMode('recover'); setError(''); setNotice(''); setPassword(''); setConfirmPassword(''); }}
+              className="w-full text-center text-xs font-medium text-accent hover:underline"
+            >
+              Quên mật khẩu? Dùng mã khôi phục
+            </button>
+          )}
+          {mode === 'recover' && (
+            <button
+              type="button"
+              onClick={() => { setMode('login'); setError(''); setNotice(''); }}
+              className="w-full text-center text-xs font-medium text-text-muted hover:text-text-primary"
+            >
+              ← Quay lại đăng nhập
+            </button>
+          )}
         </form>
       </section>
     </div>

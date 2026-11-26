@@ -74,7 +74,7 @@ try {
   const health = await alice.req('/api/health', { headers: { 'X-Request-Id': 'req-trace-12345678' } });
   assert.equal(health.status, 200);
   assert.equal(health.data.ok, true);
-  assert.equal(health.data.schemaVersion, 3);
+  assert.equal(health.data.schemaVersion, 4);
   assert.equal(health.headers.get('x-request-id'), 'req-trace-12345678');
   assert.ok(health.data.stats.communityCourses >= 2);
   assert.match(health.headers.get('content-security-policy') || '', /default-src 'self'/);
@@ -592,7 +592,40 @@ try {
     fs.rmSync(backupTmpDir, { recursive: true, force: true });
   }
 
-  console.log('Full-Stack API OK: health/req-id, auth/scrypt/sessions, AES-256-GCM key, progress merge & XP bounds, analytics, leaderboard/privacy, course ownership, community publish/clone, AI proxy/quota/BYOK, rate limit, SQLite online backup.');
+  // 11e. Account recovery codes: generate -> reset password -> single-use enforcement -> old sessions revoked
+  const recUser = new TestClient(baseUrl);
+  assert.equal((await recUser.req('/api/auth/register', { method: 'POST', body: { username: 'recover_u', password: 'oldpassword' } })).status, 201);
+  const recInitStatus = await recUser.req('/api/auth/recovery-codes');
+  assert.equal(recInitStatus.data.remainingCount, 0);
+  const recGen = await recUser.req('/api/auth/recovery-codes/regenerate', { method: 'POST' });
+  assert.equal(recGen.status, 200);
+  assert.equal(recGen.data.codes.length, 6);
+  assert.equal((await recUser.req('/api/auth/recovery-codes')).data.remainingCount, 6);
+
+  const recResetClient = new TestClient(baseUrl);
+  const badRecover = await recResetClient.req('/api/auth/recover', {
+    method: 'POST',
+    body: { identifier: 'recover_u', recoveryCode: '0000-0000-0000-0000', newPassword: 'newpassword123' },
+  });
+  assert.equal(badRecover.status, 400);
+  const goodRecover = await recResetClient.req('/api/auth/recover', {
+    method: 'POST',
+    body: { identifier: 'recover_u', recoveryCode: recGen.data.codes[0].toLowerCase(), newPassword: 'newpassword123' },
+  });
+  assert.equal(goodRecover.status, 200);
+  assert.equal(goodRecover.data.remainingCount, 5);
+
+  // Old session must be revoked after recovery, reused code must fail, new password must work
+  assert.equal((await recUser.req('/api/auth/me')).data.authenticated, false);
+  const reuseCode = await recResetClient.req('/api/auth/recover', {
+    method: 'POST',
+    body: { identifier: 'recover_u', recoveryCode: recGen.data.codes[0], newPassword: 'anotherpass123' },
+  });
+  assert.equal(reuseCode.status, 400);
+  assert.equal((await recResetClient.req('/api/auth/login', { method: 'POST', body: { identifier: 'recover_u', password: 'oldpassword' } })).status, 401);
+  assert.equal((await recResetClient.req('/api/auth/login', { method: 'POST', body: { identifier: 'recover_u', password: 'newpassword123' } })).status, 200);
+
+  console.log('Full-Stack API OK: health/req-id, auth/scrypt/sessions/recovery-codes, AES-256-GCM key, progress merge & XP bounds, analytics, leaderboard/privacy, course ownership, community publish/clone, AI proxy/quota/BYOK, rate limit, SQLite online backup.');
 } finally {
   await app.close();
 }

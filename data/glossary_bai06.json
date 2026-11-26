@@ -244,7 +244,7 @@
       "meaning_vi": "tổ chức",
       "meaning_en": "to organize; organization",
       "example_zh": "学校组织了一次旅行。",
-      "example_pinyin": "Xué xiào zǔzhī le yī cì lǚ xíng.",
+      "example_pinyin": "Xué xiào zǔzhī le yí cì lǚ xíng.",
       "example_vi": "Nhà trường tổ chức một chuyến đi.",
       "example_source": "ai_inferred",
       "grammar_note": null,
@@ -381,7 +381,7 @@
       "meaning_vi": "vừa... liền...; hễ... là...",
       "meaning_en": "as soon as...; whenever...",
       "example_zh": "我一下课就回宿舍。",
-      "example_pinyin": "Wǒ yī xià kè jiù huí sùshè.",
+      "example_pinyin": "Wǒ yí xià kè jiù huí sùshè.",
       "example_vi": "Vừa tan học là tôi về ký túc xá.",
       "example_source": "ai_inferred",
       "grammar_note": null,
@@ -464,7 +464,7 @@
       "meaning_vi": "giúp",
       "meaning_en": "to help",
       "example_zh": "请你帮我安排一下。",
-      "example_pinyin": "Qǐng nǐ bāng wǒ ānpái yī xià.",
+      "example_pinyin": "Qǐng nǐ bāng wǒ ānpái yí xià.",
       "example_vi": "Bạn hãy giúp tôi sắp xếp một chút.",
       "example_source": "ai_inferred",
       "grammar_note": null,
@@ -573,7 +573,7 @@
       "meaning_vi": "thương lượng; bàn bạc",
       "meaning_en": "to consult; to discuss",
       "example_zh": "我想跟你商量一件事。",
-      "example_pinyin": "Wǒ xiǎng gēn nǐ shāngliáng yī jiàn shì.",
+      "example_pinyin": "Wǒ xiǎng gēn nǐ shāngliáng yí jiàn shì.",
       "example_vi": "Tôi muốn bàn với bạn một việc.",
       "example_source": "ai_inferred",
       "grammar_note": null,
@@ -709,7 +709,7 @@
       "meaning_vi": "người nước ngoài",
       "meaning_en": "international guest; foreigner",
       "example_zh": "中国人一听就知道我是老外。",
-      "example_pinyin": "Zhōngguó rén yī tīng jiù zhīdào wǒ shì lǎowài.",
+      "example_pinyin": "Zhōngguó rén yì tīng jiù zhīdào wǒ shì lǎowài.",
       "example_vi": "Người Trung Quốc vừa nghe là biết tôi là người nước ngoài.",
       "example_source": "document",
       "grammar_note": null,
@@ -817,7 +817,7 @@
       "meaning_vi": "mắt",
       "meaning_en": "eye",
       "example_zh": "她的眼睛很漂亮。",
-      "example_pinyin": "Tā de yǎnjīng hěn piāo liàng.",
+      "example_pinyin": "Tā de yǎnjīng hěn piàoliang.",
       "example_vi": "Đôi mắt cô ấy rất đẹp.",
       "example_source": "ai_inferred",
       "grammar_note": null,
@@ -879,7 +879,7 @@
         },
         {
           "zh": "我不是来旅行的，我是来留学的。",
-          "pinyin": "Wǒ bù shì lái lǚ xíng de, wǒ shì lái liú xué de.",
+          "pinyin": "Wǒ bú shì lái lǚ xíng de, wǒ shì lái liú xué de.",
           "vi": "Tôi không đến để du lịch, tôi đến để du học.",
           "source": "document"
         }
@@ -907,7 +907,7 @@
       "examples": [
         {
           "zh": "今天我一下课就去看你。",
-          "pinyin": "Jīntiān wǒ yī xià kè jiù qù kàn nǐ.",
+          "pinyin": "Jīntiān wǒ yí xià kè jiù qù kàn nǐ.",
           "vi": "Hôm nay vừa tan học tôi sẽ đi thăm bạn.",
           "source": "document"
         },

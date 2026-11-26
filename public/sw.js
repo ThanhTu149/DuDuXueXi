@@ -170,13 +170,17 @@ async function handleNavigation(request) {
 }
 
 async function cacheFirst(request) {
-  const cache = await caches.open(RUNTIME_CACHE);
-  const cached = await cache.match(request);
+  const runtimeCache = await caches.open(RUNTIME_CACHE);
+  let cached = await runtimeCache.match(request);
+  if (!cached) {
+    const shellCache = await caches.open(SHELL_CACHE);
+    cached = await shellCache.match(request);
+  }
   if (cached) return cached;
   try {
     const response = await fetch(request);
     if (response && response.ok && response.type === 'basic') {
-      await cache.put(request, response.clone());
+      await runtimeCache.put(request, response.clone());
     }
     return response;
   } catch {

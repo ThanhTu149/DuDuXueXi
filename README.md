@@ -17,7 +17,7 @@ Mười bài giáo trình có sẵn được nạp từ `data/`; khóa học t�
 
 ## Tính năng Full-Stack mới (v2.0)
 
-- **Tài khoản & Đồng bộ đa thiết bị**: đăng ký/đăng nhập (`scrypt` + cookie phiên `HttpOnly`), quản lý thiết bị đang đăng nhập, tự động gộp dữ liệu đã học ở chế độ khách khi đăng nhập lần đầu, hàng đợi đồng bộ khi mất mạng.
+- **Tài khoản & Đồng bộ đa thiết bị**: đăng ký/đăng nhập (`scrypt` + cookie phiên `HttpOnly`), quản lý thiết bị đang đăng nhập, 6 mã khôi phục tài khoản dùng một lần (`POST /api/auth/recover`), tự động gộp dữ liệu đã học ở chế độ khách khi đăng nhập lần đầu, hàng đợi đồng bộ khi mất mạng.
 - **Kho khóa học Cộng đồng**: chia sẻ khóa học tự tạo kèm thẻ chủ đề & mã chia sẻ, tìm kiếm, xem trước bài học và nhân bản 1 chạm về thư viện cá nhân (kèm 2 khóa học mẫu chính thức).
 - **Bảng xếp hạng thực tế**: xếp hạng XP theo tuần (ISO week) và tổng XP mọi thời đại giữa các học viên, có tuỳ chọn ẩn/hiện riêng tư.
 - **Gia sư Trúc AI**: trò chuyện hỏi đáp ngữ pháp, sửa câu tiếng Trung và tạo ví dụ theo đúng ngữ cảnh bài đang mở, lưu lịch sử bền vững trong SQLite.
@@ -65,8 +65,11 @@ Trong Thư viện có thể đổi tên, nhân bản, ghép, xóa và xuất/nh�
 ## Kiểm thử
 
 ```bash
-# Chạy toàn bộ 10 bộ kiểm thử Node thuần (gồm test:api, test:pedagogy, storage, backup, PWA, WCAG AA)
+# Chạy toàn bộ 11 bộ kiểm thử Node thuần (gồm lint, test:api, test:pedagogy, storage, backup, PWA, WCAG AA)
 npm test
+
+# Kiểm tra cú pháp server/script (node --check), src JSX/ESM (esbuild) và JSON dữ liệu
+npm run lint
 
 # Kiểm thử sư phạm (chấm câu 4 chế độ gõ, SM-2 EF & leech, Mastery Gate, chính tả)
 npm run test:pedagogy
@@ -110,7 +113,7 @@ Các kiểm thử Gemini dùng phản hồi giả lập, không gọi API thật
 - **Đồng bộ nhiều tab**: mở app ở 2 tab không ghi đè lẫn nhau (BroadcastChannel + so sánh `_savedAt`); thay đổi thư viện/cài đặt ở tab này tự làm mới tab kia.
 - **IndexedDB schema v3** với thang nâng cấp an toàn, lỗi giao dịch có mã lỗi rõ ràng, xử lý trường hợp DB bị tab khác nâng cấp.
 - **Pipeline Gemini** có timeout, `AbortSignal`, backoff + jitter cho 429/5xx (tôn trọng `Retry-After`), phân loại lỗi mạng/quota/auth thành câu tiếng Việt dễ hiểu; job xử lý lưu checkpoint và tiếp tục sau khi F5.
-- **PWA**: `manifest.webmanifest` + service worker cache app shell và các chunk bài học; mất mạng vẫn học được, có banner "Mất kết nối mạng".
+- **PWA & Tải theo nhu cầu**: `manifest.webmanifest` + service worker cache app shell (`scripts/build.mjs` tự gắn hash phiên bản và các asset cốt lõi sau khi build, kèm thông báo khi có bản cập nhật mới); Bài 2–10 và từng màn hình lớn (`Home`, `Learn`, `Quiz`, `Review`, `Dashboard`, `Practice`, v.v.) tách chunk tải lười theo nhu cầu nên lần mở đầu nhẹ hơn, mất mạng vẫn học được kèm banner "Mất kết nối mạng".
 - **Sao lưu `.dudu`** được kiểm tra schema + checksum trước khi nhập, chặn prototype pollution.
 - **Error Boundary toàn cục**: lỗi render không còn màn hình trắng — có nút tải lại, thử khôi phục giao diện và xoá dữ liệu cục bộ (kèm xác nhận).
 
@@ -122,14 +125,14 @@ Các kiểm thử Gemini dùng phản hồi giả lập, không gọi API thật
 - Điều hướng bằng **Hash URL Routing** (`#/learn/1`, `#/library`, `#/review`…) hỗ trợ nút Back/Forward của trình duyệt và giữ nguyên màn hình khi F5.
 - Motion có kiểm soát (`prefers-reduced-motion`), micro-interaction khi trả lời đúng/sai, XP bay lên, confetti khi hoàn hảo, skeleton shimmer khi tải.
 - Toàn bộ ảnh Hero, thumbnail bài học 3D và hình nền đều nén chuẩn **WebP** siêu nhẹ kèm `loading="lazy"` và `preconnect` font.
-- Phím tắt: `Ctrl/Cmd+K` mở tìm kiếm/lệnh nhanh, `1–4` chọn đáp án, `Enter` kiểm tra/tiếp tục, `Ctrl+/` xem toàn bộ phím tắt.
-- **GitHub Actions CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) tự động chạy `npm test` (10 bộ kiểm thử Node thuần gồm `test:pedagogy`, `test:api`, SQLite, đồng bộ, xử lý AI, lưu trữ, sao lưu, PWA, tương phản WCAG AA) + `npm run build` cho mỗi commit và PR vào `main`.
+- Phím tắt & A11y: `Ctrl/Cmd+K` mở tìm kiếm/lệnh nhanh, `1–4` chọn đáp án, `Enter` kiểm tra/tiếp tục, `Ctrl+/` xem toàn bộ phím tắt; modal tự gắn `inert` lên nền ứng dụng và khóa tiêu điểm 2 chiều.
+- **GitHub Actions CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) tự động chạy `npm test` (11 bộ kiểm thử Node thuần gồm `lint`, `test:pedagogy`, `test:api`, SQLite, đồng bộ, xử lý AI, lưu trữ, sao lưu, PWA, tương phản WCAG AA) + `npm run build` cho mỗi commit và PR vào `main`.
 
 ## Quick Wins Phase 1
 
 - Phát âm chữ Hán bằng Web Speech API.
 - Tìm kiếm từ vựng, ngữ pháp và mẫu câu xuyên khóa học bằng `Ctrl+K` / `Cmd+K`.
-- Mục tiêu số câu hằng ngày, lịch streak theo tháng và thưởng XP khi đạt mục tiêu.
+- Mục tiêu số câu hằng ngày, lịch streak theo tháng, **Streak Freeze** (1–2 khiên tự động giữ chuỗi khi lỡ 1 ngày và tặng thêm mỗi mốc 7 ngày) và thưởng XP khi đạt mục tiêu.
 - Bookmark từ vựng, ngữ pháp và mẫu câu trong tab `Ôn tập`.
 - Giao diện `Sáng` / `Tối` / `Tự động` theo khung giờ 06:00-18:00.
 - Pomodoro 25 phút học, 5 phút nghỉ; số phiên được lưu theo ngày.
@@ -139,8 +142,8 @@ Web Speech API và thông báo Pomodoro phụ thuộc vào khả năng và quy�
 
 ## Core Features Phase 2
 
-- SRS theo thuật toán **SM-2** (`I(n) = round(I(n-1) × EF)`, có *ease factor* điều chỉnh theo 4 mức đánh giá, *learning steps*, tự tạm ẩn thẻ *leech* sau 8 lần quên kèm nút khôi phục, giới hạn mặc định 15 thẻ mới/ngày; nạp tự động cho từ vựng, ngữ pháp và mẫu câu) & cổng mở bài **Mastery Gate** (`>= 80%` chính xác).
-- Chế độ `Bài khóa` đọc trực tiếp 10 file OCR, hỗ trợ ẩn/hiện pinyin và tiếng Việt, phát âm và mở nhanh từ trong glossary.
+- SRS theo thuật toán **SM-2** (`I(n) = round(I(n-1) × EF)`, có *ease factor* điều chỉnh theo 4 mức đánh giá, *learning steps*, tự tạm ẩn thẻ *leech* sau 8 lần quên kèm nút khôi phục, giới hạn mặc định 15 thẻ mới/ngày; nạp tự động cho từ vựng, ngữ pháp và mẫu câu), cổng mở bài **Mastery Gate** (`>= 80%` chính xác), cùng **Luyện nhanh từ vựng** (MCQ + gõ pinyin) và **Luyện đặt câu ngữ pháp** chủ động (`translation_vi_to_zh`).
+- Chế độ `Bài khóa` đọc trực tiếp 10 file bài đọc đã làm sạch lỗi OCR (cùng dữ liệu Pinyin đã chuẩn hóa biến điệu `yī`/`bù`/khinh thanh), hỗ trợ ẩn/hiện pinyin và tiếng Việt, phát âm và mở nhanh từ trong glossary.
 - Ghi chú cá nhân cho từng từ vựng, ngữ pháp và mẫu câu; tổng hợp trong tab `Notes` của màn hình Ôn tập.
 - Phân tích bài, nội dung, tag và dạng câu hay sai; có thể tạo lượt luyện riêng từ `Weak Topics`.
 - Thành tích XP theo tuần và biểu đồ so sánh bốn tuần gần nhất trong Hồ sơ.

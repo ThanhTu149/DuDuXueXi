@@ -11,6 +11,7 @@ import {
   gradeDictation,
   gradeTyping,
   unsuspendSrsEntry,
+  buildEntryPracticeQuestions,
 } from '../src/lib/pedagogy.js';
 
 const bai01Quiz = JSON.parse(readFileSync(new URL('../data/quiz_bai01.json', import.meta.url), 'utf8'));
@@ -151,4 +152,31 @@ test('gradeDictation rejects single-char error on <= 10-char sentences and retur
   const exact = gradeDictation('我的护照你找到了没有？', '我的护照你找到了没有');
   assert.equal(exact.isCorrect, true);
   assert.equal(exact.score, 100);
+});
+
+test('buildEntryPracticeQuestions generates MCQ and grammar production drills covering entries', () => {
+  const sampleEntries = [
+    { id: 'w1', bai: 1, type: 'word', word_zh: '变化', pinyin: 'biànhuà', meaning_vi: 'thay đổi' },
+    { id: 'w2', bai: 1, type: 'word', word_zh: '暑假', pinyin: 'shǔjià', meaning_vi: 'kỳ nghỉ hè' },
+    { id: 'w3', bai: 1, type: 'word', word_zh: '城市', pinyin: 'chéngshì', meaning_vi: 'thành phố' },
+    { id: 'w4', bai: 1, type: 'word', word_zh: '建筑', pinyin: 'jiànzhù', meaning_vi: 'kiến trúc' },
+    {
+      id: 'g1',
+      bai: 1,
+      type: 'grammar',
+      grammar_title_zh: 'A 比 B + 形容词',
+      grammar_title_vi: 'Câu so sánh hơn',
+      structure: 'A + 比 + B + Tính từ',
+      examples: [{ zh: '北京比上海大。', pinyin: 'Běijīng bǐ Shànghǎi dà.', vi: 'Bắc Kinh lớn hơn Thượng Hải.' }],
+    },
+  ];
+  const wordQs = buildEntryPracticeQuestions(sampleEntries, { bai: 1, types: ['word'], limit: 10 });
+  assert.equal(wordQs.length, 4);
+  assert.equal(wordQs[0].type, 'mcq_meaning_zh_to_vi');
+  assert.equal(wordQs[0].options.length, 4);
+
+  const grammarQs = buildEntryPracticeQuestions(sampleEntries, { bai: 1, types: ['grammar'], limit: 10 });
+  assert.equal(grammarQs.length, 1);
+  assert.equal(grammarQs[0].type, 'translation_vi_to_zh');
+  assert.equal(gradeTyping('北京比上海大。', grammarQs[0]).score, 100);
 });

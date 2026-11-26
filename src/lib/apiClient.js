@@ -126,6 +126,9 @@ export const fetchAccountSessions = () => apiRequest('/api/auth/sessions');
 export const revokeAccountSession = (id) => apiRequest(`/api/auth/sessions/${encodeURIComponent(id)}`, { method: 'DELETE' });
 export const exportAccountDataApi = () => apiRequest('/api/auth/export', { timeoutMs: 45_000 });
 export const deleteAccountApi = (password) => apiRequest('/api/auth/account', { method: 'DELETE', body: { password } });
+export const fetchRecoveryCodeStatus = () => apiRequest('/api/auth/recovery-codes');
+export const regenerateRecoveryCodes = () => apiRequest('/api/auth/recovery-codes/regenerate', { method: 'POST' });
+export const recoverAccountPassword = (payload) => apiRequest('/api/auth/recover', { method: 'POST', body: payload });
 
 /* ------------------------------------------------------------------ */
 /* Cloud Sync & Analytics                                             */
